@@ -1,0 +1,4 @@
+Block de notas para anotar avances y explicar commit 
+
+Se realizo la primera carga de la documentacion del proyecto, se espera presentacion para primera entrega del proyecto. 
+Ademas durante el primer sprint, se asignaron roles, se creo una base de datos de prueba, y los respectivos bocetos del login y la pagina principal, Por ultimo se intento conectar la base de datos con el login. "Adelanto, la coneccion fue un exito, pero esta previa a revicion"

@@ -1,0 +1,1 @@
+Block de notas para anotar avances y explicar commit 

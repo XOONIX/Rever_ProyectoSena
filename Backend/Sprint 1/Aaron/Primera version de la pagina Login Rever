@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Rever Inmobiliaria – Iniciar Sesión</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Segoe UI',Arial,sans-serif;height:100vh;display:flex;overflow:hidden;}
+
+  /* ── PANEL IZQUIERDO ── */
+  .left{width:52%;min-width:340px;background:#fff;display:flex;flex-direction:column;padding:26px 44px 20px;position:relative;overflow-y:auto;}
+  .admin-link{position:absolute;top:26px;right:44px;font-size:12.5px;color:#555;text-decoration:none;}
+  .admin-link:hover{text-decoration:underline;}
+  .brand{margin-top:10px;text-align:center;}
+  .brand h1{font-size:2rem;font-weight:700;color:#C9A227;}
+  .brand p{font-size:0.9rem;color:#2c3e8c;margin-top:3px;}
+  .tabs{display:flex;margin-top:26px;border-bottom:2px solid #e0e0e0;}
+  .tab{flex:1;text-align:center;padding-bottom:11px;font-size:0.93rem;color:#999;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;transition:.2s;}
+  .tab.active{color:#2c3e8c;font-weight:700;border-bottom-color:#4CAF50;}
+  .form-section{margin-top:26px;flex:1;}
+  .form-section h2{font-size:1.4rem;font-weight:700;color:#2c3e8c;margin-bottom:20px;}
+  label{display:block;font-size:0.85rem;color:#333;margin-bottom:5px;}
+  input{width:100%;padding:12px 13px;border:1.5px solid #d0d5e8;border-radius:8px;font-size:0.93rem;color:#444;outline:none;background:#fafbff;}
+  input:focus{border-color:#2c3e8c;}
+  .field{margin-bottom:16px;}
+  .forgot-row{text-align:right;margin-top:-8px;margin-bottom:20px;}
+  .forgot-row a{font-size:0.83rem;color:#C9A227;text-decoration:none;}
+  .btn-login{width:100%;padding:13px;background:#1a237e;color:#fff;border:none;border-radius:8px;font-size:0.97rem;font-weight:600;cursor:pointer;}
+  .btn-login:hover{background:#283593;}
+  .divider{display:flex;align-items:center;gap:10px;margin:18px 0;color:#aaa;font-size:0.82rem;}
+  .divider::before,.divider::after{content:'';flex:1;height:1px;background:#e0e0e0;}
+  .btn-google{width:100%;padding:12px;background:#fff;border:1.5px solid #d0d5e8;border-radius:8px;font-size:0.93rem;color:#333;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:9px;}
+  .btn-google:hover{background:#f5f5f5;}
+  .g-icon{width:19px;height:19px;}
+  .register-row{text-align:center;margin-top:18px;font-size:0.85rem;color:#555;}
+  .register-row a{color:#C9A227;font-weight:600;text-decoration:none;}
+  .footer{text-align:center;font-size:0.72rem;color:#bbb;margin-top:24px;}
+
+  /* ── PANEL DERECHO ── */
+  .right{flex:1;position:relative;overflow:hidden;}
+  .right img{width:100%;height:100%;object-fit:cover;display:block;}
+  .right-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.65) 0%,rgba(0,0,0,.1) 45%,transparent 100%);}
+  .right-caption{position:absolute;bottom:48px;left:32px;right:32px;color:#fff;}
+  .right-caption h2{font-size:1.7rem;font-weight:800;margin-bottom:5px;}
+  .right-caption p{font-size:0.95rem;opacity:.9;}
+  .chat-btn{position:absolute;bottom:20px;right:20px;width:42px;height:42px;background:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.25);cursor:pointer;font-weight:700;color:#444;}
+
+  @media(max-width:768px){.right{display:none;}.left{width:100%;}}
+</style>
+</head>
+<body>
+
+<div class="left">
+  <a href="#" class="admin-link">Acceso Administradores</a>
+  <div class="brand">
+    <h1>Rever Inmobiliaria</h1>
+    <p>Bienvenido de vuelta</p>
+  </div>
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab(this)">Arrendatario</div>
+    <div class="tab" onclick="switchTab(this)">Usuario</div>
+  </div>
+  <div class="form-section">
+    <h2>Iniciar Sesión</h2>
+    <div class="field">
+      <label>Correo Electrónico</label>
+      <input type="email" placeholder="tu@correo.com"/>
+    </div>
+    <div class="field">
+      <label>Contraseña</label>
+      <input type="password" placeholder="••••••••"/>
+    </div>
+    <div class="forgot-row"><a href="#">¿Olvidaste tu contraseña?</a></div>
+    <button class="btn-login">Iniciar Sesión</button>
+    <div class="divider">o continúa con</div>
+    <button class="btn-google">
+      <svg class="g-icon" viewBox="0 0 48 48">
+        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+      </svg>
+      Google
+    </button>
+  </div>
+  <div class="register-row">¿No tienes una cuenta? <a href="#">Regístrate aquí</a></div>
+  <div class="footer">© 2026 Rever Inmobiliaria. Todos los derechos reservados.</div>
+</div>
+
+<div class="right">
+  <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&auto=format&fit=crop" alt="Luxury room"/>
+  <div class="right-overlay"></div>
+  <div class="right-caption">
+    <h2>Encuentra tu hogar ideal</h2>
+    <p>Gestionamos propiedades excepcionales para ti</p>
+  </div>
+  <div class="chat-btn">?</div>
+</div>
+
+<script>
+  function switchTab(el){
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    el.classList.add('active');
+  }
+</script>
+</body>
+</html>
