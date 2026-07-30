@@ -1,1 +1,4 @@
 Block de notas para anotar avances y explicar commit 
+
+30/07/2026 alteración en los tipos de datos para que todos sean not null:
+se agregó la función NOT NULL a todas las tablas 
