@@ -9,21 +9,24 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace EntidadesJson.clases
 {
     [Table("inmueble_caracteristica")]
-    public class InmuebleCaracteristica
+    public class inmueble_caracteristica
     {
         [Key]
         [Column("id_inmueble", Order = 0)]
-        public int IdInmueble { get; set; }
+        [Required(ErrorMessage = "El inmueble es obligatorio.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Seleccione un inmueble válido.")]
+        public int id_inmueble { get; set; }
 
         [Key]
         [Column("id_caracteristica", Order = 1)]
-        public int IdCaracteristica { get; set; }
+        [Required(ErrorMessage = "La característica es obligatoria.")]
+        [Range(1, int.MaxValue, ErrorMessage = "Seleccione una característica válida.")]
+        public int id_caracteristica { get; set; }
 
-        // Propiedades de navegación para las Llaves Foráneas
-        [ForeignKey("IdInmueble")]
+        [ForeignKey(nameof(id_inmueble))]
         public virtual inmueble inmueble { get; set; } = null!;
 
-        [ForeignKey("Idcaracteristica")]
+        [ForeignKey(nameof(id_caracteristica))]
         public virtual caracteristicas caracteristicas { get; set; } = null!;
     }
 }
