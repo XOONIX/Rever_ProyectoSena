@@ -7,9 +7,14 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EntidadesJson.clases
 {
-    public class estado_publicacion
+        public class estado_publicacion
     {
-        public int id_estado { get; set; }
-        public string nombre { get; set; }
+            [Key]
+            [Required]
+            public int id_estado {get;set;}
+            [Required]
+            [StringLength(50, ErrorMessage = "solo se permiten 50 caracteres")]
+            public string nombre {get;set;}
+    
     }
 }
