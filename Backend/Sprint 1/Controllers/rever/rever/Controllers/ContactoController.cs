@@ -1,53 +1,185 @@
-﻿using rever.Repositories.Interfaces;
+using rever.Repositories.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using rever.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using System;
+using System.Threading.Tasks;
 
 namespace rever.Controllers
 {
-    [Route("Api/[controller]")]
+    [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ContactoController : ControllerBase
     {
         private readonly IContactoRepository _contactorepository;
+
         public ContactoController(IContactoRepository repository)
         {
             _contactorepository = repository;
         }
 
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> ListarContacto()
         {
-            var response = await _contactorepository.GetContacto();
-            return Ok(response);
+            try
+            {
+                if (User.Identity == null || !User.Identity.IsAuthenticated)
+                {
+                    return StatusCode(401, "401: Usuario no autenticado.");
+                }
+
+                var response = await _contactorepository.GetContacto();
+                if (response == null)
+                {
+                    return StatusCode(404, "404: No se encontraron contactos registrados.");
+                }
+                return StatusCode(200, response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"500 Error Interno: {ex.Message}");
+            }
         }
 
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> ObtenerContacto(int id)
         {
-            var response = await _contactorepository.GetContactoById(id);
-            return Ok(response);
+            try
+            {
+                if (User.Identity == null || !User.Identity.IsAuthenticated)
+                {
+                    return StatusCode(401, "401: Usuario no autenticado.");
+                }
+
+                if (id <= 0)
+                {
+                    return StatusCode(400, "400: El ID proporcionado no es válido.");
+                }
+
+                var response = await _contactorepository.GetContactoById(id);
+                if (response == null)
+                {
+                    return StatusCode(404, $"404: No se encontró un contacto con ID {id}.");
+                }
+                return StatusCode(200, response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"500 Error Interno: {ex.Message}");
+            }
         }
 
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> CrearContacto([FromBody] Contacto contacto)
         {
-            var response = await _contactorepository.PostContacto(contacto);
-            return Ok(response);
+            try
+            {
+                if (User.Identity == null || !User.Identity.IsAuthenticated)
+                {
+                    return StatusCode(401, "401: Usuario no autenticado.");
+                }
+
+                if (contacto == null)
+                {
+                    return StatusCode(400, "400: Los datos del contacto no pueden ser nulos.");
+                }
+
+                var response = await _contactorepository.PostContacto(contacto);
+                if (response == null)
+                {
+                    return StatusCode(500, "500: Error interno al intentar crear el recurso.");
+                }
+                return StatusCode(200, response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"500 Error Interno: {ex.Message}");
+            }
         }
 
         [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> ActualizarContacto([FromBody] Contacto contacto)
         {
-            var response = await _contactorepository.PutContacto(contacto);
-            return Ok(response);
+            try
+            {
+                if (User.Identity == null || !User.Identity.IsAuthenticated)
+                {
+                    return StatusCode(401, "401: Usuario no autenticado.");
+                }
+
+                if (contacto == null || contacto.IdContacto <= 0)
+                {
+                    return StatusCode(400, "400: Los datos para actualizar o el ID no son válidos.");
+                }
+
+                var existe = await _contactorepository.GetContactoById(contacto.IdContacto);
+                if (existe == null)
+                {
+                    return StatusCode(404, $"404: No se puede actualizar. El contacto con ID {contacto.IdContacto} no existe.");
+                }
+
+                var response = await _contactorepository.PutContacto(contacto);
+                return StatusCode(200, response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"500 Error Interno: {ex.Message}");
+            }
         }
 
         [HttpDelete]
-        public async Task<IActionResult> EliminarContacto(Contacto contacto)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> EliminarContacto([FromBody] Contacto contacto)
         {
-            var response = await _contactorepository.DeleteContacto(contacto);
-            return Ok(response);
+            try
+            {
+                if (User.Identity == null || !User.Identity.IsAuthenticated)
+                {
+                    return StatusCode(401, "401: Usuario no autenticado.");
+                }
+
+                if (contacto == null || contacto.IdContacto <= 0)
+                {
+                    return StatusCode(400, "400: Los datos para eliminar o el ID no son válidos.");
+                }
+
+                var existe = await _contactorepository.GetContactoById(contacto.IdContacto);
+                if (existe == null)
+                {
+                    return StatusCode(404, $"404: No se puede eliminar. El contacto con ID {contacto.IdContacto} no existe.");
+                }
+
+                var response = await _contactorepository.DeleteContacto(existe);
+                return StatusCode(200, response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"500 Error Interno: {ex.Message}");
+            }
         }
     }
 }
