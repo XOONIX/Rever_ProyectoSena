@@ -167,7 +167,7 @@ namespace rever.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> EliminarTipoInmueble([FromBody] TipoInmueble tipoInmueble)
+        public async Task<IActionResult> EliminarTipoInmueble(int id)
         {
             try
             {
