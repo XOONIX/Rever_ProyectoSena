@@ -153,7 +153,7 @@ namespace rever.Controllers
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> EliminarLocalidad([FromBody] Localidad localidad)
+        public async Task<IActionResult> EliminarLocalidad(int id)
         {
             try
             {
