@@ -144,19 +144,17 @@ namespace rever.Controllers
 
                 if (existe == null)
                 {
-                    return StatusCode(
-                        404,
-                        $"404: No se puede actualizar. El rol con ID {rol.IdRol} no existe."
-                    );
+                    return StatusCode(404, $"404: No se puede actualizar. El rol con ID {rol.IdRol} no existe.");
                 }
 
-                var response = await _rolrepository.PutRol(rol);
+                existe.Nombre = rol.Nombre;
+                var response = await _rolrepository.PutRol(existe);
 
                 return StatusCode(200, response);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(500, "500: Error interno del servidor.");
+                return StatusCode(500, $"500: Error interno del servidor. Detalle: {ex.Message}");
             }
         }
 
