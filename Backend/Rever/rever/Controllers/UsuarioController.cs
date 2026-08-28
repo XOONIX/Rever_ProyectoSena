@@ -79,9 +79,9 @@ namespace rever.Controllers
 
                 return StatusCode(200, existe);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(500, "500: Error interno del servidor.");
+                return StatusCode(500, $"500: Error interno del servidor. Detalle: {ex.Message} | Inner: {ex.InnerException?.Message}");
             }
         }
 
