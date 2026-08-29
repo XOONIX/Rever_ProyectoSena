@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using rever.Models;
+using rever.Repositories;
 using rever.Repositories.Interfaces;
 using System;
 using System.Threading.Tasks;
@@ -133,13 +134,28 @@ namespace rever.Controllers
                     return StatusCode(400, "400: Los datos para actualizar o el ID no son válidos.");
                 }
 
-                var existe = await _inmueblerepository.GetInmuebleById(inmueble.IdInmueble);
-                if (existe == null)
+                var exist = await _inmueblerepository.GetInmuebleById(inmueble.IdInmueble);
+                if (exist == null)
                 {
                     return StatusCode(404, $"404: No se puede actualizar. El inmueble con ID {inmueble.IdInmueble} no existe.");
                 }
 
-                var response = await _inmueblerepository.PutInmueble(inmueble);
+                exist.Titulo = inmueble.Titulo;
+                exist.Descripcion = inmueble.Descripcion;
+                exist.Precio = inmueble.Precio;
+                exist.IdTipo = inmueble.IdTipo;
+                exist.Direccion = inmueble.Direccion;
+                exist.IdBarrio = inmueble.IdBarrio;
+                exist.Habitaciones = inmueble.Habitaciones;
+                exist.Baños = inmueble.Baños;
+                exist.MetrosCuadrados = inmueble.MetrosCuadrados;
+                exist.Estrato = inmueble.Estrato;
+                exist.Latitud = inmueble.Latitud;
+                exist.Longitud = inmueble.Longitud;
+                exist.IdUsuario = inmueble.IdUsuario;
+                exist.IdEstado = inmueble.IdEstado;
+
+                var response = await _inmueblerepository.PutInmueble(exist);
                 return StatusCode(200, response);
             }
             catch (Exception ex)
@@ -168,13 +184,13 @@ namespace rever.Controllers
                     return StatusCode(400, "400: Los datos para eliminar o el ID no son válidos.");
                 }
 
-                var existe = await _inmueblerepository.GetInmuebleById(id);
-                if (existe == null)
+                var exist = await _inmueblerepository.GetInmuebleById(id);
+                if (exist == null)
                 {
                     return StatusCode(404, $"404: No se puede eliminar. El inmueble con ID {id} no existe.");
                 }
 
-                var response = await _inmueblerepository.DeleteInmueble(existe);
+                var response = await _inmueblerepository.DeleteInmueble(exist);
                 return StatusCode(200, response);
             }
             catch (Exception ex)

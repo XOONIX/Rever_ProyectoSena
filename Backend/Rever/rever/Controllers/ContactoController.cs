@@ -5,6 +5,7 @@ using rever.Models;
 using rever.Repositories;
 using rever.Repositories.Interfaces;
 using System;
+using System.Reflection.PortableExecutable;
 using System.Threading.Tasks;
 
 namespace rever.Controllers
@@ -133,13 +134,18 @@ namespace rever.Controllers
                     return StatusCode(400, "400: Los datos para actualizar o el ID no son válidos.");
                 }
 
-                var existe = await _contactorepository.GetContactoById(contacto.IdContacto);
-                if (existe == null)
+                var exist = await _contactorepository.GetContactoById(contacto.IdContacto);
+                if (exist == null)
                 {
                     return StatusCode(404, $"404: No se puede actualizar. El contacto con ID {contacto.IdContacto} no existe.");
                 }
 
-                var response = await _contactorepository.PutContacto(contacto);
+                exist.IdComprador = contacto.IdComprador;
+                exist.IdVendedor = contacto.IdVendedor;
+                exist.IdInmueble = contacto.IdInmueble;
+                exist.Mensaje = contacto.Mensaje;
+                exist.Fecha = contacto.Fecha;
+                var response = await _contactorepository.PutContacto(exist);
                 return StatusCode(200, response);
             }
             catch (Exception ex)
@@ -168,9 +174,9 @@ namespace rever.Controllers
                     return StatusCode(400, "400: El ID del contacto no es válido.");
                 }
 
-                var existe = await _contactorepository.GetContactoById(id);
+                var exist = await _contactorepository.GetContactoById(id);
 
-                if (existe == null)
+                if (exist == null)
                 {
                     return StatusCode(
                         404,
@@ -178,7 +184,7 @@ namespace rever.Controllers
                     );
                 }
 
-                var response = await _contactorepository.DeleteContacto(existe);
+                var response = await _contactorepository.DeleteContacto(exist);
 
                 return StatusCode(200, response);
             }

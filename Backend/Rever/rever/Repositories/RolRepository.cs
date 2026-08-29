@@ -43,6 +43,7 @@ namespace rever.Repositories
                 return false;
             }
 
+            exist.Nombre = rol.Nombre;
             _context.Rol.Update(rol);
             await _context.SaveChangesAsync();
             return true;

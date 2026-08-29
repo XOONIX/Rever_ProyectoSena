@@ -42,13 +42,18 @@ namespace rever.Repositories
 
         public async Task<bool> PutUsuario(Usuario usuario)
         {
-            var exist = _context.Usuario.FirstOrDefault(x => x.IdUsuario == usuario.IdUsuario);
+            var exist = await _context.Usuario.FirstOrDefaultAsync(x => x.IdUsuario == usuario.IdUsuario);
             if (exist == null)
             {
                 return false;
             }
 
-            _context.Usuario.Update(usuario);
+            exist.Nombre = usuario.Nombre;
+            exist.Correo = usuario.Correo;
+            exist.Contraseña = usuario.Contraseña;
+            exist.Telefono = usuario.Telefono;
+            exist.IdRol = usuario.IdRol;
+
             await _context.SaveChangesAsync();
             return true;
         }

@@ -43,6 +43,8 @@ namespace rever.Repositories
                 return false;
             }
 
+            exist.Url = imagen.Url;
+            exist.IdInmueble = imagen.IdInmueble;
             _context.Imagen.Update(imagen);
             await _context.SaveChangesAsync();
             return true;

@@ -43,6 +43,7 @@ namespace rever.Repositories
                 return false;
             }
 
+            exist.Nombre = estadoPublicacion.Nombre;
             _context.EstadoPublicacion.Update(estadoPublicacion);
             await _context.SaveChangesAsync();
             return true;

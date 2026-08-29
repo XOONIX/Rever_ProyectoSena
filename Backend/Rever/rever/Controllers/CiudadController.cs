@@ -1,9 +1,11 @@
-﻿using rever.Repositories.Interfaces;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using rever.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+using rever.Repositories;
+using rever.Repositories.Interfaces;
 using System;
+using System.Reflection.PortableExecutable;
 using System.Threading.Tasks;
 
 namespace rever.Controllers
@@ -132,14 +134,16 @@ namespace rever.Controllers
                     return StatusCode(400, "400: Los datos para actualizar o el ID no son válidos.");
                 }
 
-                var existe = await _ciudadrepository.GetCiudadById(ciudad.IdCiudad);
-                if (existe == null)
+                var exist = await _ciudadrepository.GetCiudadById(ciudad.IdCiudad);
+                if (exist == null)
                 {
                     return StatusCode(404, $"404: No se puede actualizar. La ciudad con ID {ciudad.IdCiudad} no existe.");
                 }
 
-                var response = await _ciudadrepository.PutCiudad(ciudad);
+                exist.Nombre = ciudad.Nombre;
+                var response = await _ciudadrepository.PutCiudad(exist);
                 return StatusCode(200, response);
+
             }
             catch (Exception ex)
             {
@@ -167,13 +171,13 @@ namespace rever.Controllers
                     return StatusCode(400, "400: Los datos para eliminar o el ID no son válidos.");
                 }
 
-                var existe = await _ciudadrepository.GetCiudadById(id);
-                if (existe == null)
+                var exist = await _ciudadrepository.GetCiudadById(id);
+                if (exist == null)
                 {
                     return StatusCode(404, $"404: No se puede eliminar. La ciudad con ID {id} no existe.");
                 }
 
-                var response = await _ciudadrepository.DeleteCiudad(existe);
+                var response = await _ciudadrepository.DeleteCiudad(exist);
                 return StatusCode(200, response);
             }
             catch (Exception ex)

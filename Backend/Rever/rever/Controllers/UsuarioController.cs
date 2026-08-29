@@ -70,14 +70,14 @@ namespace rever.Controllers
                     return StatusCode(400, "400: El ID proporcionado no es válido.");
                 }
 
-                var existe = await _Usuariorrepository.GetUsuarioById(id);
+                var exist = await _Usuariorrepository.GetUsuarioById(id);
 
-                if (existe == null)
+                if (exist == null)
                 {
                     return StatusCode(404, $"404: No se encontró el usuario con ID {id}.");
                 }
 
-                return StatusCode(200, existe);
+                return StatusCode(200, exist);
             }
             catch (Exception ex)
             {
@@ -146,36 +146,35 @@ namespace rever.Controllers
                     return StatusCode(400, "400: Los datos para actualizar o el ID no son válidos.");
                 }
 
-                var existe = await _Usuariorrepository.GetUsuarioById(Usuario.IdUsuario);
+                var exist = await _Usuariorrepository.GetUsuarioById(Usuario.IdUsuario);
 
-                if (existe == null)
+                if (exist == null)
                 {
                     return StatusCode(404, $"404: No se puede actualizar. El usuario con ID {Usuario.IdUsuario} no existe.");
                 }
 
-                // Si mandan una contraseña nueva, la hasheamos.
-                // Si viene vacía/nula, conservamos la que ya existía en la BD.
+                exist.Nombre = Usuario.Nombre;
+                exist.Correo = Usuario.Correo;
+                exist.Telefono = Usuario.Telefono;
+                exist.IdRol = Usuario.IdRol;
+
                 if (!string.IsNullOrWhiteSpace(Usuario.Contraseña))
                 {
-                    Usuario.Contraseña = BCrypt.Net.BCrypt.HashPassword(Usuario.Contraseña);
-                }
-                else
-                {
-                    Usuario.Contraseña = existe.Contraseña;
+                    exist.Contraseña = BCrypt.Net.BCrypt.HashPassword(Usuario.Contraseña);
                 }
 
-                var response = await _Usuariorrepository.PutUsuario(Usuario);
+                var response = await _Usuariorrepository.PutUsuario(exist);   // <- corregido
 
-                // No devolvemos la contraseña/hash en la respuesta
-                Usuario.Contraseña = null;
+                exist.Contraseña = null;   // <- también corregido: limpia "exist", que es lo que realmente tiene el hash
 
-                return StatusCode(200, Usuario);
+                return StatusCode(200, exist);   // <- devuelve "exist", no "Usuario"
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return StatusCode(500, "500: Error interno del servidor.");
+                return StatusCode(500, $"500: Error interno del servidor. Detalle: {ex.Message}");
             }
         }
+
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -196,9 +195,9 @@ namespace rever.Controllers
                     return StatusCode(400, "400: El ID del usuario no es válido.");
                 }
 
-                var existe = await _Usuariorrepository.GetUsuarioById(id);
+                var exist = await _Usuariorrepository.GetUsuarioById(id);
 
-                if (existe == null)
+                if (exist == null)
                 {
                     return StatusCode(
                         404,
@@ -206,7 +205,7 @@ namespace rever.Controllers
                     );
                 }
 
-                var response = await _Usuariorrepository.DeleteUsuario(existe);
+                var response = await _Usuariorrepository.DeleteUsuario(exist);
 
                 return StatusCode(200, response);
             }

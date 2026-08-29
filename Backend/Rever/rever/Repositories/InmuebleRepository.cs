@@ -44,6 +44,20 @@ namespace rever.Repositories
                 return false;
             }
 
+            exist.Titulo = Inmueble.Titulo;
+            exist.Descripcion = Inmueble.Descripcion;
+            exist.Precio = Inmueble.Precio;
+            exist.IdTipo = Inmueble.IdTipo;
+            exist.Direccion = Inmueble.Direccion;
+            exist.IdBarrio = Inmueble.IdBarrio;
+            exist.Habitaciones = Inmueble.Habitaciones;
+            exist.Baños = Inmueble.Baños;
+            exist.MetrosCuadrados = Inmueble.MetrosCuadrados;
+            exist.Estrato = Inmueble.Estrato;
+            exist.Latitud = Inmueble.Latitud;
+            exist.Longitud = Inmueble.Longitud;
+            exist.IdUsuario = Inmueble.IdUsuario;
+            exist.IdEstado = Inmueble.IdEstado;
             _context.Inmueble.Update(Inmueble);
             await _context.SaveChangesAsync();
             return true;

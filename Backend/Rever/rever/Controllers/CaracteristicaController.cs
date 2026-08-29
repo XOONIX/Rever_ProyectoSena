@@ -1,8 +1,9 @@
-﻿using rever.Repositories.Interfaces;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using rever.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+using rever.Repositories;
+using rever.Repositories.Interfaces;
 using System;
 using System.Threading.Tasks;
 
@@ -132,13 +133,14 @@ namespace rever.Controllers
                     return StatusCode(400, "400: Los datos para actualizar o el ID no son válidos.");
                 }
 
-                var existe = await _caracteristicarepository.GetCaracteristicaById(caracteristica.IdCaracteristica);
-                if (existe == null)
+                var exist = await _caracteristicarepository.GetCaracteristicaById(caracteristica.IdCaracteristica);
+                if (exist == null)
                 {
                     return StatusCode(404, $"404: No se puede actualizar. La característica con ID {caracteristica.IdCaracteristica} no existe.");
                 }
 
-                var response = await _caracteristicarepository.PutCaracteristica(caracteristica);
+                exist.Nombre = caracteristica.Nombre;
+                var response = await _caracteristicarepository.PutCaracteristica(exist);
                 return StatusCode(200, response);
             }
             catch (Exception ex)
@@ -167,13 +169,13 @@ namespace rever.Controllers
                     return StatusCode(400, "400: Los datos para eliminar o el ID no son válidos.");
                 }
 
-                var existe = await _caracteristicarepository.GetCaracteristicaById(id);
-                if (existe == null)
+                var exist = await _caracteristicarepository.GetCaracteristicaById(id);
+                if (exist == null)
                 {
                     return StatusCode(404, $"404: No se puede eliminar. La característica con ID {id} no existe.");
                 }
 
-                var response = await _caracteristicarepository.DeleteCaracteristica(existe);
+                var response = await _caracteristicarepository.DeleteCaracteristica(exist);
                 return StatusCode(200, response);
             }
             catch (Exception ex)

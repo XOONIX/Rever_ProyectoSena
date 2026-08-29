@@ -43,6 +43,11 @@ namespace rever.Repositories
                 return false;
             }
 
+            exist.IdComprador = contacto.IdComprador;
+            exist.IdVendedor = contacto.IdVendedor;
+            exist.IdInmueble = contacto.IdInmueble;
+            exist.Mensaje = contacto.Mensaje;
+            exist.Fecha = contacto.Fecha;
             _context.Contacto.Update(contacto);
             await _context.SaveChangesAsync();
             return true;

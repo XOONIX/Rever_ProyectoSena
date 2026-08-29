@@ -4843,13 +4843,6 @@
             "maxLength": 100,
             "minLength": 0,
             "type": "string"
-          },
-          "barrios": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Barrio"
-            },
-            "nullable": true
           }
         },
         "additionalProperties": false

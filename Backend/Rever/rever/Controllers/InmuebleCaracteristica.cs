@@ -132,13 +132,13 @@ namespace rever.Controllers
                     return StatusCode(400, "400: Los datos para eliminar o los IDs no son válidos.");
                 }
 
-                var existe = await _inmueblecaracteristicarepository.GetByIds(id1, id2);
-                if (existe == null)
+                var exist = await _inmueblecaracteristicarepository.GetByIds(id1, id2);
+                if (exist == null)
                 {
                     return StatusCode(404, $"404: No se puede eliminar. La relación especificada no existe.");
                 }
 
-                var response = await _inmueblecaracteristicarepository.DeleteInmuebleCaracteristica(existe);
+                var response = await _inmueblecaracteristicarepository.DeleteInmuebleCaracteristica(exist);
                 return StatusCode(200, response);
             }
             catch (Exception ex)

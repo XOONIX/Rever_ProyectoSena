@@ -44,6 +44,7 @@ namespace rever.Repositories
                 return false;
             }
 
+            exist.Nombre = ciudad.Nombre;
             _context.Ciudad.Update(ciudad);
             await _context.SaveChangesAsync();
             return true;

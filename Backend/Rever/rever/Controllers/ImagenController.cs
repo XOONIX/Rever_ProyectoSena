@@ -133,13 +133,15 @@ namespace rever.Controllers
                     return StatusCode(400, "400: Los datos para actualizar o el ID no son válidos.");
                 }
 
-                var existe = await _imagenrepository.GetImagenById(imagen.IdImagen);
-                if (existe == null)
+                var exist = await _imagenrepository.GetImagenById(imagen.IdImagen);
+                if (exist == null)
                 {
                     return StatusCode(404, $"404: No se puede actualizar. La imagen con ID {imagen.IdImagen} no existe.");
                 }
 
-                var response = await _imagenrepository.PutImagen(imagen);
+                exist.Url = imagen.Url;
+                exist.IdInmueble = imagen.IdInmueble;
+                var response = await _imagenrepository.PutImagen(exist);
                 return StatusCode(200, response);
             }
             catch (Exception ex)
@@ -168,9 +170,9 @@ namespace rever.Controllers
                     return StatusCode(400, "400: El ID de la imagen no es válido.");
                 }
 
-                var existe = await _imagenrepository.GetImagenById(id);
+                var exist = await _imagenrepository.GetImagenById(id);
 
-                if (existe == null)
+                if (exist == null)
                 {
                     return StatusCode(
                         404,
@@ -178,7 +180,7 @@ namespace rever.Controllers
                     );
                 }
 
-                var response = await _imagenrepository.DeleteImagen(existe);
+                var response = await _imagenrepository.DeleteImagen(exist);
 
                 return StatusCode(200, response);
             }

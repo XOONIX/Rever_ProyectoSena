@@ -44,6 +44,7 @@ namespace rever.Repositories
                 return false;
             }
 
+            exist.IdLocalidad = localidad.IdLocalidad;
             _context.Localidad.Update(localidad);
             await _context.SaveChangesAsync();
             return true;

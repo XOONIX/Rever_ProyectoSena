@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Kevin\\source\\repos\\Controllers\\rever\\rever\\rever.csproj": {}
+    "C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\rever.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Kevin\\source\\repos\\Controllers\\rever\\rever\\rever.csproj": {
+    "C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\rever.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Kevin\\source\\repos\\Controllers\\rever\\rever\\rever.csproj",
+        "projectUniqueName": "C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\rever.csproj",
         "projectName": "rever",
-        "projectPath": "C:\\Users\\Kevin\\source\\repos\\Controllers\\rever\\rever\\rever.csproj",
+        "projectPath": "C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\rever.csproj",
         "packagesPath": "C:\\Users\\Kevin\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Kevin\\source\\repos\\Controllers\\rever\\rever\\obj\\",
+        "outputPath": "C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

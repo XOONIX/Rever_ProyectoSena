@@ -44,6 +44,7 @@ namespace rever.Repositories
                 return false;
             }
 
+            exist.Nombre = caracteristica.Nombre;
             _context.Caracteristica.Update(caracteristica);
             await _context.SaveChangesAsync();
             return true;

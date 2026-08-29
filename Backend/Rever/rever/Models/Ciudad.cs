@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace rever.Models
 {
@@ -15,7 +16,7 @@ namespace rever.Models
         [StringLength(100)]
         [Column("nombre")]
         public string Nombre { get; set; }
-
+        [JsonIgnore]
         public virtual ICollection<Barrio>? Barrios { get; set; }
     }
 }

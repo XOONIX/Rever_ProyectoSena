@@ -1,8 +1,9 @@
-﻿using rever.Repositories.Interfaces;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using rever.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+using rever.Repositories;
+using rever.Repositories.Interfaces;
 using System;
 using System.Threading.Tasks;
 
@@ -132,13 +133,16 @@ namespace rever.Controllers
                     return StatusCode(400, "400: Los datos para actualizar o el ID no son válidos.");
                 }
 
-                var existe = await _barriorrepository.GetBarrioById(barrio.IdBarrio );
-                if (existe == null)
+                var exist = await _barriorrepository.GetBarrioById(barrio.IdBarrio );
+                if (exist == null)
                 {
-                    return StatusCode(404, $"404: No se puede actualizar. El barrio con ID {barrio.IdBarrio} no existe.");
+                    return StatusCode(404, $"404: No se puede actualizar. El barrio con ID {barrio.IdBarrio} no exist.");
                 }
 
-                var response = await _barriorrepository.PutBarrio(barrio);
+                exist.Nombre = barrio.Nombre;
+                exist.IdCiudad = barrio.IdCiudad;
+                exist.IdLocalidad = barrio.IdLocalidad;
+                var response = await _barriorrepository.PutBarrio(exist);
                 return StatusCode(200, response);
             }
             catch (Exception ex)
@@ -167,13 +171,13 @@ namespace rever.Controllers
                     return StatusCode(400, "400: Los datos para eliminar o el ID no son válidos.");
                 }
 
-                var existe = await _barriorrepository.GetBarrioById(id);
-                if (existe == null)
+                var exist = await _barriorrepository.GetBarrioById(id);
+                if (exist == null)
                 {
                     return StatusCode(404, $"404: No se puede eliminar. El barrio con ID {id} no existe.");
                 }
 
-                var response = await _barriorrepository.DeleteBarrio(existe);
+                var response = await _barriorrepository.DeleteBarrio(exist);
                 return StatusCode(200, response);
             }
             catch (Exception ex)

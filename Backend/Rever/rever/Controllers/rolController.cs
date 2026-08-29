@@ -70,14 +70,14 @@ namespace rever.Controllers
                     return StatusCode(400, "400: El ID proporcionado no es válido.");
                 }
 
-                var existe = await _rolrepository.GetRolById(id);
+                var exist = await _rolrepository.GetRolById(id);
 
-                if (existe == null)
+                if (exist == null)
                 {
                     return StatusCode(404, $"404: No se encontró el rol con ID {id}.");
                 }
 
-                return StatusCode(200, existe);
+                return StatusCode(200, exist);
             }
             catch (Exception)
             {
@@ -140,15 +140,15 @@ namespace rever.Controllers
                     return StatusCode(400, "400: Los datos para actualizar o el ID no son válidos.");
                 }
 
-                var existe = await _rolrepository.GetRolById(rol.IdRol);
+                var exist = await _rolrepository.GetRolById(rol.IdRol);
 
-                if (existe == null)
+                if (exist == null)
                 {
                     return StatusCode(404, $"404: No se puede actualizar. El rol con ID {rol.IdRol} no existe.");
                 }
 
-                existe.Nombre = rol.Nombre;
-                var response = await _rolrepository.PutRol(existe);
+                exist.Nombre = rol.Nombre;
+                var response = await _rolrepository.PutRol(exist);
 
                 return StatusCode(200, response);
             }
@@ -178,9 +178,9 @@ namespace rever.Controllers
                     return StatusCode(400, "400: Los datos para eliminar o el ID no son válidos.");
                 }
 
-                var existe = await _rolrepository.GetRolById(id);
+                var exist = await _rolrepository.GetRolById(id);
 
-                if (existe == null)
+                if (exist == null)
                 {
                     return StatusCode(
                         404,
@@ -188,7 +188,7 @@ namespace rever.Controllers
                     );
                 }
 
-                var response = await _rolrepository.DeleteRol(existe);
+                var response = await _rolrepository.DeleteRol(exist);
 
                 return StatusCode(200, response);
             }

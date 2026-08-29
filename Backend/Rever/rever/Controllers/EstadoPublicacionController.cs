@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using rever.Models;
 using rever.Repositories;
 using rever.Repositories.Interfaces;
+using System.Diagnostics.Contracts;
 
 namespace rever.Controllers
 {
@@ -131,13 +132,14 @@ namespace rever.Controllers
                     return StatusCode(400, "400: Los datos para actualizar o el ID no son válidos.");
                 }
 
-                var existe = await _estadopublicacionrepository.GetEstadoPublicacionById(estadopublicacion.IdEstado);
-                if (existe == null)
+                var exist = await _estadopublicacionrepository.GetEstadoPublicacionById(estadopublicacion.IdEstado);
+                if (exist == null)
                 {
                     return StatusCode(404, $"404: No se puede actualizar. El estado de publicación con ID {estadopublicacion.IdEstado} no existe.");
                 }
 
-                var response = await _estadopublicacionrepository.PutEstadoPublicacion(estadopublicacion);
+                exist.Nombre = estadopublicacion.Nombre;
+                var response = await _estadopublicacionrepository.PutEstadoPublicacion(exist);
                 return StatusCode(200, response);
             }
             catch (Exception ex)
@@ -166,9 +168,9 @@ namespace rever.Controllers
                     return StatusCode(400, "400: El ID del estado de publicación no es válido.");
                 }
 
-                var existe = await _estadopublicacionrepository.GetEstadoPublicacionById(id);
+                var exist = await _estadopublicacionrepository.GetEstadoPublicacionById(id);
 
-                if (existe == null)
+                if (exist == null)
                 {
                     return StatusCode(
                         404,
@@ -176,7 +178,7 @@ namespace rever.Controllers
                     );
                 }
 
-                var response = await _estadopublicacionrepository.DeleteEstadoPublicacion(existe);
+                var response = await _estadopublicacionrepository.DeleteEstadoPublicacion(exist);
 
                 return StatusCode(200, response);
             }

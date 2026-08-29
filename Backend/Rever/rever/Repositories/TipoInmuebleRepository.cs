@@ -43,6 +43,7 @@ namespace rever.Repositories
                 return false;
             }
 
+            exist.Nombre = tipoInmueble.Nombre;
             _context.TipoInmueble.Update(tipoInmueble);
             await _context.SaveChangesAsync();
             return true;

@@ -38,13 +38,16 @@ namespace rever.Repositories
 
         public async Task<bool> PutBarrio(Barrio barrio)
         {
-            var exist = _context.Barrio.FirstOrDefault(x => x.IdBarrio == barrio.IdBarrio);
+            var exist = await _context.Barrio.FirstOrDefaultAsync(x => x.IdBarrio == barrio.IdBarrio);
             if (exist == null)
             {
                 return false;
             }
 
-            _context.Barrio.Update(barrio);
+            exist.Nombre = barrio.Nombre;
+            exist.IdCiudad = barrio.IdCiudad;
+            exist.IdLocalidad = barrio.IdLocalidad;
+
             await _context.SaveChangesAsync();
             return true;
         }

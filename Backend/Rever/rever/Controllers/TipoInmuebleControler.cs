@@ -71,14 +71,14 @@ namespace rever.Controllers
                     return StatusCode(400, "400: El ID proporcionado no es válido.");
                 }
 
-                var existe = await _tipoinmueblerepository.GetTipoInmuebleById(id);
+                var exist = await _tipoinmueblerepository.GetTipoInmuebleById(id);
 
-                if (existe == null)
+                if (exist == null)
                 {
                     return StatusCode(404, $"404: No se encontró el tipo de inmueble con ID {id}.");
                 }
 
-                return StatusCode(200, existe);
+                return StatusCode(200, exist);
             }
             catch (Exception)
             {
@@ -141,16 +141,17 @@ namespace rever.Controllers
                     return StatusCode(400, "400: Los datos para actualizar o el ID no son válidos.");
                 }
 
-                var existe = await _tipoinmueblerepository.GetTipoInmuebleById(
+                var exist = await _tipoinmueblerepository.GetTipoInmuebleById(
                     tipoInmueble.IdTipo);
 
-                if (existe == null)
+                if (exist == null)
                 {
                     return StatusCode(
-                        404,
-                        $"404: No se puede actualizar. El tipo de inmueble con ID {tipoInmueble.IdTipo} no existe."
+                        404,$"404: No se puede actualizar. El tipo de inmueble con ID {tipoInmueble.IdTipo} no existe."
                     );
                 }
+
+                exist.Nombre = tipoInmueble.Nombre;
 
                 var response = await _tipoinmueblerepository.PutTipoInmueble(tipoInmueble);
 
@@ -181,13 +182,13 @@ namespace rever.Controllers
                     return StatusCode(400, "400: Los datos para eliminar o el ID no son válidos.");
                 }
 
-                var existe = await _tipoinmueblerepository.GetTipoInmuebleById(id);
-                if (existe == null)
+                var exist = await _tipoinmueblerepository.GetTipoInmuebleById(id);
+                if (exist == null)
                 {
                     return StatusCode(404, $"404: No se puede eliminar. El tipo de inmueble con ID {id} no existe.");
                 }
 
-                var response = await _tipoinmueblerepository.DeleteTipoInmueble(existe);
+                var response = await _tipoinmueblerepository.DeleteTipoInmueble(exist);
                 return StatusCode(200, response);
             }
             catch (Exception ex)
