@@ -162,7 +162,7 @@ namespace rever.Controllers
                 return StatusCode(500, "500: Error interno del servidor.");
             }
         }
-        [HttpDelete]
+        [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]

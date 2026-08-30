@@ -47,13 +47,13 @@ namespace rever.Controllers
             }
         }
 
-        [HttpGet("{idInmueble:int}/{idCaracteristica:int}")]
+        [HttpGet("{id1}/{id2}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> ObtenerInmuebleCaracteristica(int idInmueble, int idCaracteristica)
+        public async Task<IActionResult> ObtenerInmuebleCaracteristica(int id1, int id2)
         {
             try
             {
@@ -62,15 +62,15 @@ namespace rever.Controllers
                     return StatusCode(401, "401: Usuario no autenticado.");
                 }
 
-                if (idInmueble <= 0 || idCaracteristica <= 0)
+                if (id1 <= 0 || id2 <= 0)
                 {
                     return StatusCode(400, "400: Los IDs proporcionados no son válidos.");
                 }
 
-                var response = await _inmueblecaracteristicarepository.GetByIds(idInmueble, idCaracteristica);
+                var response = await _inmueblecaracteristicarepository.GetByIds(id1, id2);
                 if (response == null)
                 {
-                    return StatusCode(404, $"404: No se encontró la relación entre el Inmueble {idInmueble} y la Característica {idCaracteristica}.");
+                    return StatusCode(404, $"404: No se encontró la relación entre el Inmueble {id1} y la Característica {id2}.");
                 }
                 return StatusCode(200, response);
             }
@@ -112,7 +112,7 @@ namespace rever.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpDelete("{id1},{id2}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
