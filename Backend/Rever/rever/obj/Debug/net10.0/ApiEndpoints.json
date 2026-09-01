@@ -155,16 +155,16 @@
   },
   {
     "ContainingType": "rever.Controllers.BarrioController",
-    "Method": "EliminarBarrio",
-    "RelativePath": "api/Barrio",
-    "HttpMethod": "DELETE",
+    "Method": "ObtenerBarrio",
+    "RelativePath": "api/Barrio/{id}",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "id",
         "Type": "System.Int32",
-        "IsRequired": false
+        "IsRequired": true
       }
     ],
     "ReturnTypes": [
@@ -209,9 +209,9 @@
   },
   {
     "ContainingType": "rever.Controllers.BarrioController",
-    "Method": "ObtenerBarrio",
+    "Method": "EliminarBarrio",
     "RelativePath": "api/Barrio/{id}",
-    "HttpMethod": "GET",
+    "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -401,16 +401,16 @@
   },
   {
     "ContainingType": "rever.Controllers.CaracteristicaController",
-    "Method": "EliminarCaracteristica",
-    "RelativePath": "api/Caracteristica",
-    "HttpMethod": "DELETE",
+    "Method": "ObtenerCaracteristica",
+    "RelativePath": "api/Caracteristica/{id}",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "id",
         "Type": "System.Int32",
-        "IsRequired": false
+        "IsRequired": true
       }
     ],
     "ReturnTypes": [
@@ -455,9 +455,9 @@
   },
   {
     "ContainingType": "rever.Controllers.CaracteristicaController",
-    "Method": "ObtenerCaracteristica",
+    "Method": "EliminarCaracteristica",
     "RelativePath": "api/Caracteristica/{id}",
-    "HttpMethod": "GET",
+    "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -647,16 +647,16 @@
   },
   {
     "ContainingType": "rever.Controllers.CiudadController",
-    "Method": "EliminarCiudad",
-    "RelativePath": "api/Ciudad",
-    "HttpMethod": "DELETE",
+    "Method": "ObtenerCiudad",
+    "RelativePath": "api/Ciudad/{id}",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "id",
         "Type": "System.Int32",
-        "IsRequired": false
+        "IsRequired": true
       }
     ],
     "ReturnTypes": [
@@ -701,9 +701,9 @@
   },
   {
     "ContainingType": "rever.Controllers.CiudadController",
-    "Method": "ObtenerCiudad",
+    "Method": "EliminarCiudad",
     "RelativePath": "api/Ciudad/{id}",
-    "HttpMethod": "GET",
+    "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -893,16 +893,16 @@
   },
   {
     "ContainingType": "rever.Controllers.ContactoController",
-    "Method": "DeleteContacto",
-    "RelativePath": "api/Contacto",
-    "HttpMethod": "DELETE",
+    "Method": "ObtenerContacto",
+    "RelativePath": "api/Contacto/{id}",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "id",
         "Type": "System.Int32",
-        "IsRequired": false
+        "IsRequired": true
       }
     ],
     "ReturnTypes": [
@@ -947,9 +947,9 @@
   },
   {
     "ContainingType": "rever.Controllers.ContactoController",
-    "Method": "ObtenerContacto",
+    "Method": "DeleteContacto",
     "RelativePath": "api/Contacto/{id}",
-    "HttpMethod": "GET",
+    "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -1139,16 +1139,16 @@
   },
   {
     "ContainingType": "rever.Controllers.EstadoPublicacionController",
-    "Method": "DeleteEstadoPublicacion",
-    "RelativePath": "Api/EstadoPublicacion",
-    "HttpMethod": "DELETE",
+    "Method": "ObtenerEstadoPublicacion",
+    "RelativePath": "Api/EstadoPublicacion/{id}",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "id",
         "Type": "System.Int32",
-        "IsRequired": false
+        "IsRequired": true
       }
     ],
     "ReturnTypes": [
@@ -1193,9 +1193,9 @@
   },
   {
     "ContainingType": "rever.Controllers.EstadoPublicacionController",
-    "Method": "ObtenerEstadoPublicacion",
+    "Method": "DeleteEstadoPublicacion",
     "RelativePath": "Api/EstadoPublicacion/{id}",
-    "HttpMethod": "GET",
+    "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -1385,16 +1385,16 @@
   },
   {
     "ContainingType": "rever.Controllers.ImagenController",
-    "Method": "DeleteImagen",
-    "RelativePath": "api/Imagen",
-    "HttpMethod": "DELETE",
+    "Method": "ObtenerImagen",
+    "RelativePath": "api/Imagen/{id}",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "id",
         "Type": "System.Int32",
-        "IsRequired": false
+        "IsRequired": true
       }
     ],
     "ReturnTypes": [
@@ -1439,9 +1439,9 @@
   },
   {
     "ContainingType": "rever.Controllers.ImagenController",
-    "Method": "ObtenerImagen",
+    "Method": "DeleteImagen",
     "RelativePath": "api/Imagen/{id}",
-    "HttpMethod": "GET",
+    "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -1631,16 +1631,16 @@
   },
   {
     "ContainingType": "rever.Controllers.InmuebleController",
-    "Method": "EliminarInmueble",
-    "RelativePath": "api/Inmueble",
-    "HttpMethod": "DELETE",
+    "Method": "ObtenerInmueble",
+    "RelativePath": "api/Inmueble/{id}",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "id",
         "Type": "System.Int32",
-        "IsRequired": false
+        "IsRequired": true
       }
     ],
     "ReturnTypes": [
@@ -1685,9 +1685,9 @@
   },
   {
     "ContainingType": "rever.Controllers.InmuebleController",
-    "Method": "ObtenerInmueble",
+    "Method": "EliminarInmueble",
     "RelativePath": "api/Inmueble/{id}",
-    "HttpMethod": "GET",
+    "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -1824,7 +1824,7 @@
   {
     "ContainingType": "rever.Controllers.InmuebleCaracteristicaController",
     "Method": "EliminarInmuebleCaracteristica",
-    "RelativePath": "api/InmuebleCaracteristica",
+    "RelativePath": "api/InmuebleCaracteristica/{id1},{id2}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -1832,12 +1832,12 @@
       {
         "Name": "id1",
         "Type": "System.Int32",
-        "IsRequired": false
+        "IsRequired": true
       },
       {
         "Name": "id2",
         "Type": "System.Int32",
-        "IsRequired": false
+        "IsRequired": true
       }
     ],
     "ReturnTypes": [
@@ -1883,18 +1883,18 @@
   {
     "ContainingType": "rever.Controllers.InmuebleCaracteristicaController",
     "Method": "ObtenerInmuebleCaracteristica",
-    "RelativePath": "api/InmuebleCaracteristica/{idInmueble}/{idCaracteristica}",
+    "RelativePath": "api/InmuebleCaracteristica/{id1}/{id2}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "idInmueble",
+        "Name": "id1",
         "Type": "System.Int32",
         "IsRequired": true
       },
       {
-        "Name": "idCaracteristica",
+        "Name": "id2",
         "Type": "System.Int32",
         "IsRequired": true
       }
@@ -2079,16 +2079,16 @@
   },
   {
     "ContainingType": "rever.Controllers.LocalidadController",
-    "Method": "EliminarLocalidad",
-    "RelativePath": "api/Localidad",
-    "HttpMethod": "DELETE",
+    "Method": "ObtenerLocalidad",
+    "RelativePath": "api/Localidad/{id}",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "id",
         "Type": "System.Int32",
-        "IsRequired": false
+        "IsRequired": true
       }
     ],
     "ReturnTypes": [
@@ -2133,9 +2133,9 @@
   },
   {
     "ContainingType": "rever.Controllers.LocalidadController",
-    "Method": "ObtenerLocalidad",
+    "Method": "EliminarLocalidad",
     "RelativePath": "api/Localidad/{id}",
-    "HttpMethod": "GET",
+    "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -2343,16 +2343,16 @@
   },
   {
     "ContainingType": "rever.Controllers.RolController",
-    "Method": "EliminarRol",
-    "RelativePath": "api/Rol",
-    "HttpMethod": "DELETE",
+    "Method": "ObtenerRol",
+    "RelativePath": "api/Rol/{id}",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "id",
         "Type": "System.Int32",
-        "IsRequired": false
+        "IsRequired": true
       }
     ],
     "ReturnTypes": [
@@ -2397,9 +2397,9 @@
   },
   {
     "ContainingType": "rever.Controllers.RolController",
-    "Method": "ObtenerRol",
+    "Method": "EliminarRol",
     "RelativePath": "api/Rol/{id}",
-    "HttpMethod": "GET",
+    "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -2607,16 +2607,16 @@
   },
   {
     "ContainingType": "rever.Controllers.TipoInmuebleController",
-    "Method": "EliminarTipoInmueble",
-    "RelativePath": "api/TipoInmueble",
-    "HttpMethod": "DELETE",
+    "Method": "ObtenerTipoInmueble",
+    "RelativePath": "api/TipoInmueble/{id}",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "id",
         "Type": "System.Int32",
-        "IsRequired": false
+        "IsRequired": true
       }
     ],
     "ReturnTypes": [
@@ -2661,9 +2661,9 @@
   },
   {
     "ContainingType": "rever.Controllers.TipoInmuebleController",
-    "Method": "ObtenerTipoInmueble",
+    "Method": "EliminarTipoInmueble",
     "RelativePath": "api/TipoInmueble/{id}",
-    "HttpMethod": "GET",
+    "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -2871,16 +2871,16 @@
   },
   {
     "ContainingType": "rever.Controllers.UsuarioController",
-    "Method": "DeleteUsuario",
-    "RelativePath": "api/Usuario",
-    "HttpMethod": "DELETE",
+    "Method": "ObtenerUsuario",
+    "RelativePath": "api/Usuario/{id}",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "id",
         "Type": "System.Int32",
-        "IsRequired": false
+        "IsRequired": true
       }
     ],
     "ReturnTypes": [
@@ -2925,9 +2925,9 @@
   },
   {
     "ContainingType": "rever.Controllers.UsuarioController",
-    "Method": "ObtenerUsuario",
+    "Method": "DeleteUsuario",
     "RelativePath": "api/Usuario/{id}",
-    "HttpMethod": "GET",
+    "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
     "Parameters": [

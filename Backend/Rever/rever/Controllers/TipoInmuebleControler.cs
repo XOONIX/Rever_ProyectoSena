@@ -153,7 +153,7 @@ namespace rever.Controllers
 
                 exist.Nombre = tipoInmueble.Nombre;
 
-                var response = await _tipoinmueblerepository.PutTipoInmueble(tipoInmueble);
+                var response = await _tipoinmueblerepository.PutTipoInmueble(exist);
 
                 return StatusCode(200, response);
             }

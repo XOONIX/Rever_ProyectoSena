@@ -253,15 +253,18 @@
             "description": "Internal Server Error"
           }
         }
-      },
-      "delete": {
+      }
+    },
+    "/api/Barrio/{id}": {
+      "get": {
         "tags": [
           "Barrio"
         ],
         "parameters": [
           {
             "name": "id",
-            "in": "query",
+            "in": "path",
+            "required": true,
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -336,10 +339,8 @@
             "description": "Internal Server Error"
           }
         }
-      }
-    },
-    "/api/Barrio/{id}": {
-      "get": {
+      },
+      "delete": {
         "tags": [
           "Barrio"
         ],
@@ -641,15 +642,18 @@
             "description": "Internal Server Error"
           }
         }
-      },
-      "delete": {
+      }
+    },
+    "/api/Caracteristica/{id}": {
+      "get": {
         "tags": [
           "Caracteristica"
         ],
         "parameters": [
           {
             "name": "id",
-            "in": "query",
+            "in": "path",
+            "required": true,
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -724,10 +728,8 @@
             "description": "Internal Server Error"
           }
         }
-      }
-    },
-    "/api/Caracteristica/{id}": {
-      "get": {
+      },
+      "delete": {
         "tags": [
           "Caracteristica"
         ],
@@ -1029,15 +1031,18 @@
             "description": "Internal Server Error"
           }
         }
-      },
-      "delete": {
+      }
+    },
+    "/api/Ciudad/{id}": {
+      "get": {
         "tags": [
           "Ciudad"
         ],
         "parameters": [
           {
             "name": "id",
-            "in": "query",
+            "in": "path",
+            "required": true,
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -1112,10 +1117,8 @@
             "description": "Internal Server Error"
           }
         }
-      }
-    },
-    "/api/Ciudad/{id}": {
-      "get": {
+      },
+      "delete": {
         "tags": [
           "Ciudad"
         ],
@@ -1417,15 +1420,18 @@
             "description": "Internal Server Error"
           }
         }
-      },
-      "delete": {
+      }
+    },
+    "/api/Contacto/{id}": {
+      "get": {
         "tags": [
           "Contacto"
         ],
         "parameters": [
           {
             "name": "id",
-            "in": "query",
+            "in": "path",
+            "required": true,
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -1500,10 +1506,8 @@
             "description": "Internal Server Error"
           }
         }
-      }
-    },
-    "/api/Contacto/{id}": {
-      "get": {
+      },
+      "delete": {
         "tags": [
           "Contacto"
         ],
@@ -1805,15 +1809,18 @@
             "description": "Internal Server Error"
           }
         }
-      },
-      "delete": {
+      }
+    },
+    "/Api/EstadoPublicacion/{id}": {
+      "get": {
         "tags": [
           "EstadoPublicacion"
         ],
         "parameters": [
           {
             "name": "id",
-            "in": "query",
+            "in": "path",
+            "required": true,
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -1888,10 +1895,8 @@
             "description": "Internal Server Error"
           }
         }
-      }
-    },
-    "/Api/EstadoPublicacion/{id}": {
-      "get": {
+      },
+      "delete": {
         "tags": [
           "EstadoPublicacion"
         ],
@@ -2193,15 +2198,18 @@
             "description": "Internal Server Error"
           }
         }
-      },
-      "delete": {
+      }
+    },
+    "/api/Imagen/{id}": {
+      "get": {
         "tags": [
           "Imagen"
         ],
         "parameters": [
           {
             "name": "id",
-            "in": "query",
+            "in": "path",
+            "required": true,
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -2276,10 +2284,8 @@
             "description": "Internal Server Error"
           }
         }
-      }
-    },
-    "/api/Imagen/{id}": {
-      "get": {
+      },
+      "delete": {
         "tags": [
           "Imagen"
         ],
@@ -2581,15 +2587,18 @@
             "description": "Internal Server Error"
           }
         }
-      },
-      "delete": {
+      }
+    },
+    "/api/Inmueble/{id}": {
+      "get": {
         "tags": [
           "Inmueble"
         ],
         "parameters": [
           {
             "name": "id",
-            "in": "query",
+            "in": "path",
+            "required": true,
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -2664,10 +2673,8 @@
             "description": "Internal Server Error"
           }
         }
-      }
-    },
-    "/api/Inmueble/{id}": {
-      "get": {
+      },
+      "delete": {
         "tags": [
           "Inmueble"
         ],
@@ -2877,15 +2884,18 @@
             "description": "Internal Server Error"
           }
         }
-      },
-      "delete": {
+      }
+    },
+    "/api/InmuebleCaracteristica/{id1}/{id2}": {
+      "get": {
         "tags": [
           "InmuebleCaracteristica"
         ],
         "parameters": [
           {
             "name": "id1",
-            "in": "query",
+            "in": "path",
+            "required": true,
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -2893,7 +2903,8 @@
           },
           {
             "name": "id2",
-            "in": "query",
+            "in": "path",
+            "required": true,
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -2970,14 +2981,14 @@
         }
       }
     },
-    "/api/InmuebleCaracteristica/{idInmueble}/{idCaracteristica}": {
-      "get": {
+    "/api/InmuebleCaracteristica/{id1},{id2}": {
+      "delete": {
         "tags": [
           "InmuebleCaracteristica"
         ],
         "parameters": [
           {
-            "name": "idInmueble",
+            "name": "id1",
             "in": "path",
             "required": true,
             "schema": {
@@ -2986,7 +2997,7 @@
             }
           },
           {
-            "name": "idCaracteristica",
+            "name": "id2",
             "in": "path",
             "required": true,
             "schema": {
@@ -3282,15 +3293,18 @@
             "description": "Internal Server Error"
           }
         }
-      },
-      "delete": {
+      }
+    },
+    "/api/Localidad/{id}": {
+      "get": {
         "tags": [
           "Localidad"
         ],
         "parameters": [
           {
             "name": "id",
-            "in": "query",
+            "in": "path",
+            "required": true,
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -3365,10 +3379,8 @@
             "description": "Internal Server Error"
           }
         }
-      }
-    },
-    "/api/Localidad/{id}": {
-      "get": {
+      },
+      "delete": {
         "tags": [
           "Localidad"
         ],
@@ -3710,15 +3722,18 @@
             "description": "Internal Server Error"
           }
         }
-      },
-      "delete": {
+      }
+    },
+    "/api/Rol/{id}": {
+      "get": {
         "tags": [
           "Rol"
         ],
         "parameters": [
           {
             "name": "id",
-            "in": "query",
+            "in": "path",
+            "required": true,
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -3793,10 +3808,8 @@
             "description": "Internal Server Error"
           }
         }
-      }
-    },
-    "/api/Rol/{id}": {
-      "get": {
+      },
+      "delete": {
         "tags": [
           "Rol"
         ],
@@ -4138,15 +4151,18 @@
             "description": "Internal Server Error"
           }
         }
-      },
-      "delete": {
+      }
+    },
+    "/api/TipoInmueble/{id}": {
+      "get": {
         "tags": [
           "TipoInmueble"
         ],
         "parameters": [
           {
             "name": "id",
-            "in": "query",
+            "in": "path",
+            "required": true,
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -4221,10 +4237,8 @@
             "description": "Internal Server Error"
           }
         }
-      }
-    },
-    "/api/TipoInmueble/{id}": {
-      "get": {
+      },
+      "delete": {
         "tags": [
           "TipoInmueble"
         ],
@@ -4566,15 +4580,18 @@
             "description": "Internal Server Error"
           }
         }
-      },
-      "delete": {
+      }
+    },
+    "/api/Usuario/{id}": {
+      "get": {
         "tags": [
           "Usuario"
         ],
         "parameters": [
           {
             "name": "id",
-            "in": "query",
+            "in": "path",
+            "required": true,
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -4649,10 +4666,8 @@
             "description": "Internal Server Error"
           }
         }
-      }
-    },
-    "/api/Usuario/{id}": {
-      "get": {
+      },
+      "delete": {
         "tags": [
           "Usuario"
         ],

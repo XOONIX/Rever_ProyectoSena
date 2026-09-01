@@ -16,7 +16,5 @@ namespace rever.Models
         [StringLength(100)]
         [Column("nombre")]
         public string Nombre { get; set; }
-        [JsonIgnore]
-        public virtual ICollection<Barrio>? Barrios { get; set; }
     }
 }

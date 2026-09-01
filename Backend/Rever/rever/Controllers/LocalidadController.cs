@@ -139,7 +139,7 @@ namespace rever.Controllers
                     return StatusCode(404, $"404: No se puede actualizar. La localidad con ID {localidad.IdLocalidad} no existe.");
                 }
 
-                exist.IdLocalidad = localidad.IdLocalidad;
+                exist.Nombre = localidad.Nombre;
 
                 var response = await _localidadrepository.PutLocalidad(exist);
                 return StatusCode(200, response);
