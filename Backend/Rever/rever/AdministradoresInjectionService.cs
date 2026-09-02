@@ -16,6 +16,13 @@ namespace rever
             String connectionString = "";
             connectionString = configuration["ConnectionStrings:SQLConnectionStrings"];
 
+            services.AddDbContext<DatabaseService>(options =>
+                options.UseSqlServer(connectionString, sqlOptions =>
+                    sqlOptions.EnableRetryOnFailure(
+                        maxRetryCount: 5,
+                        maxRetryDelay: TimeSpan.FromSeconds(10),
+                        errorNumbersToAdd: null)));
+
             services.AddDbContext<DatabaseService>(options => options.UseSqlServer(connectionString));
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             services.AddScoped<ICiudadRepository, CiudadRepository>();
