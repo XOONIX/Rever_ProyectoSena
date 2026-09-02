@@ -23,7 +23,6 @@ namespace rever
                         maxRetryDelay: TimeSpan.FromSeconds(10),
                         errorNumbersToAdd: null)));
 
-            services.AddDbContext<DatabaseService>(options => options.UseSqlServer(connectionString));
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             services.AddScoped<ICiudadRepository, CiudadRepository>();
             services.AddScoped<ILocalidadRepository, LocalidadRepository>();
