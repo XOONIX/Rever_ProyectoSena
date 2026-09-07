@@ -112,7 +112,7 @@ namespace rever.Controllers
             }
         }
 
-        [HttpDelete("{id1},{id2}")]
+        [HttpDelete("{id1}/{id2}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
