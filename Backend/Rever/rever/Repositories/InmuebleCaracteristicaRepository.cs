@@ -32,13 +32,16 @@ namespace rever.Repositories
 
         public async Task<bool> PostInmuebleCaracteristica(InmuebleCaracteristica inmuebleCaracteristica)
         {
-            var exist = _context.InmuebleCaracteristica.FirstOrDefault(x => x.IdInmueble == inmuebleCaracteristica.IdInmueble && x.IdCaracteristica == inmuebleCaracteristica.IdCaracteristica);
-            if (exist == null)
+            var exist = await _context.InmuebleCaracteristica
+                .FirstOrDefaultAsync(x => x.IdInmueble == inmuebleCaracteristica.IdInmueble
+                                        && x.IdCaracteristica == inmuebleCaracteristica.IdCaracteristica);
+
+            if (exist != null)
             {
                 return false;
             }
 
-            _context.InmuebleCaracteristica.Update(inmuebleCaracteristica);
+            await _context.InmuebleCaracteristica.AddAsync(inmuebleCaracteristica);
             await _context.SaveChangesAsync();
             return true;
         }
