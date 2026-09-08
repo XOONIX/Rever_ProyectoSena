@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ViQGCmBakfg=",
-  "success": false,
-  "projectFilePath": "C:\\Users\\Kevin\\source\\repos\\rever\\rever\\rever.csproj",
+  "dgSpecHash": "1srxHsIwSkg=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Sprint 1\\Controllers\\rever\\rever\\rever.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Kevin\\.nuget\\packages\\azure.core\\1.50.0\\azure.core.1.50.0.nupkg.sha512",
     "C:\\Users\\Kevin\\.nuget\\packages\\azure.identity\\1.17.1\\azure.identity.1.17.1.nupkg.sha512",
@@ -53,63 +53,24 @@
     "C:\\Users\\Kevin\\.nuget\\packages\\system.identitymodel.tokens.jwt\\7.7.1\\system.identitymodel.tokens.jwt.7.7.1.nupkg.sha512",
     "C:\\Users\\Kevin\\.nuget\\packages\\system.memory.data\\8.0.1\\system.memory.data.8.0.1.nupkg.sha512",
     "C:\\Users\\Kevin\\.nuget\\packages\\system.security.cryptography.pkcs\\9.0.11\\system.security.cryptography.pkcs.9.0.11.nupkg.sha512",
-    "C:\\Users\\Kevin\\.nuget\\packages\\system.security.cryptography.protecteddata\\9.0.11\\system.security.cryptography.protecteddata.9.0.11.nupkg.sha512"
+    "C:\\Users\\Kevin\\.nuget\\packages\\system.security.cryptography.protecteddata\\9.0.11\\system.security.cryptography.protecteddata.9.0.11.nupkg.sha512",
+    "C:\\Users\\Kevin\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x64\\10.0.11\\microsoft.netcore.app.runtime.win-x64.10.0.11.nupkg.sha512",
+    "C:\\Users\\Kevin\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x64\\10.0.11\\microsoft.windowsdesktop.app.runtime.win-x64.10.0.11.nupkg.sha512",
+    "C:\\Users\\Kevin\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x64\\10.0.11\\microsoft.aspnetcore.app.runtime.win-x64.10.0.11.nupkg.sha512"
   ],
   "logs": [
     {
       "code": "NU1608",
       "level": "Warning",
-      "message": "Se detectó una versión del paquete fuera de la restricción de dependencia: Microsoft.AspNetCore.OpenApi 10.0.11 requiere Microsoft.OpenApi (>= 2.7.5 && < 3.0.0), pero la versión Microsoft.OpenApi 3.10.0 ya se resolvió.",
-      "projectPath": "C:\\Users\\Kevin\\source\\repos\\rever\\rever\\rever.csproj",
+      "message": "Detected package version outside of dependency constraint: Microsoft.AspNetCore.OpenApi 10.0.11 requires Microsoft.OpenApi (>= 2.7.5 && < 3.0.0) but version Microsoft.OpenApi 3.10.0 was resolved.",
+      "projectPath": "C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Sprint 1\\Controllers\\rever\\rever\\rever.csproj",
       "warningLevel": 1,
-      "filePath": "C:\\Users\\Kevin\\source\\repos\\rever\\rever\\rever.csproj",
+      "filePath": "C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Sprint 1\\Controllers\\rever\\rever\\rever.csproj",
       "libraryId": "Microsoft.OpenApi",
       "targetGraphs": [
         "net10.0",
         "net10.0/win-x64"
       ]
-    },
-    {
-      "code": "NU1100",
-      "level": "Error",
-      "message": "No se puede resolver 'Microsoft.AspNetCore.App.Runtime.win-x64 (= 10.0.11)' para 'net10.0'. PackageSourceMapping está habilitado. No se tuvieron en cuenta los siguientes orígenes: Microsoft Visual Studio Offline Packages, nuget.org.",
-      "projectPath": "C:\\Users\\Kevin\\source\\repos\\rever\\rever\\rever.csproj",
-      "filePath": "C:\\Users\\Kevin\\source\\repos\\rever\\rever\\rever.csproj",
-      "libraryId": "Microsoft.AspNetCore.App.Runtime.win-x64",
-      "targetGraphs": [
-        "net10.0"
-      ]
-    },
-    {
-      "code": "NU1100",
-      "level": "Error",
-      "message": "No se puede resolver 'Microsoft.WindowsDesktop.App.Runtime.win-x64 (= 10.0.11)' para 'net10.0'. PackageSourceMapping está habilitado. No se tuvieron en cuenta los siguientes orígenes: Microsoft Visual Studio Offline Packages, nuget.org.",
-      "projectPath": "C:\\Users\\Kevin\\source\\repos\\rever\\rever\\rever.csproj",
-      "filePath": "C:\\Users\\Kevin\\source\\repos\\rever\\rever\\rever.csproj",
-      "libraryId": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
-      "targetGraphs": [
-        "net10.0"
-      ]
-    },
-    {
-      "code": "NU1100",
-      "level": "Error",
-      "message": "No se puede resolver 'Microsoft.NETCore.App.Runtime.win-x64 (= 10.0.11)' para 'net10.0'. PackageSourceMapping está habilitado. No se tuvieron en cuenta los siguientes orígenes: Microsoft Visual Studio Offline Packages, nuget.org.",
-      "projectPath": "C:\\Users\\Kevin\\source\\repos\\rever\\rever\\rever.csproj",
-      "filePath": "C:\\Users\\Kevin\\source\\repos\\rever\\rever\\rever.csproj",
-      "libraryId": "Microsoft.NETCore.App.Runtime.win-x64",
-      "targetGraphs": [
-        "net10.0"
-      ]
-    },
-    {
-      "code": "NU1900",
-      "level": "Warning",
-      "message": "Error al obtener los datos de vulnerabilidad del paquete: No se puede cargar el índice de servicio del origen https://api.nuget.org/v3/index.json.",
-      "projectPath": "C:\\Users\\Kevin\\source\\repos\\rever\\rever\\rever.csproj",
-      "warningLevel": 1,
-      "filePath": "C:\\Users\\Kevin\\source\\repos\\rever\\rever\\rever.csproj",
-      "targetGraphs": []
     }
   ]
 }
