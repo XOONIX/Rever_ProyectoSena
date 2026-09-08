@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rever — Plataforma Inmobiliaria</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/stylearrendatario.css" />
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════
+       BARRA DE NAVEGACIÓN GLOBAL
+  ══════════════════════════════════════════ -->
+  <nav class="barra_navegacion" role="navigation" aria-label="Navegación principal">
+    <div class="barra_navegacion__contenedor">
+
+      <!-- Logotipo -->
+      <a href="#" class="barra_navegacion__marca" aria-label="Inicio Rever">
+        <img src="assets/logo.png" alt="Logo Rever" class="barra_navegacion__logo" />
+        <span class="barra_navegacion__nombre">
+          Re<span class="barra_navegacion__nombre--dorado">ver</span>
+        </span>
+      </a>
+
+      <!-- Selector de pantalla -->
+      <div class="barra_navegacion__selector" role="tablist" aria-label="Secciones de la plataforma">
+        <button
+          class="barra_navegacion__tab barra_navegacion__tab--activo"
+          role="tab"
+          aria-selected="true"
+          data-pantalla="arrendatario"
+          onclick="cambiar_pantalla('arrendatario')"
+        >
+          <img src="assets/iconos/casa.svg" alt="" aria-hidden="true" class="barra_navegacion__icono_tab" />
+          <span class="barra_navegacion__etiqueta_tab">Publicar Inmueble</span>
+        </button>
+        <button
+          class="barra_navegacion__tab"
+          role="tab"
+          aria-selected="false"
+          data-pantalla="admin"
+          onclick="cambiar_pantalla('admin')"
+        >
+          <img src="assets/iconos/escudo.svg" alt="" aria-hidden="true" class="barra_navegacion__icono_tab" />
+          <span class="barra_navegacion__etiqueta_tab">Panel Administrador</span>
+        </button>
+      </div>
+
+      <!-- Usuario -->
+      <div class="barra_navegacion__usuario" aria-label="Cuenta de usuario">
+        <div class="barra_navegacion__avatar" aria-hidden="true">JC</div>
+        <span class="barra_navegacion__nombre_usuario">Juan C.</span>
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- ══════════════════════════════════════════
+       PANTALLA 1 — ARRENDATARIO
+  ══════════════════════════════════════════ -->
+  <main
+    id="pantalla_arrendatario"
+    class="pantalla pantalla--activa"
+    role="main"
+    aria-label="Formulario de publicación de inmueble"
+  >
+
+    <!-- Encabezado de la pantalla -->
+    <header class="pantalla_encabezado">
+      <div class="pantalla_encabezado__contenido">
+        <div class="pantalla_encabezado__icono" aria-hidden="true">
+          <img src="assets/iconos/edificio.svg" alt="" />
+        </div>
+        <div>
+          <h1 class="pantalla_encabezado__titulo">Publicar Inmueble</h1>
+          <p class="pantalla_encabezado__subtitulo">Completa la información para listar tu propiedad</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- Formulario principal -->
+    <form
+      id="formulario_publicacion"
+      class="formulario_principal"
+      novalidate
+      onsubmit="manejar_envio_formulario(event)"
+    >
+
+      <!-- ── Sección 01: Información Básica ── -->
+      <section class="seccion_formulario" aria-labelledby="titulo_info_basica">
+        <div class="seccion_formulario__encabezado">
+          <span class="seccion_formulario__paso" aria-hidden="true">01</span>
+          <div class="seccion_formulario__divisor" aria-hidden="true"></div>
+          <img src="assets/iconos/documento.svg" alt="" class="seccion_formulario__icono" aria-hidden="true" />
+          <h2 id="titulo_info_basica" class="seccion_formulario__titulo">Información Básica</h2>
+        </div>
+        <div class="seccion_formulario__cuerpo">
+          <div class="cuadricula_formulario cuadricula_formulario--dos_columnas">
+
+            <!-- Nombre del inmueble (ancho completo) -->
+            <div class="campo_formulario campo_formulario--completo">
+              <label class="campo_formulario__etiqueta" for="nombre_inmueble">
+                Nombre del inmueble <span class="campo_formulario__requerido" aria-label="requerido">*</span>
+              </label>
+              <div class="campo_formulario__control">
+                <img src="assets/iconos/casa.svg" alt="" class="campo_formulario__icono_input" aria-hidden="true" />
+                <input
+                  type="text"
+                  id="nombre_inmueble"
+                  name="nombre_inmueble"
+                  class="campo_formulario__input campo_formulario__input--con_icono"
+                  placeholder="Ej. Apartamento Moderno en Chapinero"
+                  required
+                  aria-required="true"
+                />
+              </div>
+              <p class="campo_formulario__ayuda">Un nombre descriptivo ayuda a que tu inmueble sea más visible</p>
+            </div>
+
+            <!-- Tipo de inmueble -->
+            <div class="campo_formulario">
+              <label class="campo_formulario__etiqueta" for="tipo_inmueble">
+                Tipo de inmueble <span class="campo_formulario__requerido" aria-label="requerido">*</span>
+              </label>
+              <div class="campo_formulario__control campo_formulario__control--select">
+                <select id="tipo_inmueble" name="tipo_inmueble" class="campo_formulario__select" required aria-required="true">
+                  <option value="" disabled selected>Selecciona un tipo</option>
+                  <option value="apartamento">Apartamento</option>
+                  <option value="casa">Casa</option>
+                  <option value="casa_campestre">Casa Campestre</option>
+                  <option value="finca">Finca</option>
+                  <option value="oficina">Oficina</option>
+                  <option value="local">Local comercial</option>
+                  <option value="bodega">Bodega</option>
+                  <option value="apartaestudio">Apartaestudio</option>
+                  <option value="lote">Lote</option>
+                </select>
+                <img src="assets/iconos/chevron_abajo.svg" alt="" class="campo_formulario__icono_select" aria-hidden="true" />
+              </div>
+            </div>
+
+            <!-- Tipo de operación -->
+            <div class="campo_formulario">
+              <label class="campo_formulario__etiqueta" for="tipo_operacion">
+                Tipo de operación <span class="campo_formulario__requerido" aria-label="requerido">*</span>
+              </label>
+              <div class="campo_formulario__control campo_formulario__control--select">
+                <select id="tipo_operacion" name="tipo_operacion" class="campo_formulario__select" required aria-required="true">
+                  <option value="" disabled selected>Venta o arriendo</option>
+                  <option value="venta">Venta</option>
+                  <option value="arriendo">Arriendo</option>
+                  <option value="arriendo_temporal">Arriendo Temporal</option>
+                </select>
+                <img src="assets/iconos/chevron_abajo.svg" alt="" class="campo_formulario__icono_select" aria-hidden="true" />
+              </div>
+            </div>
+
+            <!-- Precio -->
+            <div class="campo_formulario">
+              <label class="campo_formulario__etiqueta" for="precio">
+                Precio <span class="campo_formulario__requerido" aria-label="requerido">*</span>
+              </label>
+              <div class="campo_formulario__control">
+                <img src="assets/iconos/dinero.svg" alt="" class="campo_formulario__icono_input" aria-hidden="true" />
+                <input
+                  type="text"
+                  id="precio"
+                  name="precio"
+                  class="campo_formulario__input campo_formulario__input--con_icono"
+                  placeholder="Ej. 450.000.000"
+                  required
+                  aria-required="true"
+                />
+              </div>
+            </div>
+
+            <!-- Estrato -->
+            <div class="campo_formulario">
+              <label class="campo_formulario__etiqueta" for="estrato">
+                Estrato <span class="campo_formulario__requerido" aria-label="requerido">*</span>
+              </label>
+              <div class="campo_formulario__control campo_formulario__control--select">
+                <select id="estrato" name="estrato" class="campo_formulario__select" required aria-required="true">
+                  <option value="" disabled selected>Estrato socioeconómico</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                </select>
+                <img src="assets/iconos/chevron_abajo.svg" alt="" class="campo_formulario__icono_select" aria-hidden="true" />
+              </div>
+            </div>
+
+          </div><!-- /cuadricula -->
+        </div><!-- /cuerpo -->
+      </section>
+
+      <!-- ── Sección 02: Ubicación ── -->
+      <section class="seccion_formulario" aria-labelledby="titulo_ubicacion">
+        <div class="seccion_formulario__encabezado">
+          <span class="seccion_formulario__paso" aria-hidden="true">02</span>
+          <div class="seccion_formulario__divisor" aria-hidden="true"></div>
+          <img src="assets/iconos/mapa.svg" alt="" class="seccion_formulario__icono" aria-hidden="true" />
+          <h2 id="titulo_ubicacion" class="seccion_formulario__titulo">Ubicación</h2>
+        </div>
+        <div class="seccion_formulario__cuerpo">
+          <div class="cuadricula_formulario cuadricula_formulario--dos_columnas">
+
+            <!-- Ciudad -->
+            <div class="campo_formulario">
+              <label class="campo_formulario__etiqueta" for="ciudad">
+                Ciudad <span class="campo_formulario__requerido" aria-label="requerido">*</span>
+              </label>
+              <div class="campo_formulario__control campo_formulario__control--select">
+                <select id="ciudad" name="ciudad" class="campo_formulario__select" required aria-required="true">
+                  <option value="" disabled selected>Selecciona ciudad</option>
+                  <option value="bogota">Bogotá</option>
+                  <option value="medellin">Medellín</option>
+                  <option value="cali">Cali</option>
+                  <option value="barranquilla">Barranquilla</option>
+                  <option value="cartagena">Cartagena</option>
+                  <option value="bucaramanga">Bucaramanga</option>
+                  <option value="manizales">Manizales</option>
+                  <option value="pereira">Pereira</option>
+                </select>
+                <img src="assets/iconos/chevron_abajo.svg" alt="" class="campo_formulario__icono_select" aria-hidden="true" />
+              </div>
+            </div>
+
+            <!-- Dirección -->
+            <div class="campo_formulario">
+              <label class="campo_formulario__etiqueta" for="direccion">
+                Dirección <span class="campo_formulario__requerido" aria-label="requerido">*</span>
+              </label>
+              <div class="campo_formulario__control">
+                <img src="assets/iconos/mapa.svg" alt="" class="campo_formulario__icono_input" aria-hidden="true" />
+                <input
+                  type="text"
+                  id="direccion"
+                  name="direccion"
+                  class="campo_formulario__input campo_formulario__input--con_icono"
+                  placeholder="Cra 7 # 42-55, Apto 301"
+                  required
+                  aria-required="true"
+                />
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Mapa interactivo (placeholder) -->
+          <div class="mapa_placeholder" role="img" aria-label="Selector de ubicación en mapa">
+            <div class="mapa_placeholder__superposicion"></div>
+            <div class="mapa_placeholder__contenido">
+              <div class="mapa_placeholder__pin" aria-hidden="true">
+                <img src="assets/iconos/mapa.svg" alt="" />
+              </div>
+              <p class="mapa_placeholder__titulo">Selecciona la ubicación exacta</p>
+              <p class="mapa_placeholder__subtitulo">Haz clic para marcar el punto en el mapa</p>
+              <button type="button" class="boton_mapa" onclick="abrir_mapa()">
+                Abrir mapa interactivo
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ── Sección 03: Detalles del Inmueble ── -->
+      <section class="seccion_formulario" aria-labelledby="titulo_detalles">
+        <div class="seccion_formulario__encabezado">
+          <span class="seccion_formulario__paso" aria-hidden="true">03</span>
+          <div class="seccion_formulario__divisor" aria-hidden="true"></div>
+          <img src="assets/iconos/regla.svg" alt="" class="seccion_formulario__icono" aria-hidden="true" />
+          <h2 id="titulo_detalles" class="seccion_formulario__titulo">Detalles del Inmueble</h2>
+        </div>
+        <div class="seccion_formulario__cuerpo">
+          <div class="cuadricula_formulario cuadricula_formulario--dos_columnas">
+            <!-- Área -->
+            <div class="campo_formulario">
+              <label class="campo_formulario__etiqueta" for="area">
+                Área total <span class="campo_formulario__requerido" aria-label="requerido">*</span>
+              </label>
+              <div class="campo_formulario__control">
+                <img src="assets/iconos/regla.svg" alt="" class="campo_formulario__icono_input" aria-hidden="true" />
+                <input
+                  type="text"
+                  id="area"
+                  name="area"
+                  class="campo_formulario__input campo_formulario__input--con_icono"
+                  placeholder="Ej. 85 m²"
+                  required
+                  aria-required="true"
+                />
+              </div>
+            </div>
+            <!-- Piso -->
+            <div class="campo_formulario">
+              <label class="campo_formulario__etiqueta" for="piso">Piso</label>
+              <div class="contador_numerico" role="group" aria-label="Número de piso">
+                <button type="button" class="contador_numerico__boton" onclick="decrementar_contador('piso', 1)" aria-label="Disminuir piso">−</button>
+                <output id="piso" name="piso" class="contador_numerico__valor" aria-live="polite">1</output>
+                <button type="button" class="contador_numerico__boton" onclick="incrementar_contador('piso')" aria-label="Aumentar piso">+</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Habitaciones, Baños, Parqueaderos -->
+          <div class="cuadricula_formulario cuadricula_formulario--tres_columnas">
+            <div class="campo_formulario">
+              <label class="campo_formulario__etiqueta">Habitaciones</label>
+              <div class="contador_numerico" role="group" aria-label="Número de habitaciones">
+                <button type="button" class="contador_numerico__boton" onclick="decrementar_contador('habitaciones', 0)" aria-label="Disminuir habitaciones">−</button>
+                <output id="habitaciones" name="habitaciones" class="contador_numerico__valor" aria-live="polite">1</output>
+                <button type="button" class="contador_numerico__boton" onclick="incrementar_contador('habitaciones')" aria-label="Aumentar habitaciones">+</button>
+              </div>
+            </div>
+            <div class="campo_formulario">
+              <label class="campo_formulario__etiqueta">Baños</label>
+              <div class="contador_numerico" role="group" aria-label="Número de baños">
+                <button type="button" class="contador_numerico__boton" onclick="decrementar_contador('banios', 0)" aria-label="Disminuir baños">−</button>
+                <output id="banios" name="banios" class="contador_numerico__valor" aria-live="polite">1</output>
+                <button type="button" class="contador_numerico__boton" onclick="incrementar_contador('banios')" aria-label="Aumentar baños">+</button>
+              </div>
+            </div>
+            <div class="campo_formulario">
+              <label class="campo_formulario__etiqueta">Parqueaderos</label>
+              <div class="contador_numerico" role="group" aria-label="Número de parqueaderos">
+                <button type="button" class="contador_numerico__boton" onclick="decrementar_contador('parqueaderos', 0)" aria-label="Disminuir parqueaderos">−</button>
+                <output id="parqueaderos" name="parqueaderos" class="contador_numerico__valor" aria-live="polite">0</output>
+                <button type="button" class="contador_numerico__boton" onclick="incrementar_contador('parqueaderos')" aria-label="Aumentar parqueaderos">+</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Descripción -->
+          <div class="campo_formulario">
+            <label class="campo_formulario__etiqueta" for="descripcion">Descripción del inmueble</label>
+            <textarea
+              id="descripcion"
+              name="descripcion"
+              class="campo_formulario__textarea"
+              placeholder="Describe las características más destacadas de tu inmueble, acabados, vista, entorno, etc."
+              rows="4"
+              maxlength="800"
+              aria-describedby="contador_descripcion"
+              oninput="actualizar_contador_descripcion()"
+            ></textarea>
+            <p id="contador_descripcion" class="campo_formulario__contador" aria-live="polite">0 / 800 caracteres</p>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ── Sección 04: Amenidades ── -->
+      <section class="seccion_formulario" aria-labelledby="titulo_amenidades">
+        <div class="seccion_formulario__encabezado">
+          <span class="seccion_formulario__paso" aria-hidden="true">04</span>
+          <div class="seccion_formulario__divisor" aria-hidden="true"></div>
+          <img src="assets/iconos/estrella.svg" alt="" class="seccion_formulario__icono" aria-hidden="true" />
+          <h2 id="titulo_amenidades" class="seccion_formulario__titulo">Amenidades y Características</h2>
+        </div>
+        <div class="seccion_formulario__cuerpo">
+          <div class="grupo_amenidades" role="group" aria-label="Selecciona las amenidades disponibles">
+            <!-- Las amenidades se generan dinámicamente desde JS -->
+          </div>
+          <p id="contador_amenidades" class="campo_formulario__ayuda" aria-live="polite" style="display:none"></p>
+        </div>
+      </section>
+
+      <!-- ── Sección 05: Fotografías ── -->
+      <section class="seccion_formulario" aria-labelledby="titulo_fotos">
+        <div class="seccion_formulario__encabezado">
+          <span class="seccion_formulario__paso" aria-hidden="true">05</span>
+          <div class="seccion_formulario__divisor" aria-hidden="true"></div>
+          <img src="assets/iconos/camara.svg" alt="" class="seccion_formulario__icono" aria-hidden="true" />
+          <h2 id="titulo_fotos" class="seccion_formulario__titulo">Fotografías del Inmueble</h2>
+        </div>
+        <div class="seccion_formulario__cuerpo">
+          <!-- Zona de arrastre -->
+          <div
+            id="zona_arrastre"
+            class="zona_carga"
+            role="button"
+            tabindex="0"
+            aria-label="Zona para cargar fotografías. Arrastra archivos aquí o haz clic para seleccionarlos."
+            ondragover="manejar_arrastre(event, true)"
+            ondragleave="manejar_arrastre(event, false)"
+            ondrop="manejar_soltar_archivos(event)"
+            onclick="document.getElementById('input_fotos').click()"
+            onkeydown="if(event.key==='Enter'||event.key===' ')document.getElementById('input_fotos').click()"
+          >
+            <div class="zona_carga__icono" aria-hidden="true">
+              <img src="assets/iconos/subir.svg" alt="" />
+            </div>
+            <p class="zona_carga__titulo">Arrastra tus fotos aquí</p>
+            <p class="zona_carga__subtitulo">PNG, JPG o WEBP — máximo 10 fotos, 10 MB c/u</p>
+            <button type="button" class="boton_secundario" onclick="event.stopPropagation(); document.getElementById('input_fotos').click()">
+              Seleccionar archivos
+            </button>
+          </div>
+          <input
+            type="file"
+            id="input_fotos"
+            name="fotos"
+            accept="image/*"
+            multiple
+            class="visualmente_oculto"
+            aria-hidden="true"
+            onchange="agregar_fotos_seleccionadas(event)"
+          />
+
+          <!-- Galería de fotos cargadas -->
+          <div id="galeria_fotos" class="galeria_fotos" role="list" aria-label="Fotografías cargadas"></div>
+          <p id="contador_fotos" class="campo_formulario__ayuda" aria-live="polite">0 / 10 fotos cargadas. La primera foto será la imagen principal.</p>
+        </div>
+      </section>
+
+      <!-- ── Sección 06: Información del Propietario ── -->
+      <section class="seccion_formulario" aria-labelledby="titulo_propietario">
+        <div class="seccion_formulario__encabezado">
+          <span class="seccion_formulario__paso" aria-hidden="true">06</span>
+          <div class="seccion_formulario__divisor" aria-hidden="true"></div>
+          <img src="assets/iconos/usuario.svg" alt="" class="seccion_formulario__icono" aria-hidden="true" />
+          <h2 id="titulo_propietario" class="seccion_formulario__titulo">Información del Propietario</h2>
+        </div>
+        <div class="seccion_formulario__cuerpo">
+          <div class="cuadricula_formulario cuadricula_formulario--dos_columnas">
+            <!-- Nombre -->
+            <div class="campo_formulario campo_formulario--completo">
+              <label class="campo_formulario__etiqueta" for="nombre_propietario">
+                Nombre completo <span class="campo_formulario__requerido" aria-label="requerido">*</span>
+              </label>
+              <div class="campo_formulario__control">
+                <img src="assets/iconos/usuario.svg" alt="" class="campo_formulario__icono_input" aria-hidden="true" />
+                <input
+                  type="text"
+                  id="nombre_propietario"
+                  name="nombre_propietario"
+                  class="campo_formulario__input campo_formulario__input--con_icono"
+                  placeholder="Juan Carlos Ramírez"
+                  required
+                  aria-required="true"
+                />
+              </div>
+            </div>
+            <!-- Correo -->
+            <div class="campo_formulario">
+              <label class="campo_formulario__etiqueta" for="correo_propietario">
+                Correo electrónico <span class="campo_formulario__requerido" aria-label="requerido">*</span>
+              </label>
+              <div class="campo_formulario__control">
+                <img src="assets/iconos/correo.svg" alt="" class="campo_formulario__icono_input" aria-hidden="true" />
+                <input
+                  type="email"
+                  id="correo_propietario"
+                  name="correo_propietario"
+                  class="campo_formulario__input campo_formulario__input--con_icono"
+                  placeholder="correo@ejemplo.com"
+                  required
+                  aria-required="true"
+                />
+              </div>
+            </div>
+            <!-- Teléfono -->
+            <div class="campo_formulario">
+              <label class="campo_formulario__etiqueta" for="telefono_propietario">
+                Teléfono de contacto <span class="campo_formulario__requerido" aria-label="requerido">*</span>
+              </label>
+              <div class="campo_formulario__control">
+                <img src="assets/iconos/telefono.svg" alt="" class="campo_formulario__icono_input" aria-hidden="true" />
+                <input
+                  type="tel"
+                  id="telefono_propietario"
+                  name="telefono_propietario"
+                  class="campo_formulario__input campo_formulario__input--con_icono"
+                  placeholder="+57 300 000 0000"
+                  required
+                  aria-required="true"
+                />
+              </div>
+            </div>
+          </div>
+          <!-- Aviso de privacidad -->
+          <div class="aviso_privacidad" role="note">
+            <img src="assets/iconos/info.svg" alt="Información:" class="aviso_privacidad__icono" />
+            <p class="aviso_privacidad__texto">
+              Tu información solo será visible para el equipo de verificación.
+              Los interesados en el inmueble se comunicarán a través de nuestra plataforma.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Barra de envío -->
+      <div class="barra_envio">
+        <p class="barra_envio__terminos">
+          Al publicar aceptas nuestros
+          <a href="#" class="barra_envio__enlace">términos y condiciones</a>
+        </p>
+        <button type="submit" class="boton_primario boton_primario--grande">
+          Publicar inmueble
+        </button>
+      </div>
+
+    </form><!-- /formulario_publicacion -->
+
+    <!-- Modal de confirmación -->
+    <div id="modal_confirmacion" class="modal_confirmacion modal_confirmacion--oculto" role="dialog" aria-modal="true" aria-labelledby="titulo_confirmacion">
+      <div class="modal_confirmacion__tarjeta">
+        <div class="modal_confirmacion__icono" aria-hidden="true">
+          <img src="assets/iconos/verificado.svg" alt="" />
+        </div>
+        <h2 id="titulo_confirmacion" class="modal_confirmacion__titulo">¡Publicación enviada!</h2>
+        <p class="modal_confirmacion__texto">
+          Tu inmueble ha sido enviado para revisión. Un administrador verificará
+          la información en un plazo de 24–48 horas.
+        </p>
+        <div class="modal_confirmacion__radicado">
+          <p class="modal_confirmacion__radicado_etiqueta">NÚMERO DE RADICADO</p>
+          <p id="numero_radicado" class="modal_confirmacion__radicado_numero"></p>
+        </div>
+        <button type="button" class="boton_primario boton_primario--bloque" onclick="cerrar_confirmacion()">
+          Publicar otro inmueble
+        </button>
+      </div>
+    </div>
+
+  </main><!-- /pantalla_arrendatario -->
+
+
+  <!-- ══════════════════════════════════════════
+       PANTALLA 2 — PANEL ADMINISTRADOR
+  ══════════════════════════════════════════ -->
+  <div
+    id="pantalla_admin"
+    class="pantalla pantalla_admin"
+    aria-label="Panel de administración"
+  >
+
+    <!-- Barra lateral -->
+    <aside class="barra_lateral" role="complementary" aria-label="Menú de administración">
+      <div class="barra_lateral__encabezado">
+        <div class="barra_lateral__marca" aria-hidden="true">
+          <img src="assets/iconos/escudo.svg" alt="" class="barra_lateral__icono_marca" />
+        </div>
+        <div>
+          <p class="barra_lateral__titulo_panel">Panel Admin</p>
+          <p class="barra_lateral__nombre_sistema">Rever Pro</p>
+        </div>
+      </div>
+
+      <nav class="barra_lateral__nav" role="navigation" aria-label="Vistas del panel">
+        <button class="barra_lateral__item barra_lateral__item--activo" data-vista="tablero" onclick="cambiar_vista_admin('tablero')" aria-current="page">
+          <img src="assets/iconos/grafico.svg" alt="" class="barra_lateral__item_icono" aria-hidden="true" />
+          <span>Dashboard</span>
+        </button>
+        <button class="barra_lateral__item" data-vista="inmuebles" onclick="cambiar_vista_admin('inmuebles')">
+          <img src="assets/iconos/edificio.svg" alt="" class="barra_lateral__item_icono" aria-hidden="true" />
+          <span>Inmuebles</span>
+          <span id="insignia_pendientes" class="barra_lateral__insignia">2</span>
+        </button>
+        <button class="barra_lateral__item" data-vista="reportes" onclick="cambiar_vista_admin('reportes')">
+          <img src="assets/iconos/alerta.svg" alt="" class="barra_lateral__item_icono" aria-hidden="true" />
+          <span>Reportes</span>
+          <span class="barra_lateral__insignia">3</span>
+        </button>
+        <button class="barra_lateral__item" data-vista="usuarios" onclick="cambiar_vista_admin('usuarios')">
+          <img src="assets/iconos/usuarios.svg" alt="" class="barra_lateral__item_icono" aria-hidden="true" />
+          <span>Usuarios</span>
+        </button>
+
+        <div class="barra_lateral__separador">
+          <span class="barra_lateral__separador_texto">Sistema</span>
+        </div>
+        <button class="barra_lateral__item barra_lateral__item--inactivo">
+          <img src="assets/iconos/configuracion.svg" alt="" class="barra_lateral__item_icono" aria-hidden="true" />
+          <span>Configuración</span>
+        </button>
+      </nav>
+
+      <div class="barra_lateral__pie">
+        <div class="barra_lateral__avatar" aria-hidden="true">AD</div>
+        <div class="barra_lateral__info_usuario">
+          <p class="barra_lateral__nombre_usuario">Administrador</p>
+          <p class="barra_lateral__correo_usuario">admin@rever.co</p>
+        </div>
+        <button class="barra_lateral__boton_salir" aria-label="Cerrar sesión">
+          <img src="assets/iconos/salir.svg" alt="" />
+        </button>
+      </div>
+    </aside>
+
+    <!-- Contenido principal del admin -->
+    <div class="contenido_admin">
+
+      <!-- Encabezado interno -->
+      <header class="encabezado_admin" role="banner">
+        <div>
+          <h1 id="titulo_vista_actual" class="encabezado_admin__titulo">Dashboard</h1>
+          <button id="boton_volver" class="encabezado_admin__volver" style="display:none" onclick="volver_a_listado()">
+            ← Volver a listado
+          </button>
+        </div>
+        <div class="encabezado_admin__avatar" aria-label="Administrador">AD</div>
+      </header>
+
+      <!-- ── Vista: TABLERO ── -->
+      <section id="vista_tablero" class="vista_admin vista_admin--activa" aria-label="Dashboard principal">
+        <div class="cuadricula_estadisticas">
+
+          <article class="tarjeta_estadistica" aria-label="Inmuebles verificados">
+            <div class="tarjeta_estadistica__encabezado">
+              <p class="tarjeta_estadistica__etiqueta">Total inmuebles verificados</p>
+              <div class="tarjeta_estadistica__icono tarjeta_estadistica__icono--verde" aria-hidden="true">
+                <img src="assets/iconos/verificado.svg" alt="" />
+              </div>
+            </div>
+            <p class="tarjeta_estadistica__valor">2</p>
+            <p class="tarjeta_estadistica__subtexto">publicados y activos</p>
+          </article>
+
+          <article class="tarjeta_estadistica" aria-label="Pendientes de revisión">
+            <div class="tarjeta_estadistica__encabezado">
+              <p class="tarjeta_estadistica__etiqueta">Pendientes</p>
+              <div class="tarjeta_estadistica__icono tarjeta_estadistica__icono--dorado" aria-hidden="true">
+                <img src="assets/iconos/reloj.svg" alt="" />
+              </div>
+            </div>
+            <p class="tarjeta_estadistica__valor">2</p>
+            <p class="tarjeta_estadistica__subtexto">esperando revisión</p>
+          </article>
+
+          <article class="tarjeta_estadistica" aria-label="Inmuebles rechazados">
+            <div class="tarjeta_estadistica__encabezado">
+              <p class="tarjeta_estadistica__etiqueta">Rechazados</p>
+              <div class="tarjeta_estadistica__icono tarjeta_estadistica__icono--rojo" aria-hidden="true">
+                <img src="assets/iconos/cerrar.svg" alt="" />
+              </div>
+            </div>
+            <p class="tarjeta_estadistica__valor">1</p>
+            <p class="tarjeta_estadistica__subtexto">este mes</p>
+          </article>
+
+          <article class="tarjeta_estadistica" aria-label="Total listados">
+            <div class="tarjeta_estadistica__encabezado">
+              <p class="tarjeta_estadistica__etiqueta">Total listados</p>
+              <div class="tarjeta_estadistica__icono tarjeta_estadistica__icono--gris" aria-hidden="true">
+                <img src="assets/iconos/edificio.svg" alt="" />
+              </div>
+            </div>
+            <p class="tarjeta_estadistica__valor">5</p>
+            <p class="tarjeta_estadistica__subtexto">en la plataforma</p>
+          </article>
+
+          <article class="tarjeta_estadistica tarjeta_estadistica--clickable" aria-label="Reportes activos — ir a reportes" onclick="cambiar_vista_admin('reportes')" tabindex="0" role="button" onkeydown="if(event.key==='Enter')cambiar_vista_admin('reportes')">
+            <div class="tarjeta_estadistica__encabezado">
+              <p class="tarjeta_estadistica__etiqueta">Reportes activos</p>
+              <div class="tarjeta_estadistica__icono tarjeta_estadistica__icono--morado" aria-hidden="true">
+                <img src="assets/iconos/alerta.svg" alt="" />
+              </div>
+            </div>
+            <p class="tarjeta_estadistica__valor">3</p>
+            <p class="tarjeta_estadistica__subtexto tarjeta_estadistica__subtexto--enlace">2 sin revisar →</p>
+          </article>
+
+        </div><!-- /cuadricula_estadisticas -->
+
+        <!-- Paneles inferiores -->
+        <div class="cuadricula_paneles">
+
+          <!-- Panel: pendientes -->
+          <div class="panel_tablero" aria-labelledby="titulo_panel_pendientes">
+            <div class="panel_tablero__encabezado">
+              <h2 id="titulo_panel_pendientes" class="panel_tablero__titulo">Pendientes de revisión</h2>
+              <span class="etiqueta_dorada">2 urgentes</span>
+            </div>
+            <ul class="lista_pendientes" id="lista_pendientes_tablero" aria-label="Inmuebles pendientes de revisión">
+              <!-- Generado por JS -->
+            </ul>
+          </div>
+
+          <!-- Panel: actividad reciente -->
+          <div class="panel_tablero" aria-labelledby="titulo_panel_actividad">
+            <div class="panel_tablero__encabezado">
+              <h2 id="titulo_panel_actividad" class="panel_tablero__titulo">Actividad reciente</h2>
+            </div>
+            <ul class="lista_actividad" aria-label="Actividad reciente del sistema">
+              <li class="lista_actividad__item">
+                <img src="assets/iconos/verificado.svg" alt="Verificado:" class="lista_actividad__icono lista_actividad__icono--verde" />
+                <span class="lista_actividad__texto">Casa Colonial Quinta verificada</span>
+                <time class="lista_actividad__tiempo" datetime="2026-06-12">Hace 2h</time>
+              </li>
+              <li class="lista_actividad__item">
+                <img src="assets/iconos/alerta.svg" alt="Reporte:" class="lista_actividad__icono lista_actividad__icono--morado" />
+                <span class="lista_actividad__texto">Nuevo reporte: Fotos falsas en Penthouse Vista</span>
+                <time class="lista_actividad__tiempo" datetime="2026-06-12">Hace 3h</time>
+              </li>
+              <li class="lista_actividad__item">
+                <img src="assets/iconos/verificado.svg" alt="Verificado:" class="lista_actividad__icono lista_actividad__icono--verde" />
+                <span class="lista_actividad__texto">Finca El Remanso — documentos aprobados</span>
+                <time class="lista_actividad__tiempo" datetime="2026-06-11">Hace 5h</time>
+              </li>
+              <li class="lista_actividad__item">
+                <img src="assets/iconos/cerrar.svg" alt="Rechazado:" class="lista_actividad__icono lista_actividad__icono--rojo" />
+                <span class="lista_actividad__texto">Apartaestudio 304 rechazado — docs incompletos</span>
+                <time class="lista_actividad__tiempo" datetime="2026-06-11">Hace 1d</time>
+              </li>
+              <li class="lista_actividad__item">
+                <img src="assets/iconos/camara.svg" alt="Foto:" class="lista_actividad__icono" />
+                <span class="lista_actividad__texto">Foto eliminada en Oficina Centro Ejecutivo</span>
+                <time class="lista_actividad__tiempo" datetime="2026-06-10">Hace 2d</time>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ── Vista: INMUEBLES ── -->
+      <section id="vista_inmuebles" class="vista_admin" aria-label="Gestión de inmuebles">
+        <!-- Barra de búsqueda y filtros -->
+        <div class="barra_herramientas">
+          <div class="campo_busqueda" role="search">
+            <img src="assets/iconos/buscar.svg" alt="" class="campo_busqueda__icono" aria-hidden="true" />
+            <input
+              type="search"
+              id="buscador_inmuebles"
+              class="campo_busqueda__input"
+              placeholder="Buscar inmueble o propietario..."
+              aria-label="Buscar inmueble o propietario"
+              oninput="filtrar_inmuebles()"
+            />
+          </div>
+          <div class="grupo_filtros" role="group" aria-label="Filtrar por estado">
+            <button class="boton_filtro boton_filtro--activo" data-filtro="todos" onclick="aplicar_filtro_estado('todos', this)">Todos</button>
+            <button class="boton_filtro" data-filtro="pendiente" onclick="aplicar_filtro_estado('pendiente', this)">Pendiente</button>
+            <button class="boton_filtro" data-filtro="verificada" onclick="aplicar_filtro_estado('verificada', this)">Verificada</button>
+            <button class="boton_filtro" data-filtro="rechazada" onclick="aplicar_filtro_estado('rechazada', this)">Rechazada</button>
+          </div>
+        </div>
+
+        <!-- Tabla de inmuebles (escritorio) -->
+        <div class="tabla_envolvente" role="region" aria-label="Lista de inmuebles">
+          <table class="tabla_inmuebles" aria-label="Inmuebles registrados">
+            <thead>
+              <tr>
+                <th scope="col">Inmueble</th>
+                <th scope="col">Propietario</th>
+                <th scope="col">Tipo / Operación</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="cuerpo_tabla_inmuebles">
+              <!-- Generado por JS -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Cards móvil -->
+        <div id="cards_inmuebles_movil" class="cards_movil" role="list" aria-label="Inmuebles registrados">
+          <!-- Generado por JS -->
+        </div>
+
+      </section>
+
+      <!-- ── Vista: DETALLE INMUEBLE ── -->
+      <section id="vista_detalle" class="vista_admin" aria-label="Detalle del inmueble">
+        <div id="contenido_detalle">
+          <!-- Generado dinámicamente por JS -->
+        </div>
+      </section>
+
+      <!-- ── Vista: REPORTES ── -->
+      <section id="vista_reportes" class="vista_admin" aria-label="Reportes de inmuebles">
+        <!-- Resumen de estados -->
+        <div class="resumen_reportes" role="list" aria-label="Resumen de estados de reportes">
+          <div class="resumen_reportes__item" role="listitem">
+            <span class="resumen_reportes__punto resumen_reportes__punto--rojo" aria-hidden="true"></span>
+            <span class="resumen_reportes__etiqueta">Abierto</span>
+            <strong class="resumen_reportes__cantidad" id="cnt_abierto">2</strong>
+          </div>
+          <div class="resumen_reportes__item" role="listitem">
+            <span class="resumen_reportes__punto resumen_reportes__punto--dorado" aria-hidden="true"></span>
+            <span class="resumen_reportes__etiqueta">En revisión</span>
+            <strong class="resumen_reportes__cantidad" id="cnt_revision">1</strong>
+          </div>
+          <div class="resumen_reportes__item" role="listitem">
+            <span class="resumen_reportes__punto resumen_reportes__punto--verde" aria-hidden="true"></span>
+            <span class="resumen_reportes__etiqueta">Resuelto</span>
+            <strong class="resumen_reportes__cantidad" id="cnt_resuelto">1</strong>
+          </div>
+          <div class="resumen_reportes__item" role="listitem">
+            <span class="resumen_reportes__punto resumen_reportes__punto--gris" aria-hidden="true"></span>
+            <span class="resumen_reportes__etiqueta">Descartado</span>
+            <strong class="resumen_reportes__cantidad" id="cnt_descartado">1</strong>
+          </div>
+        </div>
+
+        <!-- Lista de reportes -->
+        <div id="lista_reportes" class="lista_reportes" role="list" aria-label="Reportes de inmuebles">
+          <!-- Generado por JS -->
+        </div>
+      </section>
+
+      <!-- ── Vista: USUARIOS ── -->
+      <section id="vista_usuarios" class="vista_admin" aria-label="Gestión de usuarios">
+        <div class="barra_herramientas">
+          <div class="campo_busqueda" role="search">
+            <img src="assets/iconos/buscar.svg" alt="" class="campo_busqueda__icono" aria-hidden="true" />
+            <input
+              type="search"
+              id="buscador_usuarios"
+              class="campo_busqueda__input"
+              placeholder="Buscar usuario..."
+              aria-label="Buscar usuario"
+              oninput="filtrar_usuarios()"
+            />
+          </div>
+          <div class="leyenda_requisitos" role="note" aria-label="Leyenda de estados">
+            <span class="leyenda_requisitos__item"><span class="leyenda_requisitos__punto leyenda_requisitos__punto--verde" aria-hidden="true"></span> Completo</span>
+            <span class="leyenda_requisitos__item"><span class="leyenda_requisitos__punto leyenda_requisitos__punto--dorado" aria-hidden="true"></span> Pendiente</span>
+            <span class="leyenda_requisitos__item"><span class="leyenda_requisitos__punto leyenda_requisitos__punto--rojo" aria-hidden="true"></span> Faltante</span>
+          </div>
+        </div>
+
+        <!-- Tabla usuarios (escritorio) -->
+        <div class="tabla_envolvente" role="region" aria-label="Lista de usuarios">
+          <table class="tabla_usuarios" aria-label="Usuarios registrados">
+            <thead>
+              <tr>
+                <th scope="col">Usuario</th>
+                <th scope="col">Rol</th>
+                <th scope="col">Cédula</th>
+                <th scope="col">Correo</th>
+                <th scope="col">Teléfono</th>
+                <th scope="col">Escritura</th>
+                <th scope="col">Antecedentes</th>
+                <th scope="col">Estado general</th>
+              </tr>
+            </thead>
+            <tbody id="cuerpo_tabla_usuarios">
+              <!-- Generado por JS -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Cards móvil -->
+        <div id="cards_usuarios_movil" class="cards_movil" role="list" aria-label="Usuarios registrados">
+          <!-- Generado por JS -->
+        </div>
+
+        <p class="nota_pie">
+          Los usuarios deben cumplir todos los requisitos para publicar o contactar inmuebles.
+          Los documentos faltantes bloquean acciones hasta ser validados.
+        </p>
+      </section>
+
+    </div><!-- /contenido_admin -->
+
+    <!-- Barra de navegación inferior (móvil) -->
+    <nav class="nav_inferior_movil" role="navigation" aria-label="Navegación del panel (móvil)">
+      <button class="nav_inferior_movil__item nav_inferior_movil__item--activo" data-vista="tablero" onclick="cambiar_vista_admin('tablero')">
+        <img src="assets/iconos/grafico.svg" alt="" class="nav_inferior_movil__icono" aria-hidden="true" />
+        <span class="nav_inferior_movil__etiqueta">Dashboard</span>
+      </button>
+      <button class="nav_inferior_movil__item" data-vista="inmuebles" onclick="cambiar_vista_admin('inmuebles')">
+        <img src="assets/iconos/edificio.svg" alt="" class="nav_inferior_movil__icono" aria-hidden="true" />
+        <span class="nav_inferior_movil__etiqueta">Inmuebles</span>
+      </button>
+      <button class="nav_inferior_movil__item" data-vista="reportes" onclick="cambiar_vista_admin('reportes')">
+        <img src="assets/iconos/alerta.svg" alt="" class="nav_inferior_movil__icono" aria-hidden="true" />
+        <span class="nav_inferior_movil__etiqueta">Reportes</span>
+      </button>
+      <button class="nav_inferior_movil__item" data-vista="usuarios" onclick="cambiar_vista_admin('usuarios')">
+        <img src="assets/iconos/usuarios.svg" alt="" class="nav_inferior_movil__icono" aria-hidden="true" />
+        <span class="nav_inferior_movil__etiqueta">Usuarios</span>
+      </button>
+    </nav>
+
+  </div><!-- /pantalla_admin -->
+
+  <script src="js/mainarrendatario.js"></script>
+</body>
+</html>
