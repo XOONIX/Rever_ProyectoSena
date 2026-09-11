@@ -1,9 +1,10 @@
-﻿using rever.Repositories.Interfaces;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using rever.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+using rever.Repositories.Interfaces;
 using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace rever.Controllers
@@ -89,9 +90,9 @@ namespace rever.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> CrearUsuario([FromBody] Usuario Usuario)
+        public async Task<IActionResult> CrearUsuario([FromBody] Usuario usuario)
         {
             try
             {
@@ -100,25 +101,49 @@ namespace rever.Controllers
                     return StatusCode(401, "401: Usuario no autenticado.");
                 }
 
-                if (Usuario == null || string.IsNullOrWhiteSpace(Usuario.Contraseña))
+                if (usuario == null || string.IsNullOrWhiteSpace(usuario.Correo) || string.IsNullOrWhiteSpace(usuario.Contraseña))
                 {
-                    return StatusCode(400, "400: Los datos del usuario no pueden ser nulos.");
+                    return StatusCode(400, "400: Los datos del usuario o la contraseña no pueden estar vacíos.");
                 }
 
-                // Hashear la contraseña ANTES de guardar
-                Usuario.Contraseña = BCrypt.Net.BCrypt.HashPassword(Usuario.Contraseña);
+                // 1. Validar que el correo no esté registrado previamente
+                var usuarioExistente = await _Usuariorrepository.GetByEmailWithRolAsync(usuario.Correo);
+                if (usuarioExistente != null)
+                {
+                    return StatusCode(400, "400: El correo ya se encuentra registrado.");
+                }
 
-                var response = await _Usuariorrepository.PostUsuario(Usuario);
+                // 2. Obtener el rol del usuario que realiza la petición desde los Claims
+                var rolUsuarioAutenticado = User.FindFirst(ClaimTypes.Role)?.Value;
 
-                if (response == null || response == false)
+                // 3. Validar restricción de creación de roles
+                // Si no es Administrador (Rol 1), solo puede registrar usuarios con Rol 2 o 3
+                bool esAdministrador = rolUsuarioAutenticado == "1" || rolUsuarioAutenticado == "Administrador";
+
+                if (!esAdministrador && usuario.IdRol == 1)
+                {
+                    return StatusCode(403, "403: No tienes permisos para crear usuarios con rol 1.");
+                }
+
+                // Si tampoco especifica un rol permitido (solo 2 o 3 para usuarios normales)
+                if (!esAdministrador && (usuario.IdRol != 2 && usuario.IdRol != 3))
+                {
+                    return StatusCode(400, "400: Solo se permite la creación de usuarios con rol 2 o 3.");
+                }
+
+                // 4. Hashear la contraseña ANTES de guardar
+                usuario.Contraseña = BCrypt.Net.BCrypt.HashPassword(usuario.Contraseña);
+
+                var response = await _Usuariorrepository.PostUsuario(usuario);
+
+                if (!response)
                 {
                     return StatusCode(500, "500: Error interno al intentar crear el recurso.");
                 }
 
-                // No devolvemos la contraseña/hash en la respuesta
-                Usuario.Contraseña = null;
+                usuario.Contraseña = null;
 
-                return StatusCode(200, Usuario);
+                return StatusCode(200, usuario);
             }
             catch (Exception)
             {
@@ -163,11 +188,11 @@ namespace rever.Controllers
                     exist.Contraseña = BCrypt.Net.BCrypt.HashPassword(Usuario.Contraseña);
                 }
 
-                var response = await _Usuariorrepository.PutUsuario(exist);   // <- corregido
+                var response = await _Usuariorrepository.PutUsuario(exist);
 
-                exist.Contraseña = null;   // <- también corregido: limpia "exist", que es lo que realmente tiene el hash
+                exist.Contraseña = null;  
 
-                return StatusCode(200, exist);   // <- devuelve "exist", no "Usuario"
+                return StatusCode(200, exist);  
             }
             catch (Exception ex)
             {

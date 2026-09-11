@@ -5,8 +5,6 @@
 		<TargetFramework>net10.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
-		<ContainerRuntimeIdentifier>win-x64</ContainerRuntimeIdentifier>
 		<EnableSdkContainerDebugging>True</EnableSdkContainerDebugging>
 		<ContainerBaseImage>mcr.microsoft.com/dotnet/aspnet:10.0-nanoserver-ltsc2022</ContainerBaseImage>
 		<UserSecretsId>f25fe734-7bda-4ce0-ae8e-5dd9535d2575</UserSecretsId>

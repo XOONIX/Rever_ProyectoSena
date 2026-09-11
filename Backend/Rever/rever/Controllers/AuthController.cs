@@ -7,65 +7,71 @@ using System.Security.Claims;
 using System.Text;
 using BCrypt.Net;
 
-[Route("api/[controller]")]
-[ApiController]
-public class AuthController : ControllerBase
+namespace rever.Controllers
 {
-    private readonly IConfiguration _configuration;
-    private readonly IUsuarioRepository _usuarioRepository;
-
-    public AuthController(IConfiguration configuration, IUsuarioRepository usuarioRepository)
+    [Route("api/[controller]")]
+    [ApiController]
+    public class AuthController : ControllerBase
     {
-        _configuration = configuration;
-        _usuarioRepository = usuarioRepository;
-    }
+        private readonly IConfiguration _configuration;
+        private readonly IUsuarioRepository _usuarioRepository;
 
-    [HttpPost("Login")]
-    public async Task<IActionResult> Login([FromBody] Login login)
-    {
-        if (login == null || string.IsNullOrEmpty(login.Correo) || string.IsNullOrEmpty(login.Contraseña))
+        public AuthController(IConfiguration configuration, IUsuarioRepository usuarioRepository)
         {
-            return BadRequest("Invalid client request");
+            _configuration = configuration;
+            _usuarioRepository = usuarioRepository;
         }
 
-        // 1. Buscar el usuario por Correo (incluyendo su rol) en la base de datos
-        var usuario = await _usuarioRepository.GetByEmailWithRolAsync(login.Correo);
-
-        if (usuario == null)
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login([FromBody] Login login)
         {
-            return Unauthorized("Credenciales inválidas");
-        }
-
-        // 2. Verificar la contraseña contra el hash almacenado (nunca texto plano)
-        bool passwordValida = BCrypt.Net.BCrypt.Verify(login.Contraseña, usuario.Contraseña);
-        if (!passwordValida)
-        {
-            return Unauthorized("Credenciales inválidas");
-        }
-
-        // 3. Verificar que el rol sea Administrador
-        if (usuario.Rol?.Nombre != "administrador")
-        {
-            return Forbid(); // 403: existe, pero no tiene el rol requerido
-        }
-
-        // 4. Generar el token solo si pasó las dos validaciones
-        var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));
-        var signinCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
-
-        var tokenOptions = new JwtSecurityToken(
-            issuer: _configuration["Jwt:Issuer"],
-            audience: _configuration["Jwt:Audience"],
-            claims: new List<Claim>
+            if (login == null || string.IsNullOrWhiteSpace(login.Correo) || string.IsNullOrWhiteSpace(login.Contraseña))
             {
-                new Claim(ClaimTypes.Name, usuario.Correo),
-                new Claim(ClaimTypes.Role, usuario.Rol.Nombre)
-            },
-            expires: DateTime.UtcNow.AddMinutes(30),
-            signingCredentials: signinCredentials
-        );
+                return BadRequest("Invalid client request");
+            }
 
-        var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
-        return Ok(new { Token = tokenString });
+            // 1. Buscar el usuario por Correo
+            var usuario = await _usuarioRepository.GetByEmailWithRolAsync(login.Correo);
+            if (usuario == null)
+            {
+                return Unauthorized("Credenciales inválidas");
+            }
+
+            // 2. Verificar la contraseña usando BCrypt
+            bool passwordValida = BCrypt.Net.BCrypt.Verify(login.Contraseña, usuario.Contraseña);
+            if (!passwordValida)
+            {
+                return Unauthorized("Credenciales inválidas");
+            }
+
+            // 3. Configurar Claims
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, usuario.IdUsuario.ToString()),
+                new Claim(ClaimTypes.Name, usuario.Correo),
+                new Claim(ClaimTypes.Role, usuario.Rol?.Nombre ?? "User")
+            };
+
+            // 4. Generar Token JWT
+            var keyBytes = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"] ?? throw new InvalidOperationException("Jwt:Key is not configured."));
+            var secretKey = new SymmetricSecurityKey(keyBytes);
+            var signingCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
+
+            var tokenOptions = new JwtSecurityToken(
+                issuer: _configuration["Jwt:Issuer"],
+                audience: _configuration["Jwt:Audience"],
+                claims: claims,
+                expires: DateTime.UtcNow.AddMinutes(Convert.ToDouble(_configuration["Jwt:DurationInMinutes"] ?? "60")),
+                signingCredentials: signingCredentials
+            );
+
+            var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
+
+            return Ok(new 
+            { 
+                Token = tokenString,
+                Expiration = tokenOptions.ValidTo
+            });
+        }
     }
 }
