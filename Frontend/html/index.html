@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rever Inmobiliaria</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/home.css" />
+</head>
+<body>
+
+  <!-- Contenedor de notificaciones -->
+  <div id="contenedor_notificaciones" class="contenedor_notificaciones"></div>
+
+
+
+
+  <!-- ═══════════════════════════════════════════
+       PANEL PRINCIPAL (DASHBOARD)
+  ═══════════════════════════════════════════ -->
+  <div id="panel_principal" class="panel_principal">
+
+    <!-- ── Barra de Navegación Superior ── -->
+    <header class="barra_navegacion" role="banner">
+      <div class="contenedor_nav">
+
+        <!-- Logo -->
+        <div class="contenedor_logo">
+          <button
+            class="boton_logo"
+            onclick="cambiar_modo_navegacion('')"
+            aria-label="Ir al inicio"
+          >
+            <div class="caja_logo" aria-hidden="true">
+              <img src="../assets/logo.png" alt="" width="32" height="32" />
+            </div>
+            <div class="texto_logo">
+              <span class="nombre_marca">REVER</span>
+              <span class="subtitulo_marca">INMOBILIARIA</span>
+            </div>
+          </button>
+        </div>
+
+        <!-- Centro de navegación - Filtros -->
+        <div class="centro_navegacion">
+          <nav class="nav_principal" aria-label="Navegación principal">
+            <!-- Inicio -->
+            <div class="item_nav" data-menu="inicio">
+              <button
+                class="boton_nav activo"
+                data-modo=""
+                onclick="cambiar_modo_navegacion('')"
+              >
+                Inicio
+              </button>
+            </div>
+
+            <!-- Arriendo -->
+            <div class="item_nav" data-menu="arriendo">
+              <button
+                class="boton_nav"
+                data-modo="arriendo"
+                onclick="cambiar_modo_navegacion('arriendo')"
+              >
+                Arriendo
+              </button>
+            </div>
+
+            <!-- Compra -->
+            <div class="item_nav" data-menu="compra">
+              <button
+                class="boton_nav"
+                data-modo="compra"
+                onclick="cambiar_modo_navegacion('compra')"
+              >
+                Compra
+              </button>
+            </div>
+          </nav>
+        </div>
+
+        <!-- Íconos de acción -->
+        <div class="iconos_accion" role="toolbar" aria-label="Acciones rápidas">
+          <button class="boton_icono_nav" aria-label="Favoritos" onclick="mostrar_favoritos()">
+            <img src="../assets/iconos/icono_corazon.svg" alt="" width="20" height="20" />
+          </button>
+          <button class="boton_icono_nav" aria-label="Mapa" onclick="mostrar_mapa()">
+            <img src="../assets/iconos/icono_mapa.svg" alt="" width="20" height="20" />
+          </button>
+          <div class="avatar_usuario">
+            <img
+              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+              alt="Avatar de usuario"
+              class="imagen_avatar"
+            />
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- /barra_navegacion -->
+
+
+    <!-- ── Área de contenido 3 columnas ── -->
+    <div class="area_contenido">
+
+      <!-- Botón toggle filtros (siempre visible) -->
+      <button
+        id="boton_toggle_filtros_flotante"
+        class="boton_toggle_filtros_encabezado"
+        onclick="alternar_panel_filtros()"
+        aria-label="Mostrar/Ocultar filtros"
+        aria-expanded="true"
+      >
+        <svg width="20" height="14" viewBox="0 0 20 14" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="1" y1="1" x2="19" y2="1"/>
+          <line x1="1" y1="7" x2="19" y2="7"/>
+          <line x1="1" y1="13" x2="19" y2="13"/>
+        </svg>
+        <span>Filtros</span>
+      </button>
+
+      <!-- ── Panel de Filtros (izquierda) ── -->
+      <aside id="barra_filtros" class="barra_filtros" aria-label="Panel de filtros">
+        <div class="contenido_filtros">
+
+          <!-- Encabezado filtros -->
+          <div class="encabezado_filtros">
+            <button
+              id="boton_limpiar"
+              class="boton_limpiar oculto"
+              onclick="limpiar_filtros()"
+              aria-label="Limpiar todos los filtros"
+            >
+              <img src="../assets/iconos/icono_cerrar.svg" alt="" width="12" height="12" aria-hidden="true" />
+              Limpiar
+            </button>
+          </div>
+
+          <!-- TIPO DE INMUEBLE -->
+          <fieldset class="seccion_filtro">
+            <legend class="titulo_filtro">Tipo de Inmueble</legend>
+            <div class="lista_checkboxes" role="group">
+              <label class="etiqueta_checkbox">
+                <input type="checkbox" class="checkbox_tipo" value="Casas" onchange="manejar_checkbox_tipo(this, 'Casas')" />
+                <span class="caja_checkbox" aria-hidden="true"></span>
+                Casas
+              </label>
+              <label class="etiqueta_checkbox">
+                <input type="checkbox" class="checkbox_tipo" value="Apartamentos" onchange="manejar_checkbox_tipo(this, 'Apartamentos')" />
+                <span class="caja_checkbox" aria-hidden="true"></span>
+                Apartamentos
+              </label>
+              <label class="etiqueta_checkbox">
+                <input type="checkbox" class="checkbox_tipo" value="Estudios" onchange="manejar_checkbox_tipo(this, 'Estudios')" />
+                <span class="caja_checkbox" aria-hidden="true"></span>
+                Estudios
+              </label>
+              <label class="etiqueta_checkbox">
+                <input type="checkbox" class="checkbox_tipo" value="Fincas" onchange="manejar_checkbox_tipo(this, 'Fincas')" />
+                <span class="caja_checkbox" aria-hidden="true"></span>
+                Fincas
+              </label>
+              <label class="etiqueta_checkbox">
+                <input type="checkbox" class="checkbox_tipo" value="Oficinas" onchange="manejar_checkbox_tipo(this, 'Oficinas')" />
+                <span class="caja_checkbox" aria-hidden="true"></span>
+                Oficinas
+              </label>
+            </div>
+          </fieldset>
+
+          <!-- HABITACIONES -->
+          <div class="seccion_filtro">
+            <h3 class="titulo_filtro">Habitaciones</h3>
+            <div class="grupo_pastillas" role="group" aria-label="Número de habitaciones">
+              <button class="pastilla" data-grupo="habitaciones" data-valor="1" onclick="seleccionar_pastilla(this)">1</button>
+              <button class="pastilla" data-grupo="habitaciones" data-valor="2" onclick="seleccionar_pastilla(this)">2</button>
+              <button class="pastilla" data-grupo="habitaciones" data-valor="3" onclick="seleccionar_pastilla(this)">3</button>
+              <button class="pastilla" data-grupo="habitaciones" data-valor="4+" onclick="seleccionar_pastilla(this)">4+</button>
+            </div>
+          </div>
+
+          <!-- BAÑOS -->
+          <div class="seccion_filtro">
+            <h3 class="titulo_filtro">Baños</h3>
+            <div class="grupo_pastillas" role="group" aria-label="Número de baños">
+              <button class="pastilla" data-grupo="banos" data-valor="1" onclick="seleccionar_pastilla(this)">1</button>
+              <button class="pastilla" data-grupo="banos" data-valor="2" onclick="seleccionar_pastilla(this)">2</button>
+              <button class="pastilla" data-grupo="banos" data-valor="3" onclick="seleccionar_pastilla(this)">3</button>
+              <button class="pastilla" data-grupo="banos" data-valor="4+" onclick="seleccionar_pastilla(this)">4+</button>
+            </div>
+          </div>
+
+          <!-- ESTACIONAMIENTOS -->
+          <div class="seccion_filtro">
+            <h3 class="titulo_filtro">Estacionamientos</h3>
+            <div class="grupo_pastillas" role="group" aria-label="Número de estacionamientos">
+              <button class="pastilla" data-grupo="estacionamientos" data-valor="1" onclick="seleccionar_pastilla(this)">1</button>
+              <button class="pastilla" data-grupo="estacionamientos" data-valor="2" onclick="seleccionar_pastilla(this)">2</button>
+              <button class="pastilla" data-grupo="estacionamientos" data-valor="3+" onclick="seleccionar_pastilla(this)">3+</button>
+            </div>
+          </div>
+
+          <!-- CARACTERÍSTICAS -->
+          <fieldset class="seccion_filtro">
+            <legend class="titulo_filtro">Características</legend>
+            <label class="etiqueta_checkbox">
+              <input type="checkbox" id="checkbox_pet_friendly" onchange="alternar_mascotas(this)" />
+              <span class="caja_checkbox" aria-hidden="true"></span>
+              Pet Friendly
+            </label>
+          </fieldset>
+
+        </div>
+      </aside>
+      <!-- /barra_filtros -->
+
+
+      <!-- ── Sección Central — Propiedades ── -->
+      <section id="seccion_propiedades" class="seccion_propiedades" aria-label="Listado de propiedades">
+
+        <!-- Encabezado central -->
+        <div class="encabezado_propiedades">
+          <div class="fila_titulo_propiedades">
+            <!-- Botón reabrir filtros (visible cuando sidebar cerrado) -->
+            <button
+              id="boton_reabrir_filtros"
+              class="boton_reabrir_filtros oculto"
+              onclick="alternar_panel_filtros()"
+              aria-label="Mostrar filtros"
+            >
+              <img src="../assets/iconos/icono_filtros.svg" alt="" width="15" height="15" aria-hidden="true" />
+              Filtros
+            </button>
+
+            <div>
+              <h2 id="titulo_seccion" class="titulo_seccion_propiedades">
+                Descubre tu próximo hogar
+              </h2>
+            </div>
+          </div>
+
+          <p id="contador_resultados" class="contador_resultados" aria-live="polite">
+            9 propiedades
+          </p>
+        </div>
+
+        <!-- Grilla de propiedades -->
+        <div id="grilla_propiedades" class="grilla_propiedades" role="list">
+          <!-- Las tarjetas se inyectan por JavaScript -->
+        </div>
+
+        <!-- Estado vacío -->
+        <div id="estado_vacio" class="estado_vacio oculto" role="status">
+          <span class="icono_vacio" aria-hidden="true">🏠</span>
+          <h3 class="titulo_vacio">Sin resultados</h3>
+          <p class="descripcion_vacio">No hay propiedades que coincidan con los filtros aplicados.</p>
+          <button class="boton_limpiar_grande" onclick="limpiar_filtros()">Limpiar filtros</button>
+        </div>
+
+      </section>
+      <!-- /seccion_propiedades -->
+
+
+      <!-- ── Panel del Mapa (derecha) ── -->
+      <aside class="panel_mapa" aria-label="Vista del mapa">
+        <div class="fondo_mapa" aria-hidden="true">
+          <img
+            src="https://images.unsplash.com/photo-1642019708236-942cc048bf34?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080&q=80"
+            alt=""
+            class="imagen_mapa"
+            loading="lazy"
+          />
+        </div>
+
+        <!-- Marcadores del mapa -->
+        <div class="capa_marcadores" aria-hidden="true">
+          <div class="marcador_mapa" style="top:35%;left:45%"></div>
+          <div class="marcador_mapa" style="top:45%;left:70%"></div>
+          <div class="marcador_mapa marcador_activo" style="top:55%;left:50%"></div>
+          <div class="marcador_mapa" style="top:65%;left:35%"></div>
+          <div class="marcador_mapa" style="top:75%;left:60%"></div>
+        </div>
+
+        <!-- Tarjeta inferior mapa -->
+        <div class="tarjeta_mapa">
+          <h4 class="titulo_tarjeta_mapa">Explorar Mapa</h4>
+          <p id="descripcion_tarjeta_mapa" class="descripcion_tarjeta_mapa">
+            9 propiedades disponibles en las zonas mostradas.
+          </p>
+        </div>
+
+        <button class="boton_ayuda_mapa" aria-label="Ayuda sobre el mapa">?</button>
+      </aside>
+      <!-- /panel_mapa -->
+
+    </div>
+    <!-- /area_contenido -->
+
+  </div>
+  <!-- /panel_principal -->
+
+  <script src="../javascript/main.js"></script>
+</body>
+</html>

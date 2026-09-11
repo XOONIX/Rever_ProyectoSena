@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/stylearrendatario.css" />
+  <link rel="stylesheet" href="../css/stylearrendatario.css" />
 </head>
 <body>
 
@@ -19,7 +19,7 @@
 
       <!-- Logotipo -->
       <a href="#" class="barra_navegacion__marca" aria-label="Inicio Rever">
-        <img src="assets/logo.png" alt="Logo Rever" class="barra_navegacion__logo" />
+        <img src="../assets/logo.png" alt="Logo Rever" class="barra_navegacion__logo" />
         <span class="barra_navegacion__nombre">
           Re<span class="barra_navegacion__nombre--dorado">ver</span>
         </span>
@@ -34,7 +34,7 @@
           data-pantalla="arrendatario"
           onclick="cambiar_pantalla('arrendatario')"
         >
-          <img src="assets/iconos/casa.svg" alt="" aria-hidden="true" class="barra_navegacion__icono_tab" />
+          <img src="../assets/iconos/casa.svg" alt="" aria-hidden="true" class="barra_navegacion__icono_tab" />
           <span class="barra_navegacion__etiqueta_tab">Publicar Inmueble</span>
         </button>
         <button
@@ -44,7 +44,7 @@
           data-pantalla="admin"
           onclick="cambiar_pantalla('admin')"
         >
-          <img src="assets/iconos/escudo.svg" alt="" aria-hidden="true" class="barra_navegacion__icono_tab" />
+          <img src="../assets/iconos/escudo.svg" alt="" aria-hidden="true" class="barra_navegacion__icono_tab" />
           <span class="barra_navegacion__etiqueta_tab">Panel Administrador</span>
         </button>
       </div>
@@ -72,7 +72,7 @@
     <header class="pantalla_encabezado">
       <div class="pantalla_encabezado__contenido">
         <div class="pantalla_encabezado__icono" aria-hidden="true">
-          <img src="assets/iconos/edificio.svg" alt="" />
+          <img src="../assets/iconos/edificio.svg" alt="" />
         </div>
         <div>
           <h1 class="pantalla_encabezado__titulo">Publicar Inmueble</h1>
@@ -94,7 +94,7 @@
         <div class="seccion_formulario__encabezado">
           <span class="seccion_formulario__paso" aria-hidden="true">01</span>
           <div class="seccion_formulario__divisor" aria-hidden="true"></div>
-          <img src="assets/iconos/documento.svg" alt="" class="seccion_formulario__icono" aria-hidden="true" />
+          <img src="../assets/iconos/documento.svg" alt="" class="seccion_formulario__icono" aria-hidden="true" />
           <h2 id="titulo_info_basica" class="seccion_formulario__titulo">Información Básica</h2>
         </div>
         <div class="seccion_formulario__cuerpo">
@@ -106,7 +106,7 @@
                 Nombre del inmueble <span class="campo_formulario__requerido" aria-label="requerido">*</span>
               </label>
               <div class="campo_formulario__control">
-                <img src="assets/iconos/casa.svg" alt="" class="campo_formulario__icono_input" aria-hidden="true" />
+                <img src="../assets/iconos/casa.svg" alt="" class="campo_formulario__icono_input" aria-hidden="true" />
                 <input
                   type="text"
                   id="nombre_inmueble"
@@ -138,7 +138,7 @@
                   <option value="apartaestudio">Apartaestudio</option>
                   <option value="lote">Lote</option>
                 </select>
-                <img src="assets/iconos/chevron_abajo.svg" alt="" class="campo_formulario__icono_select" aria-hidden="true" />
+                <img src="../assets/iconos/chevron_abajo.svg" alt="" class="campo_formulario__icono_select" aria-hidden="true" />
               </div>
             </div>
 
@@ -154,7 +154,7 @@
                   <option value="arriendo">Arriendo</option>
                   <option value="arriendo_temporal">Arriendo Temporal</option>
                 </select>
-                <img src="assets/iconos/chevron_abajo.svg" alt="" class="campo_formulario__icono_select" aria-hidden="true" />
+                <img src="../assets/iconos/chevron_abajo.svg" alt="" class="campo_formulario__icono_select" aria-hidden="true" />
               </div>
             </div>
 
@@ -164,7 +164,7 @@
                 Precio <span class="campo_formulario__requerido" aria-label="requerido">*</span>
               </label>
               <div class="campo_formulario__control">
-                <img src="assets/iconos/dinero.svg" alt="" class="campo_formulario__icono_input" aria-hidden="true" />
+                <img src="../assets/iconos/dinero.svg" alt="" class="campo_formulario__icono_input" aria-hidden="true" />
                 <input
                   type="text"
                   id="precio"
@@ -192,7 +192,7 @@
                   <option value="5">5</option>
                   <option value="6">6</option>
                 </select>
-                <img src="assets/iconos/chevron_abajo.svg" alt="" class="campo_formulario__icono_select" aria-hidden="true" />
+                <img src="../assets/iconos/chevron_abajo.svg" alt="" class="campo_formulario__icono_select" aria-hidden="true" />
               </div>
             </div>
 
@@ -205,7 +205,7 @@
         <div class="seccion_formulario__encabezado">
           <span class="seccion_formulario__paso" aria-hidden="true">02</span>
           <div class="seccion_formulario__divisor" aria-hidden="true"></div>
-          <img src="assets/iconos/mapa.svg" alt="" class="seccion_formulario__icono" aria-hidden="true" />
+          <img src="../assets/iconos/mapa.svg" alt="" class="seccion_formulario__icono" aria-hidden="true" />
           <h2 id="titulo_ubicacion" class="seccion_formulario__titulo">Ubicación</h2>
         </div>
         <div class="seccion_formulario__cuerpo">
@@ -228,7 +228,7 @@
                   <option value="manizales">Manizales</option>
                   <option value="pereira">Pereira</option>
                 </select>
-                <img src="assets/iconos/chevron_abajo.svg" alt="" class="campo_formulario__icono_select" aria-hidden="true" />
+                <img src="../assets/iconos/chevron_abajo.svg" alt="" class="campo_formulario__icono_select" aria-hidden="true" />
               </div>
             </div>
 
@@ -238,7 +238,7 @@
                 Dirección <span class="campo_formulario__requerido" aria-label="requerido">*</span>
               </label>
               <div class="campo_formulario__control">
-                <img src="assets/iconos/mapa.svg" alt="" class="campo_formulario__icono_input" aria-hidden="true" />
+                <img src="../assets/iconos/mapa.svg" alt="" class="campo_formulario__icono_input" aria-hidden="true" />
                 <input
                   type="text"
                   id="direccion"
@@ -258,7 +258,7 @@
             <div class="mapa_placeholder__superposicion"></div>
             <div class="mapa_placeholder__contenido">
               <div class="mapa_placeholder__pin" aria-hidden="true">
-                <img src="assets/iconos/mapa.svg" alt="" />
+                <img src="../assets/iconos/mapa.svg" alt="" />
               </div>
               <p class="mapa_placeholder__titulo">Selecciona la ubicación exacta</p>
               <p class="mapa_placeholder__subtitulo">Haz clic para marcar el punto en el mapa</p>
@@ -276,7 +276,7 @@
         <div class="seccion_formulario__encabezado">
           <span class="seccion_formulario__paso" aria-hidden="true">03</span>
           <div class="seccion_formulario__divisor" aria-hidden="true"></div>
-          <img src="assets/iconos/regla.svg" alt="" class="seccion_formulario__icono" aria-hidden="true" />
+          <img src="../assets/iconos/regla.svg" alt="" class="seccion_formulario__icono" aria-hidden="true" />
           <h2 id="titulo_detalles" class="seccion_formulario__titulo">Detalles del Inmueble</h2>
         </div>
         <div class="seccion_formulario__cuerpo">
@@ -287,7 +287,7 @@
                 Área total <span class="campo_formulario__requerido" aria-label="requerido">*</span>
               </label>
               <div class="campo_formulario__control">
-                <img src="assets/iconos/regla.svg" alt="" class="campo_formulario__icono_input" aria-hidden="true" />
+                <img src="../assets/iconos/regla.svg" alt="" class="campo_formulario__icono_input" aria-hidden="true" />
                 <input
                   type="text"
                   id="area"
@@ -362,7 +362,7 @@
         <div class="seccion_formulario__encabezado">
           <span class="seccion_formulario__paso" aria-hidden="true">04</span>
           <div class="seccion_formulario__divisor" aria-hidden="true"></div>
-          <img src="assets/iconos/estrella.svg" alt="" class="seccion_formulario__icono" aria-hidden="true" />
+          <img src="../assets/iconos/estrella.svg" alt="" class="seccion_formulario__icono" aria-hidden="true" />
           <h2 id="titulo_amenidades" class="seccion_formulario__titulo">Amenidades y Características</h2>
         </div>
         <div class="seccion_formulario__cuerpo">
@@ -378,7 +378,7 @@
         <div class="seccion_formulario__encabezado">
           <span class="seccion_formulario__paso" aria-hidden="true">05</span>
           <div class="seccion_formulario__divisor" aria-hidden="true"></div>
-          <img src="assets/iconos/camara.svg" alt="" class="seccion_formulario__icono" aria-hidden="true" />
+          <img src="../assets/iconos/camara.svg" alt="" class="seccion_formulario__icono" aria-hidden="true" />
           <h2 id="titulo_fotos" class="seccion_formulario__titulo">Fotografías del Inmueble</h2>
         </div>
         <div class="seccion_formulario__cuerpo">
@@ -396,7 +396,7 @@
             onkeydown="if(event.key==='Enter'||event.key===' ')document.getElementById('input_fotos').click()"
           >
             <div class="zona_carga__icono" aria-hidden="true">
-              <img src="assets/iconos/subir.svg" alt="" />
+              <img src="../assets/iconos/subir.svg" alt="" />
             </div>
             <p class="zona_carga__titulo">Arrastra tus fotos aquí</p>
             <p class="zona_carga__subtitulo">PNG, JPG o WEBP — máximo 10 fotos, 10 MB c/u</p>
@@ -426,7 +426,7 @@
         <div class="seccion_formulario__encabezado">
           <span class="seccion_formulario__paso" aria-hidden="true">06</span>
           <div class="seccion_formulario__divisor" aria-hidden="true"></div>
-          <img src="assets/iconos/usuario.svg" alt="" class="seccion_formulario__icono" aria-hidden="true" />
+          <img src="../assets/iconos/usuario.svg" alt="" class="seccion_formulario__icono" aria-hidden="true" />
           <h2 id="titulo_propietario" class="seccion_formulario__titulo">Información del Propietario</h2>
         </div>
         <div class="seccion_formulario__cuerpo">
@@ -437,7 +437,7 @@
                 Nombre completo <span class="campo_formulario__requerido" aria-label="requerido">*</span>
               </label>
               <div class="campo_formulario__control">
-                <img src="assets/iconos/usuario.svg" alt="" class="campo_formulario__icono_input" aria-hidden="true" />
+                <img src="../assets/iconos/usuario.svg" alt="" class="campo_formulario__icono_input" aria-hidden="true" />
                 <input
                   type="text"
                   id="nombre_propietario"
@@ -455,7 +455,7 @@
                 Correo electrónico <span class="campo_formulario__requerido" aria-label="requerido">*</span>
               </label>
               <div class="campo_formulario__control">
-                <img src="assets/iconos/correo.svg" alt="" class="campo_formulario__icono_input" aria-hidden="true" />
+                <img src="../assets/iconos/correo.svg" alt="" class="campo_formulario__icono_input" aria-hidden="true" />
                 <input
                   type="email"
                   id="correo_propietario"
@@ -473,7 +473,7 @@
                 Teléfono de contacto <span class="campo_formulario__requerido" aria-label="requerido">*</span>
               </label>
               <div class="campo_formulario__control">
-                <img src="assets/iconos/telefono.svg" alt="" class="campo_formulario__icono_input" aria-hidden="true" />
+                <img src="../assets/iconos/telefono.svg" alt="" class="campo_formulario__icono_input" aria-hidden="true" />
                 <input
                   type="tel"
                   id="telefono_propietario"
@@ -488,7 +488,7 @@
           </div>
           <!-- Aviso de privacidad -->
           <div class="aviso_privacidad" role="note">
-            <img src="assets/iconos/info.svg" alt="Información:" class="aviso_privacidad__icono" />
+            <img src="../assets/iconos/info.svg" alt="Información:" class="aviso_privacidad__icono" />
             <p class="aviso_privacidad__texto">
               Tu información solo será visible para el equipo de verificación.
               Los interesados en el inmueble se comunicarán a través de nuestra plataforma.
@@ -514,7 +514,7 @@
     <div id="modal_confirmacion" class="modal_confirmacion modal_confirmacion--oculto" role="dialog" aria-modal="true" aria-labelledby="titulo_confirmacion">
       <div class="modal_confirmacion__tarjeta">
         <div class="modal_confirmacion__icono" aria-hidden="true">
-          <img src="assets/iconos/verificado.svg" alt="" />
+          <img src="../assets/iconos/verificado.svg" alt="" />
         </div>
         <h2 id="titulo_confirmacion" class="modal_confirmacion__titulo">¡Publicación enviada!</h2>
         <p class="modal_confirmacion__texto">
@@ -547,7 +547,7 @@
     <aside class="barra_lateral" role="complementary" aria-label="Menú de administración">
       <div class="barra_lateral__encabezado">
         <div class="barra_lateral__marca" aria-hidden="true">
-          <img src="assets/iconos/escudo.svg" alt="" class="barra_lateral__icono_marca" />
+          <img src="../assets/iconos/escudo.svg" alt="" class="barra_lateral__icono_marca" />
         </div>
         <div>
           <p class="barra_lateral__titulo_panel">Panel Admin</p>
@@ -557,21 +557,21 @@
 
       <nav class="barra_lateral__nav" role="navigation" aria-label="Vistas del panel">
         <button class="barra_lateral__item barra_lateral__item--activo" data-vista="tablero" onclick="cambiar_vista_admin('tablero')" aria-current="page">
-          <img src="assets/iconos/grafico.svg" alt="" class="barra_lateral__item_icono" aria-hidden="true" />
+          <img src="../assets/iconos/grafico.svg" alt="" class="barra_lateral__item_icono" aria-hidden="true" />
           <span>Dashboard</span>
         </button>
         <button class="barra_lateral__item" data-vista="inmuebles" onclick="cambiar_vista_admin('inmuebles')">
-          <img src="assets/iconos/edificio.svg" alt="" class="barra_lateral__item_icono" aria-hidden="true" />
+          <img src="../assets/iconos/edificio.svg" alt="" class="barra_lateral__item_icono" aria-hidden="true" />
           <span>Inmuebles</span>
           <span id="insignia_pendientes" class="barra_lateral__insignia">2</span>
         </button>
         <button class="barra_lateral__item" data-vista="reportes" onclick="cambiar_vista_admin('reportes')">
-          <img src="assets/iconos/alerta.svg" alt="" class="barra_lateral__item_icono" aria-hidden="true" />
+          <img src="../assets/iconos/alerta.svg" alt="" class="barra_lateral__item_icono" aria-hidden="true" />
           <span>Reportes</span>
           <span class="barra_lateral__insignia">3</span>
         </button>
         <button class="barra_lateral__item" data-vista="usuarios" onclick="cambiar_vista_admin('usuarios')">
-          <img src="assets/iconos/usuarios.svg" alt="" class="barra_lateral__item_icono" aria-hidden="true" />
+          <img src="../assets/iconos/usuarios.svg" alt="" class="barra_lateral__item_icono" aria-hidden="true" />
           <span>Usuarios</span>
         </button>
 
@@ -579,7 +579,7 @@
           <span class="barra_lateral__separador_texto">Sistema</span>
         </div>
         <button class="barra_lateral__item barra_lateral__item--inactivo">
-          <img src="assets/iconos/configuracion.svg" alt="" class="barra_lateral__item_icono" aria-hidden="true" />
+          <img src="../assets/iconos/configuracion.svg" alt="" class="barra_lateral__item_icono" aria-hidden="true" />
           <span>Configuración</span>
         </button>
       </nav>
@@ -591,7 +591,7 @@
           <p class="barra_lateral__correo_usuario">admin@rever.co</p>
         </div>
         <button class="barra_lateral__boton_salir" aria-label="Cerrar sesión">
-          <img src="assets/iconos/salir.svg" alt="" />
+          <img src="../assets/iconos/salir.svg" alt="" />
         </button>
       </div>
     </aside>
@@ -618,7 +618,7 @@
             <div class="tarjeta_estadistica__encabezado">
               <p class="tarjeta_estadistica__etiqueta">Total inmuebles verificados</p>
               <div class="tarjeta_estadistica__icono tarjeta_estadistica__icono--verde" aria-hidden="true">
-                <img src="assets/iconos/verificado.svg" alt="" />
+                <img src="../assets/iconos/verificado.svg" alt="" />
               </div>
             </div>
             <p class="tarjeta_estadistica__valor">2</p>
@@ -629,7 +629,7 @@
             <div class="tarjeta_estadistica__encabezado">
               <p class="tarjeta_estadistica__etiqueta">Pendientes</p>
               <div class="tarjeta_estadistica__icono tarjeta_estadistica__icono--dorado" aria-hidden="true">
-                <img src="assets/iconos/reloj.svg" alt="" />
+                <img src="../assets/iconos/reloj.svg" alt="" />
               </div>
             </div>
             <p class="tarjeta_estadistica__valor">2</p>
@@ -640,7 +640,7 @@
             <div class="tarjeta_estadistica__encabezado">
               <p class="tarjeta_estadistica__etiqueta">Rechazados</p>
               <div class="tarjeta_estadistica__icono tarjeta_estadistica__icono--rojo" aria-hidden="true">
-                <img src="assets/iconos/cerrar.svg" alt="" />
+                <img src="../assets/iconos/cerrar.svg" alt="" />
               </div>
             </div>
             <p class="tarjeta_estadistica__valor">1</p>
@@ -651,7 +651,7 @@
             <div class="tarjeta_estadistica__encabezado">
               <p class="tarjeta_estadistica__etiqueta">Total listados</p>
               <div class="tarjeta_estadistica__icono tarjeta_estadistica__icono--gris" aria-hidden="true">
-                <img src="assets/iconos/edificio.svg" alt="" />
+                <img src="../assets/iconos/edificio.svg" alt="" />
               </div>
             </div>
             <p class="tarjeta_estadistica__valor">5</p>
@@ -662,7 +662,7 @@
             <div class="tarjeta_estadistica__encabezado">
               <p class="tarjeta_estadistica__etiqueta">Reportes activos</p>
               <div class="tarjeta_estadistica__icono tarjeta_estadistica__icono--morado" aria-hidden="true">
-                <img src="assets/iconos/alerta.svg" alt="" />
+                <img src="../assets/iconos/alerta.svg" alt="" />
               </div>
             </div>
             <p class="tarjeta_estadistica__valor">3</p>
@@ -692,27 +692,27 @@
             </div>
             <ul class="lista_actividad" aria-label="Actividad reciente del sistema">
               <li class="lista_actividad__item">
-                <img src="assets/iconos/verificado.svg" alt="Verificado:" class="lista_actividad__icono lista_actividad__icono--verde" />
+                <img src="../assets/iconos/verificado.svg" alt="Verificado:" class="lista_actividad__icono lista_actividad__icono--verde" />
                 <span class="lista_actividad__texto">Casa Colonial Quinta verificada</span>
                 <time class="lista_actividad__tiempo" datetime="2026-06-12">Hace 2h</time>
               </li>
               <li class="lista_actividad__item">
-                <img src="assets/iconos/alerta.svg" alt="Reporte:" class="lista_actividad__icono lista_actividad__icono--morado" />
+                <img src="../assets/iconos/alerta.svg" alt="Reporte:" class="lista_actividad__icono lista_actividad__icono--morado" />
                 <span class="lista_actividad__texto">Nuevo reporte: Fotos falsas en Penthouse Vista</span>
                 <time class="lista_actividad__tiempo" datetime="2026-06-12">Hace 3h</time>
               </li>
               <li class="lista_actividad__item">
-                <img src="assets/iconos/verificado.svg" alt="Verificado:" class="lista_actividad__icono lista_actividad__icono--verde" />
+                <img src="../assets/iconos/verificado.svg" alt="Verificado:" class="lista_actividad__icono lista_actividad__icono--verde" />
                 <span class="lista_actividad__texto">Finca El Remanso — documentos aprobados</span>
                 <time class="lista_actividad__tiempo" datetime="2026-06-11">Hace 5h</time>
               </li>
               <li class="lista_actividad__item">
-                <img src="assets/iconos/cerrar.svg" alt="Rechazado:" class="lista_actividad__icono lista_actividad__icono--rojo" />
+                <img src="../assets/iconos/cerrar.svg" alt="Rechazado:" class="lista_actividad__icono lista_actividad__icono--rojo" />
                 <span class="lista_actividad__texto">Apartaestudio 304 rechazado — docs incompletos</span>
                 <time class="lista_actividad__tiempo" datetime="2026-06-11">Hace 1d</time>
               </li>
               <li class="lista_actividad__item">
-                <img src="assets/iconos/camara.svg" alt="Foto:" class="lista_actividad__icono" />
+                <img src="../assets/iconos/camara.svg" alt="Foto:" class="lista_actividad__icono" />
                 <span class="lista_actividad__texto">Foto eliminada en Oficina Centro Ejecutivo</span>
                 <time class="lista_actividad__tiempo" datetime="2026-06-10">Hace 2d</time>
               </li>
@@ -727,7 +727,7 @@
         <!-- Barra de búsqueda y filtros -->
         <div class="barra_herramientas">
           <div class="campo_busqueda" role="search">
-            <img src="assets/iconos/buscar.svg" alt="" class="campo_busqueda__icono" aria-hidden="true" />
+            <img src="../assets/iconos/buscar.svg" alt="" class="campo_busqueda__icono" aria-hidden="true" />
             <input
               type="search"
               id="buscador_inmuebles"
@@ -814,7 +814,7 @@
       <section id="vista_usuarios" class="vista_admin" aria-label="Gestión de usuarios">
         <div class="barra_herramientas">
           <div class="campo_busqueda" role="search">
-            <img src="assets/iconos/buscar.svg" alt="" class="campo_busqueda__icono" aria-hidden="true" />
+            <img src="../assets/iconos/buscar.svg" alt="" class="campo_busqueda__icono" aria-hidden="true" />
             <input
               type="search"
               id="buscador_usuarios"
@@ -868,25 +868,25 @@
     <!-- Barra de navegación inferior (móvil) -->
     <nav class="nav_inferior_movil" role="navigation" aria-label="Navegación del panel (móvil)">
       <button class="nav_inferior_movil__item nav_inferior_movil__item--activo" data-vista="tablero" onclick="cambiar_vista_admin('tablero')">
-        <img src="assets/iconos/grafico.svg" alt="" class="nav_inferior_movil__icono" aria-hidden="true" />
+        <img src="../assets/iconos/grafico.svg" alt="" class="nav_inferior_movil__icono" aria-hidden="true" />
         <span class="nav_inferior_movil__etiqueta">Dashboard</span>
       </button>
       <button class="nav_inferior_movil__item" data-vista="inmuebles" onclick="cambiar_vista_admin('inmuebles')">
-        <img src="assets/iconos/edificio.svg" alt="" class="nav_inferior_movil__icono" aria-hidden="true" />
+        <img src="../assets/iconos/edificio.svg" alt="" class="nav_inferior_movil__icono" aria-hidden="true" />
         <span class="nav_inferior_movil__etiqueta">Inmuebles</span>
       </button>
       <button class="nav_inferior_movil__item" data-vista="reportes" onclick="cambiar_vista_admin('reportes')">
-        <img src="assets/iconos/alerta.svg" alt="" class="nav_inferior_movil__icono" aria-hidden="true" />
+        <img src="../assets/iconos/alerta.svg" alt="" class="nav_inferior_movil__icono" aria-hidden="true" />
         <span class="nav_inferior_movil__etiqueta">Reportes</span>
       </button>
       <button class="nav_inferior_movil__item" data-vista="usuarios" onclick="cambiar_vista_admin('usuarios')">
-        <img src="assets/iconos/usuarios.svg" alt="" class="nav_inferior_movil__icono" aria-hidden="true" />
+        <img src="../assets/iconos/usuarios.svg" alt="" class="nav_inferior_movil__icono" aria-hidden="true" />
         <span class="nav_inferior_movil__etiqueta">Usuarios</span>
       </button>
     </nav>
 
   </div><!-- /pantalla_admin -->
 
-  <script src="js/mainarrendatario.js"></script>
+  <script src="../javascript/mainarrendatario.js"></script>
 </body>
 </html>
