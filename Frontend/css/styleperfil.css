@@ -1,0 +1,186 @@
+/* Estilos específicos para la página de perfil */
+
+/* Encabezado del perfil */
+.encabezado_perfil {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.boton_volver {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background-color: #f5f5f5;
+    color: #333;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.boton_volver:hover {
+    background-color: #e0e0e0;
+    border-color: #d0d0d0;
+}
+
+/* Sección de imagen de perfil */
+.seccion_imagen_perfil {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.contenedor_imagen_perfil {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #D4AF37;
+    cursor: pointer;
+    transition: border-color 0.3s;
+}
+
+.contenedor_imagen_perfil:hover {
+    border-color: #B8962E;
+}
+
+.imagen_perfil {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.superposicion_imagen {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.contenedor_imagen_perfil:hover .superposicion_imagen {
+    opacity: 1;
+}
+
+.boton_cambiar_imagen {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.boton_cambiar_imagen svg {
+    width: 24px;
+    height: 24px;
+    fill: white;
+}
+
+.ayuda_imagen {
+    font-size: 13px;
+    color: #666;
+    text-align: center;
+}
+
+.input_oculto {
+    display: none;
+}
+
+/* Texto de ayuda */
+.texto_ayuda {
+    font-size: 13px;
+    color: #666;
+    margin-top: 4px;
+}
+
+/* Grupo de botones */
+.grupo_botones {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.boton_secundario {
+    padding: 14px 24px;
+    background-color: #f5f5f5;
+    color: #333;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.boton_secundario:hover {
+    background-color: #e0e0e0;
+    border-color: #d0d0d0;
+}
+
+/* Sección de peligro */
+.seccion_danger {
+    margin-top: 40px;
+    padding: 24px;
+    background-color: #FEF2F2;
+    border: 1px solid #FECACA;
+    border-radius: 12px;
+}
+
+.titulo_danger {
+    font-size: 18px;
+    font-weight: 600;
+    color: #991B1B;
+    margin-bottom: 8px;
+}
+
+.descripcion_danger {
+    font-size: 14px;
+    color: #7F1D1D;
+    margin-bottom: 16px;
+}
+
+.boton_danger {
+    padding: 12px 20px;
+    background-color: #DC2626;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.boton_danger:hover {
+    background-color: #B91C1C;
+}
+
+/* Responsive para perfil */
+@media (max-width: 768px) {
+    .encabezado_perfil {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .grupo_botones {
+        flex-direction: column;
+    }
+    
+    .boton_secundario {
+        width: 100%;
+    }
+}

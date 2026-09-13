@@ -101,6 +101,11 @@ fieldset {
   display: none !important;
 }
 
+/* Clase adicional para opciones de menú */
+.opciones_menu .oculto {
+  display: none !important;
+}
+
 /* ── Notificaciones ── */
 @keyframes aparecer_notif {
   from { opacity: 0; transform: translateY(0.5rem) scale(0.95); }
@@ -335,6 +340,98 @@ fieldset {
   object-fit: cover;
   border: 2px solid var(--color_oro);
   box-shadow: 0 2px 8px rgba(197, 163, 101, 0.3);
+}
+
+/* Contenedor del menú de usuario */
+.contenedor_menu_usuario {
+  position: relative;
+}
+
+.boton_avatar_usuario {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: transform var(--transicion_rapida);
+}
+
+.boton_avatar_usuario:hover {
+  transform: scale(1.05);
+}
+
+.boton_avatar_usuario:focus {
+  outline: 2px solid var(--color_oro);
+  outline-offset: 2px;
+}
+
+/* Menú desplegable de usuario */
+.menu_usuario {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  min-width: 200px;
+  background-color: var(--color_blanco);
+  border-radius: var(--radio_lg);
+  box-shadow: var(--sombra_grande);
+  border: 1px solid var(--color_gris_200);
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.menu_usuario--oculto {
+  display: none;
+}
+
+.opciones_menu {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 0;
+}
+
+.opcion_menu {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: none;
+  border: none;
+  text-align: left;
+  font-size: 0.875rem;
+  color: var(--color_gris_700);
+  cursor: pointer;
+  transition: background-color var(--transicion_rapida), color var(--transicion_rapida);
+  width: 100%;
+}
+
+.opcion_menu:hover {
+  background-color: var(--color_gris_50);
+  color: var(--color_oscuro);
+}
+
+.opcion_menu--cerrar_sesion {
+  color: var(--color_error);
+  border-top: 1px solid var(--color_gris_200);
+  margin-top: 0.25rem;
+  padding-top: 0.75rem;
+}
+
+.opcion_menu--cerrar_sesion:hover {
+  background-color: #FEF2F2;
+  color: #DC2626;
+}
+
+.icono_opcion {
+  width: 1.125rem;
+  height: 1.125rem;
+  object-fit: contain;
+  opacity: 0.6;
+}
+
+.separador_menu {
+  height: 1px;
+  background-color: var(--color_gris_200);
+  margin: 0.25rem 0;
 }
 
 /* Botón menú móvil */
