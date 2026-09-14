@@ -1,16 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BCrypt.Net;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using rever.Models;
 using rever.Repositories.Interfaces;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using BCrypt.Net;
 
 namespace rever.Controllers
-{
+{   
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AuthController : ControllerBase
     {
         private readonly IConfiguration _configuration;
@@ -23,6 +25,7 @@ namespace rever.Controllers
         }
 
         [HttpPost("Login")]
+        [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] Login login)
         {
             if (login == null || string.IsNullOrWhiteSpace(login.Correo) || string.IsNullOrWhiteSpace(login.Contraseña))
