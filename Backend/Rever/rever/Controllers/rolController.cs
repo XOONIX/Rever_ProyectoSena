@@ -10,7 +10,7 @@ namespace rever.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize (Roles = "Admin")]
+    [Authorize (Roles = "administrador")]
     public class RolController : ControllerBase
     {
         private readonly IRolRepository _rolrepository;
@@ -51,6 +51,7 @@ namespace rever.Controllers
         }
 
         [HttpGet("{id}")]
+        
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]

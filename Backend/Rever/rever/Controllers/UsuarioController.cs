@@ -22,6 +22,7 @@ namespace rever.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "administrador")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -52,6 +53,7 @@ namespace rever.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -61,14 +63,22 @@ namespace rever.Controllers
         {
             try
             {
-                if (User.Identity == null || !User.Identity.IsAuthenticated)
-                {
-                    return StatusCode(401, "401: Usuario no autenticado.");
-                }
+                var idUsuarioToken = int.Parse(User.FindFirst("idUsuario")!.Value);
+                var esadministrador = User.IsInRole("administrador");
 
                 if (id <= 0)
                 {
                     return StatusCode(400, "400: El ID proporcionado no es válido.");
+                }
+
+                if (id != idUsuarioToken && !esadministrador)
+                {
+                    return StatusCode(403, "403: No puedes ver el perfil de otro usuario.");
+                }
+
+                if (User.Identity == null || !User.Identity.IsAuthenticated)
+                {
+                    return StatusCode(401, "401: Usuario no autenticado.");
                 }
 
                 var exist = await _Usuariorrepository.GetUsuarioById(id);
@@ -87,6 +97,7 @@ namespace rever.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -96,6 +107,7 @@ namespace rever.Controllers
         {
             try
             {
+
                 if (User.Identity == null || !User.Identity.IsAuthenticated)
                 {
                     return StatusCode(401, "401: Usuario no autenticado.");
@@ -118,15 +130,15 @@ namespace rever.Controllers
 
                 // 3. Validar restricción de creación de roles
                 // Si no es Administrador (Rol 1), solo puede registrar usuarios con Rol 2 o 3
-                bool esAdministrador = rolUsuarioAutenticado == "1" || rolUsuarioAutenticado == "Administrador";
+                bool esadministrador = rolUsuarioAutenticado == "1" || rolUsuarioAutenticado == "administrador";
 
-                if (!esAdministrador && usuario.IdRol == 1)
+                if (!esadministrador && usuario.IdRol == 1)
                 {
                     return StatusCode(403, "403: No tienes permisos para crear usuarios con rol 1.");
                 }
 
                 // Si tampoco especifica un rol permitido (solo 2 o 3 para usuarios normales)
-                if (!esAdministrador && (usuario.IdRol != 2 && usuario.IdRol != 3))
+                if (!esadministrador && (usuario.IdRol != 2 && usuario.IdRol != 3))
                 {
                     return StatusCode(400, "400: Solo se permite la creación de usuarios con rol 2 o 3.");
                 }
@@ -152,12 +164,13 @@ namespace rever.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> ActualizarUsuario([FromBody] Usuario Usuario)
+        public async Task<IActionResult> ActualizarUsuario([FromBody] Usuario usuario)
         {
             try
             {
@@ -166,33 +179,41 @@ namespace rever.Controllers
                     return StatusCode(401, "401: Usuario no autenticado.");
                 }
 
-                if (Usuario == null || Usuario.IdUsuario <= 0)
+                var idUsuarioToken = int.Parse(User.FindFirst("idUsuario")!.Value);
+                var esAdmin = User.IsInRole("administrador");
+
+                if (usuario.IdUsuario != idUsuarioToken && !esAdmin)
+                {
+                    return StatusCode(403, "403: No puedes actualizar la cuenta de otro usuario.");
+                }
+
+                if (usuario == null || usuario.IdUsuario <= 0)
                 {
                     return StatusCode(400, "400: Los datos para actualizar o el ID no son válidos.");
                 }
 
-                var exist = await _Usuariorrepository.GetUsuarioById(Usuario.IdUsuario);
+                var exist = await _Usuariorrepository.GetUsuarioById(usuario.IdUsuario);
 
                 if (exist == null)
                 {
-                    return StatusCode(404, $"404: No se puede actualizar. El usuario con ID {Usuario.IdUsuario} no existe.");
+                    return StatusCode(404, $"404: No se puede actualizar. El usuario con ID {usuario.IdUsuario} no existe.");
                 }
 
-                exist.Nombre = Usuario.Nombre;
-                exist.Correo = Usuario.Correo;
-                exist.Telefono = Usuario.Telefono;
-                exist.IdRol = Usuario.IdRol;
+                exist.Nombre = usuario.Nombre;
+                exist.Correo = usuario.Correo;
+                exist.Telefono = usuario.Telefono;
+                exist.IdRol = usuario.IdRol;
 
-                if (!string.IsNullOrWhiteSpace(Usuario.Contraseña))
+                if (!string.IsNullOrWhiteSpace(usuario.Contraseña))
                 {
-                    exist.Contraseña = BCrypt.Net.BCrypt.HashPassword(Usuario.Contraseña);
+                    exist.Contraseña = BCrypt.Net.BCrypt.HashPassword(usuario.Contraseña);
                 }
 
                 var response = await _Usuariorrepository.PutUsuario(exist);
 
-                exist.Contraseña = null;  
+                exist.Contraseña = null;
 
-                return StatusCode(200, exist);  
+                return StatusCode(200, exist);
             }
             catch (Exception ex)
             {
@@ -201,6 +222,7 @@ namespace rever.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -210,24 +232,24 @@ namespace rever.Controllers
         {
             try
             {
-                if (User.Identity == null || !User.Identity.IsAuthenticated)
-                {
-                    return StatusCode(401, "401: Usuario no autenticado.");
-                }
-
                 if (id <= 0)
                 {
                     return StatusCode(400, "400: El ID del usuario no es válido.");
+                }
+
+                var idUsuarioToken = int.Parse(User.FindFirst("idUsuario")!.Value);
+                var esAdmin = User.IsInRole("administrador");
+
+                if (id != idUsuarioToken && !esAdmin)
+                {
+                    return StatusCode(403, "403: No puedes eliminar la cuenta de otro usuario.");
                 }
 
                 var exist = await _Usuariorrepository.GetUsuarioById(id);
 
                 if (exist == null)
                 {
-                    return StatusCode(
-                        404,
-                        $"404: No se puede eliminar. El usuario con ID {id} no existe."
-                    );
+                    return StatusCode(404, $"404: No se puede eliminar. El usuario con ID {id} no existe.");
                 }
 
                 var response = await _Usuariorrepository.DeleteUsuario(exist);

@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using rever.Models;
-using rever.Repositories;
 using rever.Repositories.Interfaces;
 using System;
 using System.Threading.Tasks;
@@ -15,26 +14,23 @@ namespace rever.Controllers
     public class ImagenController : ControllerBase
     {
         private readonly IImagenRepository _imagenrepository;
+        private readonly IInmuebleRepository _inmueblerepository;
 
-        public ImagenController(IImagenRepository repository)
+        public ImagenController(IImagenRepository repository, IInmuebleRepository inmuebleRepository)
         {
             _imagenrepository = repository;
+            _inmueblerepository = inmuebleRepository;
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> ListarImagen()
         {
             try
             {
-                if (User.Identity == null || !User.Identity.IsAuthenticated)
-                {
-                    return StatusCode(401, "401: Usuario no autenticado.");
-                }
-
                 var response = await _imagenrepository.GetImagen();
                 if (response == null)
                 {
@@ -49,20 +45,15 @@ namespace rever.Controllers
         }
 
         [HttpGet("{id}")]
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> ObtenerImagen(int id)
         {
             try
             {
-                if (User.Identity == null || !User.Identity.IsAuthenticated)
-                {
-                    return StatusCode(401, "401: Usuario no autenticado.");
-                }
-
                 if (id <= 0)
                 {
                     return StatusCode(400, "400: El ID proporcionado no es válido.");
@@ -82,22 +73,30 @@ namespace rever.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "vendedor,administrador")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> CrearImagen([FromBody] Imagen imagen)
         {
             try
             {
-                if (User.Identity == null || !User.Identity.IsAuthenticated)
-                {
-                    return StatusCode(401, "401: Usuario no autenticado.");
-                }
-
-                if (imagen == null)
+                if (imagen == null || imagen.IdInmueble <= 0)
                 {
                     return StatusCode(400, "400: Los datos de la imagen no pueden ser nulos.");
+                }
+
+                var inmueble = await _inmuebleRepository_ObtenerInmueble(imagen.IdInmueble);
+                if (inmueble == null)
+                {
+                    return StatusCode(404, $"404: El inmueble con ID {imagen.IdInmueble} no existe.");
+                }
+
+                if (!EsDuenoOAdmin(inmueble.IdVendedor))
+                {
+                    return StatusCode(403, "403: No puedes agregar imágenes a un inmueble que no es tuyo.");
                 }
 
                 var response = await _imagenrepository.PostImagen(imagen);
@@ -114,20 +113,16 @@ namespace rever.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "vendedor,administrador")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> ActualizarImagen([FromBody] Imagen imagen)
         {
             try
             {
-                if (User.Identity == null || !User.Identity.IsAuthenticated)
-                {
-                    return StatusCode(401, "401: Usuario no autenticado.");
-                }
-
                 if (imagen == null || imagen.IdImagen <= 0)
                 {
                     return StatusCode(400, "400: Los datos para actualizar o el ID no son válidos.");
@@ -137,6 +132,12 @@ namespace rever.Controllers
                 if (exist == null)
                 {
                     return StatusCode(404, $"404: No se puede actualizar. La imagen con ID {imagen.IdImagen} no existe.");
+                }
+
+                var inmueble = await _inmuebleRepository_ObtenerInmueble(exist.IdInmueble);
+                if (inmueble == null || !EsDuenoOAdmin(inmueble.IdVendedor))
+                {
+                    return StatusCode(403, "403: No puedes modificar imágenes de un inmueble que no es tuyo.");
                 }
 
                 exist.Url = imagen.Url;
@@ -151,37 +152,34 @@ namespace rever.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "vendedor,administrador")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> DeleteImagen(int id)
         {
             try
             {
-                if (User.Identity == null || !User.Identity.IsAuthenticated)
-                {
-                    return StatusCode(401, "401: Imagen no autenticada.");
-                }
-
                 if (id <= 0)
                 {
                     return StatusCode(400, "400: El ID de la imagen no es válido.");
                 }
 
                 var exist = await _imagenrepository.GetImagenById(id);
-
                 if (exist == null)
                 {
-                    return StatusCode(
-                        404,
-                        $"404: No se puede eliminar. La imagen con ID {id} no existe."
-                    );
+                    return StatusCode(404, $"404: No se puede eliminar. La imagen con ID {id} no existe.");
+                }
+
+                var inmueble = await _inmuebleRepository_ObtenerInmueble(exist.IdInmueble);
+                if (inmueble == null || !EsDuenoOAdmin(inmueble.IdUsuario))
+                {
+                    return StatusCode(403, "403: No puedes eliminar imágenes de un inmueble que no es tuyo.");
                 }
 
                 var response = await _imagenrepository.DeleteImagen(exist);
-
                 return StatusCode(200, response);
             }
             catch (Exception)
@@ -189,6 +187,19 @@ namespace rever.Controllers
                 return StatusCode(500, "500: Error interno del servidor.");
             }
         }
+
+        // ---- Helpers privados para no repetir la misma lógica cuatro veces ----
+
+        private async Task<Inmueble?> _inmuebleRepository_ObtenerInmueble(int idInmueble)
+        {
+            return await _inmueblerepository.GetInmuebleById(idInmueble);
+        }
+
+        private bool EsDuenoOAdmin(int idVendedorDelInmueble)
+        {
+            var idUsuarioToken = int.Parse(User.FindFirst("idUsuario")!.Value);
+            var esAdmin = User.IsInRole("administrador");
+            return idVendedorDelInmueble == idUsuarioToken || esAdmin;
+        }
     }
 }
-

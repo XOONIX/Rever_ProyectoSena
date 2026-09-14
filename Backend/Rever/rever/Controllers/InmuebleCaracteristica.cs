@@ -14,26 +14,25 @@ namespace rever.Controllers
     public class InmuebleCaracteristicaController : ControllerBase
     {
         private readonly IInmuebleCaracteristicaRepository _inmueblecaracteristicarepository;
+        private readonly IInmuebleRepository _inmueblerepository;
 
-        public InmuebleCaracteristicaController(IInmuebleCaracteristicaRepository repository)
+        public InmuebleCaracteristicaController(
+            IInmuebleCaracteristicaRepository repository,
+            IInmuebleRepository inmuebleRepository)
         {
             _inmueblecaracteristicarepository = repository;
+            _inmueblerepository = inmuebleRepository;
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> ListarInmuebleCaracteristica()
         {
             try
             {
-                if (User.Identity == null || !User.Identity.IsAuthenticated)
-                {
-                    return StatusCode(401, "401: Usuario no autenticado.");
-                }
-
                 var response = await _inmueblecaracteristicarepository.GetInmuebleCaracteristica();
                 if (response == null)
                 {
@@ -48,20 +47,15 @@ namespace rever.Controllers
         }
 
         [HttpGet("{id1}/{id2}")]
+        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> ObtenerInmuebleCaracteristica(int id1, int id2)
         {
             try
             {
-                if (User.Identity == null || !User.Identity.IsAuthenticated)
-                {
-                    return StatusCode(401, "401: Usuario no autenticado.");
-                }
-
                 if (id1 <= 0 || id2 <= 0)
                 {
                     return StatusCode(400, "400: Los IDs proporcionados no son válidos.");
@@ -81,22 +75,30 @@ namespace rever.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "vendedor,administrador")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> CrearInmuebleCaracteristica([FromBody] InmuebleCaracteristica inmuebleCaracteristica)
         {
             try
             {
-                if (User.Identity == null || !User.Identity.IsAuthenticated)
-                {
-                    return StatusCode(401, "401: Usuario no autenticado.");
-                }
-
-                if (inmuebleCaracteristica == null)
+                if (inmuebleCaracteristica == null || inmuebleCaracteristica.IdInmueble <= 0)
                 {
                     return StatusCode(400, "400: Los datos enviados no pueden ser nulos.");
+                }
+
+                var inmueble = await _inmueblerepository.GetInmuebleById(inmuebleCaracteristica.IdInmueble);
+                if (inmueble == null)
+                {
+                    return StatusCode(404, $"404: El inmueble con ID {inmuebleCaracteristica.IdInmueble} no existe.");
+                }
+
+                if (!EsDuenoOAdmin(inmueble.IdVendedor))
+                {
+                    return StatusCode(403, "403: No puedes agregar características a un inmueble que no es tuyo.");
                 }
 
                 var response = await _inmueblecaracteristicarepository.PostInmuebleCaracteristica(inmuebleCaracteristica);
@@ -113,20 +115,16 @@ namespace rever.Controllers
         }
 
         [HttpDelete("{id1}/{id2}")]
+        [Authorize(Roles = "vendedor,administrador")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> EliminarInmuebleCaracteristica(int id1, int id2)
         {
             try
             {
-                if (User.Identity == null || !User.Identity.IsAuthenticated)
-                {
-                    return StatusCode(401, "401: Usuario no autenticado.");
-                }
-
                 if (id1 <= 0 || id2 <= 0)
                 {
                     return StatusCode(400, "400: Los datos para eliminar o los IDs no son válidos.");
@@ -135,7 +133,13 @@ namespace rever.Controllers
                 var exist = await _inmueblecaracteristicarepository.GetByIds(id1, id2);
                 if (exist == null)
                 {
-                    return StatusCode(404, $"404: No se puede eliminar. La relación especificada no existe.");
+                    return StatusCode(404, "404: No se puede eliminar. La relación especificada no existe.");
+                }
+
+                var inmueble = await _inmueblerepository.GetInmuebleById(id1);
+                if (inmueble == null || !EsDuenoOAdmin(inmueble.IdVendedor))
+                {
+                    return StatusCode(403, "403: No puedes eliminar características de un inmueble que no es tuyo.");
                 }
 
                 var response = await _inmueblecaracteristicarepository.DeleteInmuebleCaracteristica(exist);
@@ -145,6 +149,13 @@ namespace rever.Controllers
             {
                 return StatusCode(500, $"500 Error Interno: {ex.Message}");
             }
+        }
+
+        private bool EsDuenoOAdmin(int idVendedorDelInmueble)
+        {
+            var idUsuarioToken = int.Parse(User.FindFirst("idUsuario")!.Value);
+            var esAdmin = User.IsInRole("administrador");
+            return idVendedorDelInmueble == idUsuarioToken || esAdmin;
         }
     }
 }

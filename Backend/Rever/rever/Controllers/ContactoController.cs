@@ -23,6 +23,7 @@ namespace rever.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "administrador")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -50,6 +51,7 @@ namespace rever.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -59,11 +61,6 @@ namespace rever.Controllers
         {
             try
             {
-                if (User.Identity == null || !User.Identity.IsAuthenticated)
-                {
-                    return StatusCode(401, "401: Usuario no autenticado.");
-                }
-
                 if (id <= 0)
                 {
                     return StatusCode(400, "400: El ID proporcionado no es válido.");
@@ -74,6 +71,16 @@ namespace rever.Controllers
                 {
                     return StatusCode(404, $"404: No se encontró un contacto con ID {id}.");
                 }
+
+                var idUsuarioToken = int.Parse(User.FindFirst("idUsuario")!.Value);
+                var esAdmin = User.IsInRole("administrador");
+                var esParteDelMensaje = response.IdComprador == idUsuarioToken || response.IdVendedor == idUsuarioToken;
+
+                if (!esParteDelMensaje && !esAdmin)
+                {
+                    return StatusCode(403, "403: No puedes ver un mensaje que no te involucra.");
+                }
+
                 return StatusCode(200, response);
             }
             catch (Exception ex)
@@ -83,23 +90,20 @@ namespace rever.Controllers
         }
 
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Authorize]
         public async Task<IActionResult> CrearContacto([FromBody] Contacto contacto)
         {
             try
             {
-                if (User.Identity == null || !User.Identity.IsAuthenticated)
-                {
-                    return StatusCode(401, "401: Usuario no autenticado.");
-                }
-
                 if (contacto == null)
                 {
                     return StatusCode(400, "400: Los datos del contacto no pueden ser nulos.");
                 }
+
+                // El remitente siempre es quien está logueado, nunca lo que mande el body
+                var idUsuarioToken = int.Parse(User.FindFirst("idUsuario")!.Value);
+                contacto.IdComprador = idUsuarioToken;
+                contacto.Fecha = DateTime.UtcNow;
 
                 var response = await _contactorepository.PostContacto(contacto);
                 if (response == null)
@@ -155,6 +159,7 @@ namespace rever.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize (Roles ="administrador")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
