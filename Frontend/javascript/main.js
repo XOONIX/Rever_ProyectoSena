@@ -15,8 +15,10 @@ const estado = {
   sesion_activa: false,
   nombre_usuario: null,
   email_usuario:  null,
+  imagen_usuario: null,
   modo_navegacion: 'todos',   /* 'todos' | 'arriendo' | 'compra' */
   sidebar_abierto: true,
+  menu_usuario_abierto: false,
   filtros: {
     tipos:    new Set(),
     precio_max: 70,
@@ -333,6 +335,161 @@ function mostrar_favoritos() {
  */
 function mostrar_mapa() {
   mostrar_notificacion('Mapa de propiedades (función en construcción)', 'info');
+}
+
+/**
+ * Alterna el menú desplegable de usuario.
+ */
+function alternar_menu_usuario() {
+  estado.menu_usuario_abierto = !estado.menu_usuario_abierto;
+  
+  const menu = obtener_elemento('menu_usuario');
+  const boton = document.querySelector('.boton_avatar_usuario');
+  
+  if (menu) {
+    menu.classList.toggle('menu_usuario--oculto', !estado.menu_usuario_abierto);
+  }
+  
+  if (boton) {
+    boton.setAttribute('aria-expanded', estado.menu_usuario_abierto);
+  }
+}
+
+/**
+ * Cierra el menú de usuario si está abierto.
+ */
+function cerrar_menu_usuario() {
+  if (estado.menu_usuario_abierto) {
+    estado.menu_usuario_abierto = false;
+    
+    const menu = obtener_elemento('menu_usuario');
+    const boton = document.querySelector('.boton_avatar_usuario');
+    
+    if (menu) {
+      menu.classList.add('menu_usuario--oculto');
+    }
+    
+    if (boton) {
+      boton.setAttribute('aria-expanded', 'false');
+    }
+  }
+}
+
+/**
+ * Verifica el estado de autenticación del usuario.
+ */
+function verificar_autenticacion() {
+  // Verificar si hay un usuario en localStorage
+  const usuarioGuardado = localStorage.getItem('usuario_actual');
+  const sesionGuardada = localStorage.getItem('sesion_activa');
+  
+  estado.sesion_activa = sesionGuardada === 'true' && usuarioGuardado;
+  
+  if (estado.sesion_activa) {
+    const usuario = JSON.parse(usuarioGuardado);
+    estado.nombre_usuario = usuario.nombre;
+    estado.email_usuario = usuario.correo;
+    estado.imagen_usuario = usuario.imagen_perfil || null;
+    
+    // Actualizar avatar si hay imagen personalizada
+    if (estado.imagen_usuario) {
+      const avatarImagen = document.getElementById('avatar_imagen');
+      if (avatarImagen) {
+        avatarImagen.src = estado.imagen_usuario;
+      }
+    }
+    
+    mostrar_opciones_autenticado();
+  } else {
+    mostrar_opciones_no_autenticado();
+  }
+}
+
+/**
+ * Muestra las opciones para usuario autenticado.
+ */
+function mostrar_opciones_autenticado() {
+  const opcionesAuth = obtener_elemento('opciones_autenticado');
+  const opcionesNoAuth = obtener_elemento('opciones_no_autenticado');
+  
+  if (opcionesAuth) opcionesAuth.classList.remove('oculto');
+  if (opcionesNoAuth) opcionesNoAuth.classList.add('oculto');
+}
+
+/**
+ * Muestra las opciones para usuario no autenticado.
+ */
+function mostrar_opciones_no_autenticado() {
+  const opcionesAuth = obtener_elemento('opciones_autenticado');
+  const opcionesNoAuth = obtener_elemento('opciones_no_autenticado');
+  
+  if (opcionesAuth) opcionesAuth.classList.add('oculto');
+  if (opcionesNoAuth) opcionesNoAuth.classList.remove('oculto');
+}
+
+/**
+ * Navega a la página de perfil.
+ */
+function ir_a_perfil() {
+  cerrar_menu_usuario();
+  window.location.href = 'perfil.html';
+}
+
+/**
+ * Navega a la sección de favoritos.
+ */
+function ir_a_favoritos() {
+  cerrar_menu_usuario();
+  mostrar_notificacion('Sección de favoritos (función en construcción)', 'info');
+}
+
+/**
+ * Navega a la sección de publicaciones.
+ */
+function ir_a_publicaciones() {
+  cerrar_menu_usuario();
+  mostrar_notificacion('Sección de publicaciones (función en construcción)', 'info');
+}
+
+/**
+ * Navega a la página de login.
+ */
+function ir_a_login() {
+  cerrar_menu_usuario();
+  window.location.href = 'login.html';
+}
+
+/**
+ * Navega a la página de registro.
+ */
+function ir_a_registro() {
+  cerrar_menu_usuario();
+  window.location.href = 'registro.html';
+}
+
+/**
+ * Cierra la sesión del usuario.
+ */
+function cerrar_sesion() {
+  localStorage.removeItem('sesion_activa');
+  localStorage.removeItem('usuario_actual');
+  localStorage.removeItem('imagen_avatar');
+  
+  estado.sesion_activa = false;
+  estado.nombre_usuario = null;
+  estado.email_usuario = null;
+  estado.imagen_usuario = null;
+  
+  // Restaurar avatar por defecto
+  const avatarImagen = document.getElementById('avatar_imagen');
+  if (avatarImagen) {
+    avatarImagen.src = 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80';
+  }
+  
+  mostrar_opciones_no_autenticado();
+  cerrar_menu_usuario();
+  
+  mostrar_notificacion('Sesión cerrada correctamente', 'exito');
 }
 
 
@@ -659,6 +816,17 @@ function inicializar_app() {
 
   /* Renderizar propiedades iniciales */
   renderizar_propiedades();
+  
+  /* Verificar estado de autenticación */
+  verificar_autenticacion();
+  
+  /* Cerrar menú de usuario al hacer clic fuera */
+  document.addEventListener('click', function(evento) {
+    const contenedorMenu = document.querySelector('.contenedor_menu_usuario');
+    if (contenedorMenu && !contenedorMenu.contains(evento.target)) {
+      cerrar_menu_usuario();
+    }
+  });
 }
 
 /* Ejecutar cuando el DOM esté listo */

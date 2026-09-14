@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil - Rever Inmobiliaria</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/styleperfil.css">
+</head>
+<body>
+    <div class="contenedor_principal">
+        <div class="columna_izquierda">
+            <div class="contenedor_formulario">
+                <div class="encabezado_perfil">
+                    <button class="boton_volver" onclick="volver_a_inicio()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 12H5M12 19l-7-7 7-7"/>
+                        </svg>
+                        Volver
+                    </button>
+                    <h1 class="titulo_formulario">Mi Perfil</h1>
+                </div>
+                
+                <form id="formulario_perfil" class="formulario_registro">
+                    <!-- Sección de imagen de perfil -->
+                    <div class="seccion_imagen_perfil">
+                        <div class="contenedor_imagen_perfil">
+                            <img 
+                                id="imagen_perfil_actual" 
+                                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                alt="Imagen de perfil actual"
+                                class="imagen_perfil"
+                            />
+                            <div class="superposicion_imagen">
+                                <button type="button" class="boton_cambiar_imagen" onclick="abrir_selector_imagen()">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                                        <circle cx="12" cy="13" r="4"/>
+                                    </svg>
+                                    Cambiar
+                                </button>
+                            </div>
+                        </div>
+                        <input 
+                            type="file" 
+                            id="input_imagen_perfil" 
+                            class="input_oculto" 
+                            accept="image/*"
+                            onchange="manejar_cambio_imagen(event)"
+                        />
+                        <p class="ayuda_imagen">Clic en la imagen para cambiar tu foto de perfil</p>
+                    </div>
+
+                    <div class="grupo_campo">
+                        <label for="nombre_completo" class="etiqueta_campo">Nombre Completo</label>
+                        <input type="text" id="nombre_completo" class="campo_entrada" placeholder="Juan Pérez García" required>
+                    </div>
+                    
+                    <div class="grupo_campo">
+                        <label for="correo_electronico" class="etiqueta_campo">Correo Electrónico</label>
+                        <input type="email" id="correo_electronico" class="campo_entrada" placeholder="tu@correo.com" required>
+                    </div>
+                    
+                    <div class="grupo_campo">
+                        <label for="telefono_contacto" class="etiqueta_campo">Teléfono de Contacto</label>
+                        <input type="tel" id="telefono_contacto" class="campo_entrada" placeholder="+57 300 123 4567" required>
+                    </div>
+                    
+                    <div class="grupo_campo">
+                        <label for="contrasena_actual" class="etiqueta_campo">Contraseña Actual</label>
+                        <div class="contenedor_contrasena">
+                            <input type="password" id="contrasena_actual" class="campo_entrada" placeholder="•••••••••">
+                            <button type="button" class="boton_ojo" onclick="alternar_visibilidad_contrasena('contrasena_actual', this)">
+                                <svg class="icono_ojo" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <p class="texto_ayuda">Deja en blanco si no deseas cambiar la contraseña</p>
+                    </div>
+                    
+                    <div class="grupo_campo">
+                        <label for="nueva_contrasena" class="etiqueta_campo">Nueva Contraseña</label>
+                        <div class="contenedor_contrasena">
+                            <input type="password" id="nueva_contrasena" class="campo_entrada" placeholder="•••••••••">
+                            <button type="button" class="boton_ojo" onclick="alternar_visibilidad_contrasena('nueva_contrasena', this)">
+                                <svg class="icono_ojo" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="grupo_campo">
+                        <label for="confirmar_nueva_contrasena" class="etiqueta_campo">Confirmar Nueva Contraseña</label>
+                        <div class="contenedor_contrasena">
+                            <input type="password" id="confirmar_nueva_contrasena" class="campo_entrada" placeholder="•••••••••">
+                            <button type="button" class="boton_ojo" onclick="alternar_visibilidad_contrasena('confirmar_nueva_contrasena', this)">
+                                <svg class="icono_ojo" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="grupo_campo">
+                        <label for="tipo_usuario" class="etiqueta_campo">Tipo de Usuario</label>
+                        <select id="tipo_usuario" class="campo_entrada" disabled>
+                            <option value="2">Comprador</option>
+                            <option value="3">Vendedor</option>
+                        </select>
+                        <p class="texto_ayuda">El tipo de usuario no puede ser modificado</p>
+                    </div>
+                    
+                    <div class="grupo_botones">
+                        <button type="submit" class="boton_principal">Guardar Cambios</button>
+                        <button type="button" class="boton_secundario" onclick="cancelar()">Cancelar</button>
+                    </div>
+                </form>
+                
+                <div class="seccion_danger">
+                    <h3 class="titulo_danger">Zona de Peligro</h3>
+                    <p class="descripcion_danger">Estas acciones son irreversibles.</p>
+                    <button class="boton_danger" onclick="eliminar_cuenta()">Eliminar mi cuenta</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="columna_derecha">
+            <div class="contenedor_imagen">
+                <div class="superposicion_texto">
+                    <h2 class="titulo_imagen">Personaliza tu experiencia</h2>
+                    <p class="subtitulo_imagen">Mantén tu información actualizada para una mejor experiencia</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Función para alternar visibilidad de contraseña
+        function alternar_visibilidad_contrasena(id_campo, boton) {
+            var campo = document.getElementById(id_campo);
+            var icono = boton.querySelector('.icono_ojo');
+            
+            if (campo.type === 'password') {
+                campo.type = 'text';
+                icono.innerHTML = '<path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.83l2.92 2.92c1.51-1.26 2.7-2.89 3.43-4.75-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2 4.27l2.28 2.28.46.46C3.08 8.3 1.78 10.02 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.27 3 2 4.27zM7.53 9.8l1.55 1.55c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3 .22 0 .44-.03.65-.08l1.55 1.55c-.67.33-1.41.53-2.2.53-2.76 0-5-2.24-5-5 0-.79.2-1.53.53-2.2zm4.31-.78l3.15 3.15.02-.16c0-1.66-1.34-3-3-3l-.17.01z"/>';
+            } else {
+                campo.type = 'password';
+                icono.innerHTML = '<path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>';
+            }
+        }
+
+        // Función para abrir selector de imagen
+        function abrir_selector_imagen() {
+            document.getElementById('input_imagen_perfil').click();
+        }
+
+        // Función para manejar cambio de imagen
+        function manejar_cambio_imagen(evento) {
+            const archivo = evento.target.files[0];
+            if (archivo) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('imagen_perfil_actual').src = e.target.result;
+                };
+                reader.readAsDataURL(archivo);
+            }
+        }
+
+        // Función para volver al inicio
+        function volver_a_inicio() {
+            window.location.href = 'index.html';
+        }
+
+        // Función para cancelar
+        function cancelar() {
+            if (confirm('¿Estás seguro de que deseas cancelar? Los cambios no guardados se perderán.')) {
+                volver_a_inicio();
+            }
+        }
+
+        // Función para eliminar cuenta
+        function eliminar_cuenta() {
+            if (confirm('¿Estás seguro de que deseas eliminar tu cuenta? Esta acción es irreversible y todos tus datos serán eliminados permanentemente.')) {
+                alert('Función de eliminación de cuenta - pendiente de implementación con backend');
+            }
+        }
+
+        // Cargar datos del usuario al iniciar
+        window.addEventListener('DOMContentLoaded', function() {
+            // Simular carga de datos del usuario desde localStorage o API
+            const usuarioGuardado = localStorage.getItem('usuario_actual');
+            if (usuarioGuardado) {
+                const usuario = JSON.parse(usuarioGuardado);
+                document.getElementById('nombre_completo').value = usuario.nombre || '';
+                document.getElementById('correo_electronico').value = usuario.correo || '';
+                document.getElementById('telefono_contacto').value = usuario.telefono || '';
+                document.getElementById('tipo_usuario').value = usuario.idRol || '2';
+                
+                if (usuario.imagen_perfil) {
+                    document.getElementById('imagen_perfil_actual').src = usuario.imagen_perfil;
+                }
+            }
+        });
+
+        // Manejar envío del formulario
+        document.getElementById('formulario_perfil').addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const botonSubmit = e.target.querySelector('button[type="submit"]');
+            botonSubmit.disabled = true;
+            botonSubmit.textContent = 'Guardando...';
+
+            const contrasenaActual = document.getElementById('contrasena_actual').value;
+            const nuevaContrasena = document.getElementById('nueva_contrasena').value;
+            const confirmarNuevaContrasena = document.getElementById('confirmar_nueva_contrasena').value;
+
+            // Validar contraseñas si se están cambiando
+            if (nuevaContrasena || confirmarNuevaContrasena) {
+                if (nuevaContrasena !== confirmarNuevaContrasena) {
+                    alert('Las nuevas contraseñas no coinciden.');
+                    botonSubmit.disabled = false;
+                    botonSubmit.textContent = 'Guardar Cambios';
+                    return;
+                }
+            }
+
+            const datos = {
+                nombre: document.getElementById('nombre_completo').value,
+                correo: document.getElementById('correo_electronico').value,
+                telefono: document.getElementById('telefono_contacto').value,
+                contrasenaActual: contrasenaActual,
+                nuevaContrasena: nuevaContrasena,
+                imagen_perfil: document.getElementById('imagen_perfil_actual').src
+            };
+
+            try {
+                // Simular llamada al API
+                // const response = await fetch('https://localhost:7015/api/Perfil/Actualizar', {
+                //     method: 'PUT',
+                //     headers: { 'Content-Type': 'application/json' },
+                //     body: JSON.stringify(datos)
+                // });
+
+                // Simulación exitosa
+                alert('¡Perfil actualizado con éxito!');
+                
+                // Guardar datos actualizados en localStorage
+                localStorage.setItem('usuario_actual', JSON.stringify({
+                    ...JSON.parse(localStorage.getItem('usuario_actual') || '{}'),
+                    ...datos
+                }));
+
+                // Actualizar avatar en la página principal si existe
+                localStorage.setItem('imagen_avatar', datos.imagen_perfil);
+
+                window.location.href = 'index.html';
+
+            } catch (error) {
+                alert('Error: ' + error.message);
+                console.error(error);
+                botonSubmit.disabled = false;
+                botonSubmit.textContent = 'Guardar Cambios';
+            }
+        });
+    </script>
+</body>
+</html>

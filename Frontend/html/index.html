@@ -89,12 +89,58 @@
           <button class="boton_icono_nav" aria-label="Mapa" onclick="mostrar_mapa()">
             <img src="../assets/iconos/icono_mapa.svg" alt="" width="20" height="20" />
           </button>
-          <div class="avatar_usuario">
-            <img
-              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-              alt="Avatar de usuario"
-              class="imagen_avatar"
-            />
+          
+          <!-- Menú desplegable de usuario -->
+          <div class="contenedor_menu_usuario">
+            <button 
+              class="boton_avatar_usuario" 
+              onclick="alternar_menu_usuario()"
+              aria-label="Menú de usuario"
+              aria-expanded="false"
+            >
+              <img
+                id="avatar_imagen"
+                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                alt="Avatar de usuario"
+                class="imagen_avatar"
+              />
+            </button>
+            
+            <!-- Menú desplegable -->
+            <div id="menu_usuario" class="menu_usuario menu_usuario--oculto" role="menu">
+              <!-- Opciones para usuario autenticado -->
+              <div id="opciones_autenticado" class="opciones_menu">
+                <button class="opcion_menu" onclick="ir_a_perfil()">
+                  <img src="../assets/iconos/usuario.svg" alt="" class="icono_opcion" />
+                  <span>Mi Perfil</span>
+                </button>
+                <button class="opcion_menu" onclick="ir_a_favoritos()">
+                  <img src="../assets/iconos/corazon.svg" alt="" class="icono_opcion" />
+                  <span>Mis Favoritos</span>
+                </button>
+                <button class="opcion_menu" onclick="ir_a_publicaciones()">
+                  <img src="../assets/iconos/edificio.svg" alt="" class="icono_opcion" />
+                  <span>Mis Publicaciones</span>
+                </button>
+                <div class="separador_menu"></div>
+                <button class="opcion_menu opcion_menu--cerrar_sesion" onclick="cerrar_sesion()">
+                  <img src="../assets/iconos/salir.svg" alt="" class="icono_opcion" />
+                  <span>Cerrar Sesión</span>
+                </button>
+              </div>
+              
+              <!-- Opciones para usuario no autenticado -->
+              <div id="opciones_no_autenticado" class="opciones_menu oculto">
+                <button class="opcion_menu" onclick="ir_a_login()">
+                  <img src="../assets/iconos/entrar.svg" alt="" class="icono_opcion" />
+                  <span>Iniciar Sesión</span>
+                </button>
+                <button class="opcion_menu" onclick="ir_a_registro()">
+                  <img src="../assets/iconos/usuario-plus.svg" alt="" class="icono_opcion" />
+                  <span>Registrarse</span>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
