@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rever — Publicar Inmueble</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../css/styles.css" />
+  <link rel="stylesheet" href="../css/publicar_inmueble.css" />
+</head>
+<body>
+
+  <!-- ══════════════════════════════════════════
+       BARRA DE NAVEGACIÓN
+  ══════════════════════════════════════════ -->
+  <nav class="barra_navegacion" role="navigation" aria-label="Navegación principal">
+    <div class="barra_navegacion__contenedor">
+
+      <!-- Logotipo -->
+      <a href="index.html" class="barra_navegacion__marca" aria-label="Inicio Rever">
+        <img src="../assets/logo.png" alt="Logo Rever" class="barra_navegacion__logo" />
+        <span class="barra_navegacion__nombre">
+          Re<span class="barra_navegacion__nombre--dorado">ver</span>
+        </span>
+      </a>
+
+      <!-- Título de la página -->
+      <div class="barra_navegacion__titulo_pagina">
+        <span>Publicar Inmueble</span>
+      </div>
+
+      <!-- Usuario -->
+      <div class="barra_navegacion__usuario" aria-label="Cuenta de usuario">
+        <div class="barra_navegacion__avatar" aria-hidden="true">JC</div>
+        <span class="barra_navegacion__nombre_usuario">Juan C.</span>
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- ══════════════════════════════════════════
+       PANTALLA — PUBLICAR INMUEBLE
+  ══════════════════════════════════════════ -->
+  <main
+    id="pantalla_publicar"
+    class="pantalla"
+    role="main"
+    aria-label="Formulario de publicación de inmueble"
+  >
+
+    <!-- Encabezado de la pantalla -->
+    <header class="pantalla_encabezado">
+      <div class="pantalla_encabezado__contenido">
+        <div class="pantalla_encabezado__icono" aria-hidden="true">
+          <img src="../assets/iconos/edificio.svg" alt="" />
+        </div>
+        <div>
+          <h1 class="pantalla_encabezado__titulo">Publicar Inmueble</h1>
+          <p class="pantalla_encabezado__subtitulo">Completa la información para listar tu propiedad</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- Formulario principal -->
+    <form
+      id="formulario_publicacion"
+      class="formulario_principal"
+      novalidate
+      onsubmit="manejar_envio_formulario(event)"
+    >
+
+      <!-- ── Sección 01: Información Básica ── -->
+      <section class="seccion_formulario" aria-labelledby="titulo_info_basica">
+        <div class="seccion_formulario__encabezado">
+          <span class="seccion_formulario__paso" aria-hidden="true">01</span>
+          <div class="seccion_formulario__divisor" aria-hidden="true"></div>
+          <img src="../assets/iconos/documento.svg" alt="" class="seccion_formulario__icono" aria-hidden="true" />
+          <h2 id="titulo_info_basica" class="seccion_formulario__titulo">Información Básica</h2>
+        </div>
+        <div class="seccion_formulario__cuerpo">
+          <div class="cuadricula_formulario cuadricula_formulario--dos_columnas">
+
+            <!-- Nombre del inmueble (ancho completo) -->
+            <div class="campo_formulario campo_formulario--completo">
+              <label class="campo_formulario__etiqueta" for="nombre_inmueble">
+                Nombre del inmueble <span class="campo_formulario__requerido" aria-label="requerido">*</span>
+              </label>
+              <div class="campo_formulario__control">
+                <img src="../assets/iconos/casa.svg" alt="" class="campo_formulario__icono_input" aria-hidden="true" />
+                <input
+                  type="text"
+                  id="nombre_inmueble"
+                  name="nombre_inmueble"
+                  class="campo_formulario__input campo_formulario__input--con_icono"
+                  placeholder="Ej. Apartamento Moderno en Chapinero"
+                  required
+                  aria-required="true"
+                />
+              </div>
+              <p class="campo_formulario__ayuda">Un nombre descriptivo ayuda a que tu inmueble sea más visible</p>
+            </div>
+
+            <!-- Tipo de inmueble -->
+            <div class="campo_formulario">
+              <label class="campo_formulario__etiqueta" for="tipo_inmueble">
+                Tipo de inmueble <span class="campo_formulario__requerido" aria-label="requerido">*</span>
+              </label>
+              <div class="campo_formulario__control campo_formulario__control--select">
+                <select id="tipo_inmueble" name="tipo_inmueble" class="campo_formulario__select" required aria-required="true">
+                  <option value="" disabled selected>Selecciona un tipo</option>
+                  <option value="apartamento">Apartamento</option>
+                  <option value="casa">Casa</option>
+                  <option value="casa_campestre">Casa Campestre</option>
+                  <option value="finca">Finca</option>
+                  <option value="oficina">Oficina</option>
+                  <option value="local">Local comercial</option>
+                  <option value="bodega">Bodega</option>
+                  <option value="apartaestudio">Apartaestudio</option>
+                  <option value="lote">Lote</option>
+                </select>
+                <img src="../assets/iconos/chevron_abajo.svg" alt="" class="campo_formulario__icono_select" aria-hidden="true" />
+              </div>
+            </div>
+
+            <!-- Tipo de operación -->
+            <div class="campo_formulario">
+              <label class="campo_formulario__etiqueta" for="tipo_operacion">
+                Tipo de operación <span class="campo_formulario__requerido" aria-label="requerido">*</span>
+              </label>
+              <div class="campo_formulario__control campo_formulario__control--select">
+                <select id="tipo_operacion" name="tipo_operacion" class="campo_formulario__select" required aria-required="true">
+                  <option value="" disabled selected>Venta o arriendo</option>
+                  <option value="venta">Venta</option>
+                  <option value="arriendo">Arriendo</option>
+                  <option value="arriendo_temporal">Arriendo Temporal</option>
+                </select>
+                <img src="../assets/iconos/chevron_abajo.svg" alt="" class="campo_formulario__icono_select" aria-hidden="true" />
+              </div>
+            </div>
+
+            <!-- Precio -->
+            <div class="campo_formulario">
+              <label class="campo_formulario__etiqueta" for="precio">
+                Precio <span class="campo_formulario__requerido" aria-label="requerido">*</span>
+              </label>
+              <div class="campo_formulario__control">
+                <img src="../assets/iconos/dinero.svg" alt="" class="campo_formulario__icono_input" aria-hidden="true" />
+                <input
+                  type="text"
+                  id="precio"
+                  name="precio"
+                  class="campo_formulario__input campo_formulario__input--con_icono"
+                  placeholder="Ej. 450.000.000"
+                  required
+                  aria-required="true"
+                />
+              </div>
+            </div>
+
+            <!-- Estrato -->
+            <div class="campo_formulario">
+              <label class="campo_formulario__etiqueta" for="estrato">
+                Estrato <span class="campo_formulario__requerido" aria-label="requerido">*</span>
+              </label>
+              <div class="campo_formulario__control campo_formulario__control--select">
+                <select id="estrato" name="estrato" class="campo_formulario__select" required aria-required="true">
+                  <option value="" disabled selected>Estrato socioeconómico</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                </select>
+                <img src="../assets/iconos/chevron_abajo.svg" alt="" class="campo_formulario__icono_select" aria-hidden="true" />
+              </div>
+            </div>
+
+          </div><!-- /cuadricula -->
+        </div><!-- /cuerpo -->
+      </section>
+
+      <!-- ── Sección 02: Ubicación ── -->
+      <section class="seccion_formulario" aria-labelledby="titulo_ubicacion">
+        <div class="seccion_formulario__encabezado">
+          <span class="seccion_formulario__paso" aria-hidden="true">02</span>
+          <div class="seccion_formulario__divisor" aria-hidden="true"></div>
+          <img src="../assets/iconos/mapa.svg" alt="" class="seccion_formulario__icono" aria-hidden="true" />
+          <h2 id="titulo_ubicacion" class="seccion_formulario__titulo">Ubicación</h2>
+        </div>
+        <div class="seccion_formulario__cuerpo">
+          <div class="cuadricula_formulario cuadricula_formulario--dos_columnas">
+
+            <!-- Ciudad -->
+            <div class="campo_formulario">
+              <label class="campo_formulario__etiqueta" for="ciudad">
+                Ciudad <span class="campo_formulario__requerido" aria-label="requerido">*</span>
+              </label>
+              <div class="campo_formulario__control campo_formulario__control--select">
+                <select id="ciudad" name="ciudad" class="campo_formulario__select" required aria-required="true">
+                  <option value="" disabled selected>Selecciona ciudad</option>
+                  <option value="bogota">Bogotá</option>
+                  <option value="medellin">Medellín</option>
+                  <option value="cali">Cali</option>
+                  <option value="barranquilla">Barranquilla</option>
+                  <option value="cartagena">Cartagena</option>
+                  <option value="bucaramanga">Bucaramanga</option>
+                  <option value="manizales">Manizales</option>
+                  <option value="pereira">Pereira</option>
+                </select>
+                <img src="../assets/iconos/chevron_abajo.svg" alt="" class="campo_formulario__icono_select" aria-hidden="true" />
+              </div>
+            </div>
+
+            <!-- Dirección -->
+            <div class="campo_formulario">
+              <label class="campo_formulario__etiqueta" for="direccion">
+                Dirección <span class="campo_formulario__requerido" aria-label="requerido">*</span>
+              </label>
+              <div class="campo_formulario__control">
+                <img src="../assets/iconos/mapa.svg" alt="" class="campo_formulario__icono_input" aria-hidden="true" />
+                <input
+                  type="text"
+                  id="direccion"
+                  name="direccion"
+                  class="campo_formulario__input campo_formulario__input--con_icono"
+                  placeholder="Cra 7 # 42-55, Apto 301"
+                  required
+                  aria-required="true"
+                />
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Mapa interactivo (placeholder) -->
+          <div class="mapa_placeholder" role="img" aria-label="Selector de ubicación en mapa">
+            <div class="mapa_placeholder__superposicion"></div>
+            <div class="mapa_placeholder__contenido">
+              <div class="mapa_placeholder__pin" aria-hidden="true">
+                <img src="../assets/iconos/mapa.svg" alt="" />
+              </div>
+              <p class="mapa_placeholder__titulo">Selecciona la ubicación exacta</p>
+              <p class="mapa_placeholder__subtitulo">Haz clic para marcar el punto en el mapa</p>
+              <button type="button" class="boton_mapa" onclick="abrir_mapa()">
+                Abrir mapa interactivo
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ── Sección 03: Detalles del Inmueble ── -->
+      <section class="seccion_formulario" aria-labelledby="titulo_detalles">
+        <div class="seccion_formulario__encabezado">
+          <span class="seccion_formulario__paso" aria-hidden="true">03</span>
+          <div class="seccion_formulario__divisor" aria-hidden="true"></div>
+          <img src="../assets/iconos/regla.svg" alt="" class="seccion_formulario__icono" aria-hidden="true" />
+          <h2 id="titulo_detalles" class="seccion_formulario__titulo">Detalles del Inmueble</h2>
+        </div>
+        <div class="seccion_formulario__cuerpo">
+          <div class="cuadricula_formulario cuadricula_formulario--dos_columnas">
+            <!-- Área -->
+            <div class="campo_formulario">
+              <label class="campo_formulario__etiqueta" for="area">
+                Área total <span class="campo_formulario__requerido" aria-label="requerido">*</span>
+              </label>
+              <div class="campo_formulario__control">
+                <img src="../assets/iconos/regla.svg" alt="" class="campo_formulario__icono_input" aria-hidden="true" />
+                <input
+                  type="text"
+                  id="area"
+                  name="area"
+                  class="campo_formulario__input campo_formulario__input--con_icono"
+                  placeholder="Ej. 85 m²"
+                  required
+                  aria-required="true"
+                />
+              </div>
+            </div>
+            <!-- Piso -->
+            <div class="campo_formulario">
+              <label class="campo_formulario__etiqueta" for="piso">Piso</label>
+              <div class="contador_numerico" role="group" aria-label="Número de piso">
+                <button type="button" class="contador_numerico__boton" onclick="decrementar_contador('piso', 1)" aria-label="Disminuir piso">−</button>
+                <output id="piso" name="piso" class="contador_numerico__valor" aria-live="polite">1</output>
+                <button type="button" class="contador_numerico__boton" onclick="incrementar_contador('piso')" aria-label="Aumentar piso">+</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Habitaciones, Baños, Parqueaderos -->
+          <div class="cuadricula_formulario cuadricula_formulario--tres_columnas">
+            <div class="campo_formulario">
+              <label class="campo_formulario__etiqueta">Habitaciones</label>
+              <div class="contador_numerico" role="group" aria-label="Número de habitaciones">
+                <button type="button" class="contador_numerico__boton" onclick="decrementar_contador('habitaciones', 0)" aria-label="Disminuir habitaciones">−</button>
+                <output id="habitaciones" name="habitaciones" class="contador_numerico__valor" aria-live="polite">1</output>
+                <button type="button" class="contador_numerico__boton" onclick="incrementar_contador('habitaciones')" aria-label="Aumentar habitaciones">+</button>
+              </div>
+            </div>
+            <div class="campo_formulario">
+              <label class="campo_formulario__etiqueta">Baños</label>
+              <div class="contador_numerico" role="group" aria-label="Número de baños">
+                <button type="button" class="contador_numerico__boton" onclick="decrementar_contador('banios', 0)" aria-label="Disminuir baños">−</button>
+                <output id="banios" name="banios" class="contador_numerico__valor" aria-live="polite">1</output>
+                <button type="button" class="contador_numerico__boton" onclick="incrementar_contador('banios')" aria-label="Aumentar baños">+</button>
+              </div>
+            </div>
+            <div class="campo_formulario">
+              <label class="campo_formulario__etiqueta">Parqueaderos</label>
+              <div class="contador_numerico" role="group" aria-label="Número de parqueaderos">
+                <button type="button" class="contador_numerico__boton" onclick="decrementar_contador('parqueaderos', 0)" aria-label="Disminuir parqueaderos">−</button>
+                <output id="parqueaderos" name="parqueaderos" class="contador_numerico__valor" aria-live="polite">0</output>
+                <button type="button" class="contador_numerico__boton" onclick="incrementar_contador('parqueaderos')" aria-label="Aumentar parqueaderos">+</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Descripción -->
+          <div class="campo_formulario">
+            <label class="campo_formulario__etiqueta" for="descripcion">Descripción del inmueble</label>
+            <textarea
+              id="descripcion"
+              name="descripcion"
+              class="campo_formulario__textarea"
+              placeholder="Describe las características más destacadas de tu inmueble, acabados, vista, entorno, etc."
+              rows="4"
+              maxlength="800"
+              aria-describedby="contador_descripcion"
+              oninput="actualizar_contador_descripcion()"
+            ></textarea>
+            <p id="contador_descripcion" class="campo_formulario__contador" aria-live="polite">0 / 800 caracteres</p>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ── Sección 04: Amenidades ── -->
+      <section class="seccion_formulario" aria-labelledby="titulo_amenidades">
+        <div class="seccion_formulario__encabezado">
+          <span class="seccion_formulario__paso" aria-hidden="true">04</span>
+          <div class="seccion_formulario__divisor" aria-hidden="true"></div>
+          <img src="../assets/iconos/estrella.svg" alt="" class="seccion_formulario__icono" aria-hidden="true" />
+          <h2 id="titulo_amenidades" class="seccion_formulario__titulo">Amenidades y Características</h2>
+        </div>
+        <div class="seccion_formulario__cuerpo">
+          <div class="grupo_amenidades" role="group" aria-label="Selecciona las amenidades disponibles">
+            <!-- Las amenidades se generan dinámicamente desde JS -->
+          </div>
+          <p id="contador_amenidades" class="campo_formulario__ayuda" aria-live="polite" style="display:none"></p>
+        </div>
+      </section>
+
+      <!-- ── Sección 05: Fotografías ── -->
+      <section class="seccion_formulario" aria-labelledby="titulo_fotos">
+        <div class="seccion_formulario__encabezado">
+          <span class="seccion_formulario__paso" aria-hidden="true">05</span>
+          <div class="seccion_formulario__divisor" aria-hidden="true"></div>
+          <img src="../assets/iconos/camara.svg" alt="" class="seccion_formulario__icono" aria-hidden="true" />
+          <h2 id="titulo_fotos" class="seccion_formulario__titulo">Fotografías del Inmueble</h2>
+        </div>
+        <div class="seccion_formulario__cuerpo">
+          <!-- Zona de arrastre -->
+          <div
+            id="zona_arrastre"
+            class="zona_carga"
+            role="button"
+            tabindex="0"
+            aria-label="Zona para cargar fotografías. Arrastra archivos aquí o haz clic para seleccionarlos."
+            ondragover="manejar_arrastre(event, true)"
+            ondragleave="manejar_arrastre(event, false)"
+            ondrop="manejar_soltar_archivos(event)"
+            onclick="document.getElementById('input_fotos').click()"
+            onkeydown="if(event.key==='Enter'||event.key===' ')document.getElementById('input_fotos').click()"
+          >
+            <div class="zona_carga__icono" aria-hidden="true">
+              <img src="../assets/iconos/subir.svg" alt="" />
+            </div>
+            <p class="zona_carga__titulo">Arrastra tus fotos aquí</p>
+            <p class="zona_carga__subtitulo">PNG, JPG o WEBP — máximo 10 fotos, 10 MB c/u</p>
+            <button type="button" class="boton_secundario" onclick="event.stopPropagation(); document.getElementById('input_fotos').click()">
+              Seleccionar archivos
+            </button>
+          </div>
+          <input
+            type="file"
+            id="input_fotos"
+            name="fotos"
+            accept="image/*"
+            multiple
+            class="visualmente_oculto"
+            aria-hidden="true"
+            onchange="agregar_fotos_seleccionadas(event)"
+          />
+
+          <!-- Galería de fotos cargadas -->
+          <div id="galeria_fotos" class="galeria_fotos" role="list" aria-label="Fotografías cargadas"></div>
+          <p id="contador_fotos" class="campo_formulario__ayuda" aria-live="polite">0 / 10 fotos cargadas. La primera foto será la imagen principal.</p>
+        </div>
+      </section>
+
+      <!-- ── Sección 06: Información del Propietario ── -->
+      <section class="seccion_formulario" aria-labelledby="titulo_propietario">
+        <div class="seccion_formulario__encabezado">
+          <span class="seccion_formulario__paso" aria-hidden="true">06</span>
+          <div class="seccion_formulario__divisor" aria-hidden="true"></div>
+          <img src="../assets/iconos/usuario.svg" alt="" class="seccion_formulario__icono" aria-hidden="true" />
+          <h2 id="titulo_propietario" class="seccion_formulario__titulo">Información del Propietario</h2>
+        </div>
+        <div class="seccion_formulario__cuerpo">
+          <div class="cuadricula_formulario cuadricula_formulario--dos_columnas">
+            <!-- Nombre -->
+            <div class="campo_formulario campo_formulario--completo">
+              <label class="campo_formulario__etiqueta" for="nombre_propietario">
+                Nombre completo <span class="campo_formulario__requerido" aria-label="requerido">*</span>
+              </label>
+              <div class="campo_formulario__control">
+                <img src="../assets/iconos/usuario.svg" alt="" class="campo_formulario__icono_input" aria-hidden="true" />
+                <input
+                  type="text"
+                  id="nombre_propietario"
+                  name="nombre_propietario"
+                  class="campo_formulario__input campo_formulario__input--con_icono"
+                  placeholder="Juan Carlos Ramírez"
+                  required
+                  aria-required="true"
+                />
+              </div>
+            </div>
+            <!-- Correo -->
+            <div class="campo_formulario">
+              <label class="campo_formulario__etiqueta" for="correo_propietario">
+                Correo electrónico <span class="campo_formulario__requerido" aria-label="requerido">*</span>
+              </label>
+              <div class="campo_formulario__control">
+                <img src="../assets/iconos/correo.svg" alt="" class="campo_formulario__icono_input" aria-hidden="true" />
+                <input
+                  type="email"
+                  id="correo_propietario"
+                  name="correo_propietario"
+                  class="campo_formulario__input campo_formulario__input--con_icono"
+                  placeholder="correo@ejemplo.com"
+                  required
+                  aria-required="true"
+                />
+              </div>
+            </div>
+            <!-- Teléfono -->
+            <div class="campo_formulario">
+              <label class="campo_formulario__etiqueta" for="telefono_propietario">
+                Teléfono de contacto <span class="campo_formulario__requerido" aria-label="requerido">*</span>
+              </label>
+              <div class="campo_formulario__control">
+                <img src="../assets/iconos/telefono.svg" alt="" class="campo_formulario__icono_input" aria-hidden="true" />
+                <input
+                  type="tel"
+                  id="telefono_propietario"
+                  name="telefono_propietario"
+                  class="campo_formulario__input campo_formulario__input--con_icono"
+                  placeholder="+57 300 000 0000"
+                  required
+                  aria-required="true"
+                />
+              </div>
+            </div>
+          </div>
+          <!-- Aviso de privacidad -->
+          <div class="aviso_privacidad" role="note">
+            <img src="../assets/iconos/info.svg" alt="Información:" class="aviso_privacidad__icono" />
+            <p class="aviso_privacidad__texto">
+              Tu información solo será visible para el equipo de verificación.
+              Los interesados en el inmueble se comunicarán a través de nuestra plataforma.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Barra de envío -->
+      <div class="barra_envio">
+        <p class="barra_envio__terminos">
+          Al publicar aceptas nuestros
+          <a href="#" class="barra_envio__enlace">términos y condiciones</a>
+        </p>
+        <button type="submit" class="boton_primario boton_primario--grande">
+          Publicar inmueble
+        </button>
+      </div>
+
+    </form><!-- /formulario_publicacion -->
+
+    <!-- Modal de confirmación -->
+    <div id="modal_confirmacion" class="modal_confirmacion modal_confirmacion--oculto" role="dialog" aria-modal="true" aria-labelledby="titulo_confirmacion">
+      <div class="modal_confirmacion__tarjeta">
+        <div class="modal_confirmacion__icono" aria-hidden="true">
+          <img src="../assets/iconos/verificado.svg" alt="" />
+        </div>
+        <h2 id="titulo_confirmacion" class="modal_confirmacion__titulo">¡Publicación enviada!</h2>
+        <p class="modal_confirmacion__texto">
+          Tu inmueble ha sido enviado para revisión. Un administrador verificará
+          la información en un plazo de 24–48 horas.
+        </p>
+        <div class="modal_confirmacion__radicado">
+          <p class="modal_confirmacion__radicado_etiqueta">NÚMERO DE RADICADO</p>
+          <p id="numero_radicado" class="modal_confirmacion__radicado_numero"></p>
+        </div>
+        <button type="button" class="boton_primario boton_primario--bloque" onclick="cerrar_confirmacion()">
+          Publicar otro inmueble
+        </button>
+      </div>
+    </div>
+
+  </main><!-- /pantalla_publicar -->
+
+  <script src="../javascript/mainpublicar_inmueble.js"></script>
+</body>
+</html>
