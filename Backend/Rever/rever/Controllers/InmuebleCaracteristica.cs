@@ -96,7 +96,7 @@ namespace rever.Controllers
                     return StatusCode(404, $"404: El inmueble con ID {inmuebleCaracteristica.IdInmueble} no existe.");
                 }
 
-                if (!EsDuenoOAdmin(inmueble.IdVendedor))
+                if (!EsDuenoOAdmin(inmueble.IdUsuario))
                 {
                     return StatusCode(403, "403: No puedes agregar características a un inmueble que no es tuyo.");
                 }
@@ -137,7 +137,7 @@ namespace rever.Controllers
                 }
 
                 var inmueble = await _inmueblerepository.GetInmuebleById(id1);
-                if (inmueble == null || !EsDuenoOAdmin(inmueble.IdVendedor))
+                if (inmueble == null || !EsDuenoOAdmin(inmueble.IdUsuario))
                 {
                     return StatusCode(403, "403: No puedes eliminar características de un inmueble que no es tuyo.");
                 }
