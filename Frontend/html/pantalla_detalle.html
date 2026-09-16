@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Detalle de propiedad — Rever Inmobiliaria" />
+  <title>Detalle de Propiedad — Rever Inmobiliaria</title>
+
+  <!-- Fuentes Google -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <!-- Estilos base heredados del dashboard -->
+  <link rel="stylesheet" href="../css/styles.css" />
+  <!-- Estilos específicos del detalle -->
+  <link rel="stylesheet" href="../css/pantalla_detalle.css" />
+</head>
+
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════
+       OVERLAY DE CARGA
+  ═══════════════════════════════════════════════════════ -->
+  <div id="overlay_carga" class="overlay_carga" role="status" aria-label="Cargando propiedad">
+    <div class="contenedor_carga">
+      <div class="circulo_carga" aria-hidden="true"></div>
+      <p class="texto_carga">Cargando propiedad</p>
+      <p class="subtexto_carga">Un momento por favor…</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       MODAL DE GALERÍA (pantalla completa)
+  ═══════════════════════════════════════════════════════ -->
+  <div
+    id="modal_galeria"
+    class="modal_galeria oculto"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Galería de fotos"
+  >
+    <!-- Controles superiores -->
+    <div class="barra_modal_galeria">
+      <span id="contador_galeria" class="contador_galeria" aria-live="polite">1 / 5</span>
+      <button
+        id="boton_cerrar_galeria"
+        class="boton_cerrar_galeria"
+        aria-label="Cerrar galería"
+        onclick="cerrar_galeria()"
+      >
+        <img src="assets/icono_cerrar.svg" width="22" height="22" alt="" aria-hidden="true" />
+      </button>
+    </div>
+
+    <!-- Imagen activa -->
+    <div class="contenedor_imagen_galeria">
+      <button
+        class="boton_nav_galeria boton_anterior_galeria"
+        aria-label="Foto anterior"
+        onclick="navegar_galeria(-1)"
+      >
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+      </button>
+
+      <img
+        id="imagen_galeria_activa"
+        class="imagen_galeria_activa"
+        src=""
+        alt="Foto de la propiedad"
+      />
+
+      <button
+        class="boton_nav_galeria boton_siguiente_galeria"
+        aria-label="Siguiente foto"
+        onclick="navegar_galeria(1)"
+      >
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="9 18 15 12 9 6"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Overlay de fondo cierra el modal -->
+    <div class="fondo_modal_galeria" onclick="cerrar_galeria()" aria-hidden="true"></div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       PANTALLA DE DETALLE
+  ═══════════════════════════════════════════════════════ -->
+  <main id="pantalla_detalle" class="pantalla_detalle oculto" aria-label="Detalle de propiedad">
+
+    <!-- ── HÉROE ── -->
+    <section class="seccion_hero" aria-label="Imagen principal de la propiedad">
+      <div class="contenedor_imagen_hero">
+        <img
+          id="imagen_hero"
+          class="imagen_hero"
+          src=""
+          alt="Imagen principal de la propiedad"
+        />
+        <div class="degradado_hero" aria-hidden="true"></div>
+      </div>
+
+      <!-- Botones flotantes superiores -->
+      <div class="controles_hero_superior">
+        <!-- Volver -->
+        <a
+          href="index.html"
+          id="boton_volver"
+          class="boton_volver_hero"
+          aria-label="Volver al listado de propiedades"
+          onclick="volver_con_estado()"
+        >
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="19" y1="12" x2="5" y2="12"/>
+            <polyline points="12 19 5 12 12 5"/>
+          </svg>
+          Volver
+        </a>
+
+        <!-- Modo y badge -->
+        <div id="grupo_badges_hero" class="grupo_badges_hero" aria-label="Categorías del inmueble">
+          <span id="badge_modo_hero" class="badge_modo_hero"></span>
+          <span id="badge_categoria_hero" class="badge_categoria_hero oculto"></span>
+        </div>
+
+        <!-- Acciones -->
+        <div class="acciones_hero">
+          <button
+            id="boton_favorito_hero"
+            class="boton_accion_hero"
+            aria-label="Guardar en favoritos"
+            aria-pressed="false"
+            onclick="alternar_favorito_detalle()"
+          >
+            <svg id="icono_corazon_hero" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+            </svg>
+          </button>
+          <button
+            class="boton_accion_hero"
+            aria-label="Compartir propiedad"
+            onclick="compartir_propiedad()"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Botón ver galería -->
+      <button
+        class="boton_ver_galeria"
+        onclick="abrir_galeria(0)"
+        aria-label="Ver todas las fotos en galería"
+      >
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/>
+          <line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>
+        </svg>
+        <span id="texto_ver_galeria">Ver todas las fotos (5)</span>
+      </button>
+    </section>
+
+    <!-- ── TIRA DE MINIATURAS ── -->
+    <div class="contenedor_miniaturas" role="list" aria-label="Miniaturas de fotos adicionales">
+      <div id="lista_miniaturas" class="lista_miniaturas"></div>
+    </div>
+
+    <!-- ── CONTENIDO PRINCIPAL ── -->
+    <div class="contenedor_contenido">
+
+      <!-- Columna izquierda -->
+      <div class="columna_izquierda">
+
+        <!-- Título y dirección -->
+        <section class="bloque_titulo" aria-label="Información general">
+          <h1 id="titulo_propiedad" class="titulo_propiedad"></h1>
+          <p id="direccion_propiedad" class="direccion_propiedad">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="icono_ubicacion" aria-hidden="true">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+              <circle cx="12" cy="10" r="3"/>
+            </svg>
+            <span id="texto_direccion"></span>
+          </p>
+          <p id="zona_propiedad" class="zona_propiedad"></p>
+        </section>
+
+        <!-- Chips de especificaciones -->
+        <section class="seccion_specs" aria-label="Especificaciones del inmueble">
+          <div id="grilla_specs" class="grilla_specs" role="list"></div>
+        </section>
+
+        <!-- Descripción -->
+        <section class="seccion_descripcion" aria-labelledby="titulo_descripcion">
+          <h2 id="titulo_descripcion" class="etiqueta_seccion">Descripción</h2>
+          <p id="texto_descripcion" class="texto_descripcion"></p>
+        </section>
+
+        <!-- Características -->
+        <section class="seccion_caracteristicas" aria-labelledby="titulo_caracteristicas">
+          <h2 id="titulo_caracteristicas" class="etiqueta_seccion">Características</h2>
+          <div id="lista_caracteristicas" class="lista_caracteristicas" role="list"></div>
+        </section>
+
+        <!-- Galería en grilla -->
+        <section class="seccion_galeria_grilla" aria-labelledby="titulo_galeria">
+          <h2 id="titulo_galeria" class="etiqueta_seccion">Galería de fotos</h2>
+          <div id="grilla_galeria" class="grilla_galeria" role="list" aria-label="Galería de imágenes"></div>
+        </section>
+
+        <!-- Mapa -->
+        <section class="seccion_mapa" aria-labelledby="titulo_mapa">
+          <h2 id="titulo_mapa" class="etiqueta_seccion">Ubicación</h2>
+          <div class="contenedor_mapa" role="img" aria-label="Mapa de ubicación aproximada">
+            <img
+              src="https://images.unsplash.com/photo-1642019708236-942cc048bf34?w=1080&q=80"
+              alt="Mapa de ubicación"
+              class="imagen_mapa_detalle"
+            />
+            <div id="pin_mapa" class="pin_mapa">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="#C5A365" stroke="none" aria-hidden="true">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+              </svg>
+              <span id="zona_pin_mapa" class="zona_pin_mapa"></span>
+            </div>
+          </div>
+        </section>
+
+      </div><!-- /columna_izquierda -->
+
+      <!-- Columna derecha — Contacto -->
+      <aside class="columna_derecha" aria-label="Contacto con el asesor">
+
+        <div class="tarjeta_contacto">
+
+          <!-- Encabezado precio -->
+          <div class="encabezado_precio_contacto">
+            <p class="etiqueta_precio_contacto">Precio</p>
+            <p id="precio_contacto" class="precio_contacto"></p>
+          </div>
+
+          <!-- Info asesor -->
+          <div class="fila_asesor">
+            <div id="avatar_asesor" class="avatar_asesor" aria-hidden="true"></div>
+            <div class="info_asesor">
+              <p id="nombre_asesor" class="nombre_asesor"></p>
+              <p class="cargo_asesor">Asesor Rever</p>
+            </div>
+          </div>
+
+          <!-- Acciones rápidas -->
+          <div class="acciones_rapidas_contacto">
+            <a id="enlace_llamar" href="" class="boton_contacto_rapido" aria-label="Llamar al asesor">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.59 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.62a16 16 0 0 0 6.29 6.29l.92-.92a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+              </svg>
+              Llamar
+            </a>
+            <a id="enlace_email" href="" class="boton_contacto_rapido" aria-label="Enviar email al asesor">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+              Email
+            </a>
+          </div>
+
+          <!-- Formulario de contacto -->
+          <div class="contenedor_formulario_contacto">
+
+            <!-- Estado éxito -->
+            <div id="estado_exito_contacto" class="estado_exito_contacto oculto" role="status" aria-live="polite">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono_exito_contacto" aria-hidden="true">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                <polyline points="22 4 12 14.01 9 11.01"/>
+              </svg>
+              <p class="titulo_exito_contacto">¡Mensaje enviado!</p>
+              <p id="subtexto_exito_contacto" class="subtexto_exito_contacto"></p>
+              <button class="boton_reenviar" onclick="restablecer_formulario()">
+                Enviar otro mensaje
+              </button>
+            </div>
+
+            <!-- Formulario -->
+            <form
+              id="formulario_contacto"
+              class="formulario_contacto"
+              novalidate
+              onsubmit="manejar_envio_contacto(event)"
+            >
+              <div class="grupo_campo_contacto">
+                <label class="etiqueta_campo_contacto" for="input_nombre_contacto">Tu nombre</label>
+                <input
+                  type="text"
+                  id="input_nombre_contacto"
+                  class="campo_contacto"
+                  placeholder="Ej. Juan Pérez"
+                  autocomplete="name"
+                  required
+                />
+                <span id="error_nombre" class="error_campo_contacto oculto" role="alert">Por favor ingresa tu nombre.</span>
+              </div>
+
+              <div class="grupo_campo_contacto">
+                <label class="etiqueta_campo_contacto" for="input_email_contacto">Tu email</label>
+                <input
+                  type="email"
+                  id="input_email_contacto"
+                  class="campo_contacto"
+                  placeholder="juan@correo.com"
+                  autocomplete="email"
+                  required
+                />
+                <span id="error_email" class="error_campo_contacto oculto" role="alert">Ingresa un email válido.</span>
+              </div>
+
+              <div class="grupo_campo_contacto">
+                <label class="etiqueta_campo_contacto" for="input_mensaje_contacto">Mensaje</label>
+                <textarea
+                  id="input_mensaje_contacto"
+                  class="campo_contacto campo_textarea"
+                  rows="3"
+                  placeholder="Escribe tu mensaje aquí…"
+                ></textarea>
+              </div>
+
+              <button
+                type="submit"
+                id="boton_enviar_contacto"
+                class="boton_enviar_contacto"
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                </svg>
+                Enviar mensaje
+              </button>
+            </form>
+
+          </div><!-- /contenedor_formulario_contacto -->
+
+        </div><!-- /tarjeta_contacto -->
+
+      </aside>
+
+    </div><!-- /contenedor_contenido -->
+
+  </main>
+
+  <!-- Contenedor notificaciones toast -->
+  <div id="contenedor_notificaciones" class="contenedor_notificaciones" aria-live="polite"></div>
+
+  <!-- Scripts -->
+  <script src="../javascript/datos_propiedades.js"></script>
+  <script src="../javascript/pantalla_detalle.js"></script>
+</body>
+</html>
