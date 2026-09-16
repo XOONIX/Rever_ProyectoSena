@@ -233,6 +233,66 @@
               </div>
             </div>
 
+            <!-- Barrio -->
+            <div class="campo_formulario">
+              <label class="campo_formulario__etiqueta" for="barrio">
+                Barrio <span class="campo_formulario__requerido" aria-label="requerido">*</span>
+              </label>
+              <div class="campo_formulario__control">
+                <img src="../assets/iconos/mapa.svg" alt="" class="campo_formulario__icono_input" aria-hidden="true" />
+                <input
+                  type="text"
+                  id="barrio"
+                  name="barrio"
+                  class="campo_formulario__input campo_formulario__input--con_icono"
+                  placeholder="Ej. Chapinero Alto"
+                  required
+                  aria-required="true"
+                />
+              </div>
+            </div>
+
+            <!-- Localidad -->
+            <div class="campo_formulario" id="contenedor_localidad" style="display: none;">
+              <label class="campo_formulario__etiqueta" for="localidad">
+                Localidad <span class="campo_formulario__requerido" aria-label="requerido">*</span>
+              </label>
+              <div class="campo_formulario__control campo_formulario__control--select">
+                <select id="localidad" name="localidad" class="campo_formulario__select">
+                  <option value="" disabled selected>Selecciona localidad</option>
+                </select>
+                <img src="../assets/iconos/chevron_abajo.svg" alt="" class="campo_formulario__icono_select" aria-hidden="true" />
+              </div>
+            </div>
+
+            <!-- Tipo de zona Medellín -->
+            <div class="campo_formulario" id="contenedor_tipo_zona_medellin" style="display: none;">
+              <label class="campo_formulario__etiqueta" for="tipo_zona_medellin">
+                Tipo de zona <span class="campo_formulario__requerido" aria-label="requerido">*</span>
+              </label>
+              <div class="campo_formulario__control campo_formulario__control--select">
+                <select id="tipo_zona_medellin" name="tipo_zona_medellin" class="campo_formulario__select">
+                  <option value="" disabled selected>Selecciona tipo de zona</option>
+                  <option value="comuna">Comuna</option>
+                  <option value="corregimiento">Corregimiento</option>
+                </select>
+                <img src="../assets/iconos/chevron_abajo.svg" alt="" class="campo_formulario__icono_select" aria-hidden="true" />
+              </div>
+            </div>
+
+            <!-- Comuna/Congregimiento Medellín -->
+            <div class="campo_formulario" id="contenedor_zona_medellin" style="display: none;">
+              <label class="campo_formulario__etiqueta" id="etiqueta_zona_medellin" for="zona_medellin">
+                Zona <span class="campo_formulario__requerido" aria-label="requerido">*</span>
+              </label>
+              <div class="campo_formulario__control campo_formulario__control--select">
+                <select id="zona_medellin" name="zona_medellin" class="campo_formulario__select">
+                  <option value="" disabled selected>Selecciona zona</option>
+                </select>
+                <img src="../assets/iconos/chevron_abajo.svg" alt="" class="campo_formulario__icono_select" aria-hidden="true" />
+              </div>
+            </div>
+
           </div>
 
           <!-- Mapa interactivo (placeholder) -->
@@ -285,7 +345,7 @@
             <div class="campo_formulario">
               <label class="campo_formulario__etiqueta" for="piso">Piso</label>
               <div class="contador_numerico" role="group" aria-label="Número de piso">
-                <button type="button" class="contador_numerico__boton" onclick="decrementar_contador('piso', 1)" aria-label="Disminuir piso">−</button>
+                <button type="button" class="contador_numerico__boton" onclick="decrementar_contador('piso', 0)" aria-label="Disminuir piso">−</button>
                 <output id="piso" name="piso" class="contador_numerico__valor" aria-live="polite">1</output>
                 <button type="button" class="contador_numerico__boton" onclick="incrementar_contador('piso')" aria-label="Aumentar piso">+</button>
               </div>

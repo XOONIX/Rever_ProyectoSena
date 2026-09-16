@@ -31,126 +31,7 @@ const estado = {
 };
 
 /* ── Base de datos de propiedades ── */
-const datos_propiedades = [
-  {
-    id: 1,
-    titulo:     'Apartamento Moderno Chapinero',
-    precio_etiqueta: '$1.200.000/mes',
-    precio:     12,
-    ubicacion:  'Chapinero, Bogotá',
-    hab:        2, banos: 2, parqueaderos: 1, area: 65,
-    imagen: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80',
-    badge:      'Nuevo',
-    modo:       'arriendo',
-    tipo:       'Apartamentos',
-    mascotas:   true,
-  },
-  {
-    id: 2,
-    titulo:     'Casa Familiar Usaquén',
-    precio_etiqueta: '$850.000.000',
-    precio:     85,
-    ubicacion:  'Usaquén, Bogotá',
-    hab:        4, banos: 3, parqueaderos: 2, area: 220,
-    imagen: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80',
-    badge:      'Destacado',
-    modo:       'compra',
-    tipo:       'Casas',
-    mascotas:   false,
-  },
-  {
-    id: 3,
-    titulo:     'Estudio Ejecutivo La Candelaria',
-    precio_etiqueta: '$750.000/mes',
-    precio:     7,
-    ubicacion:  'La Candelaria, Bogotá',
-    hab:        1, banos: 1, parqueaderos: 0, area: 38,
-    imagen: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=800&q=80',
-    badge:      'Popular',
-    modo:       'arriendo',
-    tipo:       'Estudios',
-    mascotas:   true,
-  },
-  {
-    id: 4,
-    titulo:     'Finca Campestre Sopó',
-    precio_etiqueta: '$1.200.000.000',
-    precio:     100,
-    ubicacion:  'Sopó, Cundinamarca',
-    hab:        5, banos: 4, parqueaderos: 4, area: 850,
-    imagen: 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&q=80',
-    badge:      'Premium',
-    modo:       'compra',
-    tipo:       'Fincas',
-    mascotas:   false,
-  },
-  {
-    id: 5,
-    titulo:     'Oficina Corporativa El Nogal',
-    precio_etiqueta: '$4.500.000/mes',
-    precio:     45,
-    ubicacion:  'El Nogal, Bogotá',
-    hab:        0, banos: 2, parqueaderos: 3, area: 120,
-    imagen: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80',
-    badge:      'Disponible',
-    modo:       'arriendo',
-    tipo:       'Oficinas',
-    mascotas:   false,
-  },
-  {
-    id: 6,
-    titulo:     'Apartamento Vista Mar Cartagena',
-    precio_etiqueta: '$450.000.000',
-    precio:     45,
-    ubicacion:  'Bocagrande, Cartagena',
-    hab:        3, banos: 2, parqueaderos: 1, area: 95,
-    imagen: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80',
-    badge:      'Único',
-    modo:       'compra',
-    tipo:       'Apartamentos',
-    mascotas:   true,
-  },
-  {
-    id: 7,
-    titulo:     'Casa Moderna Laureles Medellín',
-    precio_etiqueta: '$2.800.000/mes',
-    precio:     28,
-    ubicacion:  'Laureles, Medellín',
-    hab:        3, banos: 2, parqueaderos: 1, area: 140,
-    imagen: 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=800&q=80',
-    badge:      'Estreno',
-    modo:       'arriendo',
-    tipo:       'Casas',
-    mascotas:   true,
-  },
-  {
-    id: 8,
-    titulo:     'Penthouse Exclusivo Poblado',
-    precio_etiqueta: '$2.100.000.000',
-    precio:     98,
-    ubicacion:  'El Poblado, Medellín',
-    hab:        4, banos: 5, parqueaderos: 3, area: 380,
-    imagen: 'https://images.unsplash.com/photo-1613977257363-707ba9348227?w=800&q=80',
-    badge:      'Lujo',
-    modo:       'compra',
-    tipo:       'Apartamentos',
-    mascotas:   false,
-  },
-  {
-    id: 9,
-    titulo:     'Local Comercial Zona Rosa',
-    precio_etiqueta: '$6.500.000/mes',
-    precio:     65,
-    ubicacion:  'Zona Rosa, Bogotá',
-    hab:        0, banos: 1, parqueaderos: 0, area: 80,
-    imagen: 'https://images.unsplash.com/photo-1604328698692-f76ea9498e76?w=800&q=80',
-    badge:      'Estratégico',
-    modo:       'arriendo',
-    tipo:       'Oficinas',
-    mascotas:   false,
-  },
-];
-
+/* Los datos se cargan desde el archivo compartido datos_propiedades.js */
 estado.propiedades = datos_propiedades;
 
 /* ════════════════════════════════════════════════════════════
@@ -700,7 +581,7 @@ function crear_html_tarjeta(prop) {
     : '';
 
   return `
-    <article class="tarjeta_propiedad" tabindex="0" aria-label="${prop.titulo}">
+    <article class="tarjeta_propiedad" tabindex="0" aria-label="${prop.titulo}" onclick="navegar_a_detalle(${prop.id})">
       <div class="contenedor_imagen_propiedad">
         <img
           src="${prop.imagen}"
@@ -717,7 +598,7 @@ function crear_html_tarjeta(prop) {
         <button
           class="boton_favorito"
           aria-label="Agregar a favoritos: ${prop.titulo}"
-          onclick="alternar_favorito(this, ${prop.id})"
+          onclick="event.stopPropagation(); alternar_favorito(this, ${prop.id})"
         >
           <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
@@ -791,6 +672,26 @@ function alternar_favorito(boton, id_propiedad) {
   mostrar_notificacion(mensaje, activo ? 'info' : 'exito');
 }
 
+/**
+ * Navega a la pantalla de detalle de una propiedad.
+ * @param {number} id_propiedad
+ */
+function navegar_a_detalle(id_propiedad) {
+  // Guardar el estado actual de filtros en localStorage
+  localStorage.setItem('filtros_activos', JSON.stringify({
+    tipos: Array.from(estado.filtros.tipos),
+    precio_max: estado.filtros.precio_max,
+    habitaciones: estado.filtros.habitaciones,
+    banos: estado.filtros.banos,
+    parqueaderos: estado.filtros.estacionamientos,
+    mascotas: estado.filtros.mascotas,
+    modo_navegacion: estado.modo_navegacion
+  }));
+  
+  // Navegar a la página de detalle con el ID de la propiedad
+  window.location.href = `pantalla_detalle.html?id=${id_propiedad}`;
+}
+
 
 /* ════════════════════════════════════════════════════════════
    INICIALIZACIÓN
@@ -800,6 +701,9 @@ function alternar_favorito(boton, id_propiedad) {
  * Inicializa todos los event listeners de la aplicación.
  */
 function inicializar_app() {
+  /* ── Restaurar estado de filtros si existe ── */
+  restaurar_filtros();
+  
   /* ── Tecla Escape para cerrar menús ── */
   document.addEventListener('keydown', evento => {
     if (evento.key === 'Escape') {
@@ -810,7 +714,14 @@ function inicializar_app() {
   /* ── Accesibilidad: Enter en tarjetas ── */
   document.addEventListener('keydown', evento => {
     if (evento.key === 'Enter' && evento.target.classList.contains('tarjeta_propiedad')) {
-      mostrar_notificacion('Ver detalle de propiedad (función en construcción)', 'info');
+      const tarjeta = evento.target;
+      const onclickValue = tarjeta.getAttribute('onclick');
+      if (onclickValue) {
+        const match = onclickValue.match(/navegar_a_detalle\((\d+)\)/);
+        if (match) {
+          navegar_a_detalle(parseInt(match[1], 10));
+        }
+      }
     }
   });
 
@@ -827,6 +738,82 @@ function inicializar_app() {
       cerrar_menu_usuario();
     }
   });
+}
+
+/**
+ * Restaura el estado de filtros desde localStorage
+ */
+function restaurar_filtros() {
+  const filtros_guardados = localStorage.getItem('filtros_activos');
+  if (filtros_guardados) {
+    try {
+      const filtros = JSON.parse(filtros_guardados);
+      
+      // Restaurar tipos
+      if (filtros.tipos && Array.isArray(filtros.tipos)) {
+        filtros.tipos.forEach(tipo => {
+          estado.filtros.tipos.add(tipo);
+          const checkbox = document.querySelector(`.checkbox_tipo[value="${tipo}"]`);
+          if (checkbox) checkbox.checked = true;
+        });
+      }
+      
+      // Restaurar precio
+      if (filtros.precio_max !== undefined) {
+        estado.filtros.precio_max = filtros.precio_max;
+        const deslizador = obtener_elemento('deslizador_precio');
+        const etiqueta = obtener_elemento('valor_precio_actual');
+        const relleno = obtener_elemento('relleno_deslizador');
+        
+        if (deslizador) deslizador.value = filtros.precio_max;
+        if (etiqueta) etiqueta.textContent = formatear_precio(filtros.precio_max);
+        if (relleno) relleno.style.width = filtros.precio_max + '%';
+      }
+      
+      // Restaurar pastillas
+      ['habitaciones', 'banos', 'estacionamientos'].forEach(grupo => {
+        if (filtros[grupo] !== null) {
+          estado.filtros[grupo] = filtros[grupo];
+          const pastilla = document.querySelector(`.pastilla[data-grupo="${grupo}"][data-valor="${filtros[grupo]}"]`);
+          if (pastilla) pastilla.classList.add('activa');
+        }
+      });
+      
+      // Restaurar mascotas
+      if (filtros.mascotas) {
+        estado.filtros.mascotas = true;
+        const checkbox_mascotas = obtener_elemento('checkbox_pet_friendly');
+        if (checkbox_mascotas) checkbox_mascotas.checked = true;
+      }
+      
+      // Restaurar modo de navegación
+      if (filtros.modo_navegacion) {
+        estado.modo_navegacion = filtros.modo_navegacion;
+        const boton_modo = document.querySelector(`[data-modo="${filtros.modo_navegacion === 'todos' ? '' : filtros.modo_navegacion}"]`);
+        if (boton_modo) {
+          document.querySelectorAll('[data-modo]').forEach(b => b.classList.remove('activo'));
+          boton_modo.classList.add('activo');
+        }
+        
+        const titulo = obtener_elemento('titulo_seccion');
+        if (titulo) {
+          const titulos = {
+            todos:    'Descubre tu próximo hogar',
+            arriendo: 'Propiedades en arriendo',
+            compra:   'Propiedades en compra',
+          };
+          titulo.textContent = titulos[estado.modo_navegacion] ?? titulos.todos;
+        }
+      }
+      
+      actualizar_estado_botones_filtros();
+      
+      // Limpiar filtros guardados después de restaurar
+      localStorage.removeItem('filtros_activos');
+    } catch (e) {
+      console.error('Error al restaurar filtros:', e);
+    }
+  }
 }
 
 /* Ejecutar cuando el DOM esté listo */

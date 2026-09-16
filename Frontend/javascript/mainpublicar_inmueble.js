@@ -10,7 +10,7 @@
 const estado = {
   fotos_seleccionadas: [],
   amenidades_seleccionadas: new Set(["Piscina", "Gimnasio", "Garaje"]),
-  contadores: { habitaciones: 3, banos: 2, parqueaderos: 1 },
+  contadores: { habitaciones: 3, banos: 2, parqueaderos: 1, piso: 1 },
 };
 
 
@@ -23,6 +23,56 @@ const lista_amenidades = [
   "Depósito", "Salón social", "Cancha", "Zona infantil",
 ];
 
+const localidades_bogota = [
+  "Usaquén",
+  "Chapinero",
+  "Santa Fe",
+  "San Cristóbal",
+  "Usme",
+  "Tunjuelito",
+  "Bosa",
+  "Kennedy",
+  "Fontibón",
+  "Engativá",
+  "Suba",
+  "Barrios Unidos",
+  "Teusaquillo",
+  "Los Mártires",
+  "Antonio Nariño",
+  "Puente Aranda",
+  "La Candelaria",
+  "Rafael Uribe Uribe",
+  "Ciudad Bolívar",
+  "Sumapaz (localidad rural)"
+];
+
+const comunas_medellin = [
+  "Comuna 1 – Popular",
+  "Comuna 2 – Santa Cruz",
+  "Comuna 3 – Manrique",
+  "Comuna 4 – Aranjuez",
+  "Comuna 5 – Castilla",
+  "Comuna 6 – Doce de Octubre",
+  "Comuna 7 – Robledo",
+  "Comuna 8 – Villa Hermosa",
+  "Comuna 9 – Buenos Aires",
+  "Comuna 10 – La Candelaria (Centro de la ciudad)",
+  "Comuna 11 – Laureles - Estadio",
+  "Comuna 12 – La América",
+  "Comuna 13 – San Javier",
+  "Comuna 14 – El Poblado",
+  "Comuna 15 – Guayabal",
+  "Comuna 16 – Belén"
+];
+
+const corregimientos_medellin = [
+  "San Cristóbal",
+  "San Sebastián de Palmitas",
+  "San Antonio de Prado",
+  "Santa Elena",
+  "Altavista"
+];
+
 
 /* ──────────────────────────────────────────────────────
    3. CONTADORES NUMÉRICOS
@@ -32,9 +82,9 @@ function incrementar_contador(campo) {
   actualizar_visualizacion_contador(campo);
 }
 
-function decrementar_contador(campo) {
-  const minimo = campo === "parqueaderos" ? 0 : 1;
-  if (estado.contadores[campo] > minimo) {
+function decrementar_contador(campo, minimo) {
+  const valor_minimo = minimo !== undefined ? minimo : (campo === "parqueaderos" ? 0 : 1);
+  if (estado.contadores[campo] > valor_minimo) {
     estado.contadores[campo]--;
     actualizar_visualizacion_contador(campo);
   }
@@ -80,7 +130,113 @@ function renderizar_amenidades() {
 
 
 /* ──────────────────────────────────────────────────────
-   5. MAPA
+   5. LOCALIDAD
+   ────────────────────────────────────────────────────── */
+function manejar_cambio_ciudad() {
+  const ciudad = document.getElementById("ciudad")?.value;
+  const contenedor_localidad = document.getElementById("contenedor_localidad");
+  const select_localidad = document.getElementById("localidad");
+  const contenedor_tipo_zona_medellin = document.getElementById("contenedor_tipo_zona_medellin");
+  const contenedor_zona_medellin = document.getElementById("contenedor_zona_medellin");
+  const select_tipo_zona_medellin = document.getElementById("tipo_zona_medellin");
+  const select_zona_medellin = document.getElementById("zona_medellin");
+
+  // Resetear todos los campos condicionales
+  if (contenedor_localidad) contenedor_localidad.style.display = "none";
+  if (contenedor_tipo_zona_medellin) contenedor_tipo_zona_medellin.style.display = "none";
+  if (contenedor_zona_medellin) contenedor_zona_medellin.style.display = "none";
+
+  if (select_localidad) {
+    select_localidad.innerHTML = '<option value="" disabled selected>Selecciona localidad</option>';
+    select_localidad.required = false;
+    select_localidad.removeAttribute("aria-required");
+  }
+
+  if (select_tipo_zona_medellin) {
+    select_tipo_zona_medellin.value = "";
+    select_tipo_zona_medellin.required = false;
+    select_tipo_zona_medellin.removeAttribute("aria-required");
+  }
+
+  if (select_zona_medellin) {
+    select_zona_medellin.innerHTML = '<option value="" disabled selected>Selecciona zona</option>';
+    select_zona_medellin.required = false;
+    select_zona_medellin.removeAttribute("aria-required");
+  }
+
+  if (ciudad === "bogota") {
+    // Mostrar campo de localidad y poblar con localidades de Bogotá
+    if (contenedor_localidad) contenedor_localidad.style.display = "block";
+    if (select_localidad) {
+      select_localidad.innerHTML = '<option value="" disabled selected>Selecciona localidad</option>';
+      select_localidad.required = true;
+      select_localidad.setAttribute("aria-required", "true");
+      localidades_bogota.forEach(localidad => {
+        const option = document.createElement("option");
+        option.value = localidad;
+        option.textContent = localidad;
+        select_localidad.appendChild(option);
+      });
+    }
+  } else if (ciudad === "medellin") {
+    // Mostrar campo de tipo de zona para Medellín
+    if (contenedor_tipo_zona_medellin) contenedor_tipo_zona_medellin.style.display = "block";
+    if (select_tipo_zona_medellin) {
+      select_tipo_zona_medellin.required = true;
+      select_tipo_zona_medellin.setAttribute("aria-required", "true");
+    }
+  }
+}
+
+function manejar_cambio_tipo_zona_medellin() {
+  const tipo_zona = document.getElementById("tipo_zona_medellin")?.value;
+  const contenedor_zona_medellin = document.getElementById("contenedor_zona_medellin");
+  const select_zona_medellin = document.getElementById("zona_medellin");
+  const etiqueta_zona_medellin = document.getElementById("etiqueta_zona_medellin");
+
+  if (tipo_zona === "comuna") {
+    // Mostrar campo de comuna y poblar con comunas de Medellín
+    if (contenedor_zona_medellin) contenedor_zona_medellin.style.display = "block";
+    if (etiqueta_zona_medellin) etiqueta_zona_medellin.textContent = "Comuna";
+    if (select_zona_medellin) {
+      select_zona_medellin.innerHTML = '<option value="" disabled selected>Selecciona comuna</option>';
+      select_zona_medellin.required = true;
+      select_zona_medellin.setAttribute("aria-required", "true");
+      comunas_medellin.forEach(comuna => {
+        const option = document.createElement("option");
+        option.value = comuna;
+        option.textContent = comuna;
+        select_zona_medellin.appendChild(option);
+      });
+    }
+  } else if (tipo_zona === "corregimiento") {
+    // Mostrar campo de corregimiento y poblar con corregimientos de Medellín
+    if (contenedor_zona_medellin) contenedor_zona_medellin.style.display = "block";
+    if (etiqueta_zona_medellin) etiqueta_zona_medellin.textContent = "Corregimiento";
+    if (select_zona_medellin) {
+      select_zona_medellin.innerHTML = '<option value="" disabled selected>Selecciona corregimiento</option>';
+      select_zona_medellin.required = true;
+      select_zona_medellin.setAttribute("aria-required", "true");
+      corregimientos_medellin.forEach(corregimiento => {
+        const option = document.createElement("option");
+        option.value = corregimiento;
+        option.textContent = corregimiento;
+        select_zona_medellin.appendChild(option);
+      });
+    }
+  } else {
+    // Ocultar campo de zona
+    if (contenedor_zona_medellin) contenedor_zona_medellin.style.display = "none";
+    if (select_zona_medellin) {
+      select_zona_medellin.innerHTML = '<option value="" disabled selected>Selecciona zona</option>';
+      select_zona_medellin.required = false;
+      select_zona_medellin.removeAttribute("aria-required");
+    }
+  }
+}
+
+/* ──────────────────────────────────────────────────────
+   7. MAPA
    ────────────────────────────────────────────────────── */
 function abrir_mapa() {
   const ciudad = document.getElementById("ciudad")?.value || "";
@@ -91,7 +247,7 @@ function abrir_mapa() {
 
 
 /* ──────────────────────────────────────────────────────
-   6. FOTOGRAFÍAS
+   8. FOTOGRAFÍAS
    ────────────────────────────────────────────────────── */
 function agregar_fotos_seleccionadas(evento) {
   const archivos = Array.from(evento.target.files || []);
@@ -157,7 +313,7 @@ function renderizar_galeria_fotos() {
 
 
 /* ──────────────────────────────────────────────────────
-   7. DESCRIPCIÓN
+   9. DESCRIPCIÓN
    ────────────────────────────────────────────────────── */
 function actualizar_contador_descripcion() {
   const textarea = document.getElementById("descripcion");
@@ -169,7 +325,7 @@ function actualizar_contador_descripcion() {
 
 
 /* ──────────────────────────────────────────────────────
-   8. FORMULARIO
+   10. FORMULARIO
    ────────────────────────────────────────────────────── */
 function manejar_envio_formulario(evento) {
   evento.preventDefault();
@@ -191,22 +347,43 @@ function cerrar_confirmacion() {
   // Limpiar estado
   estado.fotos_seleccionadas = [];
   estado.amenidades_seleccionadas = new Set(["Piscina", "Gimnasio", "Garaje"]);
-  estado.contadores = { habitaciones: 3, banos: 2, parqueaderos: 1 };
-  
+  estado.contadores = { habitaciones: 3, banos: 2, parqueaderos: 1, piso: 1 };
+
+  // Ocultar campos condicionales al resetear
+  const contenedor_localidad = document.getElementById("contenedor_localidad");
+  const contenedor_tipo_zona_medellin = document.getElementById("contenedor_tipo_zona_medellin");
+  const contenedor_zona_medellin = document.getElementById("contenedor_zona_medellin");
+
+  if (contenedor_localidad) contenedor_localidad.style.display = "none";
+  if (contenedor_tipo_zona_medellin) contenedor_tipo_zona_medellin.style.display = "none";
+  if (contenedor_zona_medellin) contenedor_zona_medellin.style.display = "none";
+
   renderizar_galeria_fotos();
   renderizar_amenidades();
-  ["habitaciones", "banios", "parqueaderos"].forEach(actualizar_visualizacion_contador);
+  ["habitaciones", "banios", "parqueaderos", "piso"].forEach(actualizar_visualizacion_contador);
 }
 
 
 /* ──────────────────────────────────────────────────────
-   9. INICIALIZACIÓN
+   11. INICIALIZACIÓN
    ────────────────────────────────────────────────────── */
 function inicializar() {
   // Formulario principal
   const formulario = document.getElementById("formulario_publicacion");
   if (formulario) {
     formulario.addEventListener("submit", manejar_envio_formulario);
+  }
+
+  // Select de ciudad para manejar localidades
+  const select_ciudad = document.getElementById("ciudad");
+  if (select_ciudad) {
+    select_ciudad.addEventListener("change", manejar_cambio_ciudad);
+  }
+
+  // Select de tipo de zona Medellín
+  const select_tipo_zona_medellin = document.getElementById("tipo_zona_medellin");
+  if (select_tipo_zona_medellin) {
+    select_tipo_zona_medellin.addEventListener("change", manejar_cambio_tipo_zona_medellin);
   }
 
   // Textarea descripción
@@ -232,7 +409,7 @@ function inicializar() {
 
   // Inicializar renders de UI dinámica
   renderizar_amenidades();
-  ["habitaciones", "banios", "parqueaderos"].forEach(actualizar_visualizacion_contador);
+  ["habitaciones", "banios", "parqueaderos", "piso"].forEach(actualizar_visualizacion_contador);
 }
 
 // Arrancar cuando el DOM esté listo
