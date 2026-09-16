@@ -32,11 +32,6 @@ namespace rever.Controllers
         {
             try
             {
-                if (User.Identity == null || !User.Identity.IsAuthenticated)
-                {
-                    return StatusCode(401, "401: Usuario no autenticado.");
-                }
-
                 var response = await _ciudadrepository.GetCiudad();
                 if (response == null)
                 {
@@ -61,11 +56,6 @@ namespace rever.Controllers
         {
             try
             {
-                if (User.Identity == null || !User.Identity.IsAuthenticated)
-                {
-                    return StatusCode(401, "401: Usuario no autenticado.");
-                }
-
                 if (id <= 0)
                 {
                     return StatusCode(400, "400: El ID proporcionado no es válido.");

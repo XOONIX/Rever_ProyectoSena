@@ -26,6 +26,7 @@ namespace rever
             services.AddScoped<IUsuarioRepository, UsuarioRepository>();
             services.AddScoped<ICiudadRepository, CiudadRepository>();
             services.AddScoped<ILocalidadRepository, LocalidadRepository>();
+            services.AddScoped<IModoTransaccionRepository, ModoTransaccionRepository>();
             services.AddScoped<IBarrioRepository, BarrioRepository>();
             services.AddScoped<IInmuebleCaracteristicaRepository, InmuebleCaracteristicaRepository>();
             services.AddScoped<ITipoInmuebleRepository, TipoInmuebleRepository>();

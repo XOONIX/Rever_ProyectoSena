@@ -107,12 +107,6 @@ namespace rever.Controllers
         {
             try
             {
-
-                if (User.Identity == null || !User.Identity.IsAuthenticated)
-                {
-                    return StatusCode(401, "401: Usuario no autenticado.");
-                }
-
                 if (usuario == null || string.IsNullOrWhiteSpace(usuario.Correo) || string.IsNullOrWhiteSpace(usuario.Contraseña))
                 {
                     return StatusCode(400, "400: Los datos del usuario o la contraseña no pueden estar vacíos.");

@@ -11,7 +11,7 @@ namespace rever.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "administrador")]
     public class TipoInmuebleController : ControllerBase
     {
         private readonly ITipoInmuebleRepository _tipoinmueblerepository;
@@ -32,11 +32,6 @@ namespace rever.Controllers
         {
             try
             {
-                if (User.Identity == null || !User.Identity.IsAuthenticated)
-                {
-                    return StatusCode(401, "401: Usuario no autenticado.");
-                }
-
                 var response = await _tipoinmueblerepository.GetTipoInmueble();
 
                 if (response == null)
@@ -63,11 +58,6 @@ namespace rever.Controllers
         {
             try
             {
-                if (User.Identity == null || !User.Identity.IsAuthenticated)
-                {
-                    return StatusCode(401, "401: Usuario no autenticado.");
-                }
-
                 if (id <= 0)
                 {
                     return StatusCode(400, "400: El ID proporcionado no es válido.");
@@ -89,7 +79,6 @@ namespace rever.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "administrador")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -125,7 +114,6 @@ namespace rever.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = "administrador")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -167,7 +155,6 @@ namespace rever.Controllers
             }
         }
         [HttpDelete("{id}")]
-        [Authorize(Roles = "administrador")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]

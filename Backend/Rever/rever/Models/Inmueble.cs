@@ -25,6 +25,9 @@ namespace rever.Models
 
         [Column("id_tipo")]
         public int IdTipo { get; set; }
+        
+        [Column("id_modo")]
+        public int IdModo { get; set; }
 
         [Required(ErrorMessage = "La dirección es obligatoria.")]
         [StringLength(200)]
@@ -69,6 +72,9 @@ namespace rever.Models
 
         [ForeignKey("IdTipo")]
         public TipoInmueble? TipoInmueble { get; set; }
+
+        [ForeignKey("IdModo")]
+        public ModoTransaccion? ModoTransaccion { get; set; }
 
         [ForeignKey("IdEstado")]
         public EstadoPublicacion? EstadoPublicacion { get; set; }

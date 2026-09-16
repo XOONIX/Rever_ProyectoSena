@@ -4301,8 +4301,7 @@
         "net10.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "https://api.nuget.org/v3/index.json": {}
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {}
       },
       "frameworks": {
         "net10.0": {
@@ -4365,15 +4364,15 @@
         "downloadDependencies": [
           {
             "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
-            "version": "[10.0.11, 10.0.11]"
+            "version": "[10.0.12, 10.0.12]"
           },
           {
             "name": "Microsoft.NETCore.App.Runtime.win-x64",
-            "version": "[10.0.11, 10.0.11]"
+            "version": "[10.0.12, 10.0.12]"
           },
           {
             "name": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
-            "version": "[10.0.11, 10.0.11]"
+            "version": "[10.0.12, 10.0.12]"
           }
         ],
         "frameworkReferences": {
@@ -4384,7 +4383,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.400/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.401/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
@@ -4817,6 +4816,33 @@
       "targetGraphs": [
         "net10.0",
         "net10.0/win-x64"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "Unable to resolve 'Microsoft.NETCore.App.Runtime.win-x64 (= 10.0.12)' for 'net10.0'. PackageSourceMapping is enabled, the following source(s) were not considered: Microsoft Visual Studio Offline Packages.",
+      "libraryId": "Microsoft.NETCore.App.Runtime.win-x64",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "Unable to resolve 'Microsoft.WindowsDesktop.App.Runtime.win-x64 (= 10.0.12)' for 'net10.0'. PackageSourceMapping is enabled, the following source(s) were not considered: Microsoft Visual Studio Offline Packages.",
+      "libraryId": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    },
+    {
+      "code": "NU1100",
+      "level": "Error",
+      "message": "Unable to resolve 'Microsoft.AspNetCore.App.Runtime.win-x64 (= 10.0.12)' for 'net10.0'. PackageSourceMapping is enabled, the following source(s) were not considered: Microsoft Visual Studio Offline Packages.",
+      "libraryId": "Microsoft.AspNetCore.App.Runtime.win-x64",
+      "targetGraphs": [
+        "net10.0"
       ]
     }
   ]
