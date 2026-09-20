@@ -1,6 +1,7 @@
+using rever.Dtos;
+using rever.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using rever.Models;
 
 namespace rever.Repositories.Interfaces
 {
@@ -11,5 +12,6 @@ namespace rever.Repositories.Interfaces
         Task<bool> PostInmueble(Inmueble inmueble);
         Task<bool> PutInmueble(Inmueble inmueble);
         Task<bool> DeleteInmueble(Inmueble inmueble);
+        Task<IEnumerable<InmuebleListadoDto>> GetListadoAsync();
     }
 }

@@ -59,6 +59,7 @@ namespace rever.Models
         public decimal Longitud { get; set; }
 
         [Column("id_usuario")]
+
         public int IdUsuario { get; set; }
 
         [Column("id_estado")]
@@ -81,5 +82,11 @@ namespace rever.Models
 
         [ForeignKey("IdUsuario")]
         public Usuario? Usuario { get; set; }
+
+        [InverseProperty("Inmueble")]
+        public ICollection<Imagen> Imagenes { get; set; }
+        
+        [InverseProperty("Inmueble")]
+        public ICollection<InmuebleCaracteristica> InmuebleCaracteristicas { get; set; }
     }
 }

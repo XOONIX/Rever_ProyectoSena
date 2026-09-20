@@ -31,8 +31,42 @@ const estado = {
 };
 
 /* ── Base de datos de propiedades ── */
-/* Los datos se cargan desde el archivo compartido datos_propiedades.js */
-estado.propiedades = datos_propiedades;
+/* Los datos se cargan desde la base de datos */
+const API_URL = 'https://localhost:7015/api'; // ajusta al puerto real de tu backend
+
+async function cargar_propiedades() {
+  try {
+    const respuesta = await fetch(`${API_URL}/inmueble`);
+    if (!respuesta.ok) throw new Error('No se pudieron cargar las propiedades');
+
+    const datos = await respuesta.json();
+
+    estado.propiedades = datos.map(item => {
+      const caracts = item.caracteristicas || [];
+      return {
+        id: item.idInmueble,
+        titulo: item.titulo,
+        precio_etiqueta: `$${item.precio.toLocaleString('es-CO')}`,
+        precio: item.precio,
+        ubicacion: item.ubicacion,
+        hab: item.habitaciones,
+        banos: item.banos,
+        parqueaderos: caracts.includes('Parqueadero') ? 1 : 0,
+        area: item.metrosCuadrados,
+        imagen: item.imagenUrl,
+        badge: null,
+        modo: item.modo === 'venta' ? 'compra' : 'arriendo',
+        tipo: item.tipo,
+        mascotas: caracts.includes('Acepta mascotas'),
+      };
+    });
+
+    renderizar_propiedades();
+  } catch (error) {
+    console.error(error);
+    mostrar_notificacion('No se pudieron cargar las propiedades', 'error');
+  }
+}
 
 /* ════════════════════════════════════════════════════════════
    UTILIDADES
@@ -404,7 +438,7 @@ function actualizar_estado_botones_filtros() {
 
   const hay_filtros_activos =
     estado.filtros.tipos.size > 0 ||
-    estado.filtros.precio_max !== 70 ||
+    estado.filtros.precio_max !== null ||
     estado.filtros.habitaciones !== null ||
     estado.filtros.banos !== null ||
     estado.filtros.estacionamientos !== null ||
@@ -540,7 +574,7 @@ function obtener_propiedades_filtradas() {
     if (estado.filtros.tipos.size > 0 && !estado.filtros.tipos.has(prop.tipo)) return false;
 
     /* Filtro de precio */
-    if (prop.precio > estado.filtros.precio_max) return false;
+    if (estado.filtros.precio_max !== null && prop.precio > estado.filtros.precio_max) return false;
 
     /* Filtro habitaciones */
     if (estado.filtros.habitaciones !== null && prop.hab < estado.filtros.habitaciones) return false;
@@ -703,13 +737,15 @@ function navegar_a_detalle(id_propiedad) {
 function inicializar_app() {
   /* ── Restaurar estado de filtros si existe ── */
   restaurar_filtros();
-  
+
   /* ── Tecla Escape para cerrar menús ── */
   document.addEventListener('keydown', evento => {
     if (evento.key === 'Escape') {
       cerrar_menu_movil();
     }
   });
+
+  
 
   /* ── Accesibilidad: Enter en tarjetas ── */
   document.addEventListener('keydown', evento => {
@@ -725,12 +761,10 @@ function inicializar_app() {
     }
   });
 
-  /* Renderizar propiedades iniciales */
-  renderizar_propiedades();
-  
-  /* Verificar estado de autenticación */
+  cargar_propiedades(); // trae los datos reales y renderiza cuando lleguen
+
   verificar_autenticacion();
-  
+
   /* Cerrar menú de usuario al hacer clic fuera */
   document.addEventListener('click', function(evento) {
     const contenedorMenu = document.querySelector('.contenedor_menu_usuario');

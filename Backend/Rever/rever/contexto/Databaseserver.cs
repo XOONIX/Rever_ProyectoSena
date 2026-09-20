@@ -157,7 +157,9 @@ namespace rever.contexto
                 entity.Property(u => u.Url).HasColumnName("url").HasMaxLength(255);
                 entity.Property(u => u.IdInmueble).HasColumnName("id_inmueble");
 
-                entity.HasOne(u => u.Inmueble).WithMany().HasForeignKey(u => u.IdInmueble);
+                entity.HasOne(u => u.Inmueble)
+                    .WithMany(i => i.Imagenes) // <-- Se vincula a la propiedad de Inmueble
+                    .HasForeignKey(u => u.IdInmueble);
             });
 
             // CARACTERÍSTICA
@@ -178,7 +180,9 @@ namespace rever.contexto
                 entity.Property(u => u.IdInmueble).HasColumnName("id_inmueble");
                 entity.Property(u => u.IdCaracteristica).HasColumnName("id_caracteristica");
 
-                entity.HasOne(u => u.Inmueble).WithMany().HasForeignKey(u => u.IdInmueble);
+                entity.HasOne(u => u.Inmueble)
+                      .WithMany(i => i.InmuebleCaracteristicas) // <-- Se vincula a la propiedad de Inmueble
+                      .HasForeignKey(u => u.IdInmueble);
                 entity.HasOne(u => u.Caracteristica).WithMany().HasForeignKey(u => u.IdCaracteristica);
             });
 

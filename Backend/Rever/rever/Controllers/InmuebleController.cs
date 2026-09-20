@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using rever.Dtos;
 using rever.Models;
+using rever.Repositories;
 using rever.Repositories.Interfaces;
 using System;
 using System.Threading.Tasks;
@@ -20,7 +23,7 @@ namespace rever.Controllers
             _inmueblerepository = repository;
         }
 
-        [HttpGet]
+        [HttpGet("listar")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -187,7 +190,13 @@ namespace rever.Controllers
                 return StatusCode(500, $"500 Error Interno: {ex.Message}");
             }
         }
-
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAll()
+        {
+            var inmuebles = await _inmueblerepository.GetListadoAsync();
+            return Ok(inmuebles);
+        }
         private int ObtenerIdUsuarioToken() => int.Parse(User.FindFirst("idUsuario")!.Value);
 
         private bool EsDuenoOAdmin(int idDuenoDelRecurso)

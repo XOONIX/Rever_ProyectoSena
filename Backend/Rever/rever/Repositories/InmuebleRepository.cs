@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using rever.Models;
 using rever.contexto;
+using rever.Dtos;
+using rever.Models;
 using rever.Repositories.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace rever.Repositories
 
         public InmuebleRepository(DatabaseService context)
         {
-            this._context =context;
+            this._context = context;
         }
 
         public async Task<List<Inmueble>> GetInmueble()
@@ -68,6 +69,33 @@ namespace rever.Repositories
             _context.Inmueble.Remove(Inmueble);
             await _context.SaveChangesAsync();
             return true;
+        }
+
+
+
+        public async Task<IEnumerable<InmuebleListadoDto>> GetListadoAsync()
+        {
+            return await _context.Inmueble
+                .Include(i => i.Barrio).ThenInclude(b => b.Ciudad)
+                .Include(i => i.TipoInmueble)
+                .Include(i => i.ModoTransaccion)
+                .Include(i => i.Imagenes)
+                .Include(i => i.InmuebleCaracteristicas).ThenInclude(ic => ic.Caracteristica)
+                .Select(i => new InmuebleListadoDto
+                {
+                    IdInmueble = i.IdInmueble,
+                    Titulo = i.Titulo,
+                    Precio = i.Precio,
+                    Ubicacion = i.Barrio.Nombre + ", " + i.Barrio.Ciudad.Nombre,
+                    Habitaciones = i.Habitaciones,
+                    Banos = i.Baños,
+                    MetrosCuadrados = i.MetrosCuadrados,
+                    Tipo = i.TipoInmueble.Nombre,
+                    Modo = i.ModoTransaccion.Nombre.ToLower(),
+                    ImagenUrl = i.Imagenes.Select(img => img.Url).FirstOrDefault(),
+                    Caracteristicas = i.InmuebleCaracteristicas.Select(ic => ic.Caracteristica.Nombre).ToList(),
+                })
+                .ToListAsync();
         }
     }
 }

@@ -20,6 +20,7 @@ namespace rever.Models
         public int IdInmueble { get; set; }
 
         [ForeignKey("IdInmueble")]
+
         public Inmueble? Inmueble { get; set; }
     }
 }
