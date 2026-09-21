@@ -63,7 +63,7 @@ namespace rever.Controllers
         {
             try
             {
-                var idUsuarioToken = int.Parse(User.FindFirst("idUsuario")!.Value);
+                var idUsuarioToken = User.ObtenerIdUsuario();
                 var esadministrador = User.IsInRole("administrador");
 
                 if (id <= 0)
@@ -162,30 +162,36 @@ namespace rever.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> ActualizarUsuario([FromBody] Usuario usuario)
         {
             try
             {
-                if (User.Identity == null || !User.Identity.IsAuthenticated)
-                {
-                    return StatusCode(401, "401: Usuario no autenticado.");
-                }
-
-                var idUsuarioToken = int.Parse(User.FindFirst("idUsuario")!.Value);
-                var esAdmin = User.IsInRole("administrador");
-
-                if (usuario.IdUsuario != idUsuarioToken && !esAdmin)
-                {
-                    return StatusCode(403, "403: No puedes actualizar la cuenta de otro usuario.");
-                }
-
+                // 1. Validar que el cuerpo de la petición no sea nulo y tenga un ID válido
                 if (usuario == null || usuario.IdUsuario <= 0)
                 {
                     return StatusCode(400, "400: Los datos para actualizar o el ID no son válidos.");
                 }
 
+                // 2. Obtener el ID del usuario desde el Token JWT de forma segura
+                var idUsuarioToken = User.ObtenerIdUsuario();
+
+                if (!idUsuarioToken.HasValue)
+                {
+                    return StatusCode(401, "401: No se pudo verificar la identidad del usuario desde el token.");
+                }
+
+                // 3. Verificar permisos
+                var esAdmin = User.IsInRole("administrador") || User.IsInRole("Admin");
+
+                if (usuario.IdUsuario != idUsuarioToken.Value && !esAdmin)
+                {
+                    return StatusCode(403, "403: No puedes actualizar la cuenta de otro usuario.");
+                }
+
+                // 4. Verificar existencia del usuario en la base de datos
                 var exist = await _Usuariorrepository.GetUsuarioById(usuario.IdUsuario);
 
                 if (exist == null)
@@ -193,6 +199,7 @@ namespace rever.Controllers
                     return StatusCode(404, $"404: No se puede actualizar. El usuario con ID {usuario.IdUsuario} no existe.");
                 }
 
+                // 5. Actualizar propiedades
                 exist.Nombre = usuario.Nombre;
                 exist.Correo = usuario.Correo;
                 exist.Telefono = usuario.Telefono;
@@ -205,7 +212,8 @@ namespace rever.Controllers
 
                 var response = await _Usuariorrepository.PutUsuario(exist);
 
-                exist.Contraseña = null;
+                // Ocultar la contraseña antes de devolver el objeto al cliente
+                exist.Contraseña = null!;
 
                 return StatusCode(200, exist);
             }
@@ -231,10 +239,18 @@ namespace rever.Controllers
                     return StatusCode(400, "400: El ID del usuario no es válido.");
                 }
 
-                var idUsuarioToken = int.Parse(User.FindFirst("idUsuario")!.Value);
-                var esAdmin = User.IsInRole("administrador");
+                // 1. Obtener ID del token de forma segura
+                var idUsuarioToken = User.ObtenerIdUsuario();
 
-                if (id != idUsuarioToken && !esAdmin)
+                if (!idUsuarioToken.HasValue)
+                {
+                    return StatusCode(401, "401: No se pudo verificar la identidad desde el token.");
+                }
+
+                var esAdmin = User.IsInRole("administrador") || User.IsInRole("Admin");
+
+                // 2. Comparar usando .Value
+                if (id != idUsuarioToken.Value && !esAdmin)
                 {
                     return StatusCode(403, "403: No puedes eliminar la cuenta de otro usuario.");
                 }

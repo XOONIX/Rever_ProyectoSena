@@ -77,6 +77,7 @@ namespace rever.Controllers
         [Authorize(Roles = "vendedor,administrador")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> CrearInmueble([FromBody] Inmueble inmueble)
         {
@@ -87,14 +88,25 @@ namespace rever.Controllers
                     return StatusCode(400, "400: Los datos del inmueble no pueden ser nulos.");
                 }
 
-                // El dueño siempre es quien está logueado, nunca lo que mande el body
-                inmueble.IdUsuario = ObtenerIdUsuarioToken();
+                // 1. Obtener el ID del usuario autenticado desde el token de forma segura
+                var idUsuarioToken = ObtenerIdUsuarioToken();
 
+                if (!idUsuarioToken.HasValue)
+                {
+                    return StatusCode(401, "401: No se pudo verificar la identidad desde el token.");
+                }
+
+                // 2. Asignar de forma segura el valor entero extraído (.Value)
+                inmueble.IdUsuario = idUsuarioToken.Value;
+
+                // 3. Crear el inmueble a través del repositorio
                 var response = await _inmueblerepository.PostInmueble(inmueble);
+
                 if (response == null)
                 {
                     return StatusCode(500, "500: Error interno al intentar crear el recurso.");
                 }
+
                 return StatusCode(200, response);
             }
             catch (Exception ex)
@@ -190,6 +202,7 @@ namespace rever.Controllers
                 return StatusCode(500, $"500 Error Interno: {ex.Message}");
             }
         }
+
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> GetAll()
@@ -197,11 +210,24 @@ namespace rever.Controllers
             var inmuebles = await _inmueblerepository.GetListadoAsync();
             return Ok(inmuebles);
         }
-        private int ObtenerIdUsuarioToken() => int.Parse(User.FindFirst("idUsuario")!.Value);
+
+        private int? ObtenerIdUsuarioToken()
+        {
+            return User.ObtenerIdUsuario();
+        }
 
         private bool EsDuenoOAdmin(int idDuenoDelRecurso)
         {
-            return idDuenoDelRecurso == ObtenerIdUsuarioToken() || User.IsInRole("administrador");
+            var idUsuarioToken = ObtenerIdUsuarioToken();
+
+            if (!idUsuarioToken.HasValue)
+            {
+                return false;
+            }
+
+            var esAdmin = User.IsInRole("administrador") || User.IsInRole("Admin");
+
+            return idDuenoDelRecurso == idUsuarioToken.Value || esAdmin;
         }
     }
 }

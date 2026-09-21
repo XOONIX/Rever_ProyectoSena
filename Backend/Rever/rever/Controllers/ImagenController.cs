@@ -197,9 +197,20 @@ namespace rever.Controllers
 
         private bool EsDuenoOAdmin(int idVendedorDelInmueble)
         {
-            var idUsuarioToken = int.Parse(User.FindFirst("idUsuario")!.Value);
-            var esAdmin = User.IsInRole("administrador");
-            return idVendedorDelInmueble == idUsuarioToken || esAdmin;
+            // 1. Obtener el ID del token usando tu método de extensión
+            var idUsuarioToken = User.ObtenerIdUsuario();
+
+            // 2. Si no hay token o no tiene ID, denegar acceso
+            if (!idUsuarioToken.HasValue)
+            {
+                return false;
+            }
+
+            // 3. Verificar si es administrador
+            var esAdmin = User.IsInRole("administrador") || User.IsInRole("Admin");
+
+            // 4. Verificar autoría comparando los enteros
+            return idVendedorDelInmueble == idUsuarioToken.Value || esAdmin;
         }
     }
 }

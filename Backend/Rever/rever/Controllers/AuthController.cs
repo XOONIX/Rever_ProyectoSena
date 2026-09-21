@@ -70,10 +70,18 @@ namespace rever.Controllers
 
             var tokenString = new JwtSecurityTokenHandler().WriteToken(tokenOptions);
 
-            return Ok(new 
-            { 
+            return Ok(new
+            {
                 Token = tokenString,
-                Expiration = tokenOptions.ValidTo
+                Expiration = tokenOptions.ValidTo,
+                Usuario = new
+                {
+                    usuario.IdUsuario,   // Simplificado (equivale a IdUsuario = usuario.IdUsuario)
+                    usuario.Nombre,
+                    usuario.Correo,
+                    usuario.IdRol,
+                    NombreRol = usuario.Rol?.Nombre //el nombre difiere de Rol.Nombre
+                }
             });
         }
     }

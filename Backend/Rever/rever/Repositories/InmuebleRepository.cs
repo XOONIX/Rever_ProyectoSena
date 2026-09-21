@@ -92,7 +92,7 @@ namespace rever.Repositories
                     MetrosCuadrados = i.MetrosCuadrados,
                     Tipo = i.TipoInmueble.Nombre,
                     Modo = i.ModoTransaccion.Nombre.ToLower(),
-                    ImagenUrl = i.Imagenes.Select(img => img.Url).FirstOrDefault(),
+                    ImagenUrl = i.Imagenes.Where(img => img.Portada).Select(img => img.Url).FirstOrDefault() ?? i.Imagenes.Select(img => img.Url).FirstOrDefault(),
                     Caracteristicas = i.InmuebleCaracteristicas.Select(ic => ic.Caracteristica.Nombre).ToList(),
                 })
                 .ToListAsync();

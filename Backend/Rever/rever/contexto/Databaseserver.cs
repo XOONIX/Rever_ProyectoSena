@@ -156,6 +156,7 @@ namespace rever.contexto
                 entity.Property(u => u.IdImagen).HasColumnName("id_imagen").ValueGeneratedOnAdd();
                 entity.Property(u => u.Url).HasColumnName("url").HasMaxLength(255);
                 entity.Property(u => u.IdInmueble).HasColumnName("id_inmueble");
+                entity.Property(u => u.Portada).HasColumnName("portada").HasDefaultValue(false);
 
                 entity.HasOne(u => u.Inmueble)
                     .WithMany(i => i.Imagenes) // <-- Se vincula a la propiedad de Inmueble

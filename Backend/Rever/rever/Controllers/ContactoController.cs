@@ -72,9 +72,17 @@ namespace rever.Controllers
                     return StatusCode(404, $"404: No se encontró un contacto con ID {id}.");
                 }
 
-                var idUsuarioToken = int.Parse(User.FindFirst("idUsuario")!.Value);
-                var esAdmin = User.IsInRole("administrador");
-                var esParteDelMensaje = response.IdComprador == idUsuarioToken || response.IdVendedor == idUsuarioToken;
+                // 1. Obtener ID del usuario desde el token de forma segura
+                var idUsuarioToken = User.ObtenerIdUsuario();
+
+                if (!idUsuarioToken.HasValue)
+                {
+                    return StatusCode(401, "401: No se pudo verificar la identidad desde el token.");
+                }
+
+                // 2. Comprobar permisos
+                var esAdmin = User.IsInRole("administrador") || User.IsInRole("Admin");
+                var esParteDelMensaje = response.IdComprador == idUsuarioToken.Value || response.IdVendedor == idUsuarioToken.Value;
 
                 if (!esParteDelMensaje && !esAdmin)
                 {
@@ -100,9 +108,16 @@ namespace rever.Controllers
                     return StatusCode(400, "400: Los datos del contacto no pueden ser nulos.");
                 }
 
-                // El remitente siempre es quien está logueado, nunca lo que mande el body
-                var idUsuarioToken = int.Parse(User.FindFirst("idUsuario")!.Value);
-                contacto.IdComprador = idUsuarioToken;
+                // 1. Obtener el ID del usuario desde el token de forma segura
+                var idUsuarioToken = User.ObtenerIdUsuario();
+
+                if (!idUsuarioToken.HasValue)
+                {
+                    return StatusCode(401, "401: No se pudo verificar la identidad desde el token.");
+                }
+
+                // 2. El remitente siempre es el usuario autenticado
+                contacto.IdComprador = idUsuarioToken.Value;
                 contacto.Fecha = DateTime.UtcNow;
 
                 var response = await _contactorepository.PostContacto(contacto);
@@ -110,6 +125,7 @@ namespace rever.Controllers
                 {
                     return StatusCode(500, "500: Error interno al intentar crear el recurso.");
                 }
+
                 return StatusCode(200, response);
             }
             catch (Exception ex)

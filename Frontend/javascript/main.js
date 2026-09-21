@@ -16,15 +16,18 @@ const estado = {
   nombre_usuario: null,
   email_usuario:  null,
   imagen_usuario: null,
-  modo_navegacion: 'todos',   /* 'todos' | 'arriendo' | 'compra' */
+  modo_navegacion: 'todos',
   sidebar_abierto: true,
   menu_usuario_abierto: false,
   filtros: {
     tipos:    new Set(),
-    precio_max: 70,
+    precio_max: null,
     habitaciones: null,
+    habitaciones_es_minimo: false,
     banos:    null,
-    parqueaderos: null,
+    banos_es_minimo: false,
+    estacionamientos: null,
+    estacionamientos_es_minimo: false,
     mascotas: false,
   },
   propiedades: [],
@@ -488,23 +491,19 @@ function seleccionar_pastilla(pastilla_elemento) {
   const valor = pastilla_elemento.dataset.valor;
   const ya_activa = pastilla_elemento.classList.contains('activa');
 
-  /* Desactiva todas las pastillas del mismo grupo */
   const grupo_pastillas = pastilla_elemento.closest('.grupo_pastillas');
   if (grupo_pastillas) {
     grupo_pastillas.querySelectorAll('.pastilla').forEach(p => p.classList.remove('activa'));
   }
 
   if (ya_activa) {
-    /* Deselecciona si ya estaba activa */
     estado.filtros[grupo] = null;
+    estado.filtros[`${grupo}_es_minimo`] = false;
   } else {
     pastilla_elemento.classList.add('activa');
-    /* Convertir valor a número si es posible, manejar caso especial de "4+" y "3+" */
-    if (valor.includes('+')) {
-      estado.filtros[grupo] = parseInt(valor.replace('+', ''), 10);
-    } else {
-      estado.filtros[grupo] = parseInt(valor, 10);
-    }
+    const es_minimo = valor.includes('+');
+    estado.filtros[grupo] = parseInt(valor.replace('+', ''), 10);
+    estado.filtros[`${grupo}_es_minimo`] = es_minimo;
   }
 
   actualizar_estado_botones_filtros();
@@ -526,31 +525,23 @@ function alternar_mascotas(checkbox) {
  */
 function limpiar_filtros() {
   estado.filtros.tipos.clear();
-  estado.filtros.precio_max = 70;
+  estado.filtros.precio_max = null;
   estado.filtros.habitaciones = null;
+  estado.filtros.habitaciones_es_minimo = false;
   estado.filtros.banos = null;
+  estado.filtros.banos_es_minimo = false;
   estado.filtros.estacionamientos = null;
+  estado.filtros.estacionamientos_es_minimo = false;
   estado.filtros.mascotas = false;
 
-  /* Resetea checkboxes */
   document.querySelectorAll('.etiqueta_checkbox input[type="checkbox"]').forEach(cb => {
     if (cb.id !== 'checkbox_pet_friendly') cb.checked = false;
   });
 
-  /* Resetea mascota */
   const cb_mascotas = obtener_elemento('checkbox_pet_friendly');
   if (cb_mascotas) cb_mascotas.checked = false;
 
-  /* Resetea pastillas */
   document.querySelectorAll('.pastilla').forEach(p => p.classList.remove('activa'));
-
-  /* Resetea deslizador */
-  const deslizador = obtener_elemento('deslizador_precio');
-  if (deslizador) deslizador.value = 70;
-  const etiqueta = obtener_elemento('valor_precio_actual');
-  if (etiqueta) etiqueta.textContent = formatear_precio(70);
-  const relleno = obtener_elemento('relleno_deslizador');
-  if (relleno) relleno.style.width = '70%';
 
   actualizar_estado_botones_filtros();
   renderizar_propiedades();
@@ -577,13 +568,28 @@ function obtener_propiedades_filtradas() {
     if (estado.filtros.precio_max !== null && prop.precio > estado.filtros.precio_max) return false;
 
     /* Filtro habitaciones */
-    if (estado.filtros.habitaciones !== null && prop.hab < estado.filtros.habitaciones) return false;
+    if (estado.filtros.habitaciones !== null) {
+      const cumple = estado.filtros.habitaciones_es_minimo
+        ? prop.hab >= estado.filtros.habitaciones
+        : prop.hab === estado.filtros.habitaciones;
+      if (!cumple) return false;
+    }
 
     /* Filtro baños */
-    if (estado.filtros.banos !== null && prop.banos < estado.filtros.banos) return false;
+    if (estado.filtros.banos !== null) {
+      const cumple = estado.filtros.banos_es_minimo
+        ? prop.banos >= estado.filtros.banos
+        : prop.banos === estado.filtros.banos;
+      if (!cumple) return false;
+    }
 
-    /* Filtro parqueadero */
-    if (estado.filtros.estacionamientos !== null && prop.parqueaderos < estado.filtros.estacionamientos) return false;
+    /* Filtro estacionamientos */
+    if (estado.filtros.estacionamientos !== null) {
+      const cumple = estado.filtros.estacionamientos_es_minimo
+        ? prop.parqueaderos >= estado.filtros.estacionamientos
+        : prop.parqueaderos === estado.filtros.estacionamientos;
+      if (!cumple) return false;
+    }
 
     /* Filtro mascotas */
     if (estado.filtros.mascotas && !prop.mascotas) return false;

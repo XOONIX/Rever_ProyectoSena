@@ -16,6 +16,9 @@ namespace rever.Models
         [Column("url")]
         public string Url { get; set; }
 
+        [Column("portada")]
+        public bool Portada { get; set; }
+
         [Column("id_inmueble")]
         public int IdInmueble { get; set; }
 

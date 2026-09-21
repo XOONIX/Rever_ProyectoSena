@@ -153,9 +153,20 @@ namespace rever.Controllers
 
         private bool EsDuenoOAdmin(int idVendedorDelInmueble)
         {
-            var idUsuarioToken = int.Parse(User.FindFirst("idUsuario")!.Value);
-            var esAdmin = User.IsInRole("administrador");
-            return idVendedorDelInmueble == idUsuarioToken || esAdmin;
+            // 1. Obtener el ID de forma segura como Nullable (int?)
+            var idUsuarioToken = User.ObtenerIdUsuario();
+
+            // 2. Si no hay token o no se pudo extraer el ID, no tiene acceso
+            if (!idUsuarioToken.HasValue)
+            {
+                return false;
+            }
+
+            // 3. Verificar si el usuario es administrador (contemplando ambas variaciones de rol)
+            var esAdmin = User.IsInRole("administrador") || User.IsInRole("Admin");
+
+            // 4. Comparar el ID extraído (.Value) con el dueño del recurso
+            return idVendedorDelInmueble == idUsuarioToken.Value || esAdmin;
         }
     }
 }
