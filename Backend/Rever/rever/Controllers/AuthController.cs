@@ -1,4 +1,5 @@
 ﻿using BCrypt.Net;
+using Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -9,7 +10,7 @@ using System.Security.Claims;
 using System.Text;
 
 namespace rever.Controllers
-{   
+{
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
@@ -17,11 +18,13 @@ namespace rever.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly IUsuarioRepository _usuarioRepository;
+        private readonly IEmailService _emailService;
 
-        public AuthController(IConfiguration configuration, IUsuarioRepository usuarioRepository)
+        public AuthController(IConfiguration configuration, IUsuarioRepository usuarioRepository, IEmailService emailService)
         {
             _configuration = configuration;
             _usuarioRepository = usuarioRepository;
+            _emailService = emailService;
         }
 
         [HttpPost("Login")]
@@ -33,21 +36,18 @@ namespace rever.Controllers
                 return BadRequest("Invalid client request");
             }
 
-            // 1. Buscar el usuario por Correo
             var usuario = await _usuarioRepository.GetByEmailWithRolAsync(login.Correo);
             if (usuario == null)
             {
                 return Unauthorized("Credenciales inválidas");
             }
 
-            // 2. Verificar la contraseña usando BCrypt
             bool passwordValida = BCrypt.Net.BCrypt.Verify(login.Contraseña, usuario.Contraseña);
             if (!passwordValida)
             {
                 return Unauthorized("Credenciales inválidas");
             }
 
-            // 3. Configurar Claims
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, usuario.IdUsuario.ToString()),
@@ -55,7 +55,6 @@ namespace rever.Controllers
                 new Claim(ClaimTypes.Role, usuario.Rol?.Nombre ?? "User")
             };
 
-            // 4. Generar Token JWT
             var keyBytes = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"] ?? throw new InvalidOperationException("Jwt:Key is not configured."));
             var secretKey = new SymmetricSecurityKey(keyBytes);
             var signingCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256);
@@ -76,13 +75,51 @@ namespace rever.Controllers
                 Expiration = tokenOptions.ValidTo,
                 Usuario = new
                 {
-                    usuario.IdUsuario,   // Simplificado (equivale a IdUsuario = usuario.IdUsuario)
+                    usuario.IdUsuario,
                     usuario.Nombre,
                     usuario.Correo,
                     usuario.IdRol,
-                    NombreRol = usuario.Rol?.Nombre //el nombre difiere de Rol.Nombre
+                    NombreRol = usuario.Rol?.Nombre
                 }
             });
+        }
+
+        [HttpPost("Register")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Register([FromBody] Usuario nuevoUsuario)
+        {
+            if (nuevoUsuario == null || string.IsNullOrWhiteSpace(nuevoUsuario.Correo))
+            {
+                return BadRequest("Datos de usuario inválidos.");
+            }
+
+            string confirmationToken = Guid.NewGuid().ToString();
+
+            nuevoUsuario.Contraseña = BCrypt.Net.BCrypt.HashPassword(nuevoUsuario.Contraseña);
+
+            string confirmationLink = $"{Request.Scheme}://{Request.Host}/api/Auth/ConfirmEmail?email={nuevoUsuario.Correo}&token={confirmationToken}";
+
+            string emailBody = $@"
+                <div style='font-family: Arial, sans-serif; padding: 20px;'>
+                    <h2>¡Bienvenido a Rever!</h2>
+                    <p>Hola <b>{nuevoUsuario.Nombre}</b>, gracias por registrarte.</p>
+                    <p>Por favor confirma tu cuenta haciendo clic en el siguiente botón:</p>
+                    <a href='{confirmationLink}' style='display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;'>Confirmar mi Cuenta</a>
+                    <br/><br/>
+                    <p><small>Si no creaste esta cuenta, puedes ignorar este mensaje.</small></p>
+                </div>
+            ";
+
+            await _emailService.SendEmailAsync(nuevoUsuario.Correo, "Confirma tu cuenta de Rever", emailBody);
+
+            return Ok(new { message = "Registro exitoso. Revisa tu correo para activar la cuenta." });
+        }
+
+        [HttpGet("ConfirmEmail")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ConfirmEmail([FromQuery] string email, [FromQuery] string token)
+        {
+            return Ok("¡Cuenta confirmada con éxito! Ya puedes iniciar sesión.");
         }
     }
 }
