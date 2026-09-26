@@ -27,9 +27,17 @@ document.getElementById('formulario_registro').addEventListener('submit', async 
 
     const contrasena = document.getElementById('contrasena').value;
     const confirmarContrasena = document.getElementById('confirmar_contrasena').value;
+    const aceptarDatos = document.getElementById('aceptar_datos').checked;
 
     if (contrasena !== confirmarContrasena) {
         mostrar_notificacion('Las contraseñas no coinciden.', 'error');
+        botonSubmit.disabled = false;
+        botonSubmit.textContent = 'Registrarse';
+        return;
+    }
+
+    if (!aceptarDatos) {
+        mostrar_notificacion('Debes aceptar el tratamiento de datos personales para continuar.', 'error');
         botonSubmit.disabled = false;
         botonSubmit.textContent = 'Registrarse';
         return;

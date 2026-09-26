@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using rever.contexto;
 using rever.Repositories;
 using rever.Repositories.Interfaces;
+using Extensions;
 using System;
 
 
@@ -36,6 +37,7 @@ namespace rever
             services.AddScoped<ICaracteristicaRepository, CaracteristicaRepository>();
             services.AddScoped<IContactoRepository, ContactoRepository>();
             services.AddScoped<IRolRepository, RolRepository>();
+            services.AddScoped<IEmailService, EmailService>();
 
             return services;
         }

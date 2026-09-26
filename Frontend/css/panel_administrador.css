@@ -1603,6 +1603,132 @@ table {
 
 
 /* ──────────────────────────────────────────────────────
+   15. FORMULARIOS Y BOTONES CRUD
+   ────────────────────────────────────────────────────── */
+.boton_agregar {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.5rem 0.75rem;
+  background-color: var(--color_dorado);
+  color: var(--color_gris_oscuro);
+  border-radius: var(--radio_lg);
+  font-size: 0.75rem;
+  font-weight: var(--peso_medio);
+  cursor: pointer;
+  transition: opacity var(--transicion_rapida);
+}
+
+.boton_agregar:hover {
+  opacity: 0.85;
+}
+
+.boton_agregar img {
+  width: 0.75rem;
+  height: 0.75rem;
+  filter: brightness(0) saturate(100%) invert(0%);
+}
+
+.boton_cerrar {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: var(--radio_completo);
+  background-color: var(--color_gris_input);
+  color: var(--color_gris_oscuro);
+  font-size: 0.875rem;
+  font-weight: var(--peso_bold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color var(--transicion_rapida);
+}
+
+.boton_cerrar:hover {
+  background-color: var(--color_rojo_fondo);
+  color: var(--color_rojo);
+}
+
+.grupo_formulario {
+  margin-bottom: 1rem;
+}
+
+.grupo_formulario label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: var(--peso_medio);
+  color: var(--color_gris_medio);
+  margin-bottom: 0.375rem;
+}
+
+.grupo_formulario input,
+.grupo_formulario select,
+.grupo_formulario textarea {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  background-color: var(--color_blanco);
+  border: 1px solid var(--color_borde);
+  border-radius: var(--radio_lg);
+  font-family: var(--fuente_cuerpo);
+  font-size: 0.875rem;
+  color: var(--color_gris_oscuro);
+  outline: none;
+  transition: border-color var(--transicion_rapida);
+}
+
+.grupo_formulario input:focus,
+.grupo_formulario select:focus,
+.grupo_formulario textarea:focus {
+  border-color: var(--color_dorado);
+}
+
+.grupo_formulario textarea {
+  resize: vertical;
+  min-height: 3rem;
+}
+
+.grupo_botones {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.boton_primario {
+  flex: 1;
+  padding: 0.625rem 1rem;
+  background-color: var(--color_dorado);
+  color: var(--color_gris_oscuro);
+  border: none;
+  border-radius: var(--radio_lg);
+  font-size: 0.875rem;
+  font-weight: var(--peso_medio);
+  cursor: pointer;
+  transition: opacity var(--transicion_rapida);
+}
+
+.boton_primario:hover {
+  opacity: 0.85;
+}
+
+.boton_secundario {
+  flex: 1;
+  padding: 0.625rem 1rem;
+  background-color: var(--color_gris_input);
+  color: var(--color_gris_oscuro);
+  border: none;
+  border-radius: var(--radio_lg);
+  font-size: 0.875rem;
+  font-weight: var(--peso_medio);
+  cursor: pointer;
+  transition: background-color var(--transicion_rapida);
+}
+
+.boton_secundario:hover {
+  background-color: var(--color_borde);
+}
+
+
+/* ──────────────────────────────────────────────────────
    13. BARRA DE NAVEGACIÓN INFERIOR (móvil — admin)
    ────────────────────────────────────────────────────── */
 .nav_inferior_movil {

@@ -1060,6 +1060,79 @@ table {
   background-color: var(--color_oro);
 }
 
+/* ──────────────────────────────────────────────────────
+   CHECKBOX DE TRATAMIENTO DE DATOS PERSONALES
+   ────────────────────────────────────────────────────── */
+.grupo_checkbox {
+  margin-bottom: 1.5rem;
+}
+
+.contenedor_checkbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  padding: 0.5rem;
+  border-radius: var(--radio_lg);
+  transition: background-color var(--transicion_rapida);
+}
+
+.contenedor_checkbox:hover {
+  background-color: var(--color_gris_50);
+}
+
+.contenedor_checkbox input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.checkmark {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 1.5px solid var(--color_gris_300);
+  border-radius: 0.25rem;
+  background-color: var(--color_blanco);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transicion_rapida);
+  margin-top: 0.125rem;
+}
+
+.contenedor_checkbox:hover .checkmark {
+  border-color: var(--color_oro);
+}
+
+.contenedor_checkbox input:checked ~ .checkmark {
+  background-color: var(--color_oro);
+  border-color: var(--color_oro);
+}
+
+.contenedor_checkbox input:checked ~ .checkmark::after {
+  content: '✓';
+  color: var(--color_blanco);
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.contenedor_checkbox input:focus ~ .checkmark {
+  outline: 2px solid var(--color_oro);
+  outline-offset: 2px;
+}
+
+.texto_checkbox {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--color_gris_600);
+  line-height: 1.4;
+  flex: 1;
+}
+
 .tarjeta_mapa {
   position: absolute;
   bottom: 2rem;

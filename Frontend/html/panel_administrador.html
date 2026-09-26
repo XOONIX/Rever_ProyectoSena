@@ -52,6 +52,10 @@
           <img src="../assets/iconos/usuarios.svg" alt="" class="barra_lateral__item_icono" aria-hidden="true" />
           <span>Usuarios</span>
         </button>
+        <button class="barra_lateral__item" data-vista="vendedor_arrendatario" onclick="cambiar_vista_admin('vendedor_arrendatario')">
+          <img src="../assets/iconos/usuarios.svg" alt="" class="barra_lateral__item_icono" aria-hidden="true" />
+          <span>Vendedor/Arrendatario</span>
+        </button>
 
         <div class="barra_lateral__separador">
           <span class="barra_lateral__separador_texto">Sistema</span>
@@ -299,7 +303,7 @@
               class="campo_busqueda__input"
               placeholder="Buscar usuario..."
               aria-label="Buscar usuario"
-              oninput="filtrar_usuarios()"
+              oninput="handle_filtrar_usuarios()"
             />
           </div>
           <div class="leyenda_requisitos" role="note" aria-label="Leyenda de estados">
@@ -319,9 +323,7 @@
                 <th scope="col">Cédula</th>
                 <th scope="col">Correo</th>
                 <th scope="col">Teléfono</th>
-                <th scope="col">Escritura</th>
-                <th scope="col">Antecedentes</th>
-                <th scope="col">Estado general</th>
+                <th scope="col">Acciones</th>
               </tr>
             </thead>
             <tbody id="cuerpo_tabla_usuarios">
@@ -339,6 +341,50 @@
           Los usuarios deben cumplir todos los requisitos para publicar o contactar inmuebles.
           Los documentos faltantes bloquean acciones hasta ser validados.
         </p>
+      </section>
+
+      <!-- ── Vista: VENDEDOR/ARRENDATARIO ── -->
+      <section id="vista_vendedor_arrendatario" class="vista_admin" aria-label="Gestión de vendedores y arrendatarios">
+        <div class="barra_herramientas">
+          <div class="campo_busqueda" role="search">
+            <img src="../assets/iconos/buscar.svg" alt="" class="campo_busqueda__icono" aria-hidden="true" />
+            <input
+              type="search"
+              id="buscador_vendedor_arrendatario"
+              class="campo_busqueda__input"
+              placeholder="Buscar vendedor/arrendatario..."
+              aria-label="Buscar vendedor/arrendatario"
+              oninput="filtrar_vendedor_arrendatario()"
+            />
+          </div>
+        </div>
+
+        <!-- Tabla vendedor/arrendatario (escritorio) -->
+        <div class="tabla_envolvente" role="region" aria-label="Lista de vendedores y arrendatarios">
+          <table class="tabla_usuarios" aria-label="Vendedores y arrendatarios registrados">
+            <thead>
+              <tr>
+                <th scope="col">Usuario</th>
+                <th scope="col">Tipo</th>
+                <th scope="col">Cédula</th>
+                <th scope="col">Correo</th>
+                <th scope="col">Teléfono</th>
+                <th scope="col">Dirección</th>
+                <th scope="col">Inmuebles</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="cuerpo_tabla_vendedor_arrendatario">
+              <!-- Generado por JS -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Cards móvil -->
+        <div id="cards_vendedor_arrendatario_movil" class="cards_movil" role="list" aria-label="Vendedores y arrendatarios registrados">
+          <!-- Generado por JS -->
+        </div>
       </section>
 
     </div><!-- /contenido_admin -->
@@ -360,6 +406,10 @@
       <button class="nav_inferior_movil__item" data-vista="usuarios" onclick="cambiar_vista_admin('usuarios')">
         <img src="../assets/iconos/usuarios.svg" alt="" class="nav_inferior_movil__icono" aria-hidden="true" />
         <span class="nav_inferior_movil__etiqueta">Usuarios</span>
+      </button>
+      <button class="nav_inferior_movil__item" data-vista="vendedor_arrendatario" onclick="cambiar_vista_admin('vendedor_arrendatario')">
+        <img src="../assets/iconos/usuarios.svg" alt="" class="nav_inferior_movil__icono" aria-hidden="true" />
+        <span class="nav_inferior_movil__etiqueta">Vendedor/Arrendatario</span>
       </button>
     </nav>
 

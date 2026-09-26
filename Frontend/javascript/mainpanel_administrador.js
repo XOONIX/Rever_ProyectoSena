@@ -8,12 +8,14 @@
    1. ESTADO GLOBAL
    ────────────────────────────────────────────────────── */
 const estado = {
-  vista_admin_actual: "tablero",     // "tablero" | "inmuebles" | "detalle" | "reportes" | "usuarios"
+  vista_admin_actual: "tablero",     // "tablero" | "inmuebles" | "detalle" | "reportes" | "usuarios" | "vendedor_arrendatario"
   filtro_inmuebles: "todos",
   filtro_usuarios: "todos",
   filtro_reportes: "todos",
+  filtro_vendedor_arrendatario: "todos",
   busqueda_inmuebles: "",
   busqueda_usuarios: "",
+  busqueda_vendedor_arrendatario: "",
   inmueble_detalle_id: null,
 };
 
@@ -220,6 +222,9 @@ const usuarios = [
     registro: "Ene 2025",
     req: { cedula: "completo", contrato: "completo", carta: "completo", foto_inmueble: "completo" },
     iniciales: "CM",
+    tipo_documento: "cc",
+    numero_documento: "12345678",
+    telefono: "+57 300 123 4567",
   },
   {
     id: 2,
@@ -230,6 +235,9 @@ const usuarios = [
     registro: "Feb 2025",
     req: { cedula: "completo", contrato: "pendiente", carta: "incompleto", foto_inmueble: "completo" },
     iniciales: "AL",
+    tipo_documento: "cc",
+    numero_documento: "87654321",
+    telefono: "+57 310 987 6543",
   },
   {
     id: 3,
@@ -240,6 +248,9 @@ const usuarios = [
     registro: "Mar 2025",
     req: { cedula: "completo", contrato: "incompleto", carta: "incompleto", foto_inmueble: "pendiente" },
     iniciales: "JP",
+    tipo_documento: "ppt",
+    numero_documento: "11223344",
+    telefono: "+57 320 456 7890",
   },
   {
     id: 4,
@@ -250,6 +261,9 @@ const usuarios = [
     registro: "Ene 2025",
     req: { cedula: "completo", contrato: "completo", carta: "completo", foto_inmueble: "completo" },
     iniciales: "MC",
+    tipo_documento: "cc",
+    numero_documento: "55667788",
+    telefono: "+57 305 111 2233",
   },
   {
     id: 5,
@@ -260,6 +274,9 @@ const usuarios = [
     registro: "Abr 2025",
     req: { cedula: "pendiente", contrato: "pendiente", carta: "pendiente", foto_inmueble: "pendiente" },
     iniciales: "LR",
+    tipo_documento: "ppt",
+    numero_documento: "99887766",
+    telefono: "+57 315 888 9900",
   },
   {
     id: 6,
@@ -270,6 +287,9 @@ const usuarios = [
     registro: "Mar 2025",
     req: { cedula: "completo", contrato: "completo", carta: "pendiente", foto_inmueble: "completo" },
     iniciales: "VD",
+    tipo_documento: "cc",
+    numero_documento: "44556677",
+    telefono: "+57 321 333 4444",
   },
   {
     id: 7,
@@ -280,6 +300,64 @@ const usuarios = [
     registro: "Feb 2025",
     req: { cedula: "completo", contrato: "incompleto", carta: "completo", foto_inmueble: "completo" },
     iniciales: "SG",
+    tipo_documento: "ppt",
+    numero_documento: "77889900",
+    telefono: "+57 311 555 6666",
+  },
+];
+
+const vendedor_arrendatario = [
+  {
+    id: 1,
+    nombre: "Roberto Martínez",
+    tipo: "vendedor",
+    cedula: "123456789",
+    correo: "roberto@email.com",
+    telefono: "+57 300 111 2222",
+    direccion: "Calle 123 # 45-67",
+    inmuebles: 3,
+    estado: "activo",
+    observaciones: "Cliente VIP, atención prioritaria",
+    iniciales: "RM",
+  },
+  {
+    id: 2,
+    nombre: "Carmen Rodríguez",
+    tipo: "arrendatario",
+    cedula: "987654321",
+    correo: "carmen@email.com",
+    telefono: "+57 310 333 4444",
+    direccion: "Avenida 78 # 12-34",
+    inmuebles: 1,
+    estado: "activo",
+    observaciones: "Historial de pagos excelente",
+    iniciales: "CR",
+  },
+  {
+    id: 3,
+    nombre: "Andrés Torres",
+    tipo: "vendedor",
+    cedula: "456789123",
+    correo: "andres@email.com",
+    telefono: "+57 320 555 6666",
+    direccion: "Carrera 45 # 67-89",
+    inmuebles: 2,
+    estado: "pendiente",
+    observaciones: "En proceso de verificación de documentos",
+    iniciales: "AT",
+  },
+  {
+    id: 4,
+    nombre: "Laura Sánchez",
+    tipo: "arrendatario",
+    cedula: "789123456",
+    correo: "laura@email.com",
+    telefono: "+57 315 777 8888",
+    direccion: "Calle 56 # 78-90",
+    inmuebles: 0,
+    estado: "inactivo",
+    observaciones: "Contrato finalizado, awaiting renewal",
+    iniciales: "LS",
   },
 ];
 
@@ -344,6 +422,7 @@ function cambiar_vista_admin(nombre_vista) {
     case "inmuebles":  renderizar_inmuebles(); break;
     case "reportes":   renderizar_reportes(); break;
     case "usuarios":   renderizar_usuarios(); break;
+    case "vendedor_arrendatario": renderizar_vendedor_arrendatario(); break;
   }
 }
 
@@ -354,6 +433,7 @@ function actualizar_encabezado_admin(vista) {
     detalle:   "Detalle del inmueble",
     reportes:  "Reportes",
     usuarios:  "Usuarios registrados",
+    vendedor_arrendatario: "Vendedores y Arrendatarios",
   };
 
   const el_titulo = document.getElementById("titulo_vista_actual");
@@ -856,7 +936,7 @@ function cambiar_estado_reporte(reporte_id, nuevo_estado) {
    9. RENDERIZAR USUARIOS
    ────────────────────────────────────────────────────── */
 function renderizar_usuarios() {
-  const filtrados = filtrar_usuarios();
+  const filtrados = filtrar_usuarios_lista();
   renderizar_tabla_usuarios(filtrados);
   renderizar_cards_usuarios(filtrados);
 }
@@ -883,12 +963,7 @@ function renderizar_tabla_usuarios(lista) {
       ? { clase: "pildora_estado--propietario", texto: "Propietario" }
       : { clase: "pildora_estado--comprador", texto: "Comprador" };
 
-    const req_html = req_keys.map((key) => {
-      const est = u.req[key];
-      const colores = { completo: "#166534", incompleto: "#991B1B", pendiente: "#C9A84C" };
-      const color = colores[est] || "#6B7280";
-      return `<span title="${config_req[key].etiqueta}: ${est}" style="color:${color};font-size:0.7rem;font-weight:600;margin-right:0.375rem;">${config_req[key].etiqueta.substring(0,3)}</span>`;
-    }).join("");
+    const cedula_formato = `${u.tipo_documento || 'cc'} ${u.numero_documento || 'No registrada'}`;
 
     return `
       <tr>
@@ -907,15 +982,15 @@ function renderizar_tabla_usuarios(lista) {
             ${tipo_cfg.texto}
           </span>
         </td>
-        <td style="font-size:0.75rem;">${req_html}</td>
-        <td class="celda_meta">${u.inmuebles} inmueble${u.inmuebles !== 1 ? "s" : ""}</td>
-        <td class="celda_meta">${u.registro}</td>
+        <td class="celda_meta">${cedula_formato}</td>
+        <td class="celda_meta">${u.correo}</td>
+        <td class="celda_meta">${u.telefono || '--'}</td>
         <td>
           <div class="celda_acciones">
-            <button class="boton_accion boton_accion--ver" title="Ver usuario" aria-label="Ver usuario ${u.nombre}">
+            <button class="boton_accion boton_accion--ver" onclick="ver_usuario(${u.id})" title="Ver usuario" aria-label="Ver usuario ${u.nombre}">
               <img src="../assets/iconos/usuario.svg" alt="" />
             </button>
-            <button class="boton_accion boton_accion--eliminar" title="Eliminar usuario" aria-label="Eliminar usuario ${u.nombre}">
+            <button class="boton_accion boton_accion--eliminar" onclick="eliminar_usuario(${u.id})" title="Eliminar usuario" aria-label="Eliminar usuario ${u.nombre}">
               <img src="../assets/iconos/cerrar.svg" alt="" />
             </button>
           </div>
@@ -931,12 +1006,7 @@ function renderizar_cards_usuarios(lista) {
 
   contenedor.innerHTML = lista.map((u) => {
     const tipo_texto = u.tipo === "propietario" ? "Propietario" : "Comprador";
-    const req_keys = Object.keys(config_req);
-    const req_html = req_keys.map((key) => {
-      const est = u.req[key];
-      const cfg_est = config_req_estado[est] || {};
-      return `<span class="card_usuario_movil__req ${cfg_est.clase}">${cfg_est.icono || ""} ${config_req[key].etiqueta}</span>`;
-    }).join("");
+    const cedula_formato = `${u.tipo_documento || 'cc'} ${u.numero_documento || 'No registrada'}`;
 
     return `
       <article class="card_usuario_movil">
@@ -947,17 +1017,244 @@ function renderizar_cards_usuarios(lista) {
             <p class="card_usuario_movil__correo">${u.correo} · ${tipo_texto}</p>
           </div>
         </div>
-        <div class="card_usuario_movil__requisitos">${req_html}</div>
+        <div class="card_usuario_movil__requisitos">
+          <span class="card_usuario_movil__req card_usuario_movil__req--completo">Cédula: ${cedula_formato}</span>
+          <span class="card_usuario_movil__req card_usuario_movil__req--completo">Tel: ${u.telefono || '--'}</span>
+        </div>
+        <div class="card_movil__acciones">
+          <button class="card_movil__boton card_movil__boton--ver" onclick="ver_usuario(${u.id})">
+            <img src="../assets/iconos/usuario.svg" alt="" /> Ver
+          </button>
+          <button class="card_movil__boton card_movil__boton--eliminar" onclick="eliminar_usuario(${u.id})">
+            <img src="../assets/iconos/cerrar.svg" alt="" /> Eliminar
+          </button>
+        </div>
       </article>
     `;
   }).join("") || `<p style="text-align:center;padding:1.5rem;color:#9CA3AF;font-size:0.875rem;">Sin usuarios</p>`;
 }
 
-function filtrar_usuarios() {
+function handle_filtrar_usuarios() {
   const input = document.getElementById("buscador_usuarios");
   if (input) {
     estado.busqueda_usuarios = input.value;
     renderizar_usuarios();
+  }
+}
+
+function filtrar_usuarios_lista() {
+  return usuarios.filter((u) => {
+    const coincide_filtro = estado.filtro_usuarios === "todos" || u.tipo === estado.filtro_usuarios;
+    const termino = estado.busqueda_usuarios.toLowerCase();
+    const coincide_busqueda = !termino ||
+      u.nombre.toLowerCase().includes(termino) ||
+      u.correo.toLowerCase().includes(termino);
+    return coincide_filtro && coincide_busqueda;
+  });
+}
+
+// CRUD functions for Usuarios
+function ver_usuario(usuario_id) {
+  const usuario = usuarios.find(u => u.id === usuario_id);
+  if (usuario) {
+    const cedula_formato = `${usuario.tipo_documento || 'cc'} ${usuario.numero_documento || 'No registrada'}`;
+    alert(`Usuario: ${usuario.nombre}\nCorreo: ${usuario.correo}\nTipo: ${usuario.tipo}\nCédula: ${cedula_formato}\nTeléfono: ${usuario.telefono || 'No registrado'}\nInmuebles: ${usuario.inmuebles}\nRegistro: ${usuario.registro}`);
+  }
+}
+
+function eliminar_usuario(usuario_id) {
+  const usuario = usuarios.find(u => u.id === usuario_id);
+  if (usuario && confirm(`¿Eliminar usuario "${usuario.nombre}"? Esta acción no se puede deshacer.`)) {
+    const idx = usuarios.findIndex(u => u.id === usuario_id);
+    if (idx !== -1) {
+      usuarios.splice(idx, 1);
+      renderizar_usuarios();
+    }
+  }
+}
+
+/* ──────────────────────────────────────────────────────
+   11. RENDERIZAR VENDEDOR/ARRENDATARIO
+   ────────────────────────────────────────────────────── */
+function renderizar_vendedor_arrendatario() {
+  const filtrados = filtrar_vendedor_arrendatario_lista();
+  renderizar_tabla_vendedor_arrendatario(filtrados);
+  renderizar_cards_vendedor_arrendatario(filtrados);
+}
+
+function filtrar_vendedor_arrendatario_lista() {
+  return vendedor_arrendatario.filter((va) => {
+    const coincide_filtro = estado.filtro_vendedor_arrendatario === "todos" || va.tipo === estado.filtro_vendedor_arrendatario || va.estado === estado.filtro_vendedor_arrendatario;
+    const termino = estado.busqueda_vendedor_arrendatario.toLowerCase();
+    const coincide_busqueda = !termino ||
+      va.nombre.toLowerCase().includes(termino) ||
+      va.correo.toLowerCase().includes(termino) ||
+      va.cedula.includes(termino);
+    return coincide_filtro && coincide_busqueda;
+  });
+}
+
+function renderizar_tabla_vendedor_arrendatario(lista) {
+  const tbody = document.getElementById("cuerpo_tabla_vendedor_arrendatario");
+  if (!tbody) return;
+
+  tbody.innerHTML = lista.map((va) => {
+    const tipo_cfg = va.tipo === "vendedor"
+      ? { clase: "pildora_estado--propietario", texto: "Vendedor" }
+      : { clase: "pildora_estado--comprador", texto: "Arrendatario" };
+
+    const estado_cfg = {
+      activo: { clase: "pildora_estado--verificada", texto: "Activo" },
+      inactivo: { clase: "pildora_estado--rechazada", texto: "Inactivo" },
+      pendiente: { clase: "pildora_estado--pendiente", texto: "Pendiente" }
+    };
+
+    const estado_config = estado_cfg[va.estado] || estado_cfg.activo;
+
+    return `
+      <tr>
+        <td>
+          <div class="celda_usuario">
+            <div class="celda_usuario__avatar">${va.iniciales}</div>
+            <div>
+              <p class="celda_usuario__nombre">${va.nombre}</p>
+              <p class="celda_usuario__correo">${va.correo}</p>
+            </div>
+          </div>
+        </td>
+        <td>
+          <span class="pildora_estado ${tipo_cfg.clase}">
+            <span class="pildora_estado__punto" style="background-color:${va.tipo === "vendedor" ? "#2C2C2C" : "#C9A84C"}"></span>
+            ${tipo_cfg.texto}
+          </span>
+        </td>
+        <td class="celda_meta">${va.cedula}</td>
+        <td class="celda_meta">${va.correo}</td>
+        <td class="celda_meta">${va.telefono}</td>
+        <td class="celda_meta">${va.direccion}</td>
+        <td class="celda_meta">${va.inmuebles} inmueble${va.inmuebles !== 1 ? "s" : ""}</td>
+        <td>
+          <span class="pildora_estado ${estado_config.clase}">
+            <span class="pildora_estado__punto" style="background-color:${va.estado === 'activo' ? '#166534' : va.estado === 'inactivo' ? '#991B1B' : '#C9A84C'}"></span>
+            ${estado_config.texto}
+          </span>
+        </td>
+        <td>
+          <div class="celda_acciones">
+            <button class="boton_accion boton_accion--ver" onclick="ver_vendedor_arrendatario(${va.id})" title="Ver" aria-label="Ver ${va.nombre}">
+              <img src="../assets/iconos/usuario.svg" alt="" />
+            </button>
+            <button class="boton_accion boton_accion--editar" onclick="editar_vendedor_arrendatario(${va.id})" title="Editar" aria-label="Editar ${va.nombre}">
+              <img src="../assets/iconos/regla.svg" alt="" />
+            </button>
+            <button class="boton_accion boton_accion--eliminar" onclick="eliminar_vendedor_arrendatario(${va.id})" title="Eliminar" aria-label="Eliminar ${va.nombre}">
+              <img src="../assets/iconos/cerrar.svg" alt="" />
+            </button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join("") || `<tr><td colspan="9" style="text-align:center;padding:1.5rem;color:#9CA3AF;font-size:0.875rem;">Sin vendedores/arrendatarios</td></tr>`;
+}
+
+function renderizar_cards_vendedor_arrendatario(lista) {
+  const contenedor = document.getElementById("cards_vendedor_arrendatario_movil");
+  if (!contenedor) return;
+
+  const estado_cfg = {
+    activo: { clase: "pildora_estado--verificada", texto: "Activo" },
+    inactivo: { clase: "pildora_estado--rechazada", texto: "Inactivo" },
+    pendiente: { clase: "pildora_estado--pendiente", texto: "Pendiente" }
+  };
+
+  contenedor.innerHTML = lista.map((va) => {
+    const tipo_texto = va.tipo === "vendedor" ? "Vendedor" : "Arrendatario";
+    const estado_config = estado_cfg[va.estado] || estado_cfg.activo;
+
+    return `
+      <article class="card_usuario_movil">
+        <div class="card_usuario_movil__cabecera">
+          <div class="card_usuario_movil__avatar">${va.iniciales}</div>
+          <div>
+            <p class="card_usuario_movil__nombre">${va.nombre}</p>
+            <p class="card_usuario_movil__correo">${va.correo} · ${tipo_texto}</p>
+          </div>
+        </div>
+        <div class="card_usuario_movil__requisitos">
+          <span class="card_usuario_movil__req card_usuario_movil__req--completo">Cédula: ${va.cedula}</span>
+          <span class="card_usuario_movil__req card_usuario_movil__req--completo">Tel: ${va.telefono}</span>
+          <span class="card_usuario_movil__req card_usuario_movil__req--completo">Inmuebles: ${va.inmuebles}</span>
+        </div>
+        <div class="card_movil__acciones">
+          <button class="card_movil__boton card_movil__boton--ver" onclick="ver_vendedor_arrendatario(${va.id})">
+            <img src="../assets/iconos/usuario.svg" alt="" /> Ver
+          </button>
+          <button class="card_movil__boton card_movil__boton--editar" onclick="editar_vendedor_arrendatario(${va.id})">
+            <img src="../assets/iconos/regla.svg" alt="" /> Editar
+          </button>
+          <button class="card_movil__boton card_movil__boton--eliminar" onclick="eliminar_vendedor_arrendatario(${va.id})">
+            <img src="../assets/iconos/cerrar.svg" alt="" /> Eliminar
+          </button>
+        </div>
+      </article>
+    `;
+  }).join("") || `<p style="text-align:center;padding:1.5rem;color:#9CA3AF;font-size:0.875rem;">Sin vendedores/arrendatarios</p>`;
+}
+
+function filtrar_vendedor_arrendatario() {
+  const input = document.getElementById("buscador_vendedor_arrendatario");
+  if (input) {
+    estado.busqueda_vendedor_arrendatario = input.value;
+    renderizar_vendedor_arrendatario();
+  }
+}
+
+// CRUD functions for Vendedor/Arrendatario
+function ver_vendedor_arrendatario(id) {
+  const va = vendedor_arrendatario.find(v => v.id === id);
+  if (va) {
+    alert(`Vendedor/Arrendatario: ${va.nombre}\nTipo: ${va.tipo}\nCédula: ${va.cedula}\nCorreo: ${va.correo}\nTeléfono: ${va.telefono}\nDirección: ${va.direccion}\nEstado: ${va.estado}\nInmuebles: ${va.inmuebles}\nObservaciones: ${va.observaciones || 'Ninguna'}`);
+  }
+}
+
+function editar_vendedor_arrendatario(id) {
+  const va = vendedor_arrendatario.find(v => v.id === id);
+  if (va) {
+    const nuevo_nombre = prompt("Editar nombre:", va.nombre);
+    const nuevo_tipo = prompt("Editar tipo (vendedor/arrendatario):", va.tipo);
+    const nueva_cedula = prompt("Editar cédula:", va.cedula);
+    const nuevo_correo = prompt("Editar correo:", va.correo);
+    const nuevo_telefono = prompt("Editar teléfono:", va.telefono);
+    const nueva_direccion = prompt("Editar dirección:", va.direccion);
+    const nuevo_estado = prompt("Editar estado (activo/inactivo/pendiente):", va.estado);
+    const nuevas_observaciones = prompt("Editar observaciones:", va.observaciones || "");
+    
+    if (nuevo_nombre && nuevo_tipo && nueva_cedula && nuevo_correo) {
+      const idx = vendedor_arrendatario.findIndex(v => v.id === id);
+      if (idx !== -1) {
+        vendedor_arrendatario[idx].nombre = nuevo_nombre;
+        vendedor_arrendatario[idx].tipo = nuevo_tipo;
+        vendedor_arrendatario[idx].cedula = nueva_cedula;
+        vendedor_arrendatario[idx].correo = nuevo_correo;
+        vendedor_arrendatario[idx].telefono = nuevo_telefono || va.telefono;
+        vendedor_arrendatario[idx].direccion = nueva_direccion || va.direccion;
+        vendedor_arrendatario[idx].estado = nuevo_estado || va.estado;
+        vendedor_arrendatario[idx].observaciones = nuevas_observaciones || va.observaciones;
+        vendedor_arrendatario[idx].iniciales = nuevo_nombre.split(" ").map(p => p[0]).join("").slice(0, 2);
+        renderizar_vendedor_arrendatario();
+      }
+    }
+  }
+}
+
+function eliminar_vendedor_arrendatario(id) {
+  const va = vendedor_arrendatario.find(v => v.id === id);
+  if (va && confirm(`¿Eliminar "${va.nombre}"? Esta acción no se puede deshacer.`)) {
+    const idx = vendedor_arrendatario.findIndex(v => v.id === id);
+    if (idx !== -1) {
+      vendedor_arrendatario.splice(idx, 1);
+      renderizar_vendedor_arrendatario();
+    }
   }
 }
 
@@ -989,7 +1286,10 @@ function inicializar() {
   if (busq_inmuebles) busq_inmuebles.addEventListener("input", filtrar_inmuebles);
 
   const busq_usuarios = document.getElementById("buscador_usuarios");
-  if (busq_usuarios) busq_usuarios.addEventListener("input", filtrar_usuarios);
+  if (busq_usuarios) busq_usuarios.addEventListener("input", handle_filtrar_usuarios);
+
+  const busq_vendedor_arrendatario = document.getElementById("buscador_vendedor_arrendatario");
+  if (busq_vendedor_arrendatario) busq_vendedor_arrendatario.addEventListener("input", filtrar_vendedor_arrendatario);
 
   // Activar vista inicial
   cambiar_vista_admin("tablero");
