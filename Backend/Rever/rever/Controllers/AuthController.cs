@@ -47,10 +47,7 @@ namespace rever.Controllers
                 return Unauthorized("Credenciales inválidas");
             }
 
-<<<<<<< HEAD
-            // 3. Configurar Claims — todo lo que el frontend necesita saber va aquí
-=======
->>>>>>> f4ebfac1cc8af1a694bd6b91d7fa8979546224e4
+            // Configurar Claims — todo lo que el frontend necesita saber va aquí
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, usuario.IdUsuario.ToString()),
@@ -77,17 +74,6 @@ namespace rever.Controllers
             {
                 Token = tokenString,
                 Expiration = tokenOptions.ValidTo,
-<<<<<<< HEAD
-=======
-                Usuario = new
-                {
-                    usuario.IdUsuario,
-                    usuario.Nombre,
-                    usuario.Correo,
-                    usuario.IdRol,
-                    NombreRol = usuario.Rol?.Nombre
-                }
->>>>>>> f4ebfac1cc8af1a694bd6b91d7fa8979546224e4
             });
         }
 
@@ -103,6 +89,9 @@ namespace rever.Controllers
             string confirmationToken = Guid.NewGuid().ToString();
 
             nuevoUsuario.Contraseña = BCrypt.Net.BCrypt.HashPassword(nuevoUsuario.Contraseña);
+
+            // ⚠️ Pendiente: esto todavía no guarda al usuario en la base de datos.
+            // Falta: await _usuarioRepository.PostUsuario(nuevoUsuario);
 
             string confirmationLink = $"{Request.Scheme}://{Request.Host}/api/Auth/ConfirmEmail?email={nuevoUsuario.Correo}&token={confirmationToken}";
 
