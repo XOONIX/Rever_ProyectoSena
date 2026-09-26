@@ -15,6 +15,6 @@ namespace rever.Models
         [Required(ErrorMessage = "El nombre es obligatorio.")]
         [StringLength(100)]
         [Column("nombre")]
-        public string Nombre { get; set; }
+        public required string Nombre { get; set; }
     }
 }

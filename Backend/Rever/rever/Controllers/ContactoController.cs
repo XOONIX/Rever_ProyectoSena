@@ -12,7 +12,7 @@ namespace rever.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "1,2,3")]
     public class ContactoController : ControllerBase
     {
         private readonly IContactoRepository _contactorepository;
@@ -23,7 +23,7 @@ namespace rever.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "administrador")]
+        [Authorize(Roles = "1")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -51,7 +51,6 @@ namespace rever.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -98,7 +97,6 @@ namespace rever.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<IActionResult> CrearContacto([FromBody] Contacto contacto)
         {
             try
@@ -175,7 +173,6 @@ namespace rever.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize (Roles ="administrador")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]

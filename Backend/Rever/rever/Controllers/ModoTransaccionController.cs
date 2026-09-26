@@ -11,7 +11,7 @@ namespace rever.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize (Roles = "Administrador")]
+    [Authorize (Roles = "1")]
     public class ModoTransaccionController : ControllerBase
     {
         private readonly IModoTransaccionRepository _modotransaccionrepository;

@@ -10,7 +10,7 @@ namespace rever.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "1,2")]
     public class InmuebleCaracteristicaController : ControllerBase
     {
         private readonly IInmuebleCaracteristicaRepository _inmueblecaracteristicarepository;
@@ -75,7 +75,6 @@ namespace rever.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "vendedor,administrador")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -96,7 +95,7 @@ namespace rever.Controllers
                     return StatusCode(404, $"404: El inmueble con ID {inmuebleCaracteristica.IdInmueble} no existe.");
                 }
 
-                if (!EsDuenoOAdmin(inmueble.IdUsuario))
+                if (!User.EsDueñoOAdmin(inmueble.IdUsuario))
                 {
                     return StatusCode(403, "403: No puedes agregar características a un inmueble que no es tuyo.");
                 }
@@ -115,7 +114,6 @@ namespace rever.Controllers
         }
 
         [HttpDelete("{id1}/{id2}")]
-        [Authorize(Roles = "vendedor,administrador")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -137,7 +135,7 @@ namespace rever.Controllers
                 }
 
                 var inmueble = await _inmueblerepository.GetInmuebleById(id1);
-                if (inmueble == null || !EsDuenoOAdmin(inmueble.IdUsuario))
+                if (inmueble == null || !User.EsDueñoOAdmin(inmueble.IdUsuario))
                 {
                     return StatusCode(403, "403: No puedes eliminar características de un inmueble que no es tuyo.");
                 }
@@ -149,24 +147,6 @@ namespace rever.Controllers
             {
                 return StatusCode(500, $"500 Error Interno: {ex.Message}");
             }
-        }
-
-        private bool EsDuenoOAdmin(int idVendedorDelInmueble)
-        {
-            // 1. Obtener el ID de forma segura como Nullable (int?)
-            var idUsuarioToken = User.ObtenerIdUsuario();
-
-            // 2. Si no hay token o no se pudo extraer el ID, no tiene acceso
-            if (!idUsuarioToken.HasValue)
-            {
-                return false;
-            }
-
-            // 3. Verificar si el usuario es administrador (contemplando ambas variaciones de rol)
-            var esAdmin = User.IsInRole("administrador") || User.IsInRole("Admin");
-
-            // 4. Comparar el ID extraído (.Value) con el dueño del recurso
-            return idVendedorDelInmueble == idUsuarioToken.Value || esAdmin;
         }
     }
 }

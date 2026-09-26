@@ -13,7 +13,7 @@ namespace rever.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "1,2")]
     public class InmuebleController : ControllerBase
     {
         private readonly IInmuebleRepository _inmueblerepository;
@@ -74,7 +74,6 @@ namespace rever.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "vendedor,administrador")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -116,7 +115,6 @@ namespace rever.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = "vendedor,administrador")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]

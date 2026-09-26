@@ -11,7 +11,7 @@ namespace rever.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "administrador")]
+    [Authorize(Roles = "1")]
     public class TipoInmuebleController : ControllerBase
     {
         private readonly ITipoInmuebleRepository _tipoinmueblerepository;

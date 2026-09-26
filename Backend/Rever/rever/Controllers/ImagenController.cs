@@ -10,7 +10,7 @@ namespace rever.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize (Roles = "1,2")]
     public class ImagenController : ControllerBase
     {
         private readonly IImagenRepository _imagenrepository;
@@ -73,7 +73,6 @@ namespace rever.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "vendedor,administrador")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -94,7 +93,7 @@ namespace rever.Controllers
                     return StatusCode(404, $"404: El inmueble con ID {imagen.IdInmueble} no existe.");
                 }
 
-                if (!EsDuenoOAdmin(inmueble.IdUsuario))
+                if (!User.EsDueñoOAdmin(inmueble.IdUsuario))
                 {
                     return StatusCode(403, "403: No puedes agregar imágenes a un inmueble que no es tuyo.");
                 }
@@ -113,7 +112,6 @@ namespace rever.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = "vendedor,administrador")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -135,7 +133,7 @@ namespace rever.Controllers
                 }
 
                 var inmueble = await _inmuebleRepository_ObtenerInmueble(exist.IdInmueble);
-                if (inmueble == null || !EsDuenoOAdmin(inmueble.IdUsuario))
+                if (inmueble == null || !User.EsDueñoOAdmin(inmueble.IdUsuario))
                 {
                     return StatusCode(403, "403: No puedes modificar imágenes de un inmueble que no es tuyo.");
                 }
@@ -152,7 +150,6 @@ namespace rever.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "vendedor,administrador")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -174,7 +171,7 @@ namespace rever.Controllers
                 }
 
                 var inmueble = await _inmuebleRepository_ObtenerInmueble(exist.IdInmueble);
-                if (inmueble == null || !EsDuenoOAdmin(inmueble.IdUsuario))
+                if (inmueble == null || !User.EsDueñoOAdmin(inmueble.IdUsuario))
                 {
                     return StatusCode(403, "403: No puedes eliminar imágenes de un inmueble que no es tuyo.");
                 }
@@ -188,29 +185,10 @@ namespace rever.Controllers
             }
         }
 
-        // ---- Helpers privados para no repetir la misma lógica cuatro veces ----
-
         private async Task<Inmueble?> _inmuebleRepository_ObtenerInmueble(int idInmueble)
         {
             return await _inmueblerepository.GetInmuebleById(idInmueble);
         }
 
-        private bool EsDuenoOAdmin(int idVendedorDelInmueble)
-        {
-            // 1. Obtener el ID del token usando tu método de extensión
-            var idUsuarioToken = User.ObtenerIdUsuario();
-
-            // 2. Si no hay token o no tiene ID, denegar acceso
-            if (!idUsuarioToken.HasValue)
-            {
-                return false;
-            }
-
-            // 3. Verificar si es administrador
-            var esAdmin = User.IsInRole("administrador") || User.IsInRole("Admin");
-
-            // 4. Verificar autoría comparando los enteros
-            return idVendedorDelInmueble == idUsuarioToken.Value || esAdmin;
-        }
     }
 }

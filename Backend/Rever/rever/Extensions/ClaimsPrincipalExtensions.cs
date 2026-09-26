@@ -20,5 +20,24 @@ namespace rever
 
             return null;
         }
+
+        public static bool EsAdministrador(this ClaimsPrincipal user)
+        {
+            return user.IsInRole("1"); // el claim Role es el id numérico del rol
+        }
+
+
+        /// True si el usuario autenticado es el dueño del recurso (comparando idPropietario)
+        /// o si es administrador. False si no hay token válido.
+        public static bool EsDueñoOAdmin(this ClaimsPrincipal user, int idPropietario)
+        {
+            var idUsuarioToken = user.ObtenerIdUsuario();
+            if (!idUsuarioToken.HasValue)
+            {
+                return false;
+            }
+
+            return idUsuarioToken.Value == idPropietario || user.EsAdministrador();
+        }
     }
 }

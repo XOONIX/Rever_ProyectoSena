@@ -10,7 +10,7 @@ namespace rever.Controllers
 {
     [Route("Api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "1")]
     public class EstadoPublicacionController : ControllerBase
     {
         private readonly IEstadoPublicacionRepository _estadopublicacionrepository;
@@ -73,7 +73,6 @@ namespace rever.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "administrador")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -106,7 +105,6 @@ namespace rever.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = "administrador")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -143,7 +141,6 @@ namespace rever.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "administrador")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]

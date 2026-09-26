@@ -11,34 +11,38 @@ namespace rever.Models
         [Column("id_usuario")]
         public int IdUsuario { get; set; }
 
+        [Required(ErrorMessage = "El nombre es obligatorio.")]
         [StringLength(100)]
         [Column("nombre")]
-        public string? Nombre { get; set; }
+        public required string Nombre { get; set; }
 
         [Required(ErrorMessage = "El correo es obligatorio.")]
         [EmailAddress(ErrorMessage = "El formato del correo no es válido.")]
         [StringLength(100)]
         [Column("correo")]
-        public string Correo { get; set; }
+        public required string Correo { get; set; }
 
         [Required(ErrorMessage = "La contraseña es obligatoria.")]
         [StringLength(255, MinimumLength = 8)]
         [DataType(DataType.Password)]
         [Column("contraseña")]
-        public string Contraseña { get; set; }
+        public required string Contraseña { get; set; }
 
+        [Required (ErrorMessage = "El teléfono es obligatorio.")]
         [Phone(ErrorMessage = "El formato del teléfono no es válido.")]
         [StringLength(20)]
         [Column("telefono")]
-        public string? Telefono { get; set; }
+        public required string Telefono { get; set; }
 
+        [Required(ErrorMessage = "El id del rol es obligatorio.")]
+        [Range(1, 3, ErrorMessage = "El id del rol debe estar entre 1 y 3.")]
         [Column("id_rol")]
-        public int IdRol { get; set; }
+        public required int IdRol { get; set; }
 
         [Column("fecha_registro")]
         public DateTime FechaRegistro { get; set; } = DateTime.Now;
 
         [ForeignKey("IdRol")]
-        public  Rol? Rol { get; set; }
+        public Rol? Rol { get; set; }
     }
 }

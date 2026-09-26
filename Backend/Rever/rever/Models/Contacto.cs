@@ -13,25 +13,25 @@ namespace rever.Models
 
         [Required(ErrorMessage = "El comprador es obligatorio.")]
         [Column("id_comprador")]
-        public int IdComprador { get; set; }
+        public required int IdComprador { get; set; }
 
         [Required(ErrorMessage = "El vendedor es obligatorio.")]
         [Column("id_vendedor")]
-        public int IdVendedor { get; set; }
+        public required int IdVendedor { get; set; }
 
         [Required(ErrorMessage = "El inmueble es obligatorio.")]
         [Column("id_inmueble")]
-        public int IdInmueble { get; set; }
+        public required int IdInmueble { get; set; }
 
         [Required(ErrorMessage = "El mensaje es obligatorio.")]
         [MinLength(5)]
         [Column("mensaje", TypeName = "TEXT")]
-        public string Mensaje { get; set; }
+        public required string Mensaje { get; set; }
 
         [Column("fecha")]
         public DateTime Fecha { get; set; } = DateTime.Now;
 
-        // OJO: dos FKs distintas apuntan a la misma tabla Usuario,
+        // dos FKs distintas apuntan a la misma tabla Usuario,
         // por eso cada una necesita su propio nombre de navegación.
         [ForeignKey("IdComprador")]
         public Usuario? Comprador { get; set; }

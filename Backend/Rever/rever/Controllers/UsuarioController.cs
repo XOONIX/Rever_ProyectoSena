@@ -11,7 +11,7 @@ namespace rever.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "1,2,3")]
     public class UsuarioController : ControllerBase
     {
         private readonly IUsuarioRepository _Usuariorrepository;
@@ -22,7 +22,7 @@ namespace rever.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "administrador")]
+        [Authorize(Roles = "1")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -53,7 +53,6 @@ namespace rever.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -119,12 +118,8 @@ namespace rever.Controllers
                     return StatusCode(400, "400: El correo ya se encuentra registrado.");
                 }
 
-                // 2. Obtener el rol del usuario que realiza la petición desde los Claims
-                var rolUsuarioAutenticado = User.FindFirst(ClaimTypes.Role)?.Value;
-
-                // 3. Validar restricción de creación de roles
-                // Si no es Administrador (Rol 1), solo puede registrar usuarios con Rol 2 o 3
-                bool esadministrador = rolUsuarioAutenticado == "1" || rolUsuarioAutenticado == "administrador";
+                // 2. Verificar si quien hace la petición es administrador
+                bool esadministrador = User.EsAdministrador();
 
                 if (!esadministrador && usuario.IdRol == 1)
                 {
@@ -158,7 +153,6 @@ namespace rever.Controllers
         }
 
         [HttpPut]
-        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -175,23 +169,13 @@ namespace rever.Controllers
                     return StatusCode(400, "400: Los datos para actualizar o el ID no son válidos.");
                 }
 
-                // 2. Obtener el ID del usuario desde el Token JWT de forma segura
-                var idUsuarioToken = User.ObtenerIdUsuario();
-
-                if (!idUsuarioToken.HasValue)
-                {
-                    return StatusCode(401, "401: No se pudo verificar la identidad del usuario desde el token.");
-                }
-
-                // 3. Verificar permisos
-                var esAdmin = User.IsInRole("administrador") || User.IsInRole("Admin");
-
-                if (usuario.IdUsuario != idUsuarioToken.Value && !esAdmin)
+                // 2. Verificar permisos: dueño de la cuenta o administrador
+                if (!User.EsDueñoOAdmin(usuario.IdUsuario))
                 {
                     return StatusCode(403, "403: No puedes actualizar la cuenta de otro usuario.");
                 }
 
-                // 4. Verificar existencia del usuario en la base de datos
+                // 3. Verificar existencia del usuario en la base de datos
                 var exist = await _Usuariorrepository.GetUsuarioById(usuario.IdUsuario);
 
                 if (exist == null)
@@ -199,7 +183,7 @@ namespace rever.Controllers
                     return StatusCode(404, $"404: No se puede actualizar. El usuario con ID {usuario.IdUsuario} no existe.");
                 }
 
-                // 5. Actualizar propiedades
+                // 4. Actualizar propiedades
                 exist.Nombre = usuario.Nombre;
                 exist.Correo = usuario.Correo;
                 exist.Telefono = usuario.Telefono;
@@ -224,7 +208,6 @@ namespace rever.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -249,8 +232,8 @@ namespace rever.Controllers
 
                 var esAdmin = User.IsInRole("administrador") || User.IsInRole("Admin");
 
-                // 2. Comparar usando .Value
-                if (id != idUsuarioToken.Value && !esAdmin)
+                // 2. Comparar si es dueño del usuario o administrador
+                if (!User.EsDueñoOAdmin(id))
                 {
                     return StatusCode(403, "403: No puedes eliminar la cuenta de otro usuario.");
                 }

@@ -13,13 +13,15 @@ namespace rever.Models
         [Required(ErrorMessage = "El nombre es obligatorio.")]
         [StringLength(100)]
         [Column("nombre")]
-        public string Nombre { get; set; }
+        public required string Nombre { get; set; }
 
+        [Required(ErrorMessage = "la id de la ciudad es obligatoria.")]
         [Column("id_ciudad")]
-        public int IdCiudad { get; set; }
+        public required int IdCiudad { get; set; }
 
+        [Required(ErrorMessage = "la id de la localidad es obligatoria.")]
         [Column("id_localidad")]
-        public int IdLocalidad { get; set; }
+        public required int IdLocalidad { get; set; }
 
         [ForeignKey("IdCiudad")]
         public Ciudad? Ciudad { get; set; }

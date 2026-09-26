@@ -10,7 +10,7 @@ namespace rever.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize (Roles = "administrador")]
+    [Authorize (Roles = "1")]
     public class RolController : ControllerBase
     {
         private readonly IRolRepository _rolrepository;

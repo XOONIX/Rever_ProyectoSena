@@ -14,11 +14,11 @@ namespace rever.Models
         [Required(ErrorMessage = "El título es obligatorio.")]
         [StringLength(150)]
         [Column("titulo")]
-        public string Titulo { get; set; }
+        public required string Titulo { get; set; }
 
         [Required(ErrorMessage = "La descripción es obligatoria.")]
         [Column("descripcion", TypeName = "TEXT")]
-        public string Descripcion { get; set; }
+        public required string Descripcion { get; set; }
 
         [Column("precio", TypeName = "decimal(12,2)")]
         public decimal Precio { get; set; }
@@ -32,35 +32,42 @@ namespace rever.Models
         [Required(ErrorMessage = "La dirección es obligatoria.")]
         [StringLength(200)]
         [Column("direccion")]
-        public string Direccion { get; set; }
+        public required string Direccion { get; set; }
 
+        [Required(ErrorMessage = "El id del barrio es obligatorio.")]
         [Column("id_barrio")]
-        public int IdBarrio { get; set; }
+        public required int IdBarrio { get; set; }
 
+        [Required(ErrorMessage = "El número de habitaciones es obligatorio.")]
         [Range(0, 10)]
         [Column("habitaciones")]
-        public int Habitaciones { get; set; }
-
+        public required int Habitaciones { get; set; }
+        
+        [Required(ErrorMessage = "El número de baños es obligatorio.")]
         [Range(0, 10)]
         [Column("baños")]
-        public int Baños { get; set; }
+        public required int Baños { get; set; }
 
+        [Required(ErrorMessage = "El número de metros cuadrados es obligatorio.")]
         [Column("metros_cuadrados")]   
-        public int MetrosCuadrados { get; set; }
+        public required int MetrosCuadrados { get; set; }
 
+        [Required(ErrorMessage = "El número de estrato es obligatorio.")]
         [Range(1, 6)]
         [Column("estrato")]
         public int Estrato { get; set; }
 
+        [Required(ErrorMessage = "La latitud es obligatoria.")]
         [Column("latitud", TypeName = "decimal(10,8)")]
-        public decimal Latitud { get; set; }
+        public required decimal Latitud { get; set; }
 
+        [Required(ErrorMessage = "La longitud es obligatoria.")]
         [Column("longitud", TypeName = "decimal(11,8)")]
-        public decimal Longitud { get; set; }
+        public required decimal Longitud { get; set; }
 
+        [Required(ErrorMessage = "El id del usuario es obligatorio.")]
         [Column("id_usuario")]
-
-        public int IdUsuario { get; set; }
+        public required int IdUsuario { get; set; }
 
         [Column("id_estado")]
         public int IdEstado { get; set; } = 1;
@@ -84,9 +91,9 @@ namespace rever.Models
         public Usuario? Usuario { get; set; }
 
         [InverseProperty("Inmueble")]
-        public ICollection<Imagen> Imagenes { get; set; }
-        
+        public ICollection<Imagen> Imagenes { get; set; } = new List<Imagen>();
+
         [InverseProperty("Inmueble")]
-        public ICollection<InmuebleCaracteristica> InmuebleCaracteristicas { get; set; }
+        public ICollection<InmuebleCaracteristica> InmuebleCaracteristicas { get; set; } = new List<InmuebleCaracteristica>();
     }
 }

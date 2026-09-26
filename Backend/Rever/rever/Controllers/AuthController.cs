@@ -9,10 +9,10 @@ using System.Security.Claims;
 using System.Text;
 
 namespace rever.Controllers
-{   
+{
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [AllowAnonymous]
     public class AuthController : ControllerBase
     {
         private readonly IConfiguration _configuration;
@@ -25,7 +25,6 @@ namespace rever.Controllers
         }
 
         [HttpPost("Login")]
-        [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] Login login)
         {
             if (login == null || string.IsNullOrWhiteSpace(login.Correo) || string.IsNullOrWhiteSpace(login.Contraseña))
@@ -47,12 +46,13 @@ namespace rever.Controllers
                 return Unauthorized("Credenciales inválidas");
             }
 
-            // 3. Configurar Claims
+            // 3. Configurar Claims — todo lo que el frontend necesita saber va aquí
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, usuario.IdUsuario.ToString()),
                 new Claim(ClaimTypes.Name, usuario.Correo),
-                new Claim(ClaimTypes.Role, usuario.Rol?.Nombre ?? "User")
+                new Claim(ClaimTypes.Role, usuario.Rol?.IdRol.ToString() ?? "0"),
+                new Claim("nombre", usuario.Nombre),
             };
 
             // 4. Generar Token JWT
@@ -74,14 +74,6 @@ namespace rever.Controllers
             {
                 Token = tokenString,
                 Expiration = tokenOptions.ValidTo,
-                Usuario = new
-                {
-                    usuario.IdUsuario,   // Simplificado (equivale a IdUsuario = usuario.IdUsuario)
-                    usuario.Nombre,
-                    usuario.Correo,
-                    usuario.IdRol,
-                    NombreRol = usuario.Rol?.Nombre //el nombre difiere de Rol.Nombre
-                }
             });
         }
     }

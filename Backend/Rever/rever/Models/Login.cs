@@ -5,10 +5,11 @@ namespace rever.Models
     public class Login
     {
         [Required(ErrorMessage = "El correo es obligatorio")]
-        public string Correo { get; set; }
+        [EmailAddress(ErrorMessage = "El formato del correo no es válido.")]
+        public required string Correo { get; set; }
 
         [Required(ErrorMessage = "La contraseña es obligatoria")]
         [MinLength(6, ErrorMessage = "La contraseña debe tener al menos 6 caracteres")]
-        public string Contraseña { get; set; }
+        public required string Contraseña { get; set; }
     }
 }

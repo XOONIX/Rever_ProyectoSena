@@ -12,7 +12,7 @@ namespace rever.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
+    [Authorize(Roles = "1")]
     public class CiudadController : ControllerBase
     {
         private readonly ICiudadRepository _ciudadrepository;
@@ -75,7 +75,6 @@ namespace rever.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "administrador")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -108,7 +107,6 @@ namespace rever.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = "administrador")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -146,7 +144,6 @@ namespace rever.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = "administrador")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
