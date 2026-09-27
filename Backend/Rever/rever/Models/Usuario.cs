@@ -42,6 +42,12 @@ namespace rever.Models
         [Column("fecha_registro")]
         public DateTime FechaRegistro { get; set; } = DateTime.Now;
 
+        [Column("confirmado")]
+        public bool Confirmado { get; set; } = false;
+
+        [Column("token_confirmacion")]
+        public string? TokenConfirmacion { get; set; }
+
         [ForeignKey("IdRol")]
         public Rol? Rol { get; set; }
     }

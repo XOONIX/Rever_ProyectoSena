@@ -70,6 +70,39 @@ async function cargar_propiedades() {
     mostrar_notificacion('No se pudieron cargar las propiedades', 'error');
   }
 }
+/**
+ * Decodifica el payload de un JWT +.
+ * @param {string} token
+ * @returns {Object|null}
+ */
+function decodificar_token(token) {
+  try {
+    const payload = token.split('.')[1];
+    const decodificado = atob(payload.replace(/-/g, '+').replace(/_/g, '/'));
+    return JSON.parse(decodificado);
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Obtiene los datos del usuario en sesión directamente del token.
+ * @returns {Object|null}
+ */
+function obtener_usuario_actual() {
+  const token = localStorage.getItem('token');
+  if (!token) return null;
+
+  const payload = decodificar_token(token);
+  if (!payload) return null;
+
+  return {
+    idUsuario: parseInt(payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'], 10),
+    correo: payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'],
+    idRol: parseInt(payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'], 10),
+    nombre: payload['nombre'],
+  };
+}
 
 /* ════════════════════════════════════════════════════════════
    UTILIDADES
@@ -297,26 +330,12 @@ function cerrar_menu_usuario() {
  * Verifica el estado de autenticación del usuario.
  */
 function verificar_autenticacion() {
-  // Verificar si hay un usuario en localStorage
-  const usuarioGuardado = localStorage.getItem('usuario_actual');
-  const sesionGuardada = localStorage.getItem('sesion_activa');
-  
-  estado.sesion_activa = sesionGuardada === 'true' && usuarioGuardado;
-  
-  if (estado.sesion_activa) {
-    const usuario = JSON.parse(usuarioGuardado);
+  const usuario = obtener_usuario_actual();
+  estado.sesion_activa = !!usuario;
+
+  if (usuario) {
     estado.nombre_usuario = usuario.nombre;
     estado.email_usuario = usuario.correo;
-    estado.imagen_usuario = usuario.imagen_perfil || null;
-    
-    // Actualizar avatar si hay imagen personalizada
-    if (estado.imagen_usuario) {
-      const avatarImagen = document.getElementById('avatar_imagen');
-      if (avatarImagen) {
-        avatarImagen.src = estado.imagen_usuario;
-      }
-    }
-    
     mostrar_opciones_autenticado();
   } else {
     mostrar_opciones_no_autenticado();
@@ -390,23 +409,15 @@ function ir_a_registro() {
  */
 function cerrar_sesion() {
   localStorage.removeItem('sesion_activa');
+  localStorage.removeItem('token');
   localStorage.removeItem('usuario_actual');
-  localStorage.removeItem('imagen_avatar');
-  
+
   estado.sesion_activa = false;
   estado.nombre_usuario = null;
   estado.email_usuario = null;
-  estado.imagen_usuario = null;
-  
-  // Restaurar avatar por defecto
-  const avatarImagen = document.getElementById('avatar_imagen');
-  if (avatarImagen) {
-    avatarImagen.src = 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80';
-  }
-  
+
   mostrar_opciones_no_autenticado();
   cerrar_menu_usuario();
-  
   mostrar_notificacion('Sesión cerrada correctamente', 'exito');
 }
 

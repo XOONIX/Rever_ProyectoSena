@@ -47,6 +47,11 @@ namespace rever.Controllers
                 return Unauthorized("Credenciales inválidas");
             }
 
+            if (!usuario.Confirmado)
+            {
+                return Unauthorized("Debes confirmar tu cuenta desde el correo que te enviamos antes de iniciar sesión.");
+            }
+
             // Configurar Claims — todo lo que el frontend necesita saber va aquí
             var claims = new List<Claim>
             {
@@ -78,20 +83,37 @@ namespace rever.Controllers
         }
 
         [HttpPost("Register")]
-        [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] Usuario nuevoUsuario)
         {
-            if (nuevoUsuario == null || string.IsNullOrWhiteSpace(nuevoUsuario.Correo))
+            if (nuevoUsuario == null || string.IsNullOrWhiteSpace(nuevoUsuario.Correo) || string.IsNullOrWhiteSpace(nuevoUsuario.Contraseña))
             {
                 return BadRequest("Datos de usuario inválidos.");
+            }
+
+            var existente = await _usuarioRepository.GetByEmailWithRolAsync(nuevoUsuario.Correo);
+            if (existente != null)
+            {
+                return BadRequest("El correo ya se encuentra registrado.");
+            }
+
+            // Solo se permite auto-registrar comprador (2) o vendedor (3); rol 1 (admin) solo lo crea otro admin
+            bool esAdministrador = User.EsAdministrador();
+            if (!esAdministrador && (nuevoUsuario.IdRol != 2 && nuevoUsuario.IdRol != 3))
+            {
+                return BadRequest("Solo se permite la creación de usuarios con rol 2 o 3.");
             }
 
             string confirmationToken = Guid.NewGuid().ToString();
 
             nuevoUsuario.Contraseña = BCrypt.Net.BCrypt.HashPassword(nuevoUsuario.Contraseña);
+            nuevoUsuario.Confirmado = false;
+            nuevoUsuario.TokenConfirmacion = confirmationToken;
 
-            // ⚠️ Pendiente: esto todavía no guarda al usuario en la base de datos.
-            // Falta: await _usuarioRepository.PostUsuario(nuevoUsuario);
+            var guardado = await _usuarioRepository.PostUsuario(nuevoUsuario);
+            if (!guardado)
+            {
+                return StatusCode(500, "Error interno al crear el usuario.");
+            }
 
             string confirmationLink = $"{Request.Scheme}://{Request.Host}/api/Auth/ConfirmEmail?email={nuevoUsuario.Correo}&token={confirmationToken}";
 
@@ -112,10 +134,23 @@ namespace rever.Controllers
         }
 
         [HttpGet("ConfirmEmail")]
-        [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail([FromQuery] string email, [FromQuery] string token)
         {
-            return Ok("¡Cuenta confirmada con éxito! Ya puedes iniciar sesión.");
+            var usuario = await _usuarioRepository.GetByEmailWithRolAsync(email);
+
+            // Ajusta esta URL base a donde realmente sirvas tu frontend (Live Server, etc.)
+            const string urlBaseFrontend = "http://127.0.0.1:5500/Frontend/html";
+
+            if (usuario == null || usuario.TokenConfirmacion != token)
+            {
+                return Redirect($"{urlBaseFrontend}/login.html?error=invalid_token");
+            }
+
+            usuario.Confirmado = true;
+            usuario.TokenConfirmacion = null;
+            await _usuarioRepository.PutUsuario(usuario);
+
+            return Redirect($"{urlBaseFrontend}/login.html?confirmed=true");
         }
     }
 }

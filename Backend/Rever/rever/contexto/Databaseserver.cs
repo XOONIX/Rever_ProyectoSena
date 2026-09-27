@@ -52,6 +52,8 @@ namespace rever.contexto
                 entity.Property(u => u.Telefono).HasColumnName("telefono").HasMaxLength(20);
                 entity.Property(u => u.IdRol).HasColumnName("id_rol");
                 entity.Property(u => u.FechaRegistro).HasColumnName("fecha_registro").HasDefaultValueSql("CURRENT_TIMESTAMP");
+                entity.Property(u => u.Confirmado).HasColumnName("confirmado").HasDefaultValue(false);
+                entity.Property(u => u.TokenConfirmacion).HasColumnName("token_confirmacion");
 
                 entity.HasIndex(u => u.Correo).IsUnique();
                 entity.HasOne(u => u.Rol).WithMany().HasForeignKey(u => u.IdRol);
