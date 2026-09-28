@@ -7,20 +7,14 @@
 'use strict';
 
 /* ════════════════════════════════════════════════════════════
-   BASE DE DATOS DE PROPIEDADES
+   CONFIGURACIÓN & ESTADO GLOBAL
 ════════════════════════════════════════════════════════════ */
 
-/* Los datos se cargan desde el archivo compartido datos_propiedades.js */
-const propiedades_db = datos_propiedades;
-
-
-/* ════════════════════════════════════════════════════════════
-   ESTADO GLOBAL
-════════════════════════════════════════════════════════════ */
+const API_URL = 'https://localhost:7015/api';
 
 const estado_detalle = {
-  propiedad_actual: null,   /* Objeto propiedad cargado */
-  indice_galeria:   0,      /* Foto activa en el modal */
+  propiedad_actual: null,    /* Objeto propiedad cargado desde la API */
+  indice_galeria:   0,       /* Foto activa en el modal */
   es_favorito:      false,
 };
 
@@ -75,8 +69,41 @@ function mostrar_notificacion_detalle(mensaje, tipo) {
  */
 function obtener_id_desde_url() {
   const params = new URLSearchParams(window.location.search);
-  const id = parseInt(params.get('id') ?? '1', 10);
-  return isNaN(id) ? 1 : id;
+  const id = parseInt(params.get('id'), 10);
+  return isNaN(id) ? null : id;
+}
+
+
+/* ════════════════════════════════════════════════════════════
+   CARGA DE DATOS DESDE LA API
+════════════════════════════════════════════════════════════ */
+
+/**
+ * Consulta el backend para traer el detalle de la propiedad.
+ */
+async function cargar_detalle_inmueble() {
+  const id = obtener_id_desde_url();
+  if (!id) {
+    mostrar_notificacion_detalle('No se especificó ningún inmueble válido', 'error');
+    return;
+  }
+
+  try {
+    const respuesta = await fetch(`${API_URL}/Inmueble/${id}/Detalle`);
+    if (!respuesta.ok) throw new Error('No se pudo cargar la propiedad');
+
+    const inmueble = await respuesta.json();
+    renderizar_detalle(inmueble);
+
+  } catch (error) {
+    console.error('Error al cargar la propiedad:', error);
+    mostrar_notificacion_detalle('No se pudo cargar la información del inmueble', 'error');
+  } finally {
+    const overlay = obtener_elemento_detalle('overlay_carga');
+    const pantalla = obtener_elemento_detalle('pantalla_detalle');
+    if (overlay) overlay.classList.add('oculto');
+    if (pantalla) pantalla.classList.remove('oculto');
+  }
 }
 
 
@@ -85,16 +112,21 @@ function obtener_id_desde_url() {
 ════════════════════════════════════════════════════════════ */
 
 /**
- * Monta toda la pantalla de detalle con la propiedad indicada.
+ * Monta toda la pantalla de detalle con el objeto recibido del backend.
  * @param {Object} prop
  */
 function renderizar_detalle(prop) {
   estado_detalle.propiedad_actual = prop;
 
+  // Garantizar array de imágenes
+  const imagenes = (prop.imagenes && prop.imagenes.length > 0)
+    ? prop.imagenes
+    : ['https://via.placeholder.com/800x600?text=Sin+imagen'];
+
   /* ── Hero ── */
   const img_hero = obtener_elemento_detalle('imagen_hero');
   if (img_hero) {
-    img_hero.src = prop.imagenes[0];
+    img_hero.src = imagenes[0];
     img_hero.alt = prop.titulo;
     img_hero.onclick = () => abrir_galeria(0);
   }
@@ -102,14 +134,15 @@ function renderizar_detalle(prop) {
   /* Badges del hero */
   const badge_modo = obtener_elemento_detalle('badge_modo_hero');
   if (badge_modo) {
-    badge_modo.textContent = prop.modo.charAt(0).toUpperCase() + prop.modo.slice(1);
-    badge_modo.className = 'badge_modo_hero ' + prop.modo;
+    const modo_texto = prop.modo ? (prop.modo.charAt(0).toUpperCase() + prop.modo.slice(1)) : 'Venta';
+    badge_modo.textContent = modo_texto;
+    badge_modo.className = 'badge_modo_hero ' + (prop.modo || 'venta');
   }
 
   const badge_cat = obtener_elemento_detalle('badge_categoria_hero');
   if (badge_cat) {
-    if (prop.badge) {
-      badge_cat.textContent = prop.badge;
+    if (prop.tipo || prop.badge) {
+      badge_cat.textContent = prop.tipo || prop.badge;
       badge_cat.classList.remove('oculto');
     } else {
       badge_cat.classList.add('oculto');
@@ -119,15 +152,18 @@ function renderizar_detalle(prop) {
   /* Botón ver galería */
   const texto_galeria = obtener_elemento_detalle('texto_ver_galeria');
   if (texto_galeria) {
-    texto_galeria.textContent = `Ver todas las fotos (${prop.imagenes.length})`;
+    texto_galeria.textContent = `Ver todas las fotos (${imagenes.length})`;
   }
 
   /* ── Miniaturas ── */
-  renderizar_miniaturas(prop.imagenes);
+  renderizar_miniaturas(imagenes);
 
   /* ── Título y dirección ── */
   const titulo = obtener_elemento_detalle('titulo_propiedad');
-  if (titulo) titulo.textContent = prop.titulo;
+  if (titulo) {
+    titulo.textContent = prop.titulo;
+    document.title = `${prop.titulo} — Rever Inmobiliaria`;
+  }
 
   const texto_dir = obtener_elemento_detalle('texto_direccion');
   if (texto_dir) texto_dir.textContent = prop.direccion;
@@ -140,13 +176,13 @@ function renderizar_detalle(prop) {
 
   /* ── Descripción ── */
   const desc = obtener_elemento_detalle('texto_descripcion');
-  if (desc) desc.textContent = prop.descripcion;
+  if (desc) desc.textContent = prop.descripcion || 'Sin descripción disponible.';
 
   /* ── Características ── */
-  renderizar_caracteristicas(prop.caracteristicas);
+  renderizar_caracteristicas(prop.caracteristicas || []);
 
   /* ── Galería en grilla ── */
-  renderizar_grilla_galeria(prop.imagenes);
+  renderizar_grilla_galeria(imagenes);
 
   /* ── Pin del mapa ── */
   const zona_pin = obtener_elemento_detalle('zona_pin_mapa');
@@ -160,26 +196,43 @@ function renderizar_detalle(prop) {
   if (textarea) {
     textarea.value = `Hola, me interesa la propiedad "${prop.titulo}". ¿Podría brindarme más información?`;
   }
+
+  /* Restaurar estado de favoritos */
+  restaurar_estado_favorito(prop.idInmueble || prop.id);
 }
 
 /**
- * Renderiza las miniaturas de fotos adicionales.
+ * Renderiza las miniaturas de fotos adicionales bajo el hero.
  * @param {string[]} imagenes
  */
 function renderizar_miniaturas(imagenes) {
   const contenedor = obtener_elemento_detalle('lista_miniaturas');
   if (!contenedor) return;
 
-  contenedor.innerHTML = imagenes.slice(1).map((img, i) => `
+  contenedor.innerHTML = imagenes.map((img, i) => `
     <div class="miniatura_foto" role="listitem">
       <img
         src="${img}"
-        alt="Vista ${i + 2} de la propiedad"
+        alt="Vista ${i + 1} de la propiedad"
         loading="lazy"
-        onclick="abrir_galeria(${i + 1})"
+        onclick="cambiar_imagen_hero(${i})"
       />
     </div>
   `).join('');
+}
+
+/**
+ * Cambia la imagen visible en el hero principal.
+ * @param {number} indice
+ */
+function cambiar_imagen_hero(indice) {
+  const prop = estado_detalle.propiedad_actual;
+  if (!prop || !prop.imagenes || !prop.imagenes[indice]) return;
+
+  const img_hero = obtener_elemento_detalle('imagen_hero');
+  if (img_hero) {
+    img_hero.src = prop.imagenes[indice];
+  }
 }
 
 /**
@@ -192,46 +245,36 @@ function renderizar_specs(prop) {
 
   const specs = [];
 
-  if (prop.hab > 0) {
-    specs.push({
-      icono: '🛏️',
-      valor: prop.hab,
-      etiqueta: 'Habitaciones',
-    });
+  const hab = prop.habitaciones ?? prop.hab;
+  if (hab !== undefined && hab > 0) {
+    specs.push({ icono: '🛏️', valor: hab, etiqueta: 'Habitaciones' });
   }
 
-  specs.push({
-    icono: '🚿',
-    valor: prop.banos,
-    etiqueta: 'Baños',
-  });
-
-  if (prop.parqueaderos > 0) {
-    specs.push({
-      icono: '🚗',
-      valor: prop.parqueaderos,
-      etiqueta: 'Parqueaderos',
-    });
+  const banos = prop.banos;
+  if (banos !== undefined) {
+    specs.push({ icono: '🚿', valor: banos, etiqueta: 'Baños' });
   }
 
-  specs.push({
-    icono: '📐',
-    valor: prop.area_str || prop.area + ' m²',
-    etiqueta: 'Área',
-  });
+  const parqueaderos = prop.parqueaderos;
+  if (parqueaderos !== undefined && parqueaderos > 0) {
+    specs.push({ icono: '🚗', valor: parqueaderos, etiqueta: 'Parqueaderos' });
+  }
 
-  specs.push({
-    icono: '🏠',
-    valor: prop.tipo,
-    etiqueta: 'Tipo',
-  });
+  const area = prop.metrosCuadrados ?? prop.area;
+  if (area) {
+    specs.push({ icono: '📐', valor: prop.area_str || `${area} m²`, etiqueta: 'Área' });
+  }
+
+  if (prop.estrato) {
+    specs.push({ icono: '📊', valor: prop.estrato, etiqueta: 'Estrato' });
+  }
+
+  if (prop.tipo) {
+    specs.push({ icono: '🏠', valor: prop.tipo, etiqueta: 'Tipo' });
+  }
 
   if (prop.piso && prop.piso > 1) {
-    specs.push({
-      icono: '🏢',
-      valor: `${prop.piso}°`,
-      etiqueta: 'Piso',
-    });
+    specs.push({ icono: '🏢', valor: `${prop.piso}°`, etiqueta: 'Piso' });
   }
 
   if (prop.antiguedad !== undefined) {
@@ -243,11 +286,7 @@ function renderizar_specs(prop) {
   }
 
   if (prop.mascotas) {
-    specs.push({
-      icono: '🐾',
-      valor: 'Sí',
-      etiqueta: 'Mascotas',
-    });
+    specs.push({ icono: '🐾', valor: 'Sí', etiqueta: 'Mascotas' });
   }
 
   contenedor.innerHTML = specs.map(spec => `
@@ -267,9 +306,14 @@ function renderizar_caracteristicas(caracteristicas) {
   const contenedor = obtener_elemento_detalle('lista_caracteristicas');
   if (!contenedor) return;
 
+  if (!caracteristicas.length) {
+    contenedor.innerHTML = '<p class="texto_vacio">Sin características registradas.</p>';
+    return;
+  }
+
   contenedor.innerHTML = caracteristicas.map(c => `
     <div class="chip_caracteristica" role="listitem">
-      <span class="icono_check_caracteristica" aria-hidden="true"></span>
+      <span class="icono_check_caracteristica" aria-hidden="true">✓</span>
       ${c}
     </div>
   `).join('');
@@ -313,23 +357,36 @@ function renderizar_grilla_galeria(imagenes) {
  */
 function renderizar_contacto(prop) {
   const precio = obtener_elemento_detalle('precio_contacto');
-  if (precio) precio.textContent = prop.precio_etiqueta;
+  if (precio) {
+    precio.textContent = prop.precio_etiqueta || `$${(prop.precio || 0).toLocaleString('es-CO')}`;
+  }
+
+  const nombre_asesor = prop.nombreVendedor || prop.asesor?.nombre || 'Asesor comercial';
+  const telefono_asesor = prop.telefonoVendedor || prop.asesor?.telefono || '';
+  const correo_asesor = prop.correoVendedor || prop.asesor?.email || '';
+  const inicial = prop.asesor?.inicial || nombre_asesor.charAt(0).toUpperCase();
 
   const avatar = obtener_elemento_detalle('avatar_asesor');
-  if (avatar) avatar.textContent = prop.asesor.inicial;
+  if (avatar) avatar.textContent = inicial;
 
   const nombre = obtener_elemento_detalle('nombre_asesor');
-  if (nombre) nombre.textContent = prop.asesor.nombre;
+  if (nombre) nombre.textContent = nombre_asesor;
 
   const enlace_llamar = obtener_elemento_detalle('enlace_llamar');
-  if (enlace_llamar) enlace_llamar.href = `tel:${prop.asesor.telefono}`;
+  if (enlace_llamar) enlace_llamar.href = `tel:${telefono_asesor}`;
 
   const enlace_email = obtener_elemento_detalle('enlace_email');
-  if (enlace_email) enlace_email.href = `mailto:${prop.asesor.email}`;
+  if (enlace_email) enlace_email.href = `mailto:${correo_asesor}`;
+
+  const form_contacto = obtener_elemento_detalle('formulario_contacto');
+  if (form_contacto) {
+    form_contacto.dataset.idVendedor = prop.idVendedor || '';
+    form_contacto.dataset.idInmueble = prop.idInmueble || prop.id || '';
+  }
 
   /* Subtexto del estado de éxito */
   const subtexto = obtener_elemento_detalle('subtexto_exito_contacto');
-  if (subtexto) subtexto.textContent = `${prop.asesor.nombre} te contactará pronto.`;
+  if (subtexto) subtexto.textContent = `${nombre_asesor} te contactará pronto.`;
 }
 
 
@@ -352,7 +409,6 @@ function abrir_galeria(indice) {
   if (modal) {
     modal.classList.remove('oculto');
     document.body.style.overflow = 'hidden';
-    /* Foco para accesibilidad */
     const boton_cerrar = obtener_elemento_detalle('boton_cerrar_galeria');
     if (boton_cerrar) boton_cerrar.focus();
   }
@@ -377,7 +433,9 @@ function navegar_galeria(direccion) {
   const prop = estado_detalle.propiedad_actual;
   if (!prop) return;
 
-  const total = prop.imagenes.length;
+  const imagenes = prop.imagenes?.length ? prop.imagenes : [prop.imagen_hero];
+  const total = imagenes.length;
+
   estado_detalle.indice_galeria = (estado_detalle.indice_galeria + direccion + total) % total;
   actualizar_imagen_galeria();
 }
@@ -389,18 +447,19 @@ function actualizar_imagen_galeria() {
   const prop = estado_detalle.propiedad_actual;
   if (!prop) return;
 
+  const imagenes = prop.imagenes?.length ? prop.imagenes : [prop.imagen_hero];
   const img = obtener_elemento_detalle('imagen_galeria_activa');
   const contador = obtener_elemento_detalle('contador_galeria');
 
   if (img) {
     img.classList.add('cambiando');
-    img.src = prop.imagenes[estado_detalle.indice_galeria];
+    img.src = imagenes[estado_detalle.indice_galeria];
     img.alt = `Foto ${estado_detalle.indice_galeria + 1} de ${prop.titulo}`;
     img.addEventListener('animationend', () => img.classList.remove('cambiando'), { once: true });
   }
 
   if (contador) {
-    contador.textContent = `${estado_detalle.indice_galeria + 1} / ${prop.imagenes.length}`;
+    contador.textContent = `${estado_detalle.indice_galeria + 1} / ${imagenes.length}`;
   }
 }
 
@@ -424,16 +483,15 @@ function alternar_favorito_detalle() {
   /* Guardar/eliminar de localStorage */
   const prop = estado_detalle.propiedad_actual;
   if (prop) {
+    const id = prop.idInmueble || prop.id;
     let favoritos = JSON.parse(localStorage.getItem('favoritos') || '[]');
-    
+
     if (estado_detalle.es_favorito) {
-      if (!favoritos.includes(prop.id)) {
-        favoritos.push(prop.id);
-      }
+      if (!favoritos.includes(id)) favoritos.push(id);
     } else {
-      favoritos = favoritos.filter(id => id !== prop.id);
+      favoritos = favoritos.filter(fId => fId !== id);
     }
-    
+
     localStorage.setItem('favoritos', JSON.stringify(favoritos));
   }
 
@@ -444,20 +502,40 @@ function alternar_favorito_detalle() {
 }
 
 /**
+ * Restaura el estado visual de favoritos desde localStorage.
+ * @param {number|string} id
+ */
+function restaurar_estado_favorito(id) {
+  const favoritos_guardados = localStorage.getItem('favoritos');
+  if (favoritos_guardados) {
+    const favoritos = JSON.parse(favoritos_guardados);
+    if (favoritos.includes(id)) {
+      estado_detalle.es_favorito = true;
+      const boton = obtener_elemento_detalle('boton_favorito_hero');
+      if (boton) {
+        boton.setAttribute('aria-pressed', 'true');
+        boton.classList.add('favorito_activo');
+      }
+    }
+  }
+}
+
+/**
  * Simula compartir la propiedad (usa la API Web Share si está disponible).
  */
 function compartir_propiedad() {
   const prop = estado_detalle.propiedad_actual;
   if (!prop) return;
 
+  const precio = prop.precio_etiqueta || `$${(prop.precio || 0).toLocaleString('es-CO')}`;
+
   if (navigator.share) {
     navigator.share({
       title: prop.titulo,
-      text: `Mira esta propiedad en Rever Inmobiliaria: ${prop.titulo} — ${prop.precio_etiqueta}`,
+      text: `Mira esta propiedad en Rever Inmobiliaria: ${prop.titulo} — ${precio}`,
       url: window.location.href,
     }).catch(() => {});
   } else {
-    /* Fallback: copiar URL */
     navigator.clipboard.writeText(window.location.href).then(() => {
       mostrar_notificacion_detalle('Enlace copiado al portapapeles', 'info');
     }).catch(() => {
@@ -478,9 +556,9 @@ function compartir_propiedad() {
 function manejar_envio_contacto(evento) {
   evento.preventDefault();
 
-  const nombre  = obtener_elemento_detalle('input_nombre_contacto');
-  const email   = obtener_elemento_detalle('input_email_contacto');
-  const boton   = obtener_elemento_detalle('boton_enviar_contacto');
+  const nombre       = obtener_elemento_detalle('input_nombre_contacto');
+  const email        = obtener_elemento_detalle('input_email_contacto');
+  const boton        = obtener_elemento_detalle('boton_enviar_contacto');
   const error_nombre = obtener_elemento_detalle('error_nombre');
   const error_email  = obtener_elemento_detalle('error_email');
 
@@ -520,7 +598,6 @@ function manejar_envio_contacto(evento) {
   }
 
   setTimeout(() => {
-    /* Mostrar estado de éxito */
     obtener_elemento_detalle('formulario_contacto')?.classList.add('oculto');
     obtener_elemento_detalle('estado_exito_contacto')?.classList.remove('oculto');
 
@@ -553,38 +630,24 @@ function restablecer_formulario() {
 
 
 /* ════════════════════════════════════════════════════════════
-   INICIALIZACIÓN
+   INICIALIZACIÓN & EVENT LISTENERS
 ════════════════════════════════════════════════════════════ */
 
 /**
  * Punto de entrada principal de la pantalla de detalle.
  */
 function inicializar_detalle() {
-  /* Asegurar que la pantalla sea visible inmediatamente */
-  const overlay = obtener_elemento_detalle('overlay_carga');
-  const pantalla = obtener_elemento_detalle('pantalla_detalle');
-  
-  if (overlay) overlay.classList.add('oculto');
-  if (pantalla) pantalla.classList.remove('oculto');
-
-  /* Determinar qué propiedad mostrar */
-  const id = obtener_id_desde_url();
-  const propiedad = propiedades_db.find(p => p.id === id) ?? propiedades_db[0];
-
-  /* Actualizar título del documento */
-  document.title = `${propiedad.titulo} — Rever Inmobiliaria`;
-
-  /* Montar contenido */
-  renderizar_detalle(propiedad);
+  /* Cargar datos desde la API */
+  cargar_detalle_inmueble();
 
   /* ── Event Listeners globales ── */
 
-  /* Cerrar galería con Escape */
+  /* Cerrar galería con Escape / Navegación con Teclado */
   document.addEventListener('keydown', evento => {
     if (evento.key === 'Escape') {
       cerrar_galeria();
     }
-    /* Navegación con flechas en galería */
+
     const modal = obtener_elemento_detalle('modal_galeria');
     if (modal && !modal.classList.contains('oculto')) {
       if (evento.key === 'ArrowLeft')  navegar_galeria(-1);
@@ -610,20 +673,6 @@ function inicializar_detalle() {
       inicio_touch_x = null;
     }, { passive: true });
   }
-  
-  /* Restaurar estado de favoritos desde localStorage si existe */
-  const favoritos_guardados = localStorage.getItem('favoritos');
-  if (favoritos_guardados) {
-    const favoritos = JSON.parse(favoritos_guardados);
-    if (favoritos.includes(propiedad.id)) {
-      estado_detalle.es_favorito = true;
-      const boton = obtener_elemento_detalle('boton_favorito_hero');
-      if (boton) {
-        boton.setAttribute('aria-pressed', 'true');
-        boton.classList.add('favorito_activo');
-      }
-    }
-  }
 }
 
 /* Ejecutar al cargar el DOM */
@@ -633,6 +682,5 @@ document.addEventListener('DOMContentLoaded', inicializar_detalle);
  * Función para volver al index restaurando el estado de filtros
  */
 function volver_con_estado() {
-  // Navegar al index
   window.location.href = 'index.html';
 }
