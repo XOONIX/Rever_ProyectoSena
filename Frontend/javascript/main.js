@@ -38,6 +38,8 @@ const estado = {
 const API_URL = 'https://localhost:7015/api'; // ajusta al puerto real de tu backend
 
 async function cargar_propiedades() {
+  mostrar_esqueleto_propiedades(); 
+
   try {
     const respuesta = await fetch(`${API_URL}/inmueble`);
     if (!respuesta.ok) throw new Error('No se pudieron cargar las propiedades');
@@ -672,7 +674,24 @@ function crear_html_tarjeta(prop) {
     </article>
   `;
 }
+/**
+ * Muestra tarjetas de esqueleto (loading) mientras cargan las propiedades reales.
+ * @param {number} cantidad - cuántas tarjetas de esqueleto mostrar
+ */
+function mostrar_esqueleto_propiedades(cantidad = 6) {
+  const contenedor = obtener_elemento('grilla_propiedades');
+  if (!contenedor) return;
 
+  const tarjeta_esqueleto = `
+    <div class="tarjeta_esqueleto" aria-hidden="true">
+      <div class="esqueleto_imagen"></div>
+      <div class="esqueleto_linea esqueleto_linea--media"></div>
+      <div class="esqueleto_linea esqueleto_linea--corta"></div>
+    </div>
+  `;
+
+  contenedor.innerHTML = tarjeta_esqueleto.repeat(cantidad);
+}
 /**
  * Renderiza la grilla de propiedades filtradas en el DOM.
  */

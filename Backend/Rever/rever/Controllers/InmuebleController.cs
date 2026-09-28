@@ -73,6 +73,24 @@ namespace rever.Controllers
             }
         }
 
+        [HttpGet("{id}/Detalle")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ObtenerDetalleInmueble(int id)
+        {
+            if (id <= 0)
+            {
+                return StatusCode(400, "400: El ID proporcionado no es válido.");
+            }
+
+            var detalle = await _inmueblerepository.GetDetalleAsync(id);
+            if (detalle == null)
+            {
+                return StatusCode(404, $"404: No se encontró el inmueble con ID {id}.");
+            }
+
+            return Ok(detalle);
+        }
+
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

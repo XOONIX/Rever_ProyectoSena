@@ -13,5 +13,6 @@ namespace rever.Repositories.Interfaces
         Task<bool> PutInmueble(Inmueble inmueble);
         Task<bool> DeleteInmueble(Inmueble inmueble);
         Task<IEnumerable<InmuebleListadoDto>> GetListadoAsync();
+        Task<InmuebleDetalleDto?> GetDetalleAsync(int id);
     }
 }

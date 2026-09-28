@@ -912,6 +912,39 @@ fieldset {
   color: var(--color_oro);
 }
 
+/* ── Esqueleto de carga ── */
+.tarjeta_esqueleto {
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,.08);
+}
+
+.esqueleto_imagen {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: linear-gradient(90deg, #eee 25%, #f5f5f5 50%, #eee 75%);
+  background-size: 200% 100%;
+  animation: brillo_esqueleto 1.4s ease-in-out infinite;
+}
+
+.esqueleto_linea {
+  height: 14px;
+  margin: 12px 16px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #eee 25%, #f5f5f5 50%, #eee 75%);
+  background-size: 200% 100%;
+  animation: brillo_esqueleto 1.4s ease-in-out infinite;
+}
+
+.esqueleto_linea--corta { width: 60%; }
+.esqueleto_linea--media { width: 80%; }
+
+@keyframes brillo_esqueleto {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
 /* Estado vacío */
 .estado_vacio {
   display: flex;

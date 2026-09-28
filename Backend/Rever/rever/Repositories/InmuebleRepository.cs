@@ -97,5 +97,41 @@ namespace rever.Repositories
                 })
                 .ToListAsync();
         }
+
+        public async Task<InmuebleDetalleDto?> GetDetalleAsync(int id)
+        {
+            return await _context.Inmueble
+                .Include(i => i.Barrio).ThenInclude(b => b.Ciudad)
+                .Include(i => i.TipoInmueble)
+                .Include(i => i.ModoTransaccion)
+                .Include(i => i.Imagenes)
+                .Include(i => i.InmuebleCaracteristicas).ThenInclude(ic => ic.Caracteristica)
+                .Include(i => i.Usuario)
+                .Where(i => i.IdInmueble == id)
+                .Select(i => new InmuebleDetalleDto
+                {
+                    IdInmueble = i.IdInmueble,
+                    Titulo = i.Titulo,
+                    Descripcion = i.Descripcion,
+                    Precio = i.Precio,
+                    Direccion = i.Direccion,
+                    Ubicacion = i.Barrio.Nombre + ", " + i.Barrio.Ciudad.Nombre,
+                    Habitaciones = i.Habitaciones,
+                    Banos = i.Baños,
+                    MetrosCuadrados = i.MetrosCuadrados,
+                    Estrato = i.Estrato,
+                    Latitud = i.Latitud,
+                    Longitud = i.Longitud,
+                    Tipo = i.TipoInmueble.Nombre,
+                    Modo = i.ModoTransaccion.Nombre.ToLower(),
+                    Imagenes = i.Imagenes.Select(img => img.Url).ToList(),
+                    Caracteristicas = i.InmuebleCaracteristicas.Select(ic => ic.Caracteristica.Nombre).ToList(),
+                    IdVendedor = i.IdUsuario,
+                    NombreVendedor = i.Usuario.Nombre,
+                    TelefonoVendedor = i.Usuario.Telefono,
+                    CorreoVendedor = i.Usuario.Correo,
+                })
+                .FirstOrDefaultAsync();
+        }
     }
 }
