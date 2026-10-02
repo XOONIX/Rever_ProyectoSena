@@ -654,6 +654,15 @@ function seleccionar_pastilla(pastilla_elemento) {
   actualizar_estado_botones_filtros();
   renderizar_propiedades();
 }
+/**
+ * Alterna el filtro de garajes.
+ * @param {HTMLInputElement} checkbox
+ */
+function alternar_estacionamiento(checkbox) {
+  estado.filtros.estacionamientos = checkbox.checked;
+  actualizar_estado_botones_filtros();
+  renderizar_propiedades();
+}
 
 /**
  * Alterna el filtro de mascotas permitidas.
