@@ -1,323 +1,190 @@
 /* ═══════════════════════════════════════════════════════
    mainpublicar_inmueble.js — Rever Plataforma Inmobiliaria
-   Funcionalidad específica para la sección de Publicar Inmueble
-   Convención: variables y funciones en español, snake_case
+   Conectado a la base de datos real vía fetch
    ═══════════════════════════════════════════════════════ */
 
-/* ──────────────────────────────────────────────────────
-   1. ESTADO GLOBAL
-   ────────────────────────────────────────────────────── */
-const estado = {
+const API_URL = 'https://localhost:7015/api';
+const estado_publicar = {
   fotos_seleccionadas: [],
-  amenidades_seleccionadas: new Set(["Piscina", "Gimnasio", "Garaje"]),
-  contadores: { habitaciones: 3, banos: 2, parqueaderos: 1, piso: 1 },
+  caracteristicas_disponibles: [],
+  caracteristicas_seleccionadas: new Set(),
+  contadores: { habitaciones: 1, banios: 1, parqueaderos: 0, piso: 1 },
+  catalogo_barrios: [],
+  catalogo_localidades: [],
 };
 
-
 /* ──────────────────────────────────────────────────────
-   2. CONFIGURACIÓN
-   ────────────────────────────────────────────────────── */
-const lista_amenidades = [
-  "Piscina", "Gimnasio", "Garaje", "Ascensor", "BBQ", "Terraza",
-  "Jardín", "Seguridad", "Portería", "Concierge", "Lavandería",
-  "Depósito", "Salón social", "Cancha", "Zona infantil",
-];
-
-const localidades_bogota = [
-  "Usaquén",
-  "Chapinero",
-  "Santa Fe",
-  "San Cristóbal",
-  "Usme",
-  "Tunjuelito",
-  "Bosa",
-  "Kennedy",
-  "Fontibón",
-  "Engativá",
-  "Suba",
-  "Barrios Unidos",
-  "Teusaquillo",
-  "Los Mártires",
-  "Antonio Nariño",
-  "Puente Aranda",
-  "La Candelaria",
-  "Rafael Uribe Uribe",
-  "Ciudad Bolívar",
-  "Sumapaz (localidad rural)"
-];
-
-const comunas_medellin = [
-  "Comuna 1 – Popular",
-  "Comuna 2 – Santa Cruz",
-  "Comuna 3 – Manrique",
-  "Comuna 4 – Aranjuez",
-  "Comuna 5 – Castilla",
-  "Comuna 6 – Doce de Octubre",
-  "Comuna 7 – Robledo",
-  "Comuna 8 – Villa Hermosa",
-  "Comuna 9 – Buenos Aires",
-  "Comuna 10 – La Candelaria (Centro de la ciudad)",
-  "Comuna 11 – Laureles - Estadio",
-  "Comuna 12 – La América",
-  "Comuna 13 – San Javier",
-  "Comuna 14 – El Poblado",
-  "Comuna 15 – Guayabal",
-  "Comuna 16 – Belén"
-];
-
-const corregimientos_medellin = [
-  "San Cristóbal",
-  "San Sebastián de Palmitas",
-  "San Antonio de Prado",
-  "Santa Elena",
-  "Altavista"
-];
-
-
-/* ──────────────────────────────────────────────────────
-   3. CONTADORES NUMÉRICOS
+   1. CONTADORES NUMÉRICOS
    ────────────────────────────────────────────────────── */
 function incrementar_contador(campo) {
-  estado.contadores[campo]++;
+  estado_publicar.contadores[campo]++;
   actualizar_visualizacion_contador(campo);
 }
 
-function decrementar_contador(campo, minimo) {
-  const valor_minimo = minimo !== undefined ? minimo : (campo === "parqueaderos" ? 0 : 1);
-  if (estado.contadores[campo] > valor_minimo) {
-    estado.contadores[campo]--;
+function decrementar_contador(campo, minimo = 0) {
+  if (estado_publicar.contadores[campo] > minimo) {
+    estado_publicar.contadores[campo]--;
     actualizar_visualizacion_contador(campo);
   }
 }
 
 function actualizar_visualizacion_contador(campo) {
   const el = document.getElementById(campo);
-  if (el) el.textContent = estado.contadores[campo];
+  if (el) el.textContent = estado_publicar.contadores[campo];
 }
 
 
 /* ──────────────────────────────────────────────────────
-   4. AMENIDADES
+   2. AMENIDADES (reales, cargadas desde la BD)
    ────────────────────────────────────────────────────── */
-function alternar_amenidad(nombre_amenidad) {
-  if (estado.amenidades_seleccionadas.has(nombre_amenidad)) {
-    estado.amenidades_seleccionadas.delete(nombre_amenidad);
+function alternar_amenidad(id) {
+  if (estado_publicar.caracteristicas_seleccionadas.has(id)) {
+    estado_publicar.caracteristicas_seleccionadas.delete(id);
   } else {
-    estado.amenidades_seleccionadas.add(nombre_amenidad);
+    estado_publicar.caracteristicas_seleccionadas.add(id);
   }
   renderizar_amenidades();
 }
 
 function renderizar_amenidades() {
-  const contenedor = document.getElementById("grupo_amenidades");
+  const contenedor = document.getElementById('grupo_amenidades');
   if (!contenedor) return;
 
-  contenedor.innerHTML = lista_amenidades.map((amenidad) => {
-    const seleccionada = estado.amenidades_seleccionadas.has(amenidad);
+  contenedor.innerHTML = estado_publicar.caracteristicas_disponibles.map((c) => {
+    const activo = estado_publicar.caracteristicas_seleccionadas.has(c.idCaracteristica);
     return `
       <button
-        class="chip_amenidad ${seleccionada ? 'chip_amenidad--seleccionado' : ''}"
-        onclick="alternar_amenidad('${amenidad}')"
-        aria-pressed="${seleccionada}"
         type="button"
+        class="chip_amenidad ${activo ? 'chip_amenidad--seleccionado' : ''}"
+        onclick="alternar_amenidad(${c.idCaracteristica})"
+        aria-pressed="${activo}"
       >
-        ${seleccionada ? '<span class="chip_amenidad__icono_check">✓</span>' : ""}
-        ${amenidad}
+        ${activo ? '<span class="chip_amenidad__icono_check">✓</span>' : ''}
+        ${c.nombre}
       </button>
     `;
-  }).join("");
+  }).join('');
 }
 
 
 /* ──────────────────────────────────────────────────────
-   5. LOCALIDAD
+   3. CASCADA CIUDAD → LOCALIDAD (si aplica) → BARRIO
    ────────────────────────────────────────────────────── */
 function manejar_cambio_ciudad() {
-  const ciudad = document.getElementById("ciudad")?.value;
-  const contenedor_localidad = document.getElementById("contenedor_localidad");
-  const select_localidad = document.getElementById("localidad");
-  const contenedor_tipo_zona_medellin = document.getElementById("contenedor_tipo_zona_medellin");
-  const contenedor_zona_medellin = document.getElementById("contenedor_zona_medellin");
-  const select_tipo_zona_medellin = document.getElementById("tipo_zona_medellin");
-  const select_zona_medellin = document.getElementById("zona_medellin");
+  const select_ciudad = document.getElementById('ciudad');
+  const contenedor_localidad = document.getElementById('contenedor_localidad');
+  const select_localidad = document.getElementById('localidad');
+  const select_barrio = document.getElementById('barrio');
 
-  // Resetear todos los campos condicionales
-  if (contenedor_localidad) contenedor_localidad.style.display = "none";
-  if (contenedor_tipo_zona_medellin) contenedor_tipo_zona_medellin.style.display = "none";
-  if (contenedor_zona_medellin) contenedor_zona_medellin.style.display = "none";
+  const idCiudad = parseInt(select_ciudad.value, 10);
+  const nombre_ciudad = select_ciudad.value ? select_ciudad.options[select_ciudad.selectedIndex].text : null;
 
-  if (select_localidad) {
-    select_localidad.innerHTML = '<option value="" disabled selected>Selecciona localidad</option>';
-    select_localidad.required = false;
-    select_localidad.removeAttribute("aria-required");
+  select_localidad.innerHTML = '<option value="" disabled selected>Selecciona localidad</option>';
+  select_barrio.innerHTML = '<option value="" disabled selected>Selecciona barrio</option>';
+  select_barrio.disabled = true;
+
+  if (!idCiudad) {
+    contenedor_localidad.classList.add('oculto');
+    return;
   }
 
-  if (select_tipo_zona_medellin) {
-    select_tipo_zona_medellin.value = "";
-    select_tipo_zona_medellin.required = false;
-    select_tipo_zona_medellin.removeAttribute("aria-required");
-  }
+  const barrios_de_la_ciudad = estado_publicar.catalogo_barrios.filter(b => b.idCiudad === idCiudad);
+  const ids_localidad_unicos = [...new Set(barrios_de_la_ciudad.map(b => b.idLocalidad))];
 
-  if (select_zona_medellin) {
-    select_zona_medellin.innerHTML = '<option value="" disabled selected>Selecciona zona</option>';
-    select_zona_medellin.required = false;
-    select_zona_medellin.removeAttribute("aria-required");
-  }
-
-  if (ciudad === "bogota") {
-    // Mostrar campo de localidad y poblar con localidades de Bogotá
-    if (contenedor_localidad) contenedor_localidad.style.display = "block";
-    if (select_localidad) {
-      select_localidad.innerHTML = '<option value="" disabled selected>Selecciona localidad</option>';
-      select_localidad.required = true;
-      select_localidad.setAttribute("aria-required", "true");
-      localidades_bogota.forEach(localidad => {
-        const option = document.createElement("option");
-        option.value = localidad;
-        option.textContent = localidad;
-        select_localidad.appendChild(option);
-      });
-    }
-  } else if (ciudad === "medellin") {
-    // Mostrar campo de tipo de zona para Medellín
-    if (contenedor_tipo_zona_medellin) contenedor_tipo_zona_medellin.style.display = "block";
-    if (select_tipo_zona_medellin) {
-      select_tipo_zona_medellin.required = true;
-      select_tipo_zona_medellin.setAttribute("aria-required", "true");
-    }
-  }
-}
-
-function manejar_cambio_tipo_zona_medellin() {
-  const tipo_zona = document.getElementById("tipo_zona_medellin")?.value;
-  const contenedor_zona_medellin = document.getElementById("contenedor_zona_medellin");
-  const select_zona_medellin = document.getElementById("zona_medellin");
-  const etiqueta_zona_medellin = document.getElementById("etiqueta_zona_medellin");
-
-  if (tipo_zona === "comuna") {
-    // Mostrar campo de comuna y poblar con comunas de Medellín
-    if (contenedor_zona_medellin) contenedor_zona_medellin.style.display = "block";
-    if (etiqueta_zona_medellin) etiqueta_zona_medellin.textContent = "Comuna";
-    if (select_zona_medellin) {
-      select_zona_medellin.innerHTML = '<option value="" disabled selected>Selecciona comuna</option>';
-      select_zona_medellin.required = true;
-      select_zona_medellin.setAttribute("aria-required", "true");
-      comunas_medellin.forEach(comuna => {
-        const option = document.createElement("option");
-        option.value = comuna;
-        option.textContent = comuna;
-        select_zona_medellin.appendChild(option);
-      });
-    }
-  } else if (tipo_zona === "corregimiento") {
-    // Mostrar campo de corregimiento y poblar con corregimientos de Medellín
-    if (contenedor_zona_medellin) contenedor_zona_medellin.style.display = "block";
-    if (etiqueta_zona_medellin) etiqueta_zona_medellin.textContent = "Corregimiento";
-    if (select_zona_medellin) {
-      select_zona_medellin.innerHTML = '<option value="" disabled selected>Selecciona corregimiento</option>';
-      select_zona_medellin.required = true;
-      select_zona_medellin.setAttribute("aria-required", "true");
-      corregimientos_medellin.forEach(corregimiento => {
-        const option = document.createElement("option");
-        option.value = corregimiento;
-        option.textContent = corregimiento;
-        select_zona_medellin.appendChild(option);
-      });
-    }
+  // Solo mostramos el paso de Localidad cuando la ciudad tiene más de una localidad real (caso Bogotá)
+  if (nombre_ciudad === 'Bogotá' && ids_localidad_unicos.length > 1) {
+    contenedor_localidad.classList.remove('oculto');
+    ids_localidad_unicos.forEach(idLoc => {
+      const localidad = estado_publicar.catalogo_localidades.find(l => l.idLocalidad === idLoc);
+      if (localidad) select_localidad.add(new Option(localidad.nombre, localidad.idLocalidad));
+    });
   } else {
-    // Ocultar campo de zona
-    if (contenedor_zona_medellin) contenedor_zona_medellin.style.display = "none";
-    if (select_zona_medellin) {
-      select_zona_medellin.innerHTML = '<option value="" disabled selected>Selecciona zona</option>';
-      select_zona_medellin.required = false;
-      select_zona_medellin.removeAttribute("aria-required");
-    }
+    contenedor_localidad.classList.add('oculto');
+    barrios_de_la_ciudad.forEach(b => select_barrio.add(new Option(b.nombre, b.idBarrio)));
+    select_barrio.disabled = false;
   }
 }
+
+function manejar_cambio_localidad() {
+  const select_ciudad = document.getElementById('ciudad');
+  const select_localidad = document.getElementById('localidad');
+  const select_barrio = document.getElementById('barrio');
+
+  const idCiudad = parseInt(select_ciudad.value, 10);
+  const idLocalidad = parseInt(select_localidad.value, 10);
+
+  select_barrio.innerHTML = '<option value="" disabled selected>Selecciona barrio</option>';
+
+  if (!idLocalidad) {
+    select_barrio.disabled = true;
+    return;
+  }
+
+  const barrios_filtrados = estado_publicar.catalogo_barrios.filter(
+    b => b.idCiudad === idCiudad && b.idLocalidad === idLocalidad
+  );
+  barrios_filtrados.forEach(b => select_barrio.add(new Option(b.nombre, b.idBarrio)));
+  select_barrio.disabled = false;
+}
+
 
 /* ──────────────────────────────────────────────────────
-   7. MAPA
+   4. MAPA
    ────────────────────────────────────────────────────── */
 function abrir_mapa() {
-  const ciudad = document.getElementById("ciudad")?.value || "";
-  const direccion = document.getElementById("direccion")?.value || "";
-  const consulta = encodeURIComponent(`${ciudad} ${direccion}`.trim() || "Colombia");
-  window.open(`https://www.google.com/maps/search/${consulta}`, "_blank", "noopener");
+  const select_ciudad = document.getElementById('ciudad');
+  const ciudad = select_ciudad?.options[select_ciudad.selectedIndex]?.text || '';
+  const direccion = document.getElementById('direccion')?.value || '';
+  const consulta = encodeURIComponent(`${ciudad} ${direccion}`.trim() || 'Colombia');
+  window.open(`https://www.google.com/maps/search/${consulta}`, '_blank', 'noopener');
 }
 
 
 /* ──────────────────────────────────────────────────────
-   8. FOTOGRAFÍAS
+   5. FOTOGRAFÍAS (por URL)
    ────────────────────────────────────────────────────── */
-function agregar_fotos_seleccionadas(evento) {
-  const archivos = Array.from(evento.target.files || []);
-  archivos.forEach((archivo) => {
-    const url = URL.createObjectURL(archivo);
-    estado.fotos_seleccionadas.push({ nombre: archivo.name, url });
-  });
-  renderizar_galeria_fotos();
-}
+function agregar_foto_por_url() {
+  const input = document.getElementById('input_url_foto');
+  const url = input.value.trim();
+  if (!url) return;
 
-function manejar_arrastre(evento, arrastrando) {
-  evento.preventDefault();
-  const zona = document.getElementById("zona_arrastre");
-  if (zona) {
-    zona.classList.toggle("zona_carga--arrastrando", arrastrando);
-  }
-}
-
-function manejar_soltar_archivos(evento) {
-  evento.preventDefault();
-  manejar_arrastre(evento, false);
-  const archivos = Array.from(evento.dataTransfer?.files || []).filter((f) => f.type.startsWith("image/"));
-  archivos.forEach((archivo) => {
-    const url = URL.createObjectURL(archivo);
-    estado.fotos_seleccionadas.push({ nombre: archivo.name, url });
-  });
+  estado_publicar.fotos_seleccionadas.push(url);
+  input.value = '';
   renderizar_galeria_fotos();
 }
 
 function eliminar_foto(indice) {
-  URL.revokeObjectURL(estado.fotos_seleccionadas[indice]?.url);
-  estado.fotos_seleccionadas.splice(indice, 1);
+  estado_publicar.fotos_seleccionadas.splice(indice, 1);
   renderizar_galeria_fotos();
 }
 
 function renderizar_galeria_fotos() {
-  const galeria = document.getElementById("galeria_fotos");
+  const galeria = document.getElementById('galeria_fotos');
   if (!galeria) return;
 
-  if (estado.fotos_seleccionadas.length === 0) {
-    galeria.innerHTML = "";
-    galeria.style.display = "none";
-    return;
-  }
-
-  galeria.style.display = "grid";
-  galeria.innerHTML = estado.fotos_seleccionadas.map((foto, idx) => `
+  galeria.innerHTML = estado_publicar.fotos_seleccionadas.map((url, idx) => `
     <li class="galeria_fotos__miniatura">
-      <img src="${foto.url}" alt="${foto.nombre}" class="galeria_fotos__imagen" />
-      ${idx === 0 ? '<span class="galeria_fotos__etiqueta_principal">Principal</span>' : ""}
+      <img src="${url}" alt="" class="galeria_fotos__imagen" />
+      ${idx === 0 ? '<span class="galeria_fotos__etiqueta_principal">Portada</span>' : ''}
       <div class="galeria_fotos__superposicion">
         <button class="galeria_fotos__boton_eliminar" onclick="eliminar_foto(${idx})" aria-label="Eliminar foto">✕</button>
       </div>
     </li>
-  `).join("");
-  
-  // Actualizar contador
-  const contador = document.getElementById("contador_fotos");
+  `).join('');
+
+  const contador = document.getElementById('contador_fotos');
   if (contador) {
-    contador.textContent = `${estado.fotos_seleccionadas.length} / 10 fotos cargadas. La primera foto será la imagen principal.`;
+    contador.textContent = `${estado_publicar.fotos_seleccionadas.length} fotos agregadas. La primera será la imagen principal (portada).`;
   }
 }
 
 
 /* ──────────────────────────────────────────────────────
-   9. DESCRIPCIÓN
+   6. DESCRIPCIÓN
    ────────────────────────────────────────────────────── */
 function actualizar_contador_descripcion() {
-  const textarea = document.getElementById("descripcion");
-  const contador = document.getElementById("contador_descripcion");
+  const textarea = document.getElementById('descripcion');
+  const contador = document.getElementById('contador_descripcion');
   if (textarea && contador) {
     contador.textContent = `${textarea.value.length} / 800 caracteres`;
   }
@@ -325,96 +192,172 @@ function actualizar_contador_descripcion() {
 
 
 /* ──────────────────────────────────────────────────────
-   10. FORMULARIO
+   7. CARGA DE CATÁLOGOS REALES (al abrir la página)
    ────────────────────────────────────────────────────── */
-function manejar_envio_formulario(evento) {
-  evento.preventDefault();
-  const numero_radicado = `RV-${Date.now().toString().slice(-6)}`;
-  const modal = document.getElementById("modal_confirmacion");
-  const el_radicado = document.getElementById("numero_radicado");
-  if (modal) modal.classList.remove("modal_confirmacion--oculto");
-  if (el_radicado) el_radicado.textContent = numero_radicado;
-}
+async function cargar_catalogos() {
+  try {
+    const [tipos, modos, ciudades, caracteristicas, barrios, localidades] = await Promise.all([
+      fetch(`${API_URL}/TipoInmueble`).then(r => r.json()),
+      fetch(`${API_URL}/ModoTransaccion`).then(r => r.json()),
+      fetch(`${API_URL}/Ciudad`).then(r => r.json()),
+      fetch(`${API_URL}/Caracteristica`).then(r => r.json()),
+      fetch(`${API_URL}/Barrio`).then(r => r.json()),
+      fetch(`${API_URL}/Localidad`).then(r => r.json()),
+    ]);
 
-function cerrar_confirmacion() {
-  const modal = document.getElementById("modal_confirmacion");
-  if (modal) modal.classList.add("modal_confirmacion--oculto");
-  
-  // Reiniciar formulario
-  const formulario = document.getElementById("formulario_publicacion");
-  if (formulario) formulario.reset();
-  
-  // Limpiar estado
-  estado.fotos_seleccionadas = [];
-  estado.amenidades_seleccionadas = new Set(["Piscina", "Gimnasio", "Garaje"]);
-  estado.contadores = { habitaciones: 3, banos: 2, parqueaderos: 1, piso: 1 };
+    const select_tipo = document.getElementById('tipo_inmueble');
+    tipos.forEach(t => select_tipo.add(new Option(t.nombre, t.idTipo)));
 
-  // Ocultar campos condicionales al resetear
-  const contenedor_localidad = document.getElementById("contenedor_localidad");
-  const contenedor_tipo_zona_medellin = document.getElementById("contenedor_tipo_zona_medellin");
-  const contenedor_zona_medellin = document.getElementById("contenedor_zona_medellin");
+    const select_modo = document.getElementById('tipo_operacion');
+    modos.forEach(m => select_modo.add(new Option(m.nombre, m.idModo)));
 
-  if (contenedor_localidad) contenedor_localidad.style.display = "none";
-  if (contenedor_tipo_zona_medellin) contenedor_tipo_zona_medellin.style.display = "none";
-  if (contenedor_zona_medellin) contenedor_zona_medellin.style.display = "none";
+    const select_ciudad = document.getElementById('ciudad');
+    ciudades.forEach(c => select_ciudad.add(new Option(c.nombre, c.idCiudad)));
 
-  renderizar_galeria_fotos();
-  renderizar_amenidades();
-  ["habitaciones", "banios", "parqueaderos", "piso"].forEach(actualizar_visualizacion_contador);
+    estado_publicar.caracteristicas_disponibles = caracteristicas;
+    estado_publicar.catalogo_barrios = barrios;
+    estado_publicar.catalogo_localidades = localidades;
+    renderizar_amenidades();
+  } catch (error) {
+    console.error(error);
+    mostrar_notificacion('No se pudieron cargar las opciones del formulario', 'error');
+  }
+
+  const usuario = obtener_usuario_actual();
+  const texto_usuario = document.getElementById('texto_usuario_sesion');
+  if (usuario && texto_usuario) {
+    texto_usuario.textContent = `${usuario.nombre} (${usuario.correo})`;
+  }
 }
 
 
 /* ──────────────────────────────────────────────────────
-   11. INICIALIZACIÓN
+   8. ENVÍO DEL FORMULARIO
    ────────────────────────────────────────────────────── */
-function inicializar() {
-  // Formulario principal
-  const formulario = document.getElementById("formulario_publicacion");
-  if (formulario) {
-    formulario.addEventListener("submit", manejar_envio_formulario);
+async function manejar_envio_formulario(evento) {
+  evento.preventDefault();
+
+  const usuario = obtener_usuario_actual();
+  const token = localStorage.getItem('token');
+
+  if (!usuario) {
+    mostrar_notificacion('Debes iniciar sesión para publicar', 'error');
+    return;
   }
 
-  // Select de ciudad para manejar localidades
-  const select_ciudad = document.getElementById("ciudad");
-  if (select_ciudad) {
-    select_ciudad.addEventListener("change", manejar_cambio_ciudad);
+  // "Parqueadero" se guarda como característica (sí/no), no como cantidad
+  const caracteristicas_finales = new Set(estado_publicar.caracteristicas_seleccionadas);
+  if (estado_publicar.contadores.parqueaderos > 0) {
+    const parqueadero = estado_publicar.caracteristicas_disponibles.find(c => c.nombre === 'Parqueadero');
+    if (parqueadero) caracteristicas_finales.add(parqueadero.idCaracteristica);
   }
 
-  // Select de tipo de zona Medellín
-  const select_tipo_zona_medellin = document.getElementById("tipo_zona_medellin");
-  if (select_tipo_zona_medellin) {
-    select_tipo_zona_medellin.addEventListener("change", manejar_cambio_tipo_zona_medellin);
-  }
+  const payload = {
+    titulo: document.getElementById('nombre_inmueble').value,
+    descripcion: document.getElementById('descripcion').value,
+    precio: parseFloat(document.getElementById('precio').value.replace(/\D/g, '')),
+    idTipo: parseInt(document.getElementById('tipo_inmueble').value, 10),
+    idModo: parseInt(document.getElementById('tipo_operacion').value, 10),
+    direccion: document.getElementById('direccion').value,
+    idBarrio: parseInt(document.getElementById('barrio').value, 10),
+    habitaciones: estado_publicar.contadores.habitaciones,
+    banos: estado_publicar.contadores.banios,
+    metrosCuadrados: parseInt(document.getElementById('area').value.replace(/\D/g, ''), 10),
+    estrato: parseInt(document.getElementById('estrato').value, 10),
+    latitud: 0,  // pendiente: mapa interactivo real
+    longitud: 0, // pendiente: mapa interactivo real
+    caracteristicasIds: Array.from(caracteristicas_finales),
+    imagenesUrls: estado_publicar.fotos_seleccionadas,
+  };
 
-  // Textarea descripción
-  const textarea_desc = document.getElementById("descripcion");
-  if (textarea_desc) {
-    textarea_desc.addEventListener("input", actualizar_contador_descripcion);
-  }
+  try {
+    const respuesta = await fetch(`${API_URL}/Inmueble`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      body: JSON.stringify(payload),
+    });
 
-  // Zona de carga de fotos
-  const zona_carga = document.getElementById("zona_arrastre");
-  if (zona_carga) {
-    zona_carga.addEventListener("click", () => document.getElementById("input_fotos").click());
-    zona_carga.addEventListener("dragover", (e) => manejar_arrastre(e, true));
-    zona_carga.addEventListener("dragleave", (e) => manejar_arrastre(e, false));
-    zona_carga.addEventListener("drop", manejar_soltar_archivos);
-  }
+    if (!respuesta.ok) {
+      const texto = await respuesta.text();
+      throw new Error(texto || 'No se pudo publicar el inmueble');
+    }
 
-  // Input de fotos oculto
-  const input_fotos = document.getElementById("input_fotos");
-  if (input_fotos) {
-    input_fotos.addEventListener("change", agregar_fotos_seleccionadas);
-  }
+    const resultado = await respuesta.json();
+    const el_radicado = document.getElementById('numero_radicado');
+    if (el_radicado) el_radicado.textContent = `RV-${resultado.idInmueble}`;
 
-  // Inicializar renders de UI dinámica
-  renderizar_amenidades();
-  ["habitaciones", "banios", "parqueaderos", "piso"].forEach(actualizar_visualizacion_contador);
+    mostrar_notificacion('¡Inmueble publicado con éxito!', 'exito');
+
+    const modal = document.getElementById('modal_confirmacion');
+    if (modal) modal.classList.remove('modal_confirmacion--oculto');
+
+  } catch (error) {
+    console.error(error);
+    mostrar_notificacion('Error al publicar el inmueble', 'error');
+  }
 }
 
-// Arrancar cuando el DOM esté listo
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", inicializar);
+function cerrar_confirmacion() {
+  const modal = document.getElementById('modal_confirmacion');
+  if (modal) modal.classList.add('modal_confirmacion--oculto');
+
+  const formulario = document.getElementById('formulario_publicacion');
+  if (formulario) formulario.reset();
+
+  estado_publicar.fotos_seleccionadas = [];
+  estado_publicar.caracteristicas_seleccionadas.clear();
+  estado_publicar.contadores = { habitaciones: 1, banios: 1, parqueaderos: 0, piso: 1 };
+
+  renderizar_galeria_fotos();
+  renderizar_amenidades();
+  ['habitaciones', 'banios', 'parqueaderos', 'piso'].forEach(actualizar_visualizacion_contador);
+
+  const contenedor_localidad = document.getElementById('contenedor_localidad');
+  const select_localidad = document.getElementById('localidad');
+  const select_barrio = document.getElementById('barrio');
+  if (contenedor_localidad) contenedor_localidad.classList.add('oculto');
+  if (select_localidad) select_localidad.innerHTML = '<option value="" disabled selected>Selecciona localidad</option>';
+  if (select_barrio) {
+    select_barrio.innerHTML = '<option value="" disabled selected>Primero elige una ciudad</option>';
+    select_barrio.disabled = true;
+  }
+}
+
+
+/* ──────────────────────────────────────────────────────
+   9. INICIALIZACIÓN
+   ────────────────────────────────────────────────────── */
+function inicializar() {
+  const formulario = document.getElementById('formulario_publicacion');
+  if (formulario) {
+    formulario.addEventListener('submit', manejar_envio_formulario);
+  }
+
+  const select_ciudad = document.getElementById('ciudad');
+  if (select_ciudad) {
+    select_ciudad.addEventListener('change', manejar_cambio_ciudad);
+  }
+
+  const select_localidad = document.getElementById('localidad');
+  if (select_localidad) {
+    select_localidad.addEventListener('change', manejar_cambio_localidad);
+  }
+
+  const textarea_desc = document.getElementById('descripcion');
+  if (textarea_desc) {
+    textarea_desc.addEventListener('input', actualizar_contador_descripcion);
+  }
+
+  cargar_catalogos();
+  renderizar_galeria_fotos();
+  ['habitaciones', 'banios', 'parqueaderos', 'piso'].forEach(actualizar_visualizacion_contador);
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', inicializar);
 } else {
   inicializar();
 }
