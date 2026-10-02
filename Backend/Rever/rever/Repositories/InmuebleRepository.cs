@@ -77,6 +77,7 @@ namespace rever.Repositories
         {
             return await _context.Inmueble
                 .Include(i => i.Barrio).ThenInclude(b => b.Ciudad)
+                .Include(i => i.Barrio).ThenInclude(b => b.Localidad)  
                 .Include(i => i.TipoInmueble)
                 .Include(i => i.ModoTransaccion)
                 .Include(i => i.Imagenes)
@@ -92,6 +93,9 @@ namespace rever.Repositories
                     MetrosCuadrados = i.MetrosCuadrados,
                     Tipo = i.TipoInmueble.Nombre,
                     Modo = i.ModoTransaccion.Nombre.ToLower(),
+                    Ciudad = i.Barrio.Ciudad.Nombre,
+                    Localidad = i.Barrio.Localidad.Nombre,
+                    Barrio = i.Barrio.Nombre,
                     ImagenUrl = i.Imagenes.Where(img => img.Portada).Select(img => img.Url).FirstOrDefault() ?? i.Imagenes.Select(img => img.Url).FirstOrDefault(),
                     Caracteristicas = i.InmuebleCaracteristicas.Select(ic => ic.Caracteristica.Nombre).ToList(),
                 })

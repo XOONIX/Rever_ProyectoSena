@@ -217,6 +217,26 @@
             </div>
           </fieldset>
 
+          <!-- UBICACIÓN -->
+          <div class="seccion_filtro">
+            <h3 class="titulo_filtro">Ubicación</h3>
+            <div class="campo_formulario__control campo_formulario__control--select">
+              <select id="filtro_ciudad" class="campo_formulario__select" onchange="manejar_cambio_filtro_ciudad()">
+                <option value="">Todas las ciudades</option>
+              </select>
+            </div>
+              <div id="contenedor_filtro_localidad" class="campo_formulario__control campo_formulario__control--select oculto" style="margin-top:.5rem">
+                <select id="filtro_localidad" class="campo_formulario__select" onchange="manejar_cambio_filtro_localidad()">
+                  <option value="">Todas las localidades</option>
+                </select>
+              </div>
+            <div class="campo_formulario__control campo_formulario__control--select" style="margin-top:.5rem">
+              <select id="filtro_barrio" class="campo_formulario__select" onchange="manejar_cambio_filtro_barrio()" disabled>
+                <option value="">Todos los barrios</option>
+              </select>
+            </div>
+          </div>
+
           <!-- HABITACIONES -->
           <div class="seccion_filtro">
             <h3 class="titulo_filtro">Habitaciones</h3>
@@ -239,24 +259,12 @@
             </div>
           </div>
 
-          <!-- ESTACIONAMIENTOS -->
-          <div class="seccion_filtro">
-            <h3 class="titulo_filtro">Estacionamientos</h3>
-            <div class="grupo_pastillas" role="group" aria-label="Número de estacionamientos">
-              <button class="pastilla" data-grupo="estacionamientos" data-valor="1" onclick="seleccionar_pastilla(this)">1</button>
-              <button class="pastilla" data-grupo="estacionamientos" data-valor="2" onclick="seleccionar_pastilla(this)">2</button>
-              <button class="pastilla" data-grupo="estacionamientos" data-valor="3+" onclick="seleccionar_pastilla(this)">3+</button>
-            </div>
-          </div>
-
           <!-- CARACTERÍSTICAS -->
           <fieldset class="seccion_filtro">
             <legend class="titulo_filtro">Características</legend>
-            <label class="etiqueta_checkbox">
-              <input type="checkbox" id="checkbox_pet_friendly" onchange="alternar_mascotas(this)" />
-              <span class="caja_checkbox" aria-hidden="true"></span>
-              Pet Friendly
-            </label>
+            <div id="lista_checkboxes_caracteristicas" class="lista_checkboxes">
+              <!-- Se llenan dinámicamente desde la BD -->
+            </div>
           </fieldset>
 
         </div>

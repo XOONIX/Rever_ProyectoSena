@@ -11,6 +11,9 @@
         public double MetrosCuadrados { get; set; }
         public string Tipo { get; set; }
         public string Modo { get; set; }
+        public string Ciudad { get; set; }
+        public string Localidad { get; set; }
+        public string Barrio { get; set; }
         public string ImagenUrl { get; set; }
         public List<string> Caracteristicas { get; set; }
     }

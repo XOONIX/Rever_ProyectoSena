@@ -26,11 +26,13 @@ const estado = {
     habitaciones_es_minimo: false,
     banos:    null,
     banos_es_minimo: false,
-    estacionamientos: null,
-    estacionamientos_es_minimo: false,
-    mascotas: false,
-  },
-  propiedades: [],
+    ciudad: null,
+    localidad: null,
+    barrio: null,
+    caracteristicas: new Set(),
+    },
+    propiedades: [],
+    catalogo_barrios: [],
 };
 
 /* ── Base de datos de propiedades ── */
@@ -62,7 +64,10 @@ async function cargar_propiedades() {
         badge: null,
         modo: item.modo === 'venta' ? 'compra' : 'arriendo',
         tipo: item.tipo,
-        mascotas: caracts.includes('Acepta mascotas'),
+        ciudad: item.ciudad,
+        localidad: item.localidad,
+        barrio: item.barrio,
+        caracteristicas: caracts,
       };
     });
 
@@ -71,6 +76,131 @@ async function cargar_propiedades() {
     console.error(error);
     mostrar_notificacion('No se pudieron cargar las propiedades', 'error');
   }
+}
+
+async function cargar_filtro_ubicacion() {
+  try {
+    const [ciudades, barrios, localidades] = await Promise.all([
+      fetch(`${API_URL}/Ciudad`).then(r => r.json()),
+      fetch(`${API_URL}/Barrio`).then(r => r.json()),
+      fetch(`${API_URL}/Localidad`).then(r => r.json()),
+    ]);
+
+    estado.catalogo_barrios = barrios;
+    estado.catalogo_localidades = localidades;
+
+    const select_ciudad = obtener_elemento('filtro_ciudad');
+    ciudades.forEach(c => select_ciudad.add(new Option(c.nombre, c.idCiudad)));
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+function manejar_cambio_filtro_ciudad() {
+  const select_ciudad = obtener_elemento('filtro_ciudad');
+  const contenedor_localidad = obtener_elemento('contenedor_filtro_localidad');
+  const select_localidad = obtener_elemento('filtro_localidad');
+  const select_barrio = obtener_elemento('filtro_barrio');
+  const idCiudad = parseInt(select_ciudad.value, 10);
+  const nombre_ciudad = select_ciudad.value ? select_ciudad.options[select_ciudad.selectedIndex].text : null;
+
+  estado.filtros.ciudad = nombre_ciudad;
+  estado.filtros.localidad = null;
+  estado.filtros.barrio = null;
+  select_localidad.innerHTML = '<option value="">Todas las localidades</option>';
+  select_barrio.innerHTML = '<option value="">Todos los barrios</option>';
+
+  if (!select_ciudad.value) {
+    contenedor_localidad.classList.add('oculto');
+    select_barrio.disabled = true;
+    actualizar_estado_botones_filtros();
+    renderizar_propiedades();
+    return;
+  }
+
+  const barrios_de_la_ciudad = estado.catalogo_barrios.filter(b => b.idCiudad === idCiudad);
+
+  // Solo mostramos el selector de Localidad si la ciudad tiene más de una localidad real (caso Bogotá)
+  const ids_localidad_unicos = [...new Set(barrios_de_la_ciudad.map(b => b.idLocalidad))];
+
+  if (nombre_ciudad === 'Bogotá' && ids_localidad_unicos.length > 1) {
+    contenedor_localidad.classList.remove('oculto');
+    ids_localidad_unicos.forEach(idLoc => {
+      const localidad = estado.catalogo_localidades.find(l => l.idLocalidad === idLoc);
+      if (localidad) select_localidad.add(new Option(localidad.nombre, localidad.idLocalidad));
+    });
+    select_barrio.disabled = true; // espera a que elija localidad
+  } else {
+    contenedor_localidad.classList.add('oculto');
+    barrios_de_la_ciudad.forEach(b => select_barrio.add(new Option(b.nombre, b.nombre)));
+    select_barrio.disabled = false;
+  }
+
+  actualizar_estado_botones_filtros();
+  renderizar_propiedades();
+}
+
+function manejar_cambio_filtro_localidad() {
+  const select_ciudad = obtener_elemento('filtro_ciudad');
+  const select_localidad = obtener_elemento('filtro_localidad');
+  const select_barrio = obtener_elemento('filtro_barrio');
+  const idCiudad = parseInt(select_ciudad.value, 10);
+  const idLocalidad = parseInt(select_localidad.value, 10);
+
+  estado.filtros.localidad = select_localidad.value ? select_localidad.options[select_localidad.selectedIndex].text : null;
+  estado.filtros.barrio = null;
+  select_barrio.innerHTML = '<option value="">Todos los barrios</option>';
+
+  if (!select_localidad.value) {
+    select_barrio.disabled = true;
+    actualizar_estado_botones_filtros();
+    renderizar_propiedades();
+    return;
+  }
+
+  const barrios_filtrados = estado.catalogo_barrios.filter(
+    b => b.idCiudad === idCiudad && b.idLocalidad === idLocalidad
+  );
+  barrios_filtrados.forEach(b => select_barrio.add(new Option(b.nombre, b.nombre)));
+  select_barrio.disabled = false;
+
+  actualizar_estado_botones_filtros();
+  renderizar_propiedades();
+}
+
+function manejar_cambio_filtro_barrio() {
+  const select_barrio = obtener_elemento('filtro_barrio');
+  estado.filtros.barrio = select_barrio.value || null;
+  actualizar_estado_botones_filtros();
+  renderizar_propiedades();
+}
+
+async function cargar_caracteristicas_filtro() {
+  try {
+    const caracteristicas = await fetch(`${API_URL}/Caracteristica`).then(r => r.json());
+    const contenedor = obtener_elemento('lista_checkboxes_caracteristicas');
+    if (!contenedor) return;
+
+    contenedor.innerHTML = caracteristicas.map(c => `
+      <label class="etiqueta_checkbox">
+        <input type="checkbox" class="checkbox_caracteristica" value="${c.nombre}" onchange="manejar_checkbox_caracteristica(this, '${c.nombre}')" />
+        <span class="caja_checkbox" aria-hidden="true"></span>
+        ${c.nombre}
+      </label>
+    `).join('');
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+function manejar_checkbox_caracteristica(checkbox, nombre) {
+  if (checkbox.checked) {
+    estado.filtros.caracteristicas.add(nombre);
+  } else {
+    estado.filtros.caracteristicas.delete(nombre);
+  }
+  actualizar_estado_botones_filtros();
+  renderizar_propiedades();
 }
 /**
  * Decodifica el payload de un JWT +.
@@ -457,8 +587,10 @@ function actualizar_estado_botones_filtros() {
     estado.filtros.precio_max !== null ||
     estado.filtros.habitaciones !== null ||
     estado.filtros.banos !== null ||
-    estado.filtros.estacionamientos !== null ||
-    estado.filtros.mascotas;
+    estado.filtros.ciudad !== null ||
+    estado.filtros.localidad !== null ||
+    estado.filtros.barrio !== null;
+    estado.filtros.caracteristicas.size > 0;
 
   boton_limpiar.classList.toggle('oculto', !hay_filtros_activos);
 }
@@ -543,17 +675,26 @@ function limpiar_filtros() {
   estado.filtros.habitaciones_es_minimo = false;
   estado.filtros.banos = null;
   estado.filtros.banos_es_minimo = false;
-  estado.filtros.estacionamientos = null;
-  estado.filtros.estacionamientos_es_minimo = false;
-  estado.filtros.mascotas = false;
+  estado.filtros.ciudad = null;
+  estado.filtros.localidad = null;
+  estado.filtros.barrio = null;
+  estado.filtros.caracteristicas.clear();
 
-  document.querySelectorAll('.etiqueta_checkbox input[type="checkbox"]').forEach(cb => {
-    if (cb.id !== 'checkbox_pet_friendly') cb.checked = false;
-  });
+  const select_ciudad = obtener_elemento('filtro_ciudad');
+  const contenedor_localidad = obtener_elemento('contenedor_filtro_localidad');
+  const select_localidad = obtener_elemento('filtro_localidad');
+  const select_barrio = obtener_elemento('filtro_barrio');
 
-  const cb_mascotas = obtener_elemento('checkbox_pet_friendly');
-  if (cb_mascotas) cb_mascotas.checked = false;
+  if (select_ciudad) select_ciudad.value = '';
+  if (contenedor_localidad) contenedor_localidad.classList.add('oculto');
+  if (select_localidad) select_localidad.innerHTML = '<option value="">Todas las localidades</option>';
+  if (select_barrio) {
+    select_barrio.innerHTML = '<option value="">Todos los barrios</option>';
+    select_barrio.disabled = true;
+  }
 
+  document.querySelectorAll('.checkbox_tipo').forEach(cb => cb.checked = false);
+  document.querySelectorAll('.checkbox_caracteristica').forEach(cb => cb.checked = false);
   document.querySelectorAll('.pastilla').forEach(p => p.classList.remove('activa'));
 
   actualizar_estado_botones_filtros();
@@ -596,16 +737,21 @@ function obtener_propiedades_filtradas() {
       if (!cumple) return false;
     }
 
-    /* Filtro estacionamientos */
-    if (estado.filtros.estacionamientos !== null) {
-      const cumple = estado.filtros.estacionamientos_es_minimo
-        ? prop.parqueaderos >= estado.filtros.estacionamientos
-        : prop.parqueaderos === estado.filtros.estacionamientos;
-      if (!cumple) return false;
-    }
+    /* Filtro ciudad */
+    if (estado.filtros.ciudad && prop.ciudad !== estado.filtros.ciudad) return false;
 
-    /* Filtro mascotas */
-    if (estado.filtros.mascotas && !prop.mascotas) return false;
+    /* Filtro localidad */
+    if (estado.filtros.localidad && prop.localidad !== estado.filtros.localidad) return false;
+
+    /* Filtro barrio */
+    if (estado.filtros.barrio && prop.barrio !== estado.filtros.barrio) return false;
+
+    /* Filtro características */
+    if (estado.filtros.caracteristicas.size > 0) {
+      const tiene_todas = Array.from(estado.filtros.caracteristicas)
+        .every(c => (prop.caracteristicas || []).includes(c));
+      if (!tiene_todas) return false;
+    }
 
     return true;
   });
@@ -798,7 +944,8 @@ function inicializar_app() {
   });
 
   cargar_propiedades(); // trae los datos reales y renderiza cuando lleguen
-
+  cargar_filtro_ubicacion(); // llama todas las ubicaciones que hay y las renderiza
+  cargar_caracteristicas_filtro();//trae las caracteristicas y renderiza todo
   verificar_autenticacion();
 
   /* Cerrar menú de usuario al hacer clic fuera */
