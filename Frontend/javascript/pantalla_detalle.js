@@ -10,8 +10,6 @@
    CONFIGURACIÓN & ESTADO GLOBAL
 ════════════════════════════════════════════════════════════ */
 
-const API_URL = 'https://localhost:7015/api';
-
 const estado_detalle = {
   propiedad_actual: null,    /* Objeto propiedad cargado desde la API */
   indice_galeria:   0,       /* Foto activa en el modal */
@@ -94,6 +92,13 @@ async function cargar_detalle_inmueble() {
 
     const inmueble = await respuesta.json();
     renderizar_detalle(inmueble);
+
+    const usuario_actual = obtener_usuario_actual();
+    const texto_usuario_contacto = document.getElementById('texto_usuario_contacto');
+    if (usuario_actual && texto_usuario_contacto) {
+        texto_usuario_contacto.textContent = `${usuario_actual.nombre} (${usuario_actual.correo})`;
+    }
+    actualizar_estado_formulario_contacto();
 
   } catch (error) {
     console.error('Error al cargar la propiedad:', error);
@@ -550,82 +555,100 @@ function compartir_propiedad() {
 ════════════════════════════════════════════════════════════ */
 
 /**
- * Maneja el envío del formulario de contacto.
- * @param {Event} evento
+ * Muestra el formulario de contacto o un aviso para iniciar sesión,
+ * según si hay un usuario logueado.
  */
-function manejar_envio_contacto(evento) {
-  evento.preventDefault();
+function actualizar_estado_formulario_contacto() {
+  const usuario = obtener_usuario_actual();
+  const formulario = document.getElementById('formulario_contacto');
+  const prompt_login = document.getElementById('prompt_login_contacto');
+  const estado_exito = document.getElementById('estado_exito_contacto');
 
-  const nombre       = obtener_elemento_detalle('input_nombre_contacto');
-  const email        = obtener_elemento_detalle('input_email_contacto');
-  const boton        = obtener_elemento_detalle('boton_enviar_contacto');
-  const error_nombre = obtener_elemento_detalle('error_nombre');
-  const error_email  = obtener_elemento_detalle('error_email');
-
-  let valido = true;
-
-  /* Validar nombre */
-  if (!nombre?.value?.trim()) {
-    error_nombre?.classList.remove('oculto');
-    nombre?.classList.add('campo_invalido');
-    valido = false;
+  if (usuario) {
+    formulario.classList.remove('oculto');
+    prompt_login.classList.add('oculto');
   } else {
-    error_nombre?.classList.add('oculto');
-    nombre?.classList.remove('campo_invalido');
+    formulario.classList.add('oculto');
+    estado_exito.classList.add('oculto');
+    prompt_login.classList.remove('oculto');
+
+    // Guarda a dónde volver después de iniciar sesión/registrarse
+    const url_actual = window.location.pathname + window.location.search;
+    document.getElementById('enlace_login_contacto').href = `login.html?volver=${encodeURIComponent(url_actual)}`;
+    document.getElementById('enlace_registro_contacto').href = `registro.html?volver=${encodeURIComponent(url_actual)}`;
   }
-
-  /* Validar email */
-  const regex_email = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!email?.value?.trim() || !regex_email.test(email.value)) {
-    error_email?.classList.remove('oculto');
-    email?.classList.add('campo_invalido');
-    valido = false;
-  } else {
-    error_email?.classList.add('oculto');
-    email?.classList.remove('campo_invalido');
-  }
-
-  if (!valido) return;
-
-  /* Simular envío */
-  const texto_original = boton?.textContent ?? 'Enviar mensaje';
-  if (boton) {
-    boton.disabled = true;
-    boton.innerHTML =
-      '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="animation:girar_carga .8s linear infinite">' +
-      '<circle cx="8" cy="8" r="6" stroke="rgba(255,255,255,.3)" stroke-width="2"/>' +
-      '<path d="M14 8a6 6 0 0 0-6-6" stroke="white" stroke-width="2" stroke-linecap="round"/></svg> Enviando…';
-  }
-
-  setTimeout(() => {
-    obtener_elemento_detalle('formulario_contacto')?.classList.add('oculto');
-    obtener_elemento_detalle('estado_exito_contacto')?.classList.remove('oculto');
-
-    if (boton) {
-      boton.disabled = false;
-      boton.textContent = texto_original;
-    }
-  }, 1600);
 }
 
 /**
- * Restablece el formulario de contacto al estado inicial.
+ * Maneja el envío del formulario de contacto.
+ * @param {Event} evento
  */
-function restablecer_formulario() {
-  const prop = estado_detalle.propiedad_actual;
+async function manejar_envio_contacto(evento) {
+  evento.preventDefault();
 
-  obtener_elemento_detalle('estado_exito_contacto')?.classList.add('oculto');
-  obtener_elemento_detalle('formulario_contacto')?.classList.remove('oculto');
+  const usuario = obtener_usuario_actual();
+  const token = localStorage.getItem('token');
 
-  const nombre  = obtener_elemento_detalle('input_nombre_contacto');
-  const email   = obtener_elemento_detalle('input_email_contacto');
-  const mensaje = obtener_elemento_detalle('input_mensaje_contacto');
-
-  if (nombre)  nombre.value  = '';
-  if (email)   email.value   = '';
-  if (mensaje && prop) {
-    mensaje.value = `Hola, me interesa la propiedad "${prop.titulo}". ¿Podría brindarme más información?`;
+  if (!usuario) {
+    mostrar_notificacion('Debes iniciar sesión para contactar al vendedor', 'error');
+    return;
   }
+
+  const mensaje = document.getElementById('input_mensaje_contacto').value.trim();
+  const error_mensaje = document.getElementById('error_mensaje');
+
+  if (!mensaje) {
+    error_mensaje.classList.remove('oculto');
+    return;
+  }
+  error_mensaje.classList.add('oculto');
+
+  const formulario = document.getElementById('formulario_contacto');
+  const idVendedor = parseInt(formulario.dataset.idVendedor, 10);
+  const idInmueble = parseInt(formulario.dataset.idInmueble, 10);
+
+  const boton = document.getElementById('boton_enviar_contacto');
+  boton.disabled = true;
+  boton.textContent = 'Enviando...';
+
+  try {
+    const respuesta = await fetch(`${API_URL}/Contacto`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        idVendedor: idVendedor,
+        idInmueble: idInmueble,
+        mensaje: mensaje,
+        fecha: new Date().toISOString(),
+      }),
+    });
+
+    if (!respuesta.ok) {
+      const texto = await respuesta.text();
+      throw new Error(texto || 'No se pudo enviar el mensaje');
+    }
+
+    document.getElementById('formulario_contacto').classList.add('oculto');
+    document.getElementById('estado_exito_contacto').classList.remove('oculto');
+    document.getElementById('subtexto_exito_contacto').textContent =
+      'Tu mensaje fue enviado al asesor. Te responderá pronto.';
+
+  } catch (error) {
+    console.error(error);
+    mostrar_notificacion(error.message, 'error');
+  } finally {
+    boton.disabled = false;
+    boton.textContent = 'Enviar mensaje';
+  }
+}
+
+function restablecer_formulario() {
+  document.getElementById('formulario_contacto').reset();
+  document.getElementById('formulario_contacto').classList.remove('oculto');
+  document.getElementById('estado_exito_contacto').classList.add('oculto');
 }
 
 

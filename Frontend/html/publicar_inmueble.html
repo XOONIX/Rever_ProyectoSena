@@ -110,15 +110,6 @@
               <div class="campo_formulario__control campo_formulario__control--select">
                 <select id="tipo_inmueble" name="tipo_inmueble" class="campo_formulario__select" required aria-required="true">
                   <option value="" disabled selected>Selecciona un tipo</option>
-                  <option value="apartamento">Apartamento</option>
-                  <option value="casa">Casa</option>
-                  <option value="casa_campestre">Casa Campestre</option>
-                  <option value="finca">Finca</option>
-                  <option value="oficina">Oficina</option>
-                  <option value="local">Local comercial</option>
-                  <option value="bodega">Bodega</option>
-                  <option value="apartaestudio">Apartaestudio</option>
-                  <option value="lote">Lote</option>
                 </select>
                 <img src="../assets/iconos/chevron_abajo.svg" alt="" class="campo_formulario__icono_select" aria-hidden="true" />
               </div>
@@ -132,9 +123,6 @@
               <div class="campo_formulario__control campo_formulario__control--select">
                 <select id="tipo_operacion" name="tipo_operacion" class="campo_formulario__select" required aria-required="true">
                   <option value="" disabled selected>Venta o arriendo</option>
-                  <option value="venta">Venta</option>
-                  <option value="arriendo">Arriendo</option>
-                  <option value="arriendo_temporal">Arriendo Temporal</option>
                 </select>
                 <img src="../assets/iconos/chevron_abajo.svg" alt="" class="campo_formulario__icono_select" aria-hidden="true" />
               </div>
@@ -355,14 +343,14 @@
           <h2 id="titulo_amenidades" class="seccion_formulario__titulo">Amenidades y Características</h2>
         </div>
         <div class="seccion_formulario__cuerpo">
-          <div class="grupo_amenidades" role="group" aria-label="Selecciona las amenidades disponibles">
+          <div id="grupo_amenidades" class="grupo_amenidades" role="group" aria-label="Selecciona las amenidades disponibles">
             <!-- Las amenidades se generan dinámicamente desde JS -->
           </div>
           <p id="contador_amenidades" class="campo_formulario__ayuda" aria-live="polite" style="display:none"></p>
         </div>
       </section>
 
-      <!-- ── Sección 05: Fotografías ── -->
+      <!-- ── Sección 05: Fotografías (por URL) ── -->
       <section class="seccion_formulario" aria-labelledby="titulo_fotos">
         <div class="seccion_formulario__encabezado">
           <span class="seccion_formulario__paso" aria-hidden="true">05</span>
@@ -370,43 +358,38 @@
           <img src="../assets/iconos/camara.svg" alt="" class="seccion_formulario__icono" aria-hidden="true" />
           <h2 id="titulo_fotos" class="seccion_formulario__titulo">Fotografías del Inmueble</h2>
         </div>
-        <div class="seccion_formulario__cuerpo">
-          <!-- Zona de arrastre -->
-          <div
-            id="zona_arrastre"
-            class="zona_carga"
-            role="button"
-            tabindex="0"
-            aria-label="Zona para cargar fotografías. Arrastra archivos aquí o haz clic para seleccionarlos."
-            ondragover="manejar_arrastre(event, true)"
-            ondragleave="manejar_arrastre(event, false)"
-            ondrop="manejar_soltar_archivos(event)"
-            onclick="document.getElementById('input_fotos').click()"
-            onkeydown="if(event.key==='Enter'||event.key===' ')document.getElementById('input_fotos').click()"
-          >
-            <div class="zona_carga__icono" aria-hidden="true">
-              <img src="../assets/iconos/subir.svg" alt="" />
-            </div>
-            <p class="zona_carga__titulo">Arrastra tus fotos aquí</p>
-            <p class="zona_carga__subtitulo">PNG, JPG o WEBP — máximo 10 fotos, 10 MB c/u</p>
-            <button type="button" class="boton_secundario" onclick="event.stopPropagation(); document.getElementById('input_fotos').click()">
-              Seleccionar archivos
-            </button>
-          </div>
-          <input
-            type="file"
-            id="input_fotos"
-            name="fotos"
-            accept="image/*"
-            multiple
-            class="visualmente_oculto"
-            aria-hidden="true"
-            onchange="agregar_fotos_seleccionadas(event)"
-          />
 
-          <!-- Galería de fotos cargadas -->
-          <div id="galeria_fotos" class="galeria_fotos" role="list" aria-label="Fotografías cargadas"></div>
-          <p id="contador_fotos" class="campo_formulario__ayuda" aria-live="polite">0 / 10 fotos cargadas. La primera foto será la imagen principal.</p>
+        <div class="seccion_formulario__cuerpo">
+          <!-- Campo para pegar la URL y el botón que activa agregar_foto_por_url() -->
+          <div class="campo_formulario">
+            <label class="campo_formulario__etiqueta" for="input_url_foto">
+              URL de la fotografía
+            </label>
+            <div class="campo_formulario__control" style="display: flex; gap: 8px;">
+              <input 
+                type="url" 
+                id="input_url_foto" 
+                class="campo_formulario__input" 
+                placeholder="https://ejemplo.com/imagen.jpg"
+                onkeydown="if(event.key === 'Enter') { event.preventDefault(); agregar_foto_por_url(); }"
+              />
+              <button 
+                type="button" 
+                class="boton_secundario" 
+                onclick="agregar_foto_por_url()"
+              >
+                Agregar
+              </button>
+            </div>
+          </div>
+
+          <!-- Galería de fotos que renderizar_galeria_fotos() va a poblar -->
+          <ul id="galeria_fotos" class="galeria_fotos" role="list" aria-label="Fotografías cargadas"></ul>
+
+          <!-- Contador dinámico que actualiza tu JS -->
+          <p id="contador_fotos" class="campo_formulario__ayuda" aria-live="polite">
+            0 fotos agregadas. La primera será la imagen principal (portada).
+          </p>
         </div>
       </section>
 

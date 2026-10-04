@@ -79,6 +79,9 @@ async function cargar_propiedades() {
 }
 
 async function cargar_filtro_ubicacion() {
+  const select_ciudad = obtener_elemento('filtro_ciudad');
+  if (!select_ciudad) return; // permite que la funcion no sea llamada en paginas donde no se necesiten
+
   try {
     const [ciudades, barrios, localidades] = await Promise.all([
       fetch(`${API_URL}/Ciudad`).then(r => r.json()),
@@ -89,7 +92,6 @@ async function cargar_filtro_ubicacion() {
     estado.catalogo_barrios = barrios;
     estado.catalogo_localidades = localidades;
 
-    const select_ciudad = obtener_elemento('filtro_ciudad');
     ciudades.forEach(c => select_ciudad.add(new Option(c.nombre, c.idCiudad)));
   } catch (error) {
     console.error(error);
@@ -176,10 +178,10 @@ function manejar_cambio_filtro_barrio() {
 }
 
 async function cargar_caracteristicas_filtro() {
+  const contenedor = obtener_elemento('lista_checkboxes_caracteristicas');
+  if (!contenedor) return; // permite que la funcion no sea llamada en paginas donde no se necesiten
   try {
     const caracteristicas = await fetch(`${API_URL}/Caracteristica`).then(r => r.json());
-    const contenedor = obtener_elemento('lista_checkboxes_caracteristicas');
-    if (!contenedor) return;
 
     contenedor.innerHTML = caracteristicas.map(c => `
       <label class="etiqueta_checkbox">

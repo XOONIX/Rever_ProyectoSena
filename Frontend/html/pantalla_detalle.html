@@ -275,6 +275,20 @@
           <!-- Formulario de contacto -->
           <div class="contenedor_formulario_contacto">
 
+            <!-- Estado no ha iniciado sesión -->
+            <div id="prompt_login_contacto" class="prompt_login_contacto oculto" role="status">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 2a5 5 0 0 1 5 5v3H7V7a5 5 0 0 1 5-5z"/>
+                <rect x="4" y="10" width="16" height="10" rx="2"/>
+              </svg>
+              <p class="titulo_prompt_login">Inicia sesión para contactar al vendedor</p>
+              <p class="subtexto_prompt_login">Necesitas una cuenta para enviar mensajes sobre esta propiedad.</p>
+              <div class="acciones_prompt_login">
+                <a id="enlace_login_contacto" href="login.html" class="boton_enviar_contacto">Iniciar sesión</a>
+                <a id="enlace_registro_contacto" href="registro.html" class="boton_secundario">Registrarme</a>
+              </div>
+            </div>
+
             <!-- Estado éxito -->
             <div id="estado_exito_contacto" class="estado_exito_contacto oculto" role="status" aria-live="polite">
               <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icono_exito_contacto" aria-hidden="true">
@@ -289,37 +303,10 @@
             </div>
 
             <!-- Formulario -->
-            <form
-              id="formulario_contacto"
-              class="formulario_contacto"
-              novalidate
-              onsubmit="manejar_envio_contacto(event)"
-            >
-              <div class="grupo_campo_contacto">
-                <label class="etiqueta_campo_contacto" for="input_nombre_contacto">Tu nombre</label>
-                <input
-                  type="text"
-                  id="input_nombre_contacto"
-                  class="campo_contacto"
-                  placeholder="Ej. Juan Pérez"
-                  autocomplete="name"
-                  required
-                />
-                <span id="error_nombre" class="error_campo_contacto oculto" role="alert">Por favor ingresa tu nombre.</span>
-              </div>
-
-              <div class="grupo_campo_contacto">
-                <label class="etiqueta_campo_contacto" for="input_email_contacto">Tu email</label>
-                <input
-                  type="email"
-                  id="input_email_contacto"
-                  class="campo_contacto"
-                  placeholder="juan@correo.com"
-                  autocomplete="email"
-                  required
-                />
-                <span id="error_email" class="error_campo_contacto oculto" role="alert">Ingresa un email válido.</span>
-              </div>
+            <form id="formulario_contacto" class="formulario_contacto" novalidate onsubmit="manejar_envio_contacto(event)">
+              <p class="campo_formulario__ayuda">
+                Enviando como: <strong id="texto_usuario_contacto">—</strong>
+              </p>
 
               <div class="grupo_campo_contacto">
                 <label class="etiqueta_campo_contacto" for="input_mensaje_contacto">Mensaje</label>
@@ -328,17 +315,12 @@
                   class="campo_contacto campo_textarea"
                   rows="3"
                   placeholder="Escribe tu mensaje aquí…"
+                  required
                 ></textarea>
+                <span id="error_mensaje" class="error_campo_contacto oculto" role="alert">Escribe un mensaje antes de enviar.</span>
               </div>
 
-              <button
-                type="submit"
-                id="boton_enviar_contacto"
-                class="boton_enviar_contacto"
-              >
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-                </svg>
+              <button type="submit" id="boton_enviar_contacto" class="boton_enviar_contacto">
                 Enviar mensaje
               </button>
             </form>
@@ -358,6 +340,7 @@
 
   <!-- Scripts -->
 
+  <script src="../javascript/main.js"></script>
   <script src="../javascript/pantalla_detalle.js"></script>
 </body>
 </html>

@@ -143,6 +143,7 @@ function abrir_mapa() {
 /* ──────────────────────────────────────────────────────
    5. FOTOGRAFÍAS (por URL)
    ────────────────────────────────────────────────────── */
+
 function agregar_foto_por_url() {
   const input = document.getElementById('input_url_foto');
   const url = input.value.trim();

@@ -80,7 +80,7 @@ namespace rever.Controllers
                 }
 
                 // 2. Comprobar permisos
-                var esAdmin = User.IsInRole("administrador") || User.IsInRole("Admin");
+                var esAdmin = User.EsAdministrador();
                 var esParteDelMensaje = response.IdComprador == idUsuarioToken.Value || response.IdVendedor == idUsuarioToken.Value;
 
                 if (!esParteDelMensaje && !esAdmin)

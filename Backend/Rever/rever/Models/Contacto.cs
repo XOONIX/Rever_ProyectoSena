@@ -13,20 +13,20 @@ namespace rever.Models
 
         [Required(ErrorMessage = "El comprador es obligatorio.")]
         [Column("id_comprador")]
-        public required int IdComprador { get; set; }
+        public int IdComprador { get; set; }
 
         [Required(ErrorMessage = "El vendedor es obligatorio.")]
         [Column("id_vendedor")]
-        public required int IdVendedor { get; set; }
+        public int IdVendedor { get; set; }
 
         [Required(ErrorMessage = "El inmueble es obligatorio.")]
         [Column("id_inmueble")]
-        public required int IdInmueble { get; set; }
+        public int IdInmueble { get; set; }
 
         [Required(ErrorMessage = "El mensaje es obligatorio.")]
         [MinLength(5)]
         [Column("mensaje", TypeName = "TEXT")]
-        public required string Mensaje { get; set; }
+        public string Mensaje { get; set; }
 
         [Column("fecha")]
         public DateTime Fecha { get; set; } = DateTime.Now;
