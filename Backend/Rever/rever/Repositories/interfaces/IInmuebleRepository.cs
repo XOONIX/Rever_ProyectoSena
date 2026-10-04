@@ -2,6 +2,7 @@ using rever.Dtos;
 using rever.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using TuProyecto.DTOs;
 
 namespace rever.Repositories.Interfaces
 {
@@ -14,5 +15,6 @@ namespace rever.Repositories.Interfaces
         Task<bool> DeleteInmueble(Inmueble inmueble);
         Task<IEnumerable<InmuebleListadoDto>> GetListadoAsync();
         Task<InmuebleDetalleDto?> GetDetalleAsync(int id);
+        Task<Inmueble?> PostInmuebleCompleto(CrearInmuebleDto dto, int idUsuario);
     }
 }

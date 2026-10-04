@@ -63,12 +63,11 @@
       </div>
     </header>
 
-    <!-- Formulario principal -->
+    <!-- Formulario principal (el envío lo maneja mainpublicar_inmueble.js con addEventListener) -->
     <form
       id="formulario_publicacion"
       class="formulario_principal"
       novalidate
-      onsubmit="manejar_envio_formulario(event)"
     >
 
       <!-- ── Sección 01: Información Básica ── -->
@@ -207,18 +206,18 @@
 
             <!-- Barrios -->
             <div class="campo_formulario">
-            <label class="campo_formulario__etiqueta" for="barrio">
-              Barrio <span class="campo_formulario__requerido" aria-label="requerido">*</span>
-            </label>
-            <div class="campo_formulario__control campo_formulario__control--select">
-              <select id="barrio" name="barrio" class="campo_formulario__select" required aria-required="true" disabled>
-                <option value="" disabled selected>Primero elige una ciudad</option>
-              </select>
-              <img src="../assets/iconos/chevron_abajo.svg" alt="" class="campo_formulario__icono_select" aria-hidden="true" />
+              <label class="campo_formulario__etiqueta" for="barrio">
+                Barrio <span class="campo_formulario__requerido" aria-label="requerido">*</span>
+              </label>
+              <div class="campo_formulario__control campo_formulario__control--select">
+                <select id="barrio" name="barrio" class="campo_formulario__select" required aria-required="true" disabled>
+                  <option value="" disabled selected>Primero elige una ciudad</option>
+                </select>
+                <img src="../assets/iconos/chevron_abajo.svg" alt="" class="campo_formulario__icono_select" aria-hidden="true" />
+              </div>
             </div>
-          </div>
 
-                      <!-- Dirección -->
+            <!-- Dirección -->
             <div class="campo_formulario">
               <label class="campo_formulario__etiqueta" for="direccion">
                 Dirección <span class="campo_formulario__requerido" aria-label="requerido">*</span>
@@ -236,7 +235,7 @@
                 />
               </div>
             </div>
-        </div> 
+          </div>
 
           <!-- Mapa interactivo (placeholder) -->
           <div class="mapa_placeholder" role="img" aria-label="Selector de ubicación en mapa">
@@ -326,7 +325,6 @@
               rows="4"
               maxlength="800"
               aria-describedby="contador_descripcion"
-              oninput="actualizar_contador_descripcion()"
             ></textarea>
             <p id="contador_descripcion" class="campo_formulario__contador" aria-live="polite">0 / 800 caracteres</p>
           </div>
@@ -366,16 +364,16 @@
               URL de la fotografía
             </label>
             <div class="campo_formulario__control" style="display: flex; gap: 8px;">
-              <input 
-                type="url" 
-                id="input_url_foto" 
-                class="campo_formulario__input" 
+              <input
+                type="url"
+                id="input_url_foto"
+                class="campo_formulario__input"
                 placeholder="https://ejemplo.com/imagen.jpg"
                 onkeydown="if(event.key === 'Enter') { event.preventDefault(); agregar_foto_por_url(); }"
               />
-              <button 
-                type="button" 
-                class="boton_secundario" 
+              <button
+                type="button"
+                class="boton_secundario"
                 onclick="agregar_foto_por_url()"
               >
                 Agregar
@@ -504,7 +502,7 @@
     </div>
 
   </main><!-- /pantalla_publicar -->
-
+  <script src="../javascript/main.js"></script>
   <script src="../javascript/mainpublicar_inmueble.js"></script>
 </body>
 </html>

@@ -3,7 +3,6 @@
    Conectado a la base de datos real vía fetch
    ═══════════════════════════════════════════════════════ */
 
-const API_URL = 'https://localhost:7015/api';
 const estado_publicar = {
   fotos_seleccionadas: [],
   caracteristicas_disponibles: [],
@@ -12,6 +11,44 @@ const estado_publicar = {
   catalogo_barrios: [],
   catalogo_localidades: [],
 };
+
+/* ──────────────────────────────────────────────────────
+   0. UTILIDADES
+   ────────────────────────────────────────────────────── */
+
+// Busca el ID de un objeto del catálogo. Prueba primero los nombres
+// esperados y, si ninguno existe, usa la primera propiedad que empiece por "id".
+function obtener_id(objeto, nombres_preferidos = []) {
+  for (const nombre of nombres_preferidos) {
+    if (objeto[nombre] !== undefined && objeto[nombre] !== null) return objeto[nombre];
+  }
+  const clave = Object.keys(objeto).find(k => k.toLowerCase().startsWith('id'));
+  return clave ? objeto[clave] : undefined;
+}
+
+// Muestra los errores en una caja roja visible encima del botón de publicar
+function mostrar_errores_formulario(mensajes) {
+  let caja = document.getElementById('caja_errores');
+  if (!caja) {
+    caja = document.createElement('div');
+    caja.id = 'caja_errores';
+    caja.setAttribute('role', 'alert');
+    caja.style.cssText =
+      'background:#fdecea;border:1px solid #f5c2c0;color:#8a1f17;' +
+      'padding:12px 16px;border-radius:8px;margin:16px 0;';
+    document.querySelector('.barra_envio').before(caja);
+  }
+  caja.innerHTML =
+    '<strong>No se pudo publicar:</strong>' +
+    '<ul style="margin:8px 0 0 18px">' +
+    mensajes.map(m => `<li>${m}</li>`).join('') +
+    '</ul>';
+  caja.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function limpiar_errores_formulario() {
+  document.getElementById('caja_errores')?.remove();
+}
 
 /* ──────────────────────────────────────────────────────
    1. CONTADORES NUMÉRICOS
@@ -168,7 +205,7 @@ function renderizar_galeria_fotos() {
       <img src="${url}" alt="" class="galeria_fotos__imagen" />
       ${idx === 0 ? '<span class="galeria_fotos__etiqueta_principal">Portada</span>' : ''}
       <div class="galeria_fotos__superposicion">
-        <button class="galeria_fotos__boton_eliminar" onclick="eliminar_foto(${idx})" aria-label="Eliminar foto">✕</button>
+        <button type="button" class="galeria_fotos__boton_eliminar" onclick="eliminar_foto(${idx})" aria-label="Eliminar foto">✕</button>
       </div>
     </li>
   `).join('');
@@ -206,11 +243,16 @@ async function cargar_catalogos() {
       fetch(`${API_URL}/Localidad`).then(r => r.json()),
     ]);
 
+    // Tipo y modo: se detecta el nombre real del ID (idTipo, idTipoInmueble, id, etc.)
     const select_tipo = document.getElementById('tipo_inmueble');
-    tipos.forEach(t => select_tipo.add(new Option(t.nombre, t.idTipo)));
+    tipos.forEach(t =>
+      select_tipo.add(new Option(t.nombre, obtener_id(t, ['idTipo', 'idTipoInmueble'])))
+    );
 
     const select_modo = document.getElementById('tipo_operacion');
-    modos.forEach(m => select_modo.add(new Option(m.nombre, m.idModo)));
+    modos.forEach(m =>
+      select_modo.add(new Option(m.nombre, obtener_id(m, ['idModo', 'idModoTransaccion'])))
+    );
 
     const select_ciudad = document.getElementById('ciudad');
     ciudades.forEach(c => select_ciudad.add(new Option(c.nombre, c.idCiudad)));
@@ -233,46 +275,65 @@ async function cargar_catalogos() {
 
 
 /* ──────────────────────────────────────────────────────
-   8. ENVÍO DEL FORMULARIO
+   8. ENVÍO DEL FORMULARIO (COMPLETO)
    ────────────────────────────────────────────────────── */
 async function manejar_envio_formulario(evento) {
   evento.preventDefault();
+  limpiar_errores_formulario();
 
   const usuario = obtener_usuario_actual();
   const token = localStorage.getItem('token');
 
   if (!usuario) {
-    mostrar_notificacion('Debes iniciar sesión para publicar', 'error');
+    mostrar_errores_formulario(['Debes iniciar sesión para publicar.']);
     return;
   }
 
-  // "Parqueadero" se guarda como característica (sí/no), no como cantidad
+  // Sanitización de valores numéricos para evitar NaN
+  const obtener_numero = (id) => {
+    const el = document.getElementById(id);
+    if (!el || !el.value) return 0;
+    const num = parseInt(el.value.replace(/\D/g, ''), 10);
+    return isNaN(num) ? 0 : num;
+  };
+
+  const obtener_entero_select = (id) => {
+    const num = parseInt(document.getElementById(id)?.value || '0', 10);
+    return isNaN(num) ? 0 : num;
+  };
+
+  // Procesamiento de amenidades / características
   const caracteristicas_finales = new Set(estado_publicar.caracteristicas_seleccionadas);
   if (estado_publicar.contadores.parqueaderos > 0) {
-    const parqueadero = estado_publicar.caracteristicas_disponibles.find(c => c.nombre === 'Parqueadero');
+    const parqueadero = estado_publicar.caracteristicas_disponibles?.find(c => c.nombre === 'Parqueadero');
     if (parqueadero) caracteristicas_finales.add(parqueadero.idCaracteristica);
   }
 
+  // PAYLOAD (los nombres coinciden con CrearInmuebleDto)
   const payload = {
-    titulo: document.getElementById('nombre_inmueble').value,
-    descripcion: document.getElementById('descripcion').value,
-    precio: parseFloat(document.getElementById('precio').value.replace(/\D/g, '')),
-    idTipo: parseInt(document.getElementById('tipo_inmueble').value, 10),
-    idModo: parseInt(document.getElementById('tipo_operacion').value, 10),
-    direccion: document.getElementById('direccion').value,
-    idBarrio: parseInt(document.getElementById('barrio').value, 10),
-    habitaciones: estado_publicar.contadores.habitaciones,
-    banos: estado_publicar.contadores.banios,
-    metrosCuadrados: parseInt(document.getElementById('area').value.replace(/\D/g, ''), 10),
-    estrato: parseInt(document.getElementById('estrato').value, 10),
-    latitud: 0,  // pendiente: mapa interactivo real
-    longitud: 0, // pendiente: mapa interactivo real
+    titulo: document.getElementById('nombre_inmueble')?.value?.trim() || '',
+    descripcion: document.getElementById('descripcion')?.value?.trim() || '',
+    precio: obtener_numero('precio'),
+    idTipo: obtener_entero_select('tipo_inmueble'),
+    idModo: obtener_entero_select('tipo_operacion'),
+    direccion: document.getElementById('direccion')?.value?.trim() || '',
+    idBarrio: obtener_entero_select('barrio'),
+
+    habitaciones: estado_publicar.contadores.habitaciones || 0,
+    banos: estado_publicar.contadores.banios || 0,
+    piso: estado_publicar.contadores.piso || 1,
+    metrosCuadrados: obtener_numero('area'),
+    estrato: obtener_entero_select('estrato'),
+
+    latitud: 0,
+    longitud: 0,
+
     caracteristicasIds: Array.from(caracteristicas_finales),
-    imagenesUrls: estado_publicar.fotos_seleccionadas,
+    imagenesUrls: estado_publicar.fotos_seleccionadas || []
   };
 
   try {
-    const respuesta = await fetch(`${API_URL}/Inmueble`, {
+    const respuesta = await fetch(`${API_URL}/Inmueble/completo`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -283,7 +344,17 @@ async function manejar_envio_formulario(evento) {
 
     if (!respuesta.ok) {
       const texto = await respuesta.text();
-      throw new Error(texto || 'No se pudo publicar el inmueble');
+      let mensajes = [];
+      try {
+        const json = JSON.parse(texto);
+        mensajes = json.errors
+          ? Object.values(json.errors).flat()
+          : [json.title || texto];
+      } catch {
+        mensajes = [texto || 'No se pudo publicar el inmueble.'];
+      }
+      mostrar_errores_formulario(mensajes);
+      return;
     }
 
     const resultado = await respuesta.json();
@@ -296,34 +367,8 @@ async function manejar_envio_formulario(evento) {
     if (modal) modal.classList.remove('modal_confirmacion--oculto');
 
   } catch (error) {
-    console.error(error);
-    mostrar_notificacion('Error al publicar el inmueble', 'error');
-  }
-}
-
-function cerrar_confirmacion() {
-  const modal = document.getElementById('modal_confirmacion');
-  if (modal) modal.classList.add('modal_confirmacion--oculto');
-
-  const formulario = document.getElementById('formulario_publicacion');
-  if (formulario) formulario.reset();
-
-  estado_publicar.fotos_seleccionadas = [];
-  estado_publicar.caracteristicas_seleccionadas.clear();
-  estado_publicar.contadores = { habitaciones: 1, banios: 1, parqueaderos: 0, piso: 1 };
-
-  renderizar_galeria_fotos();
-  renderizar_amenidades();
-  ['habitaciones', 'banios', 'parqueaderos', 'piso'].forEach(actualizar_visualizacion_contador);
-
-  const contenedor_localidad = document.getElementById('contenedor_localidad');
-  const select_localidad = document.getElementById('localidad');
-  const select_barrio = document.getElementById('barrio');
-  if (contenedor_localidad) contenedor_localidad.classList.add('oculto');
-  if (select_localidad) select_localidad.innerHTML = '<option value="" disabled selected>Selecciona localidad</option>';
-  if (select_barrio) {
-    select_barrio.innerHTML = '<option value="" disabled selected>Primero elige una ciudad</option>';
-    select_barrio.disabled = true;
+    console.error('Error al publicar:', error);
+    mostrar_errores_formulario(['No se pudo conectar con el servidor. Revisa que la API esté corriendo.']);
   }
 }
 
@@ -334,6 +379,7 @@ function cerrar_confirmacion() {
 function inicializar() {
   const formulario = document.getElementById('formulario_publicacion');
   if (formulario) {
+    // Único punto de envío (el HTML ya no tiene onsubmit)
     formulario.addEventListener('submit', manejar_envio_formulario);
   }
 

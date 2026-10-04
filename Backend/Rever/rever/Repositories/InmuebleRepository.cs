@@ -5,6 +5,7 @@ using rever.Models;
 using rever.Repositories.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using TuProyecto.DTOs;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace rever.Repositories
@@ -91,6 +92,7 @@ namespace rever.Repositories
                     Habitaciones = i.Habitaciones,
                     Banos = i.Baños,
                     MetrosCuadrados = i.MetrosCuadrados,
+                    Pisos = i.Pisos,
                     Tipo = i.TipoInmueble.Nombre,
                     Modo = i.ModoTransaccion.Nombre.ToLower(),
                     Ciudad = i.Barrio.Ciudad.Nombre,
@@ -123,6 +125,7 @@ namespace rever.Repositories
                     Habitaciones = i.Habitaciones,
                     Banos = i.Baños,
                     MetrosCuadrados = i.MetrosCuadrados,
+                    Pisos = i.Pisos,
                     Estrato = i.Estrato,
                     Latitud = i.Latitud,
                     Longitud = i.Longitud,
@@ -137,5 +140,90 @@ namespace rever.Repositories
                 })
                 .FirstOrDefaultAsync();
         }
+
+        public async Task<Inmueble?> PostInmuebleCompleto(CrearInmuebleDto dto, int idUsuario)
+        {
+            var caracIds = dto.CaracteristicasIds.Distinct().ToList();
+
+            // Validar que las características existan (solo lectura, fuera de la transacción)
+            if (caracIds.Count > 0)
+            {
+                var existentes = await _context.Caracteristica
+                    .CountAsync(c => caracIds.Contains(c.IdCaracteristica));
+                if (existentes != caracIds.Count)
+                    throw new ArgumentException("Una o más características no existen.");
+            }
+
+            var strategy = _context.Database.CreateExecutionStrategy();
+
+            return await strategy.ExecuteAsync(async () =>
+            {
+                // Si hay un reintento, limpia lo que quedó rastreado del intento anterior
+                _context.ChangeTracker.Clear();
+
+                await using var tx = await _context.Database.BeginTransactionAsync();
+                try
+                {
+                    var inmueble = new Inmueble
+                    {
+                        Titulo = dto.Titulo.Trim(),
+                        Descripcion = dto.Descripcion.Trim(),
+                        Precio = dto.Precio,
+                        IdTipo = dto.IdTipo,
+                        IdModo = dto.IdModo,
+                        Direccion = dto.Direccion.Trim(),
+                        IdBarrio = dto.IdBarrio,
+                        Habitaciones = dto.Habitaciones,
+                        Baños = dto.Banos,
+                        Pisos = dto.Pisos,
+                        MetrosCuadrados = dto.MetrosCuadrados,
+                        Estrato = dto.Estrato,
+                        Latitud = dto.Latitud,
+                        Longitud = dto.Longitud,
+                        IdUsuario = idUsuario,
+                        IdEstado = 1,
+                    };
+
+                    _context.Inmueble.Add(inmueble);
+                    await _context.SaveChangesAsync();   // aquí se genera IdInmueble
+
+                    if (caracIds.Count > 0)
+                    {
+                        _context.InmuebleCaracteristica.AddRange(
+                            caracIds.Select(id => new InmuebleCaracteristica
+                            {
+                                IdInmueble = inmueble.IdInmueble,
+                                IdCaracteristica = id
+                            }));
+                    }
+
+                    var urls = dto.ImagenesUrls
+                        .Where(u => !string.IsNullOrWhiteSpace(u))
+                        .Select(u => u.Trim())
+                        .ToList();
+
+                    if (urls.Count > 0)
+                    {
+                        _context.Imagen.AddRange(
+                            urls.Select((url, i) => new Imagen
+                            {
+                                IdInmueble = inmueble.IdInmueble,
+                                Url = url,
+                                Portada = i == 0   // la primera imagen queda como portada
+                            }));
+                    }
+
+                    await _context.SaveChangesAsync();
+                    await tx.CommitAsync();
+                    return inmueble;
+                }
+                catch
+                {
+                    await tx.RollbackAsync();
+                    throw;
+                }
+            });
+        }
     }
+    
 }

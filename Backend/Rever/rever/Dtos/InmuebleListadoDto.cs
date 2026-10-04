@@ -9,6 +9,7 @@
         public int Habitaciones { get; set; }
         public int Banos { get; set; }
         public double MetrosCuadrados { get; set; }
+        public int Pisos { get; set; }
         public string Tipo { get; set; }
         public string Modo { get; set; }
         public string Ciudad { get; set; }

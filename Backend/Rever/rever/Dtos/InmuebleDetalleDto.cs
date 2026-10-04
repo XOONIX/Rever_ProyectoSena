@@ -11,6 +11,7 @@
         public int Habitaciones { get; set; }
         public int Banos { get; set; }
         public int MetrosCuadrados { get; set; }
+        public int Pisos { get; set; }
         public int Estrato { get; set; }
         public decimal Latitud { get; set; }
         public decimal Longitud { get; set; }

@@ -57,6 +57,9 @@ namespace rever.Models
         [Column("estrato")]
         public int Estrato { get; set; }
 
+        [Column("piso")]
+        public int Pisos { get; set; } 
+
         [Required(ErrorMessage = "La latitud es obligatoria.")]
         [Column("latitud", TypeName = "decimal(10,8)")]
         public required decimal Latitud { get; set; }

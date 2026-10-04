@@ -8,6 +8,7 @@ using rever.Repositories;
 using rever.Repositories.Interfaces;
 using System;
 using System.Threading.Tasks;
+using TuProyecto.DTOs;
 
 namespace rever.Controllers
 {
@@ -244,6 +245,44 @@ namespace rever.Controllers
             var esAdmin = User.IsInRole("administrador") || User.IsInRole("Admin");
 
             return idDuenoDelRecurso == idUsuarioToken.Value || esAdmin;
+        }
+
+        [HttpPost("completo")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> CrearInmuebleCompleto([FromBody] CrearInmuebleDto dto)
+        {
+            try
+            {
+                // [ApiController] ya responde 400 si fallan los DataAnnotations del DTO
+
+                var idUsuarioToken = ObtenerIdUsuarioToken();
+                if (!idUsuarioToken.HasValue)
+                {
+                    return StatusCode(401, "401: No se pudo verificar la identidad desde el token.");
+                }
+
+                var response = await _inmueblerepository.PostInmuebleCompleto(dto, idUsuarioToken.Value);
+                if (response == null)
+                {
+                    return StatusCode(500, "500: Error interno al intentar crear el recurso.");
+                }
+
+                return CreatedAtAction(
+                    nameof(ObtenerInmueble),
+                    new { id = response.IdInmueble },
+                    new { idInmueble = response.IdInmueble, mensaje = "Inmueble creado correctamente." });
+            }
+            catch (ArgumentException ex)
+            {
+                return StatusCode(400, $"400: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"500 Error Interno: {ex.Message}");
+            }
         }
     }
 }

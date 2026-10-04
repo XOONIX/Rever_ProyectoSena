@@ -135,6 +135,7 @@ namespace rever.contexto
                 entity.Property(u => u.Habitaciones).HasColumnName("habitaciones");
                 entity.Property(u => u.Baños).HasColumnName("baños");
                 entity.Property(u => u.MetrosCuadrados).HasColumnName("metros_cuadrados");
+                entity.Property(u => u.Pisos).HasColumnName("pisos");
                 entity.Property(u => u.Estrato).HasColumnName("estrato");
                 entity.Property(u => u.Latitud).HasColumnName("latitud").HasPrecision(10, 8);
                 entity.Property(u => u.Longitud).HasColumnName("longitud").HasPrecision(11, 8);
