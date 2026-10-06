@@ -67,14 +67,33 @@
       </nav>
 
       <div class="barra_lateral__pie">
-        <div class="barra_lateral__avatar" aria-hidden="true">AD</div>
+        <div class="contenedor_menu_usuario_admin">
+          <button
+            class="barra_lateral__avatar barra_lateral__avatar--clickeable"
+            onclick="alternar_menu_usuario_admin()"
+            aria-label="Menú de usuario"
+            aria-expanded="false"
+          >
+            AD
+          </button>
+
+          <!-- Menú desplegable -->
+          <div id="menu_usuario_admin" class="menu_usuario_admin menu_usuario_admin--oculto" role="menu">
+            <button class="opcion_menu_admin" onclick="ir_a_perfil_admin()">
+              <img src="../assets/iconos/usuario.svg" alt="" class="icono_opcion_admin" />
+              <span>Mi Perfil</span>
+            </button>
+            <div class="separador_menu_admin"></div>
+            <button class="opcion_menu_admin opcion_menu_admin--cerrar_sesion" onclick="cerrar_sesion_admin()">
+              <img src="../assets/iconos/salir.svg" alt="" class="icono_opcion_admin" />
+              <span>Cerrar Sesión</span>
+            </button>
+          </div>
+        </div>
         <div class="barra_lateral__info_usuario">
           <p class="barra_lateral__nombre_usuario">Administrador</p>
           <p class="barra_lateral__correo_usuario">admin@rever.co</p>
         </div>
-        <button class="barra_lateral__boton_salir" aria-label="Cerrar sesión">
-          <img src="../assets/iconos/salir.svg" alt="" />
-        </button>
       </div>
     </aside>
 
@@ -89,7 +108,6 @@
             ← Volver a listado
           </button>
         </div>
-        <div class="encabezado_admin__avatar" aria-label="Administrador">AD</div>
       </header>
 
       <!-- ── Vista: TABLERO ── -->

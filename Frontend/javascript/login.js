@@ -65,3 +65,11 @@ document.addEventListener('DOMContentLoaded', () => {
         window.history.replaceState({}, document.title, window.location.pathname);
     }
 });
+
+
+function mostrar_inicio_sesion_gmail() {
+  mostrar_notificacion('Inicio de sesión con Google (función en construcción)', 'info');
+}
+function mostrar_olvidaste_contrasena() {
+  mostrar_notificacion('Función de recuperación de contraseña (función en construcción)', 'info');
+}

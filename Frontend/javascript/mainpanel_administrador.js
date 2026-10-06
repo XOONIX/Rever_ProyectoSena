@@ -17,6 +17,7 @@ const estado = {
   busqueda_usuarios: "",
   busqueda_vendedor_arrendatario: "",
   inmueble_detalle_id: null,
+  menu_usuario_admin_abierto: false,
 };
 
 
@@ -1260,7 +1261,74 @@ function eliminar_vendedor_arrendatario(id) {
 
 
 /* ──────────────────────────────────────────────────────
-   10. INICIALIZACIÓN
+   10. MENÚ DE USUARIO (CERRAR SESIÓN)
+   ────────────────────────────────────────────────────── */
+function alternar_menu_usuario_admin() {
+  estado.menu_usuario_admin_abierto = !estado.menu_usuario_admin_abierto;
+
+  const menu = document.getElementById("menu_usuario_admin");
+  const boton = document.querySelector(".barra_lateral__avatar--clickeable");
+
+  if (menu) {
+    menu.classList.toggle("menu_usuario_admin--oculto", !estado.menu_usuario_admin_abierto);
+  }
+
+  if (boton) {
+    boton.setAttribute("aria-expanded", estado.menu_usuario_admin_abierto);
+  }
+}
+
+function cerrar_menu_usuario_admin() {
+  if (estado.menu_usuario_admin_abierto) {
+    estado.menu_usuario_admin_abierto = false;
+
+    const menu = document.getElementById("menu_usuario_admin");
+    const boton = document.querySelector(".barra_lateral__avatar--clickeable");
+
+    if (menu) {
+      menu.classList.add("menu_usuario_admin--oculto");
+    }
+
+    if (boton) {
+      boton.setAttribute("aria-expanded", "false");
+    }
+  }
+}
+
+function ir_a_perfil_admin() {
+  cerrar_menu_usuario_admin();
+  alert("Función de perfil del administrador (en construcción)");
+}
+
+function cerrar_sesion_admin() {
+  localStorage.removeItem('sesion_activa');
+  localStorage.removeItem('token');
+  localStorage.removeItem('usuario_actual');
+
+  estado.menu_usuario_admin_abierto = false;
+  cerrar_menu_usuario_admin();
+
+  alert("Sesión cerrada correctamente");
+
+  setTimeout(() => {
+    window.location.href = '../html/login.html';
+  }, 500);
+}
+
+// Cerrar menú al hacer clic fuera
+document.addEventListener('click', (e) => {
+  const menu = document.getElementById("menu_usuario_admin");
+  const boton = document.querySelector(".barra_lateral__avatar--clickeable");
+
+  if (estado.menu_usuario_admin_abierto && menu && boton) {
+    if (!menu.contains(e.target) && !boton.contains(e.target)) {
+      cerrar_menu_usuario_admin();
+    }
+  }
+});
+
+/* ──────────────────────────────────────────────────────
+   11. INICIALIZACIÓN
    ────────────────────────────────────────────────────── */
 function inicializar() {
   // Items de la barra lateral

@@ -446,10 +446,23 @@ function cerrar_sesion() {
   estado.sesion_activa = false;
   estado.nombre_usuario = null;
   estado.email_usuario = null;
+  
+   // Solo llamar funciones de UI si estamos en la página principal
+  if (typeof mostrar_opciones_no_autenticado === 'function') {
+    mostrar_opciones_no_autenticado();
+  }
+  if (typeof cerrar_menu_usuario === 'function') {
+    cerrar_menu_usuario();
+  }
+  if (typeof mostrar_notificacion === 'function') {
+    mostrar_notificacion('Sesión cerrada correctamente', 'exito');
+  }
+ 
+  // Redirigir a login después de cerrar sesión
+  setTimeout(() => {
+    window.location.href = 'login.html';
+  }, 1000);
 
-  mostrar_opciones_no_autenticado();
-  cerrar_menu_usuario();
-  mostrar_notificacion('Sesión cerrada correctamente', 'exito');
 }
 
 /* ════════════════════════════════════════════════════════════
