@@ -208,6 +208,32 @@
             </div>
           </div>
 
+          <!-- FILTRO SUPERFICIE / ÁREA (M2) -->
+          <div class="seccion_filtro">
+            <div class="cabecera_filtro_rango">
+              <h3 class="titulo_filtro">Superficie</h3>
+              <span id="valor_area_texto" class="valor_rango_texto">Hasta 1.000 m²</span>
+            </div>
+          
+            <div class="contenedor_rango">
+              <input 
+                type="range" 
+                id="filtro_area" 
+                class="campo_formulario__rango" 
+                min="0" 
+                max="1000" 
+                step="10" 
+                value="1000" 
+                oninput="actualizar_filtro_area(this.value)"
+              >
+              <div class="etiquetas_rango">
+                <span>0 m²</span>
+                <span>1.000 m²</span>
+              </div>
+            </div>
+          </div>
+
+
           <!-- HABITACIONES -->
           <div class="seccion_filtro">
             <h3 class="titulo_filtro">Habitaciones</h3>
