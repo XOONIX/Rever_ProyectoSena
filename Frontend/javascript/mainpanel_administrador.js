@@ -368,28 +368,28 @@ const vendedor_arrendatario = [
    ────────────────────────────────────────────────────── */
 const config_estado_inmueble = {
   verificada: { texto: "Verificada", clase: "pildora_estado--verificada", color_punto: "#166534" },
-  pendiente:  { texto: "Pendiente",  clase: "pildora_estado--pendiente",  color_punto: "#C9A84C" },
-  rechazada:  { texto: "Rechazada",  clase: "pildora_estado--rechazada",  color_punto: "#991B1B" },
+  pendiente: { texto: "Pendiente", clase: "pildora_estado--pendiente", color_punto: "#C9A84C" },
+  rechazada: { texto: "Rechazada", clase: "pildora_estado--rechazada", color_punto: "#991B1B" },
 };
 
 const config_estado_reporte = {
-  abierto:    { texto: "Abierto",     clase: "pildora_estado--abierto",    color_punto: "#991B1B" },
-  revision:   { texto: "En revisión", clase: "pildora_estado--revision",   color_punto: "#C9A84C" },
-  resuelto:   { texto: "Resuelto",    clase: "pildora_estado--resuelto",   color_punto: "#166534" },
-  descartado: { texto: "Descartado",  clase: "pildora_estado--descartado", color_punto: "#6B7280" },
+  abierto: { texto: "Abierto", clase: "pildora_estado--abierto", color_punto: "#991B1B" },
+  revision: { texto: "En revisión", clase: "pildora_estado--revision", color_punto: "#C9A84C" },
+  resuelto: { texto: "Resuelto", clase: "pildora_estado--resuelto", color_punto: "#166534" },
+  descartado: { texto: "Descartado", clase: "pildora_estado--descartado", color_punto: "#6B7280" },
 };
 
 const config_req = {
-  cedula:       { etiqueta: "Cédula" },
-  contrato:     { etiqueta: "Contrato" },
-  carta:        { etiqueta: "Carta" },
-  foto_inmueble:{ etiqueta: "Foto" },
+  cedula: { etiqueta: "Cédula" },
+  contrato: { etiqueta: "Contrato" },
+  carta: { etiqueta: "Carta" },
+  foto_inmueble: { etiqueta: "Foto" },
 };
 
 const config_req_estado = {
-  completo:   { clase: "card_usuario_movil__req--completo",   icono: "✓" },
+  completo: { clase: "card_usuario_movil__req--completo", icono: "✓" },
   incompleto: { clase: "card_usuario_movil__req--incompleto", icono: "✕" },
-  pendiente:  { clase: "card_usuario_movil__req--pendiente",  icono: "⏳" },
+  pendiente: { clase: "card_usuario_movil__req--pendiente", icono: "⏳" },
 };
 
 
@@ -419,21 +419,21 @@ function cambiar_vista_admin(nombre_vista) {
 
   // Renderizar según la vista
   switch (nombre_vista) {
-    case "tablero":    renderizar_tablero(); break;
-    case "inmuebles":  renderizar_inmuebles(); break;
-    case "reportes":   renderizar_reportes(); break;
-    case "usuarios":   renderizar_usuarios(); break;
+    case "tablero": renderizar_tablero(); break;
+    case "inmuebles": renderizar_inmuebles(); break;
+    case "reportes": renderizar_reportes(); break;
+    case "usuarios": renderizar_usuarios(); break;
     case "vendedor_arrendatario": renderizar_vendedor_arrendatario(); break;
   }
 }
 
 function actualizar_encabezado_admin(vista) {
   const titulos = {
-    tablero:   "Panel de administración",
+    tablero: "Panel de administración",
     inmuebles: "Gestión de inmuebles",
-    detalle:   "Detalle del inmueble",
-    reportes:  "Reportes",
-    usuarios:  "Usuarios registrados",
+    detalle: "Detalle del inmueble",
+    reportes: "Reportes",
+    usuarios: "Usuarios registrados",
     vendedor_arrendatario: "Vendedores y Arrendatarios",
   };
 
@@ -452,10 +452,10 @@ function actualizar_encabezado_admin(vista) {
    ────────────────────────────────────────────────────── */
 function renderizar_tablero() {
   const total_verificadas = inmuebles.filter((i) => i.estado === "verificada").length;
-  const total_pendientes  = inmuebles.filter((i) => i.estado === "pendiente").length;
-  const total_rechazadas  = inmuebles.filter((i) => i.estado === "rechazada").length;
-  const total_inmuebles   = inmuebles.length;
-  const total_reportes    = reportes.filter((r) => r.estado === "abierto").length;
+  const total_pendientes = inmuebles.filter((i) => i.estado === "pendiente").length;
+  const total_rechazadas = inmuebles.filter((i) => i.estado === "rechazada").length;
+  const total_inmuebles = inmuebles.length;
+  const total_reportes = reportes.filter((r) => r.estado === "abierto").length;
 
   const el = (id, val) => {
     const node = document.getElementById(id);
@@ -463,10 +463,10 @@ function renderizar_tablero() {
   };
 
   el("stat_verificadas", total_verificadas);
-  el("stat_pendientes",  total_pendientes);
-  el("stat_rechazadas",  total_rechazadas);
-  el("stat_total",       total_inmuebles);
-  el("stat_reportes",    total_reportes);
+  el("stat_pendientes", total_pendientes);
+  el("stat_rechazadas", total_rechazadas);
+  el("stat_total", total_inmuebles);
+  el("stat_reportes", total_reportes);
 
   // Lista de pendientes recientes
   const contenedor_pendientes = document.getElementById("lista_pendientes_tablero");
@@ -789,7 +789,7 @@ function renderizar_detalle(inmueble_id) {
           </div>
           <div class="panel_blanco__cuerpo">
             <div class="info_propietario">
-              <div class="info_propietario__avatar">${inmueble.propietario.split(" ").map((p) => p[0]).join("").slice(0,2)}</div>
+              <div class="info_propietario__avatar">${inmueble.propietario.split(" ").map((p) => p[0]).join("").slice(0, 2)}</div>
               <div>
                 <p class="info_propietario__nombre">${inmueble.propietario}</p>
                 <p class="info_propietario__cargo">Propietario</p>
@@ -849,9 +849,9 @@ function actualizar_resumen_reportes() {
   reportes.forEach((r) => { if (conteos[r.estado] !== undefined) conteos[r.estado]++; });
 
   const el = (id, val) => { const n = document.getElementById(id); if (n) n.textContent = val; };
-  el("cnt_abierto",    conteos.abierto);
-  el("cnt_revision",    conteos.revision);
-  el("cnt_resuelto",   conteos.resuelto);
+  el("cnt_abierto", conteos.abierto);
+  el("cnt_revision", conteos.revision);
+  el("cnt_resuelto", conteos.resuelto);
   el("cnt_descartado", conteos.descartado);
 }
 
@@ -901,9 +901,9 @@ function renderizar_lista_reportes() {
               </div>
               <div class="botones_estado_reporte">
                 ${estados_botones.map((est) => {
-                  const c = config_estado_reporte[est];
-                  return `<button class="boton_estado_reporte boton_estado_reporte--${est} ${r.estado === est ? 'boton_estado_reporte--activo' : ''}" onclick="cambiar_estado_reporte(${r.id},'${est}')">${c.texto}</button>`;
-                }).join("")}
+      const c = config_estado_reporte[est];
+      return `<button class="boton_estado_reporte boton_estado_reporte--${est} ${r.estado === est ? 'boton_estado_reporte--activo' : ''}" onclick="cambiar_estado_reporte(${r.id},'${est}')">${c.texto}</button>`;
+    }).join("")}
               </div>
               <button class="boton_ver_inmueble" onclick="ver_detalle(${r.inmueble_id})">
                 <img src="../assets/iconos/edificio.svg" alt="" /> Ver inmueble
@@ -1229,7 +1229,7 @@ function editar_vendedor_arrendatario(id) {
     const nueva_direccion = prompt("Editar dirección:", va.direccion);
     const nuevo_estado = prompt("Editar estado (activo/inactivo/pendiente):", va.estado);
     const nuevas_observaciones = prompt("Editar observaciones:", va.observaciones || "");
-    
+
     if (nuevo_nombre && nuevo_tipo && nueva_cedula && nuevo_correo) {
       const idx = vendedor_arrendatario.findIndex(v => v.id === id);
       if (idx !== -1) {
@@ -1258,8 +1258,47 @@ function eliminar_vendedor_arrendatario(id) {
     }
   }
 }
+/* ════════════════════════════════════════════════════════════
+   UTILIDADES
+════════════════════════════════════════════════════════════ 
+function obtener_elemento(id) {
+  return document.getElementById(id);
+}
+ ──────────────────────────────────────────────────────
+   Funcion para mostrar notificaciones en la interfaz de usuario.
+   ────────────────────────────────────────────────────── 
+function mostrar_notificacion(mensaje, tipo) {
+  const contenedor = obtener_elemento('contenedor_notificaciones');
+  if (!contenedor) return;
+
+  const notif = document.createElement('div');
+  notif.setAttribute('role', 'alert');
+  notif.setAttribute('aria-live', 'polite');
+
+  const colores = {
+    exito: 'background:#10B981;color:#fff',
+    error: 'background:#EF4444;color:#fff',
+    info: 'background:#3B82F6;color:#fff',
+  };
+
+  notif.setAttribute('style',
+    'padding:.75rem 1.25rem;border-radius:.5rem;font-size:.875rem;font-weight:600;' +
+    'box-shadow:0 4px 12px rgba(0,0,0,.15);' + (colores[tipo] || colores.info) +
+    ';animation:aparecer_notif .3s ease;max-width:20rem;'
+  );
+  notif.textContent = mensaje;
+  contenedor.appendChild(notif);
+
+  setTimeout(() => {
+    notif.style.animation = 'desaparecer_notif .3s ease forwards';
+    setTimeout(() => notif.remove(), 300);
+  }, TIEMPO_NOTIFICACION);
+}*/
 
 
+function mostrar_configuracion() {
+  alert('Herramientas de configuración (función en construcción)');
+}
 /* ──────────────────────────────────────────────────────
    10. MENÚ DE USUARIO (CERRAR SESIÓN)
    ────────────────────────────────────────────────────── */
