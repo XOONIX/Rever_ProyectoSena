@@ -50,12 +50,14 @@ namespace rever.Repositories
             exist.Descripcion = Inmueble.Descripcion;
             exist.Precio = Inmueble.Precio;
             exist.IdTipo = Inmueble.IdTipo;
+            exist.IdModo = Inmueble.IdModo;
             exist.Direccion = Inmueble.Direccion;
-            exist.IdBarrio = Inmueble.IdBarrio;
+            exist.IdLocalidad = Inmueble.IdLocalidad;
             exist.Habitaciones = Inmueble.Habitaciones;
             exist.Baños = Inmueble.Baños;
             exist.MetrosCuadrados = Inmueble.MetrosCuadrados;
             exist.Estrato = Inmueble.Estrato;
+            exist.Pisos = Inmueble.Pisos;
             exist.Latitud = Inmueble.Latitud;
             exist.Longitud = Inmueble.Longitud;
             exist.IdUsuario = Inmueble.IdUsuario;
@@ -77,8 +79,7 @@ namespace rever.Repositories
         public async Task<IEnumerable<InmuebleListadoDto>> GetListadoAsync()
         {
             return await _context.Inmueble
-                .Include(i => i.Barrio).ThenInclude(b => b.Ciudad)
-                .Include(i => i.Barrio).ThenInclude(b => b.Localidad)  
+                .Include(i => i.Localidad).ThenInclude(l => l.Ciudad)
                 .Include(i => i.TipoInmueble)
                 .Include(i => i.ModoTransaccion)
                 .Include(i => i.Imagenes)
@@ -88,16 +89,15 @@ namespace rever.Repositories
                     IdInmueble = i.IdInmueble,
                     Titulo = i.Titulo,
                     Precio = i.Precio,
-                    Ubicacion = i.Barrio.Nombre + ", " + i.Barrio.Ciudad.Nombre,
+                    Ubicacion = i.Localidad.Nombre + ", " + i.Localidad.Ciudad.Nombre,
                     Habitaciones = i.Habitaciones,
                     Banos = i.Baños,
                     MetrosCuadrados = i.MetrosCuadrados,
                     Pisos = i.Pisos,
                     Tipo = i.TipoInmueble.Nombre,
                     Modo = i.ModoTransaccion.Nombre.ToLower(),
-                    Ciudad = i.Barrio.Ciudad.Nombre,
-                    Localidad = i.Barrio.Localidad.Nombre,
-                    Barrio = i.Barrio.Nombre,
+                    Ciudad = i.Localidad.Ciudad.Nombre,
+                    Localidad = i.Localidad.Nombre,
                     ImagenUrl = i.Imagenes.Where(img => img.Portada).Select(img => img.Url).FirstOrDefault() ?? i.Imagenes.Select(img => img.Url).FirstOrDefault(),
                     Caracteristicas = i.InmuebleCaracteristicas.Select(ic => ic.Caracteristica.Nombre).ToList(),
                 })
@@ -107,7 +107,7 @@ namespace rever.Repositories
         public async Task<InmuebleDetalleDto?> GetDetalleAsync(int id)
         {
             return await _context.Inmueble
-                .Include(i => i.Barrio).ThenInclude(b => b.Ciudad)
+                .Include(i => i.Localidad).ThenInclude(l => l.Ciudad)
                 .Include(i => i.TipoInmueble)
                 .Include(i => i.ModoTransaccion)
                 .Include(i => i.Imagenes)
@@ -121,7 +121,7 @@ namespace rever.Repositories
                     Descripcion = i.Descripcion,
                     Precio = i.Precio,
                     Direccion = i.Direccion,
-                    Ubicacion = i.Barrio.Nombre + ", " + i.Barrio.Ciudad.Nombre,
+                    Ubicacion = i.Localidad.Nombre + ", " + i.Localidad.Ciudad.Nombre,
                     Habitaciones = i.Habitaciones,
                     Banos = i.Baños,
                     MetrosCuadrados = i.MetrosCuadrados,
@@ -145,7 +145,13 @@ namespace rever.Repositories
         {
             var caracIds = dto.CaracteristicasIds.Distinct().ToList();
 
-            // Validar que las características existan (solo lectura, fuera de la transacción)
+            // Validar que la localidad exista (solo lectura, fuera de la transacción)
+            var localidadExiste = await _context.Localidad
+                .AnyAsync(l => l.IdLocalidad == dto.IdLocalidad);
+            if (!localidadExiste)
+                throw new ArgumentException("La localidad seleccionada no existe.");
+
+            // Validar que las características existan
             if (caracIds.Count > 0)
             {
                 var existentes = await _context.Caracteristica
@@ -172,7 +178,7 @@ namespace rever.Repositories
                         IdTipo = dto.IdTipo,
                         IdModo = dto.IdModo,
                         Direccion = dto.Direccion.Trim(),
-                        IdBarrio = dto.IdBarrio,
+                        IdLocalidad = dto.IdLocalidad,
                         Habitaciones = dto.Habitaciones,
                         Baños = dto.Banos,
                         Pisos = dto.Pisos,
@@ -225,5 +231,5 @@ namespace rever.Repositories
             });
         }
     }
-    
+
 }

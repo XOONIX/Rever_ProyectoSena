@@ -1,6 +1,7 @@
 /* ═══════════════════════════════════════════════════════
    mainpublicar_inmueble.js — Rever Plataforma Inmobiliaria
    Conectado a la base de datos real vía fetch
+   Ubicación: Ciudad → Localidad
    ═══════════════════════════════════════════════════════ */
 
 const estado_publicar = {
@@ -8,7 +9,6 @@ const estado_publicar = {
   caracteristicas_disponibles: [],
   caracteristicas_seleccionadas: new Set(),
   contadores: { habitaciones: 1, banios: 1, parqueaderos: 0, piso: 1 },
-  catalogo_barrios: [],
   catalogo_localidades: [],
 };
 
@@ -105,63 +105,37 @@ function renderizar_amenidades() {
 
 
 /* ──────────────────────────────────────────────────────
-   3. CASCADA CIUDAD → LOCALIDAD (si aplica) → BARRIO
+   3. CASCADA CIUDAD → LOCALIDAD
+   Si la ciudad tiene una sola localidad, se selecciona sola
+   y el campo se oculta. Si tiene varias, el usuario elige.
    ────────────────────────────────────────────────────── */
 function manejar_cambio_ciudad() {
   const select_ciudad = document.getElementById('ciudad');
   const contenedor_localidad = document.getElementById('contenedor_localidad');
   const select_localidad = document.getElementById('localidad');
-  const select_barrio = document.getElementById('barrio');
 
   const idCiudad = parseInt(select_ciudad.value, 10);
-  const nombre_ciudad = select_ciudad.value ? select_ciudad.options[select_ciudad.selectedIndex].text : null;
 
   select_localidad.innerHTML = '<option value="" disabled selected>Selecciona localidad</option>';
-  select_barrio.innerHTML = '<option value="" disabled selected>Selecciona barrio</option>';
-  select_barrio.disabled = true;
 
   if (!idCiudad) {
     contenedor_localidad.classList.add('oculto');
     return;
   }
 
-  const barrios_de_la_ciudad = estado_publicar.catalogo_barrios.filter(b => b.idCiudad === idCiudad);
-  const ids_localidad_unicos = [...new Set(barrios_de_la_ciudad.map(b => b.idLocalidad))];
-
-  // Solo mostramos el paso de Localidad cuando la ciudad tiene más de una localidad real (caso Bogotá)
-  if (nombre_ciudad === 'Bogotá' && ids_localidad_unicos.length > 1) {
-    contenedor_localidad.classList.remove('oculto');
-    ids_localidad_unicos.forEach(idLoc => {
-      const localidad = estado_publicar.catalogo_localidades.find(l => l.idLocalidad === idLoc);
-      if (localidad) select_localidad.add(new Option(localidad.nombre, localidad.idLocalidad));
-    });
-  } else {
-    contenedor_localidad.classList.add('oculto');
-    barrios_de_la_ciudad.forEach(b => select_barrio.add(new Option(b.nombre, b.idBarrio)));
-    select_barrio.disabled = false;
-  }
-}
-
-function manejar_cambio_localidad() {
-  const select_ciudad = document.getElementById('ciudad');
-  const select_localidad = document.getElementById('localidad');
-  const select_barrio = document.getElementById('barrio');
-
-  const idCiudad = parseInt(select_ciudad.value, 10);
-  const idLocalidad = parseInt(select_localidad.value, 10);
-
-  select_barrio.innerHTML = '<option value="" disabled selected>Selecciona barrio</option>';
-
-  if (!idLocalidad) {
-    select_barrio.disabled = true;
-    return;
-  }
-
-  const barrios_filtrados = estado_publicar.catalogo_barrios.filter(
-    b => b.idCiudad === idCiudad && b.idLocalidad === idLocalidad
+  const localidades_de_la_ciudad = estado_publicar.catalogo_localidades.filter(
+    l => l.idCiudad === idCiudad
   );
-  barrios_filtrados.forEach(b => select_barrio.add(new Option(b.nombre, b.idBarrio)));
-  select_barrio.disabled = false;
+  localidades_de_la_ciudad.forEach(l =>
+    select_localidad.add(new Option(l.nombre, l.idLocalidad))
+  );
+
+  if (localidades_de_la_ciudad.length === 1) {
+    select_localidad.value = localidades_de_la_ciudad[0].idLocalidad;
+    contenedor_localidad.classList.add('oculto');
+  } else {
+    contenedor_localidad.classList.remove('oculto');
+  }
 }
 
 
@@ -234,12 +208,11 @@ function actualizar_contador_descripcion() {
    ────────────────────────────────────────────────────── */
 async function cargar_catalogos() {
   try {
-    const [tipos, modos, ciudades, caracteristicas, barrios, localidades] = await Promise.all([
+    const [tipos, modos, ciudades, caracteristicas, localidades] = await Promise.all([
       fetch(`${API_URL}/TipoInmueble`).then(r => r.json()),
       fetch(`${API_URL}/ModoTransaccion`).then(r => r.json()),
       fetch(`${API_URL}/Ciudad`).then(r => r.json()),
       fetch(`${API_URL}/Caracteristica`).then(r => r.json()),
-      fetch(`${API_URL}/Barrio`).then(r => r.json()),
       fetch(`${API_URL}/Localidad`).then(r => r.json()),
     ]);
 
@@ -258,7 +231,6 @@ async function cargar_catalogos() {
     ciudades.forEach(c => select_ciudad.add(new Option(c.nombre, c.idCiudad)));
 
     estado_publicar.caracteristicas_disponibles = caracteristicas;
-    estado_publicar.catalogo_barrios = barrios;
     estado_publicar.catalogo_localidades = localidades;
     renderizar_amenidades();
   } catch (error) {
@@ -317,7 +289,7 @@ async function manejar_envio_formulario(evento) {
     idTipo: obtener_entero_select('tipo_inmueble'),
     idModo: obtener_entero_select('tipo_operacion'),
     direccion: document.getElementById('direccion')?.value?.trim() || '',
-    idBarrio: obtener_entero_select('barrio'),
+    idLocalidad: obtener_entero_select('localidad'),
 
     habitaciones: estado_publicar.contadores.habitaciones || 0,
     banos: estado_publicar.contadores.banios || 0,
@@ -379,18 +351,13 @@ async function manejar_envio_formulario(evento) {
 function inicializar() {
   const formulario = document.getElementById('formulario_publicacion');
   if (formulario) {
-    // Único punto de envío (el HTML ya no tiene onsubmit)
+    // Único punto de envío (el HTML no tiene onsubmit)
     formulario.addEventListener('submit', manejar_envio_formulario);
   }
 
   const select_ciudad = document.getElementById('ciudad');
   if (select_ciudad) {
     select_ciudad.addEventListener('change', manejar_cambio_ciudad);
-  }
-
-  const select_localidad = document.getElementById('localidad');
-  if (select_localidad) {
-    select_localidad.addEventListener('change', manejar_cambio_localidad);
   }
 
   const textarea_desc = document.getElementById('descripcion');

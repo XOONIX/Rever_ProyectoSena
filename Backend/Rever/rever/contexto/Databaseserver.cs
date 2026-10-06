@@ -12,7 +12,6 @@ namespace rever.contexto
         public DbSet<Usuario> Usuario { get; set; }
         public DbSet<Ciudad> Ciudad { get; set; }
         public DbSet<Localidad> Localidad { get; set; }
-        public DbSet<Barrio> Barrio { get; set; }
         public DbSet<TipoInmueble> TipoInmueble { get; set; }
         public DbSet<EstadoPublicacion> EstadoPublicacion { get; set; }
         public DbSet<Inmueble> Inmueble { get; set; }
@@ -74,6 +73,9 @@ namespace rever.contexto
                 entity.HasKey(u => u.IdLocalidad);
                 entity.Property(u => u.IdLocalidad).HasColumnName("id_localidad").ValueGeneratedOnAdd();
                 entity.Property(u => u.Nombre).HasColumnName("nombre").HasMaxLength(100);
+                entity.Property(u => u.IdCiudad).HasColumnName("id_ciudad");
+
+                entity.HasOne(u => u.Ciudad).WithMany().HasForeignKey(u => u.IdCiudad);
             });
 
             // MODO TRANSACCIÓN
@@ -83,21 +85,6 @@ namespace rever.contexto
                 entity.HasKey(u => u.IdModo);
                 entity.Property(u => u.IdModo).HasColumnName("id_modo").ValueGeneratedOnAdd();
                 entity.Property(u => u.Nombre).HasColumnName("nombre").HasMaxLength(100);
-            });
-
-            // BARRIOS
-            modelBuilder.Entity<Barrio>(entity =>
-            {
-                entity.ToTable("barrios");
-                entity.HasKey(u => u.IdBarrio);
-
-                entity.Property(u => u.IdBarrio).HasColumnName("id_barrio").ValueGeneratedOnAdd();
-                entity.Property(u => u.Nombre).HasColumnName("nombre").HasMaxLength(100);
-                entity.Property(u => u.IdCiudad).HasColumnName("id_ciudad");
-                entity.Property(u => u.IdLocalidad).HasColumnName("id_localidad");
-
-                entity.HasOne(u => u.Ciudad).WithMany().HasForeignKey(u => u.IdCiudad);
-                entity.HasOne(u => u.Localidad).WithMany().HasForeignKey(u => u.IdLocalidad);
             });
 
             // TIPO DE INMUEBLE
@@ -131,9 +118,9 @@ namespace rever.contexto
                 entity.Property(u => u.IdTipo).HasColumnName("id_tipo");
                 entity.Property(u => u.IdModo).HasColumnName("id_modo");
                 entity.Property(u => u.Direccion).HasColumnName("direccion").HasMaxLength(200);
-                entity.Property(u => u.IdBarrio).HasColumnName("id_barrio");
+                entity.Property(u => u.IdLocalidad).HasColumnName("id_localidad");
                 entity.Property(u => u.Habitaciones).HasColumnName("habitaciones");
-                entity.Property(u => u.Baños).HasColumnName("baños");
+                entity.Property(u => u.Baños).HasColumnName("baños"); 
                 entity.Property(u => u.MetrosCuadrados).HasColumnName("metros_cuadrados");
                 entity.Property(u => u.Pisos).HasColumnName("pisos");
                 entity.Property(u => u.Estrato).HasColumnName("estrato");
@@ -145,7 +132,7 @@ namespace rever.contexto
 
                 entity.HasOne(u => u.TipoInmueble).WithMany().HasForeignKey(u => u.IdTipo);
                 entity.HasOne(u => u.ModoTransaccion).WithMany().HasForeignKey(u => u.IdModo);
-                entity.HasOne(u => u.Barrio).WithMany().HasForeignKey(u => u.IdBarrio);
+                entity.HasOne(u => u.Localidad).WithMany().HasForeignKey(u => u.IdLocalidad);
                 entity.HasOne(u => u.Usuario).WithMany().HasForeignKey(u => u.IdUsuario);
                 entity.HasOne(u => u.EstadoPublicacion).WithMany().HasForeignKey(u => u.IdEstado);
             });

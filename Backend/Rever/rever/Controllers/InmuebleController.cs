@@ -163,12 +163,14 @@ namespace rever.Controllers
                 exist.Descripcion = inmueble.Descripcion;
                 exist.Precio = inmueble.Precio;
                 exist.IdTipo = inmueble.IdTipo;
+                exist.IdModo = inmueble.IdModo;
                 exist.Direccion = inmueble.Direccion;
-                exist.IdBarrio = inmueble.IdBarrio;
+                exist.IdLocalidad = inmueble.IdLocalidad;
                 exist.Habitaciones = inmueble.Habitaciones;
                 exist.Baños = inmueble.Baños;
                 exist.MetrosCuadrados = inmueble.MetrosCuadrados;
                 exist.Estrato = inmueble.Estrato;
+                exist.Pisos = inmueble.Pisos;
                 exist.Latitud = inmueble.Latitud;
                 exist.Longitud = inmueble.Longitud;
                 exist.IdEstado = inmueble.IdEstado;

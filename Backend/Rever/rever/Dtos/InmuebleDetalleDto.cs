@@ -7,7 +7,7 @@
         public string Descripcion { get; set; }
         public decimal Precio { get; set; }
         public string Direccion { get; set; }
-        public string Ubicacion { get; set; }       // barrio + ciudad
+        public string Ubicacion { get; set; }       // localidad + ciudad
         public int Habitaciones { get; set; }
         public int Banos { get; set; }
         public int MetrosCuadrados { get; set; }

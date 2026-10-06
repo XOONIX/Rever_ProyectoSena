@@ -25,7 +25,7 @@ namespace rever.Models
 
         [Column("id_tipo")]
         public int IdTipo { get; set; }
-        
+
         [Column("id_modo")]
         public int IdModo { get; set; }
 
@@ -34,22 +34,23 @@ namespace rever.Models
         [Column("direccion")]
         public required string Direccion { get; set; }
 
-        [Required(ErrorMessage = "El id del barrio es obligatorio.")]
-        [Column("id_barrio")]
-        public required int IdBarrio { get; set; }
+        // La ciudad se obtiene desde Localidad.Ciudad (no se guarda aquí para no duplicar datos)
+        [Required(ErrorMessage = "El id de la localidad es obligatorio.")]
+        [Column("id_localidad")]
+        public required int IdLocalidad { get; set; }
 
         [Required(ErrorMessage = "El número de habitaciones es obligatorio.")]
         [Range(0, 10)]
         [Column("habitaciones")]
         public required int Habitaciones { get; set; }
-        
+
         [Required(ErrorMessage = "El número de baños es obligatorio.")]
         [Range(0, 10)]
         [Column("baños")]
         public required int Baños { get; set; }
 
         [Required(ErrorMessage = "El número de metros cuadrados es obligatorio.")]
-        [Column("metros_cuadrados")]   
+        [Column("metros_cuadrados")]
         public required int MetrosCuadrados { get; set; }
 
         [Required(ErrorMessage = "El número de estrato es obligatorio.")]
@@ -57,8 +58,8 @@ namespace rever.Models
         [Column("estrato")]
         public int Estrato { get; set; }
 
-        [Column("piso")]
-        public int Pisos { get; set; } 
+        [Column("pisos")]
+        public int Pisos { get; set; }
 
         [Required(ErrorMessage = "La latitud es obligatoria.")]
         [Column("latitud", TypeName = "decimal(10,8)")]
@@ -78,8 +79,8 @@ namespace rever.Models
         [Column("fecha_publicacion")]
         public DateTime FechaPublicacion { get; set; } = DateTime.Now;
 
-        [ForeignKey("IdBarrio")]
-        public Barrio? Barrio { get; set; }
+        [ForeignKey("IdLocalidad")]
+        public Localidad? Localidad { get; set; }
 
         [ForeignKey("IdTipo")]
         public TipoInmueble? TipoInmueble { get; set; }

@@ -7,7 +7,7 @@
 'use strict';
 
 /* ── Constantes ── */
-const RETRASO_ANIMACION  = 1500;
+const RETRASO_ANIMACION   = 1500;
 const TIEMPO_NOTIFICACION = 3000;
 
 /* ── Estado global de la aplicación ── */
@@ -19,6 +19,7 @@ const estado = {
   modo_navegacion: 'todos',
   sidebar_abierto: true,
   menu_usuario_abierto: false,
+  catalogo_localidades: [],
   filtros: {
     tipos:    new Set(),
     precio_max: null,
@@ -26,18 +27,19 @@ const estado = {
     habitaciones_es_minimo: false,
     banos:    null,
     banos_es_minimo: false,
+    pisos:    null,          
+    pisos_es_minimo: false,    
     ciudad: null,
     localidad: null,
-    barrio: null,
+    estacionamientos: false,
+    mascotas: false,
     caracteristicas: new Set(),
-    },
-    propiedades: [],
-    catalogo_barrios: [],
+  },
+  propiedades: [],
 };
 
 /* ── Base de datos de propiedades ── */
-/* Los datos se cargan desde la base de datos */
-const API_URL = 'https://localhost:7015/api'; // ajusta al puerto real de tu backend
+const API_URL = 'https://localhost:7015/api'; // Ajusta al puerto de tu Web API
 
 async function cargar_propiedades() {
   mostrar_esqueleto_propiedades(); 
@@ -53,12 +55,12 @@ async function cargar_propiedades() {
       return {
         id: item.idInmueble,
         titulo: item.titulo,
-        precio_etiqueta: `$${item.precio.toLocaleString('es-CO')}`,
+        precio_etiqueta: `$${item.precio ? item.precio.toLocaleString('es-CO') : 0}`,
         precio: item.precio,
         ubicacion: item.ubicacion,
         hab: item.habitaciones,
         banos: item.banos,
-        parqueaderos: caracts.includes('Parqueadero') ? 1 : 0,
+        pisos: item.pisos,
         area: item.metrosCuadrados,
         imagen: item.imagenUrl,
         badge: null,
@@ -66,8 +68,8 @@ async function cargar_propiedades() {
         tipo: item.tipo,
         ciudad: item.ciudad,
         localidad: item.localidad,
-        barrio: item.barrio,
         caracteristicas: caracts,
+        mascotas: item.mascotas ?? false
       };
     });
 
@@ -78,23 +80,45 @@ async function cargar_propiedades() {
   }
 }
 
-async function cargar_filtro_ubicacion() {
-  const select_ciudad = obtener_elemento('filtro_ciudad');
-  if (!select_ciudad) return; // permite que la funcion no sea llamada en paginas donde no se necesiten
+async function cargar_filtro_tipo_inmueble() {
+  const contenedor = obtener_elemento('lista_checkboxes_tipos');
+  if (!contenedor) return;
 
   try {
-    const [ciudades, barrios, localidades] = await Promise.all([
+    const tipos = await fetch(`${API_URL}/TipoInmueble`).then(r => r.json());
+
+    contenedor.innerHTML = tipos.map(t => `
+      <label class="etiqueta_checkbox">
+        <input 
+          type="checkbox" 
+          class="checkbox_tipo" 
+          value="${t.nombre}" 
+          onchange="manejar_checkbox_tipo(this, '${t.nombre}')" 
+        />
+        <span class="caja_checkbox" aria-hidden="true"></span>
+        ${t.nombre}
+      </label>
+    `).join('');
+  } catch (error) {
+    console.error('Error al cargar tipos de inmueble:', error);
+  }
+}
+
+async function cargar_filtro_ubicacion() {
+  const select_ciudad = obtener_elemento('filtro_ciudad');
+  if (!select_ciudad) return;
+
+  try {
+    const [ciudades, localidades] = await Promise.all([
       fetch(`${API_URL}/Ciudad`).then(r => r.json()),
-      fetch(`${API_URL}/Barrio`).then(r => r.json()),
       fetch(`${API_URL}/Localidad`).then(r => r.json()),
     ]);
 
-    estado.catalogo_barrios = barrios;
     estado.catalogo_localidades = localidades;
 
     ciudades.forEach(c => select_ciudad.add(new Option(c.nombre, c.idCiudad)));
   } catch (error) {
-    console.error(error);
+    console.error('Error cargando ubicación:', error);
   }
 }
 
@@ -102,40 +126,34 @@ function manejar_cambio_filtro_ciudad() {
   const select_ciudad = obtener_elemento('filtro_ciudad');
   const contenedor_localidad = obtener_elemento('contenedor_filtro_localidad');
   const select_localidad = obtener_elemento('filtro_localidad');
-  const select_barrio = obtener_elemento('filtro_barrio');
+  
+  if (!select_ciudad) return;
+
   const idCiudad = parseInt(select_ciudad.value, 10);
   const nombre_ciudad = select_ciudad.value ? select_ciudad.options[select_ciudad.selectedIndex].text : null;
 
   estado.filtros.ciudad = nombre_ciudad;
   estado.filtros.localidad = null;
-  estado.filtros.barrio = null;
+
   select_localidad.innerHTML = '<option value="">Todas las localidades</option>';
-  select_barrio.innerHTML = '<option value="">Todos los barrios</option>';
 
   if (!select_ciudad.value) {
     contenedor_localidad.classList.add('oculto');
-    select_barrio.disabled = true;
     actualizar_estado_botones_filtros();
     renderizar_propiedades();
     return;
   }
 
-  const barrios_de_la_ciudad = estado.catalogo_barrios.filter(b => b.idCiudad === idCiudad);
+  // Filtrar localidades que pertenecen a la ciudad seleccionada
+  const localidades_de_la_ciudad = estado.catalogo_localidades.filter(l => l.idCiudad === idCiudad);
 
-  // Solo mostramos el selector de Localidad si la ciudad tiene más de una localidad real (caso Bogotá)
-  const ids_localidad_unicos = [...new Set(barrios_de_la_ciudad.map(b => b.idLocalidad))];
-
-  if (nombre_ciudad === 'Bogotá' && ids_localidad_unicos.length > 1) {
+  if (localidades_de_la_ciudad.length > 0) {
     contenedor_localidad.classList.remove('oculto');
-    ids_localidad_unicos.forEach(idLoc => {
-      const localidad = estado.catalogo_localidades.find(l => l.idLocalidad === idLoc);
-      if (localidad) select_localidad.add(new Option(localidad.nombre, localidad.idLocalidad));
+    localidades_de_la_ciudad.forEach(loc => {
+      select_localidad.add(new Option(loc.nombre, loc.idLocalidad));
     });
-    select_barrio.disabled = true; // espera a que elija localidad
   } else {
     contenedor_localidad.classList.add('oculto');
-    barrios_de_la_ciudad.forEach(b => select_barrio.add(new Option(b.nombre, b.nombre)));
-    select_barrio.disabled = false;
   }
 
   actualizar_estado_botones_filtros();
@@ -143,43 +161,18 @@ function manejar_cambio_filtro_ciudad() {
 }
 
 function manejar_cambio_filtro_localidad() {
-  const select_ciudad = obtener_elemento('filtro_ciudad');
   const select_localidad = obtener_elemento('filtro_localidad');
-  const select_barrio = obtener_elemento('filtro_barrio');
-  const idCiudad = parseInt(select_ciudad.value, 10);
-  const idLocalidad = parseInt(select_localidad.value, 10);
 
   estado.filtros.localidad = select_localidad.value ? select_localidad.options[select_localidad.selectedIndex].text : null;
-  estado.filtros.barrio = null;
-  select_barrio.innerHTML = '<option value="">Todos los barrios</option>';
 
-  if (!select_localidad.value) {
-    select_barrio.disabled = true;
-    actualizar_estado_botones_filtros();
-    renderizar_propiedades();
-    return;
-  }
-
-  const barrios_filtrados = estado.catalogo_barrios.filter(
-    b => b.idCiudad === idCiudad && b.idLocalidad === idLocalidad
-  );
-  barrios_filtrados.forEach(b => select_barrio.add(new Option(b.nombre, b.nombre)));
-  select_barrio.disabled = false;
-
-  actualizar_estado_botones_filtros();
-  renderizar_propiedades();
-}
-
-function manejar_cambio_filtro_barrio() {
-  const select_barrio = obtener_elemento('filtro_barrio');
-  estado.filtros.barrio = select_barrio.value || null;
   actualizar_estado_botones_filtros();
   renderizar_propiedades();
 }
 
 async function cargar_caracteristicas_filtro() {
   const contenedor = obtener_elemento('lista_checkboxes_caracteristicas');
-  if (!contenedor) return; // permite que la funcion no sea llamada en paginas donde no se necesiten
+  if (!contenedor) return;
+
   try {
     const caracteristicas = await fetch(`${API_URL}/Caracteristica`).then(r => r.json());
 
@@ -191,7 +184,7 @@ async function cargar_caracteristicas_filtro() {
       </label>
     `).join('');
   } catch (error) {
-    console.error(error);
+    console.error('Error al cargar características:', error);
   }
 }
 
@@ -204,10 +197,9 @@ function manejar_checkbox_caracteristica(checkbox, nombre) {
   actualizar_estado_botones_filtros();
   renderizar_propiedades();
 }
+
 /**
- * Decodifica el payload de un JWT +.
- * @param {string} token
- * @returns {Object|null}
+ * Decodifica el payload de un JWT.
  */
 function decodificar_token(token) {
   try {
@@ -220,8 +212,7 @@ function decodificar_token(token) {
 }
 
 /**
- * Obtiene los datos del usuario en sesión directamente del token.
- * @returns {Object|null}
+ * Obtiene los datos del usuario en sesión desde el JWT.
  */
 function obtener_usuario_actual() {
   const token = localStorage.getItem('token');
@@ -242,20 +233,10 @@ function obtener_usuario_actual() {
    UTILIDADES
 ════════════════════════════════════════════════════════════ */
 
-/**
- * Obtiene un elemento por ID.
- * @param {string} id
- * @returns {HTMLElement|null}
- */
 function obtener_elemento(id) {
   return document.getElementById(id);
 }
 
-/**
- * Formatea el precio según el valor del deslizador (0-100).
- * @param {number} valor - 0 a 100
- * @returns {string} precio formateado
- */
 function formatear_precio(valor) {
   if (valor >= 100) return '$1.000M+';
   const precio = Math.round(100 + valor * 9);
@@ -263,12 +244,6 @@ function formatear_precio(valor) {
   return '$' + precio + 'M';
 }
 
-/**
- * Muestra u oculta el spinner de carga dentro de un botón.
- * @param {HTMLButtonElement} boton
- * @param {boolean} cargando
- * @param {string} texto_normal
- */
 function toggle_carga_boton(boton, cargando, texto_normal) {
   if (cargando) {
     boton.disabled = true;
@@ -283,11 +258,6 @@ function toggle_carga_boton(boton, cargando, texto_normal) {
   }
 }
 
-/**
- * Muestra una notificación temporal en pantalla.
- * @param {string} mensaje
- * @param {'exito'|'error'|'info'} tipo
- */
 function mostrar_notificacion(mensaje, tipo) {
   const contenedor = obtener_elemento('contenedor_notificaciones');
   if (!contenedor) return;
@@ -316,10 +286,6 @@ function mostrar_notificacion(mensaje, tipo) {
   }, TIEMPO_NOTIFICACION);
 }
 
-/**
- * Aplica animación de sacudida a un elemento.
- * @param {HTMLElement} elemento
- */
 function animar_sacudir(elemento) {
   elemento.classList.add('animacion_sacudir');
   elemento.addEventListener('animationend', () => {
@@ -327,40 +293,18 @@ function animar_sacudir(elemento) {
   }, { once: true });
 }
 
-
-/* ════════════════════════════════════════════════════════════
-   PANEL PRINCIPAL
-════════════════════════════════════════════════════════════ */
-
-/**
- * Muestra el panel principal del dashboard.
- */
-function mostrar_panel_principal() {
-  const panel = obtener_elemento('panel_principal');
-  if (panel) {
-    panel.classList.remove('oculto');
-  }
-}
-
-
 /* ════════════════════════════════════════════════════════════
    NAVEGACIÓN Y MODO
 ════════════════════════════════════════════════════════════ */
 
-/**
- * Cambia el modo de navegación (todos / arriendo / compra).
- * @param {string} modo - '' | 'arriendo' | 'compra'
- */
 function cambiar_modo_navegacion(modo) {
   estado.modo_navegacion = modo === '' ? 'todos' : modo;
 
-  /* Actualiza clases activo en botones nav */
   document.querySelectorAll('[data-modo]').forEach(boton => {
     const modo_boton = boton.dataset.modo;
     boton.classList.toggle('activo', modo_boton === modo);
   });
 
-  /* Actualiza título de sección */
   const titulo = obtener_elemento('titulo_seccion');
   const desc   = obtener_elemento('descripcion_seccion');
   if (titulo) {
@@ -380,19 +324,14 @@ function cambiar_modo_navegacion(modo) {
     desc.textContent = descs[estado.modo_navegacion] ?? descs.todos;
   }
 
-  /* Si se navega al inicio (modo vacío), limpiar filtros */
   if (modo === '') {
     limpiar_filtros();
   }
 
-  /* Cierra menú móvil si está abierto */
   cerrar_menu_movil();
   renderizar_propiedades();
 }
 
-/**
- * Alterna la visibilidad del menú móvil.
- */
 function alternar_menu_movil() {
   const menu = obtener_elemento('menu_movil');
   if (!menu) return;
@@ -400,31 +339,19 @@ function alternar_menu_movil() {
   menu.classList.toggle('oculto', visible);
 }
 
-/**
- * Cierra el menú móvil.
- */
 function cerrar_menu_movil() {
   const menu = obtener_elemento('menu_movil');
   if (menu) menu.classList.add('oculto');
 }
 
-/**
- * Muestra la sección de favoritos.
- */
 function mostrar_favoritos() {
   mostrar_notificacion('Sección de favoritos (función en construcción)', 'info');
 }
 
-/**
- * Muestra el mapa de propiedades.
- */
 function mostrar_mapa() {
   mostrar_notificacion('Mapa de propiedades (función en construcción)', 'info');
 }
 
-/**
- * Alterna el menú desplegable de usuario.
- */
 function alternar_menu_usuario() {
   estado.menu_usuario_abierto = !estado.menu_usuario_abierto;
   
@@ -440,9 +367,6 @@ function alternar_menu_usuario() {
   }
 }
 
-/**
- * Cierra el menú de usuario si está abierto.
- */
 function cerrar_menu_usuario() {
   if (estado.menu_usuario_abierto) {
     estado.menu_usuario_abierto = false;
@@ -460,9 +384,6 @@ function cerrar_menu_usuario() {
   }
 }
 
-/**
- * Verifica el estado de autenticación del usuario.
- */
 function verificar_autenticacion() {
   const usuario = obtener_usuario_actual();
   estado.sesion_activa = !!usuario;
@@ -476,9 +397,6 @@ function verificar_autenticacion() {
   }
 }
 
-/**
- * Muestra las opciones para usuario autenticado.
- */
 function mostrar_opciones_autenticado() {
   const opcionesAuth = obtener_elemento('opciones_autenticado');
   const opcionesNoAuth = obtener_elemento('opciones_no_autenticado');
@@ -487,9 +405,6 @@ function mostrar_opciones_autenticado() {
   if (opcionesNoAuth) opcionesNoAuth.classList.add('oculto');
 }
 
-/**
- * Muestra las opciones para usuario no autenticado.
- */
 function mostrar_opciones_no_autenticado() {
   const opcionesAuth = obtener_elemento('opciones_autenticado');
   const opcionesNoAuth = obtener_elemento('opciones_no_autenticado');
@@ -498,49 +413,31 @@ function mostrar_opciones_no_autenticado() {
   if (opcionesNoAuth) opcionesNoAuth.classList.remove('oculto');
 }
 
-/**
- * Navega a la página de perfil.
- */
 function ir_a_perfil() {
   cerrar_menu_usuario();
   window.location.href = 'perfil.html';
 }
 
-/**
- * Navega a la sección de favoritos.
- */
 function ir_a_favoritos() {
   cerrar_menu_usuario();
   mostrar_notificacion('Sección de favoritos (función en construcción)', 'info');
 }
 
-/**
- * Navega a la sección de publicaciones.
- */
 function ir_a_publicaciones() {
   cerrar_menu_usuario();
   mostrar_notificacion('Sección de publicaciones (función en construcción)', 'info');
 }
 
-/**
- * Navega a la página de login.
- */
 function ir_a_login() {
   cerrar_menu_usuario();
   window.location.href = 'login.html';
 }
 
-/**
- * Navega a la página de registro.
- */
 function ir_a_registro() {
   cerrar_menu_usuario();
   window.location.href = 'registro.html';
 }
 
-/**
- * Cierra la sesión del usuario.
- */
 function cerrar_sesion() {
   localStorage.removeItem('sesion_activa');
   localStorage.removeItem('token');
@@ -555,14 +452,10 @@ function cerrar_sesion() {
   mostrar_notificacion('Sesión cerrada correctamente', 'exito');
 }
 
-
 /* ════════════════════════════════════════════════════════════
    FILTROS
 ════════════════════════════════════════════════════════════ */
 
-/**
- * Alterna el panel lateral de filtros.
- */
 function alternar_panel_filtros() {
   estado.sidebar_abierto = !estado.sidebar_abierto;
 
@@ -577,9 +470,6 @@ function alternar_panel_filtros() {
   }
 }
 
-/**
- * Actualiza el estado visual de los botones de filtros (mostrar/ocultar botón limpiar).
- */
 function actualizar_estado_botones_filtros() {
   const boton_limpiar = obtener_elemento('boton_limpiar');
   if (!boton_limpiar) return;
@@ -589,19 +479,16 @@ function actualizar_estado_botones_filtros() {
     estado.filtros.precio_max !== null ||
     estado.filtros.habitaciones !== null ||
     estado.filtros.banos !== null ||
+    estado.filtros.pisos !== null ||
     estado.filtros.ciudad !== null ||
     estado.filtros.localidad !== null ||
-    estado.filtros.barrio !== null;
+    estado.filtros.estacionamientos ||
+    estado.filtros.mascotas ||
     estado.filtros.caracteristicas.size > 0;
 
   boton_limpiar.classList.toggle('oculto', !hay_filtros_activos);
 }
 
-/**
- * Maneja el cambio de un checkbox de tipo de propiedad.
- * @param {HTMLInputElement} checkbox
- * @param {string} tipo
- */
 function manejar_checkbox_tipo(checkbox, tipo) {
   if (checkbox.checked) {
     estado.filtros.tipos.add(tipo);
@@ -612,10 +499,6 @@ function manejar_checkbox_tipo(checkbox, tipo) {
   renderizar_propiedades();
 }
 
-/**
- * Actualiza el filtro de precio máximo al mover el deslizador.
- * @param {HTMLInputElement} deslizador
- */
 function actualizar_precio(deslizador) {
   const valor = parseInt(deslizador.value, 10);
   estado.filtros.precio_max = valor;
@@ -629,10 +512,6 @@ function actualizar_precio(deslizador) {
   renderizar_propiedades();
 }
 
-/**
- * Selecciona o deselecciona una pastilla de filtro.
- * @param {HTMLElement} pastilla_elemento
- */
 function seleccionar_pastilla(pastilla_elemento) {
   const grupo = pastilla_elemento.dataset.grupo;
   const valor = pastilla_elemento.dataset.valor;
@@ -656,29 +535,19 @@ function seleccionar_pastilla(pastilla_elemento) {
   actualizar_estado_botones_filtros();
   renderizar_propiedades();
 }
-/**
- * Alterna el filtro de garajes.
- * @param {HTMLInputElement} checkbox
- */
+
 function alternar_estacionamiento(checkbox) {
   estado.filtros.estacionamientos = checkbox.checked;
   actualizar_estado_botones_filtros();
   renderizar_propiedades();
 }
 
-/**
- * Alterna el filtro de mascotas permitidas.
- * @param {HTMLInputElement} checkbox
- */
 function alternar_mascotas(checkbox) {
   estado.filtros.mascotas = checkbox.checked;
   actualizar_estado_botones_filtros();
   renderizar_propiedades();
 }
 
-/**
- * Limpia todos los filtros activos.
- */
 function limpiar_filtros() {
   estado.filtros.tipos.clear();
   estado.filtros.precio_max = null;
@@ -686,23 +555,21 @@ function limpiar_filtros() {
   estado.filtros.habitaciones_es_minimo = false;
   estado.filtros.banos = null;
   estado.filtros.banos_es_minimo = false;
+  estado.filtros.pisos = null;
+  estado.filtros.pisos_es_minimo = false;
   estado.filtros.ciudad = null;
   estado.filtros.localidad = null;
-  estado.filtros.barrio = null;
+  estado.filtros.estacionamientos = false;
+  estado.filtros.mascotas = false;
   estado.filtros.caracteristicas.clear();
 
   const select_ciudad = obtener_elemento('filtro_ciudad');
   const contenedor_localidad = obtener_elemento('contenedor_filtro_localidad');
   const select_localidad = obtener_elemento('filtro_localidad');
-  const select_barrio = obtener_elemento('filtro_barrio');
 
   if (select_ciudad) select_ciudad.value = '';
   if (contenedor_localidad) contenedor_localidad.classList.add('oculto');
   if (select_localidad) select_localidad.innerHTML = '<option value="">Todas las localidades</option>';
-  if (select_barrio) {
-    select_barrio.innerHTML = '<option value="">Todos los barrios</option>';
-    select_barrio.disabled = true;
-  }
 
   document.querySelectorAll('.checkbox_tipo').forEach(cb => cb.checked = false);
   document.querySelectorAll('.checkbox_caracteristica').forEach(cb => cb.checked = false);
@@ -712,15 +579,10 @@ function limpiar_filtros() {
   renderizar_propiedades();
 }
 
-
 /* ════════════════════════════════════════════════════════════
    RENDERIZADO DE PROPIEDADES
 ════════════════════════════════════════════════════════════ */
 
-/**
- * Filtra las propiedades según el estado actual.
- * @returns {Array} propiedades filtradas
- */
 function obtener_propiedades_filtradas() {
   return estado.propiedades.filter(prop => {
     /* Filtro de modo */
@@ -748,14 +610,20 @@ function obtener_propiedades_filtradas() {
       if (!cumple) return false;
     }
 
-    /* Filtro ciudad */
-    if (estado.filtros.ciudad && prop.ciudad !== estado.filtros.ciudad) return false;
+    /* Filtro pisos */
+    if (estado.filtros.pisos !== null){
+      const cumple = estado.filtros.pisos_es_minimo
+        ? prop.pisos >= estado.filtros.pisos
+        : prop.pisos === estado. filtros.pisos;
+      if(!cumple) return false;
+    }
 
-    /* Filtro localidad */
+    /* Filtro ciudad y localidad */
+    if (estado.filtros.ciudad && prop.ciudad !== estado.filtros.ciudad) return false;
     if (estado.filtros.localidad && prop.localidad !== estado.filtros.localidad) return false;
 
-    /* Filtro barrio */
-    if (estado.filtros.barrio && prop.barrio !== estado.filtros.barrio) return false;
+    /* Filtro parqueadero / estacionamiento */
+    if (estado.filtros.estacionamientos && (!prop.parqueaderos || prop.parqueaderos <= 0)) return false;
 
     /* Filtro características */
     if (estado.filtros.caracteristicas.size > 0) {
@@ -768,11 +636,6 @@ function obtener_propiedades_filtradas() {
   });
 }
 
-/**
- * Genera el HTML de una tarjeta de propiedad.
- * @param {Object} prop
- * @returns {string} HTML string
- */
 function crear_html_tarjeta(prop) {
   const especificaciones = [];
   if (prop.hab > 0)  especificaciones.push(`${prop.hab} hab`);
@@ -794,7 +657,7 @@ function crear_html_tarjeta(prop) {
     <article class="tarjeta_propiedad" tabindex="0" aria-label="${prop.titulo}" onclick="navegar_a_detalle(${prop.id})">
       <div class="contenedor_imagen_propiedad">
         <img
-          src="${prop.imagen}"
+          src="${prop.imagen || '../assets/placeholder.jpg'}"
           alt="${prop.titulo}"
           class="imagen_propiedad"
           loading="lazy"
@@ -802,7 +665,7 @@ function crear_html_tarjeta(prop) {
         <div class="degradado_imagen_propiedad" aria-hidden="true"></div>
         ${prop.badge ? `<span class="badge_propiedad">${prop.badge}</span>` : ''}
         <span class="badge_modo ${prop.modo}" aria-label="Modo: ${prop.modo}">
-          ${prop.modo.charAt(0).toUpperCase() + prop.modo.slice(1)}
+          ${prop.modo ? prop.modo.charAt(0).toUpperCase() + prop.modo.slice(1) : ''}
         </span>
         <p class="precio_propiedad">${prop.precio_etiqueta}</p>
         <button
@@ -822,7 +685,7 @@ function crear_html_tarjeta(prop) {
             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
             <circle cx="12" cy="10" r="3"/>
           </svg>
-          ${prop.ubicacion}
+          ${prop.ubicacion || `${prop.ciudad ?? ''} ${prop.localidad ?? ''}`}
         </p>
         <p class="especificaciones_propiedad" aria-label="Especificaciones: ${especificaciones.join(', ')}">
           ${espec_html} ${icono_mascota}
@@ -831,10 +694,7 @@ function crear_html_tarjeta(prop) {
     </article>
   `;
 }
-/**
- * Muestra tarjetas de esqueleto (loading) mientras cargan las propiedades reales.
- * @param {number} cantidad - cuántas tarjetas de esqueleto mostrar
- */
+
 function mostrar_esqueleto_propiedades(cantidad = 6) {
   const contenedor = obtener_elemento('grilla_propiedades');
   if (!contenedor) return;
@@ -849,9 +709,7 @@ function mostrar_esqueleto_propiedades(cantidad = 6) {
 
   contenedor.innerHTML = tarjeta_esqueleto.repeat(cantidad);
 }
-/**
- * Renderiza la grilla de propiedades filtradas en el DOM.
- */
+
 function renderizar_propiedades() {
   const contenedor = obtener_elemento('grilla_propiedades');
   const contador   = obtener_elemento('contador_resultados');
@@ -883,11 +741,6 @@ function renderizar_propiedades() {
   contenedor.innerHTML = filtradas.map(crear_html_tarjeta).join('');
 }
 
-/**
- * Alterna el estado de favorito de una tarjeta (efecto visual).
- * @param {HTMLButtonElement} boton
- * @param {number} id_propiedad
- */
 function alternar_favorito(boton, id_propiedad) {
   const svg = boton.querySelector('path');
   if (!svg) return;
@@ -899,12 +752,7 @@ function alternar_favorito(boton, id_propiedad) {
   mostrar_notificacion(mensaje, activo ? 'info' : 'exito');
 }
 
-/**
- * Navega a la pantalla de detalle de una propiedad.
- * @param {number} id_propiedad
- */
 function navegar_a_detalle(id_propiedad) {
-  // Guardar el estado actual de filtros en localStorage
   localStorage.setItem('filtros_activos', JSON.stringify({
     tipos: Array.from(estado.filtros.tipos),
     precio_max: estado.filtros.precio_max,
@@ -915,32 +763,22 @@ function navegar_a_detalle(id_propiedad) {
     modo_navegacion: estado.modo_navegacion
   }));
   
-  // Navegar a la página de detalle con el ID de la propiedad
   window.location.href = `pantalla_detalle.html?id=${id_propiedad}`;
 }
-
 
 /* ════════════════════════════════════════════════════════════
    INICIALIZACIÓN
 ════════════════════════════════════════════════════════════ */
 
-/**
- * Inicializa todos los event listeners de la aplicación.
- */
 function inicializar_app() {
-  /* ── Restaurar estado de filtros si existe ── */
   restaurar_filtros();
 
-  /* ── Tecla Escape para cerrar menús ── */
   document.addEventListener('keydown', evento => {
     if (evento.key === 'Escape') {
       cerrar_menu_movil();
     }
   });
 
-  
-
-  /* ── Accesibilidad: Enter en tarjetas ── */
   document.addEventListener('keydown', evento => {
     if (evento.key === 'Enter' && evento.target.classList.contains('tarjeta_propiedad')) {
       const tarjeta = evento.target;
@@ -954,12 +792,12 @@ function inicializar_app() {
     }
   });
 
-  cargar_propiedades(); // trae los datos reales y renderiza cuando lleguen
-  cargar_filtro_ubicacion(); // llama todas las ubicaciones que hay y las renderiza
-  cargar_caracteristicas_filtro();//trae las caracteristicas y renderiza todo
+  cargar_propiedades();
+  cargar_filtro_tipo_inmueble()
+  cargar_filtro_ubicacion();
+  cargar_caracteristicas_filtro();
   verificar_autenticacion();
 
-  /* Cerrar menú de usuario al hacer clic fuera */
   document.addEventListener('click', function(evento) {
     const contenedorMenu = document.querySelector('.contenedor_menu_usuario');
     if (contenedorMenu && !contenedorMenu.contains(evento.target)) {
@@ -968,16 +806,12 @@ function inicializar_app() {
   });
 }
 
-/**
- * Restaura el estado de filtros desde localStorage
- */
 function restaurar_filtros() {
   const filtros_guardados = localStorage.getItem('filtros_activos');
   if (filtros_guardados) {
     try {
       const filtros = JSON.parse(filtros_guardados);
       
-      // Restaurar tipos
       if (filtros.tipos && Array.isArray(filtros.tipos)) {
         filtros.tipos.forEach(tipo => {
           estado.filtros.tipos.add(tipo);
@@ -986,7 +820,6 @@ function restaurar_filtros() {
         });
       }
       
-      // Restaurar precio
       if (filtros.precio_max !== undefined) {
         estado.filtros.precio_max = filtros.precio_max;
         const deslizador = obtener_elemento('deslizador_precio');
@@ -998,23 +831,20 @@ function restaurar_filtros() {
         if (relleno) relleno.style.width = filtros.precio_max + '%';
       }
       
-      // Restaurar pastillas
-      ['habitaciones', 'banos', 'estacionamientos'].forEach(grupo => {
-        if (filtros[grupo] !== null) {
-          estado.filtros[grupo] = filtros[grupo];
-          const pastilla = document.querySelector(`.pastilla[data-grupo="${grupo}"][data-valor="${filtros[grupo]}"]`);
-          if (pastilla) pastilla.classList.add('activa');
-        }
-      });
+      ['habitaciones', 'banos', 'pisos', 'estacionamientos'].forEach(grupo => {
+          if (filtros[grupo] !== null) {
+            estado.filtros[grupo] = filtros[grupo];
+            const pastilla = document.querySelector(`.pastilla[data-grupo="${grupo}"][data-valor="${filtros[grupo]}"]`);
+            if (pastilla) pastilla.classList.add('activa');
+          }
+        });
       
-      // Restaurar mascotas
       if (filtros.mascotas) {
         estado.filtros.mascotas = true;
         const checkbox_mascotas = obtener_elemento('checkbox_pet_friendly');
         if (checkbox_mascotas) checkbox_mascotas.checked = true;
       }
       
-      // Restaurar modo de navegación
       if (filtros.modo_navegacion) {
         estado.modo_navegacion = filtros.modo_navegacion;
         const boton_modo = document.querySelector(`[data-modo="${filtros.modo_navegacion === 'todos' ? '' : filtros.modo_navegacion}"]`);
@@ -1035,8 +865,6 @@ function restaurar_filtros() {
       }
       
       actualizar_estado_botones_filtros();
-      
-      // Limpiar filtros guardados después de restaurar
       localStorage.removeItem('filtros_activos');
     } catch (e) {
       console.error('Error al restaurar filtros:', e);
@@ -1044,5 +872,4 @@ function restaurar_filtros() {
   }
 }
 
-/* Ejecutar cuando el DOM esté listo */
 document.addEventListener('DOMContentLoaded', inicializar_app);

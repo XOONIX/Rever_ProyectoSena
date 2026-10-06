@@ -25,8 +25,9 @@ namespace TuProyecto.DTOs
         [StringLength(200, ErrorMessage = "La dirección no puede superar los 200 caracteres.")]
         public required string Direccion { get; set; }
 
-        [Range(1, int.MaxValue, ErrorMessage = "Selecciona un barrio válido.")]
-        public int IdBarrio { get; set; }
+        // La ciudad se deduce de la localidad.
+        [Range(1, int.MaxValue, ErrorMessage = "Selecciona una localidad válida.")]
+        public int IdLocalidad { get; set; }
 
         [Range(0, 10, ErrorMessage = "Las habitaciones deben estar entre 0 y 10.")]
         public int Habitaciones { get; set; }
@@ -36,6 +37,8 @@ namespace TuProyecto.DTOs
         [Range(0, 10, ErrorMessage = "Los baños deben estar entre 0 y 10.")]
         public int Banos { get; set; }
 
+        // El frontend manda "piso"
+        [JsonPropertyName("piso")]
         [Range(1, 200, ErrorMessage = "El piso debe ser un número válido.")]
         public int Pisos { get; set; } = 1;
 

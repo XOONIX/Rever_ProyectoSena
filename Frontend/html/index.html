@@ -188,32 +188,8 @@
           <!-- TIPO DE INMUEBLE -->
           <fieldset class="seccion_filtro">
             <legend class="titulo_filtro">Tipo de Inmueble</legend>
-            <div class="lista_checkboxes" role="group">
-              <label class="etiqueta_checkbox">
-                <input type="checkbox" class="checkbox_tipo" value="Casas" onchange="manejar_checkbox_tipo(this, 'Casas')" />
-                <span class="caja_checkbox" aria-hidden="true"></span>
-                Casas
-              </label>
-              <label class="etiqueta_checkbox">
-                <input type="checkbox" class="checkbox_tipo" value="Apartamentos" onchange="manejar_checkbox_tipo(this, 'Apartamentos')" />
-                <span class="caja_checkbox" aria-hidden="true"></span>
-                Apartamentos
-              </label>
-              <label class="etiqueta_checkbox">
-                <input type="checkbox" class="checkbox_tipo" value="Estudios" onchange="manejar_checkbox_tipo(this, 'Estudios')" />
-                <span class="caja_checkbox" aria-hidden="true"></span>
-                Estudios
-              </label>
-              <label class="etiqueta_checkbox">
-                <input type="checkbox" class="checkbox_tipo" value="Fincas" onchange="manejar_checkbox_tipo(this, 'Fincas')" />
-                <span class="caja_checkbox" aria-hidden="true"></span>
-                Fincas
-              </label>
-              <label class="etiqueta_checkbox">
-                <input type="checkbox" class="checkbox_tipo" value="Oficinas" onchange="manejar_checkbox_tipo(this, 'Oficinas')" />
-                <span class="caja_checkbox" aria-hidden="true"></span>
-                Oficinas
-              </label>
+            <div id="lista_checkboxes_tipos" class="lista_checkboxes" role="group">
+              <!-- Se inyectan dinámicamente de la base de datos -->
             </div>
           </fieldset>
 
@@ -225,14 +201,9 @@
                 <option value="">Todas las ciudades</option>
               </select>
             </div>
-              <div id="contenedor_filtro_localidad" class="campo_formulario__control campo_formulario__control--select oculto" style="margin-top:.5rem">
-                <select id="filtro_localidad" class="campo_formulario__select" onchange="manejar_cambio_filtro_localidad()">
-                  <option value="">Todas las localidades</option>
-                </select>
-              </div>
-            <div class="campo_formulario__control campo_formulario__control--select" style="margin-top:.5rem">
-              <select id="filtro_barrio" class="campo_formulario__select" onchange="manejar_cambio_filtro_barrio()" disabled>
-                <option value="">Todos los barrios</option>
+            <div id="contenedor_filtro_localidad" class="campo_formulario__control campo_formulario__control--select oculto" style="margin-top:.5rem">
+              <select id="filtro_localidad" class="campo_formulario__select" onchange="manejar_cambio_filtro_localidad()">
+                <option value="">Todas las localidades</option>
               </select>
             </div>
           </div>
@@ -259,15 +230,16 @@
             </div>
           </div>
 
-          <!-- ESTACIONAMIENTOS -->
-          <fieldset class="seccion_filtro">
-            <legend class="titulo_filtro">Estacionamiento</legend>
-            <label class="etiqueta_checkbox">
-              <input type="checkbox" id="checkbox_estacionamiento" onchange="alternar_estacionamiento(this)" />
-              <span class="caja_checkbox" aria-hidden="true"></span>
-              Estacionamiento
-            </label>
-          </fieldset>
+          <!-- PISOS -->
+          <div class="seccion_filtro">
+            <h3 class="titulo_filtro">Pisos</h3>
+            <div class="grupo_pastillas" data-grupo="pisos">
+              <button type="button" class="pastilla" data-grupo="pisos" data-valor="1" onclick="seleccionar_pastilla(this)">1</button>
+              <button type="button" class="pastilla" data-grupo="pisos" data-valor="2" onclick="seleccionar_pastilla(this)">2</button>
+              <button type="button" class="pastilla" data-grupo="pisos" data-valor="3" onclick="seleccionar_pastilla(this)">3</button>
+              <button type="button" class="pastilla" data-grupo="pisos" data-valor="4+" onclick="seleccionar_pastilla(this)">4+</button>
+            </div>
+          </div>
 
           <!-- CARACTERÍSTICAS -->
           <fieldset class="seccion_filtro">
