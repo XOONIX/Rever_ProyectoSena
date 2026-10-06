@@ -21,6 +21,23 @@ const estado_detalle = {
    UTILIDADES
 ════════════════════════════════════════════════════════════ */
 
+// Intercepta "Llamar" y "Email" mientras la función está en desarrollo.
+// Usa delegación: funciona aunque los enlaces se creen o recreen después.
+document.addEventListener('click', (evento) => {
+  const enlace = evento.target.closest('#enlace_llamar, #enlace_email');
+  if (!enlace) return;
+
+  evento.preventDefault(); // evita abrir tel: / mailto:
+
+  const mensaje = enlace.id === 'enlace_llamar'
+    ? 'La opción de llamar está en progreso'
+    : 'La opción de email está en progreso';
+
+  mostrar_aviso_en_progreso(mensaje);
+});
+
+
+
 /**
  * Obtiene un elemento por ID de forma segura.
  * @param {string} id
@@ -198,9 +215,6 @@ function renderizar_detalle(prop) {
 
   /* Mensaje inicial del textarea */
   const textarea = obtener_elemento_detalle('input_mensaje_contacto');
-  if (textarea) {
-    textarea.value = `Hola, me interesa la propiedad "${prop.titulo}". ¿Podría brindarme más información?`;
-  }
 
   /* Restaurar estado de favoritos */
   restaurar_estado_favorito(prop.idInmueble || prop.id);

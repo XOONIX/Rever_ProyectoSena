@@ -606,6 +606,171 @@ fieldset {
   transform: rotate(45deg) translate(-1px, -1px);
 }
 
+/* ==========================================
+   ESTILOS PARA SELECTS DE UBICACIÓN Y FORMULARIOS
+   ========================================== */
+
+/* Contenedor relativo para posicionar la flecha personalizada */
+.campo_formulario__control--select {
+  position: relative;
+  width: 100%;
+}
+
+/* Flecha personalizada del desplegable */
+.campo_formulario__control--select::after {
+  content: '';
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-right: 2px solid var(--color_gris_400);
+  border-bottom: 2px solid var(--color_gris_400);
+  transform: translateY(-70%) rotate(45deg);
+  pointer-events: none; /* Permite hacer clic a través de la flecha */
+  transition: border-color var(--transicion_rapida), transform var(--transicion_rapida);
+}
+
+/* Cambiar color de la flecha al hacer hover en el contenedor */
+.campo_formulario__control--select:hover::after {
+  border-color: var(--color_oro);
+}
+
+/* Estilos para la etiqueta <select> */
+.campo_formulario__select {
+  width: 100%;
+  padding: 0.6875rem 2.25rem 0.6875rem 0.875rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color_gris_700);
+  background-color: var(--color_blanco);
+  border: 1.5px solid var(--color_gris_300);
+  border-radius: 0.25rem;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+  outline: none;
+  transition: var(--transicion_rapida);
+}
+
+/* Estado Hover */
+.campo_formulario__select:hover {
+  border-color: var(--color_oro);
+}
+
+/* Estado Focus (al hacer clic o navegar con teclado) */
+.campo_formulario__select:focus {
+  border-color: var(--color_oro);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15); /* Anillo dorado tenue al enfocar */
+}
+
+/* Estilo para las opciones del menú */
+.campo_formulario__select option {
+  padding: 0.5rem;
+  font-size: 0.8125rem;
+  color: var(--color_gris_700);
+  background-color: var(--color_blanco);
+}
+
+/* Regla para la clase .oculto si aún no la tienes definida */
+.oculto {
+  display: none !important;
+}
+
+/* ==========================================
+   ESTILOS PARA EL FILTRO SLIDER DE ÁREA
+   ========================================== */
+
+.cabecera_filtro_rango {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+/* Anula el margin inferior por defecto solo dentro del header del rango */
+.cabecera_filtro_rango .titulo_filtro {
+  margin-bottom: 0;
+}
+
+/* Texto que indica el valor actual seleccionado */
+.valor_rango_texto {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--color_oro);
+}
+
+.contenedor_rango {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Barra base del rango (Personalizada con degradado dinámico) */
+.campo_formulario__rango {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  outline: none;
+  background: linear-gradient(
+    to right,
+    var(--color_oro) 0%,
+    var(--color_oro) var(--progreso, 100%),
+    var(--color_gris_300) var(--progreso, 100%),
+    var(--color_gris_300) 100%
+  );
+  cursor: pointer;
+  transition: background 0.1s ease;
+}
+
+/* --- Botón deslizable (Thumb) en Chrome, Safari, Edge --- */
+.campo_formulario__rango::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 1.125rem;
+  height: 1.125rem;
+  border-radius: 50%;
+  background-color: var(--color_blanco);
+  border: 2.5px solid var(--color_oro);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  transition: transform var(--transicion_rapida), background-color var(--transicion_rapida);
+}
+
+.campo_formulario__rango::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  background-color: var(--color_oro);
+}
+
+/* --- Botón deslizable (Thumb) en Firefox --- */
+.campo_formulario__rango::-moz-range-thumb {
+  width: 1.125rem;
+  height: 1.125rem;
+  border-radius: 50%;
+  background-color: var(--color_blanco);
+  border: 2.5px solid var(--color_oro);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+  transition: transform var(--transicion_rapida), background-color var(--transicion_rapida);
+}
+
+.campo_formulario__rango::-moz-range-thumb:hover {
+  transform: scale(1.2);
+  background-color: var(--color_oro);
+}
+
+/* Leyendas debajo del slider (0 m² / 1.000 m²) */
+.etiquetas_rango {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  color: var(--color_gris_400);
+}
+
 /* Precio */
 .fila_precio {
   display: flex;
