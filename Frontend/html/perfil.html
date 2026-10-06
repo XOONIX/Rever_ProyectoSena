@@ -7,13 +7,15 @@
     <link rel="stylesheet" href="../css/styles.css" />
     <link rel="stylesheet" href="../css/login.css">
     <link rel="stylesheet" href="../css/perfil.css">
+    <!-- Carga diferida del JS para asegurar que el DOM esté listo -->
+    <script src="../js/perfil.js" defer></script>
 </head>
 <body>
     <div class="contenedor_principal">
         <div class="columna_izquierda">
             <div class="contenedor_formulario">
                 <div class="encabezado_perfil">
-                    <button class="boton_volver" onclick="volver_a_inicio()">
+                    <button class="boton_volver" type="button" onclick="volver_a_inicio()">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M19 12H5M12 19l-7-7 7-7"/>
                         </svg>
@@ -23,6 +25,9 @@
                 </div>
                 
                 <form id="formulario_perfil" class="formulario_registro">
+                    <!-- CAMBIO 1: Campo oculto para almacenar la ID del Usuario -->
+                    <input type="hidden" id="id_usuario" value="" />
+
                     <!-- Sección de imagen de perfil -->
                     <div class="seccion_imagen_perfil">
                         <div class="contenedor_imagen_perfil">
@@ -107,8 +112,9 @@
                     <div class="grupo_campo">
                         <label for="tipo_usuario" class="etiqueta_campo">Tipo de Usuario</label>
                         <select id="tipo_usuario" class="campo_entrada" disabled>
-                            <option value="2">Comprador</option>
-                            <option value="3">Vendedor</option>
+                            <option value="1">Comprador</option>
+                            <option value="2">vendedor</option>
+                            <option value="3">Administrador</option>
                         </select>
                         <p class="texto_ayuda">El tipo de usuario no puede ser modificado</p>
                     </div>
@@ -122,7 +128,7 @@
                 <div class="seccion_danger">
                     <h3 class="titulo_danger">Zona de Peligro</h3>
                     <p class="descripcion_danger">Estas acciones son irreversibles.</p>
-                    <button class="boton_danger" onclick="eliminar_cuenta()">Eliminar mi cuenta</button>
+                    <button class="boton_danger" type="button" onclick="eliminar_cuenta()">Eliminar mi cuenta</button>
                 </div>
             </div>
         </div>
@@ -136,7 +142,6 @@
             </div>
         </div>
     </div>
-    
-    <script src="../js/perfil.js"></script>
+    <script src="../javascript/perfil.js" defer></script>
 </body>
 </html>

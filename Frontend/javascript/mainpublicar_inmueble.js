@@ -204,7 +204,7 @@ function actualizar_contador_descripcion() {
 
 
 /* ──────────────────────────────────────────────────────
-   7. CARGA DE CATÁLOGOS REALES (al abrir la página)
+   7. CARGA DE CATÁLOGOS
    ────────────────────────────────────────────────────── */
 async function cargar_catalogos() {
   try {

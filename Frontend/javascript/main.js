@@ -23,6 +23,7 @@ const estado = {
   filtros: {
     tipos:    new Set(),
     precio_max: null,
+    area_max: null,
     habitaciones: null,
     habitaciones_es_minimo: false,
     banos:    null,
@@ -61,6 +62,7 @@ async function cargar_propiedades() {
         hab: item.habitaciones,
         banos: item.banos,
         pisos: item.pisos,
+        parqueaderos: item.parqueaderos ?? item.estacionamientos ?? 0,
         area: item.metrosCuadrados,
         imagen: item.imagenUrl,
         badge: null,
@@ -447,7 +449,7 @@ function cerrar_sesion() {
   estado.nombre_usuario = null;
   estado.email_usuario = null;
   
-   // Solo llamar funciones de UI si estamos en la página principal
+  // Solo llamar funciones de UI si estamos en la página principal
   if (typeof mostrar_opciones_no_autenticado === 'function') {
     mostrar_opciones_no_autenticado();
   }
@@ -462,7 +464,6 @@ function cerrar_sesion() {
   setTimeout(() => {
     window.location.href = 'login.html';
   }, 1000);
-
 }
 
 /* ════════════════════════════════════════════════════════════
@@ -490,6 +491,7 @@ function actualizar_estado_botones_filtros() {
   const hay_filtros_activos =
     estado.filtros.tipos.size > 0 ||
     estado.filtros.precio_max !== null ||
+    estado.filtros.area_max !== null ||
     estado.filtros.habitaciones !== null ||
     estado.filtros.banos !== null ||
     estado.filtros.pisos !== null ||
@@ -522,6 +524,28 @@ function actualizar_precio(deslizador) {
   const relleno = obtener_elemento('relleno_deslizador');
   if (relleno) relleno.style.width = valor + '%';
 
+  actualizar_estado_botones_filtros();
+  renderizar_propiedades();
+}
+
+function actualizar_filtro_area(valor) {
+  const numValor = parseFloat(valor);
+  estado.filtros.area_max = isNaN(numValor) ? null : numValor;
+
+  const textoArea = obtener_elemento('valor_area_texto');
+  if (textoArea) {
+    textoArea.textContent = `Hasta ${Number(numValor).toLocaleString('es-CO')} m²`;
+  }
+
+  const inputRango = obtener_elemento('filtro_area');
+  if (inputRango) {
+    const min = parseFloat(inputRango.min) || 0;
+    const max = parseFloat(inputRango.max) || 1000;
+    const porcentaje = ((numValor - min) / (max - min)) * 100;
+    inputRango.style.setProperty('--progreso', `${porcentaje}%`);
+  }
+
+  actualizar_estado_botones_filtros();
   renderizar_propiedades();
 }
 
@@ -564,6 +588,7 @@ function alternar_mascotas(checkbox) {
 function limpiar_filtros() {
   estado.filtros.tipos.clear();
   estado.filtros.precio_max = null;
+  estado.filtros.area_max = null;
   estado.filtros.habitaciones = null;
   estado.filtros.habitaciones_es_minimo = false;
   estado.filtros.banos = null;
@@ -583,6 +608,14 @@ function limpiar_filtros() {
   if (select_ciudad) select_ciudad.value = '';
   if (contenedor_localidad) contenedor_localidad.classList.add('oculto');
   if (select_localidad) select_localidad.innerHTML = '<option value="">Todas las localidades</option>';
+
+  const inputArea = obtener_elemento('filtro_area');
+  if (inputArea) {
+    inputArea.value = inputArea.max || 1000;
+    const textoArea = obtener_elemento('valor_area_texto');
+    if (textoArea) textoArea.textContent = `Hasta ${Number(inputArea.value).toLocaleString('es-CO')} m²`;
+    inputArea.style.setProperty('--progreso', '100%');
+  }
 
   document.querySelectorAll('.checkbox_tipo').forEach(cb => cb.checked = false);
   document.querySelectorAll('.checkbox_caracteristica').forEach(cb => cb.checked = false);
@@ -607,6 +640,9 @@ function obtener_propiedades_filtradas() {
     /* Filtro de precio */
     if (estado.filtros.precio_max !== null && prop.precio > estado.filtros.precio_max) return false;
 
+    /* Filtro de área */
+    if (estado.filtros.area_max !== null && prop.area > estado.filtros.area_max) return false;
+
     /* Filtro habitaciones */
     if (estado.filtros.habitaciones !== null) {
       const cumple = estado.filtros.habitaciones_es_minimo
@@ -624,11 +660,11 @@ function obtener_propiedades_filtradas() {
     }
 
     /* Filtro pisos */
-    if (estado.filtros.pisos !== null){
+    if (estado.filtros.pisos !== null) {
       const cumple = estado.filtros.pisos_es_minimo
         ? prop.pisos >= estado.filtros.pisos
-        : prop.pisos === estado. filtros.pisos;
-      if(!cumple) return false;
+        : prop.pisos === estado.filtros.pisos;
+      if (!cumple) return false;
     }
 
     /* Filtro ciudad y localidad */
@@ -637,6 +673,9 @@ function obtener_propiedades_filtradas() {
 
     /* Filtro parqueadero / estacionamiento */
     if (estado.filtros.estacionamientos && (!prop.parqueaderos || prop.parqueaderos <= 0)) return false;
+
+    /* Filtro mascotas */
+    if (estado.filtros.mascotas && !prop.mascotas) return false;
 
     /* Filtro características */
     if (estado.filtros.caracteristicas.size > 0) {
@@ -651,10 +690,10 @@ function obtener_propiedades_filtradas() {
 
 function crear_html_tarjeta(prop) {
   const especificaciones = [];
-  if (prop.hab > 0)  especificaciones.push(`${prop.hab} hab`);
-  if (prop.banos > 0) especificaciones.push(`${prop.banos} baños`);
+  if (prop.hab > 0)          especificaciones.push(`${prop.hab} hab`);
+  if (prop.banos > 0)        especificaciones.push(`${prop.banos} baños`);
   if (prop.parqueaderos > 0) especificaciones.push(`${prop.parqueaderos} parq.`);
-  especificaciones.push(`${prop.area}m²`);
+  if (prop.area > 0)         especificaciones.push(`${prop.area}m²`);
 
   const espec_html = especificaciones
     .map((e, i) => i < especificaciones.length - 1
@@ -769,9 +808,10 @@ function navegar_a_detalle(id_propiedad) {
   localStorage.setItem('filtros_activos', JSON.stringify({
     tipos: Array.from(estado.filtros.tipos),
     precio_max: estado.filtros.precio_max,
+    area_max: estado.filtros.area_max,
     habitaciones: estado.filtros.habitaciones,
     banos: estado.filtros.banos,
-    parqueaderos: estado.filtros.estacionamientos,
+    estacionamientos: estado.filtros.estacionamientos,
     mascotas: estado.filtros.mascotas,
     modo_navegacion: estado.modo_navegacion
   }));
@@ -806,7 +846,7 @@ function inicializar_app() {
   });
 
   cargar_propiedades();
-  cargar_filtro_tipo_inmueble()
+  cargar_filtro_tipo_inmueble();
   cargar_filtro_ubicacion();
   cargar_caracteristicas_filtro();
   verificar_autenticacion();
@@ -833,7 +873,7 @@ function restaurar_filtros() {
         });
       }
       
-      if (filtros.precio_max !== undefined) {
+      if (filtros.precio_max !== undefined && filtros.precio_max !== null) {
         estado.filtros.precio_max = filtros.precio_max;
         const deslizador = obtener_elemento('deslizador_precio');
         const etiqueta = obtener_elemento('valor_precio_actual');
@@ -843,14 +883,24 @@ function restaurar_filtros() {
         if (etiqueta) etiqueta.textContent = formatear_precio(filtros.precio_max);
         if (relleno) relleno.style.width = filtros.precio_max + '%';
       }
+
+      if (filtros.area_max !== undefined && filtros.area_max !== null) {
+        actualizar_filtro_area(filtros.area_max);
+      }
       
-      ['habitaciones', 'banos', 'pisos', 'estacionamientos'].forEach(grupo => {
-          if (filtros[grupo] !== null) {
-            estado.filtros[grupo] = filtros[grupo];
-            const pastilla = document.querySelector(`.pastilla[data-grupo="${grupo}"][data-valor="${filtros[grupo]}"]`);
-            if (pastilla) pastilla.classList.add('activa');
-          }
-        });
+      ['habitaciones', 'banos', 'pisos'].forEach(grupo => {
+        if (filtros[grupo] !== undefined && filtros[grupo] !== null) {
+          estado.filtros[grupo] = filtros[grupo];
+          const pastilla = document.querySelector(`.pastilla[data-grupo="${grupo}"][data-valor="${filtros[grupo]}"]`);
+          if (pastilla) pastilla.classList.add('activa');
+        }
+      });
+
+      if (filtros.estacionamientos) {
+        estado.filtros.estacionamientos = true;
+        const checkbox_parq = obtener_elemento('checkbox_estacionamiento');
+        if (checkbox_parq) checkbox_parq.checked = true;
+      }
       
       if (filtros.mascotas) {
         estado.filtros.mascotas = true;
