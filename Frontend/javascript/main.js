@@ -1,7 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
    REVER INMOBILIARIA — JavaScript Principal
    Nomenclatura: Español + snake_case
-   Autor: Rever Inmobiliaria © 2026
 ═══════════════════════════════════════════════════════════════ */
 
 'use strict';
@@ -71,7 +70,6 @@ async function cargar_propiedades() {
         ciudad: item.ciudad,
         localidad: item.localidad,
         caracteristicas: caracts,
-        mascotas: item.mascotas ?? false
       };
     });
 
@@ -692,7 +690,7 @@ function crear_html_tarjeta(prop) {
   const especificaciones = [];
   if (prop.hab > 0)          especificaciones.push(`${prop.hab} hab`);
   if (prop.banos > 0)        especificaciones.push(`${prop.banos} baños`);
-  if (prop.parqueaderos > 0) especificaciones.push(`${prop.parqueaderos} parq.`);
+  if (prop.pisos > 0) especificaciones.push(`${prop.pisos} pisos`);
   if (prop.area > 0)         especificaciones.push(`${prop.area}m²`);
 
   const espec_html = especificaciones

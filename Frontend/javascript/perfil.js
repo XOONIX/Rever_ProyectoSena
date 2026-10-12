@@ -59,41 +59,41 @@ function manejar_cambio_imagen(event) {
 
 document.addEventListener('DOMContentLoaded', async function () {
     const token = localStorage.getItem('token');
-    
-    // Función local para obtener la Payload del JWT sin librerías externas
-    function obtenerPayloadJWT(jwtToken) {
+
+    // Si no hay token guardado, redirigir
+    if (!token) {
+        alert('Sesión no válida o expirada. Por favor, inicia sesión de nuevo.');
+        window.location.href = 'login.html';
+        return;
+    }
+
+    // Función auxiliar en memoria para leer la payload del JWT
+    function obtenerIdUsuarioDesdeToken(jwtToken) {
         try {
             const base64Url = jwtToken.split('.')[1];
             const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
             const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => 
                 '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
             ).join(''));
-            return JSON.parse(jsonPayload);
+            
+            const payload = JSON.parse(jsonPayload);
+            // Mapea el claim nameidentifier de Microsoft
+            return payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
         } catch (e) {
             return null;
         }
     }
 
-    // Intentar leer idUsuario del localStorage o extraerlo directamente del JWT
-    let idUsuario = localStorage.getItem('idUsuario');
-    
-    if (!idUsuario && token) {
-        const payload = obtenerPayloadJWT(token);
-        // Extraer la claim estándar 'nameidentifier' de Microsoft/XML
-        idUsuario = payload?.["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
-        if (idUsuario) {
-            localStorage.setItem('idUsuario', idUsuario);
-        }
-    }
+    // Extraer el ID solo en la memoria del script (nunca se guarda en localStorage)
+    const idUsuario = obtenerIdUsuarioDesdeToken(token);
 
-    // Validar que ambos existan
-    if (!token || !idUsuario) {
-        alert('Sesión no válida o expirada. Por favor, inicia sesión de nuevo.');
+    if (!idUsuario) {
+        alert('El token de sesión no es válido. Por favor, inicia sesión nuevamente.');
         window.location.href = 'login.html';
         return;
     }
 
-    // Petición GET a la API con idUsuario y token...
+    // Petición a la API usando el ID extraído
     try {
         const response = await fetch(`https://localhost:7015/api/Usuario/${idUsuario}`, {
             method: 'GET',
@@ -110,11 +110,13 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         const usuario = await response.json();
 
-        // Asignar datos al formulario
+        // Rellenar el formulario
         if (document.getElementById('id_usuario')) document.getElementById('id_usuario').value = usuario.idUsuario || idUsuario;
         if (document.getElementById('nombre_completo')) document.getElementById('nombre_completo').value = usuario.nombre || '';
         if (document.getElementById('correo_electronico')) document.getElementById('correo_electronico').value = usuario.correo || '';
         if (document.getElementById('telefono_contacto')) document.getElementById('telefono_contacto').value = usuario.telefono || '';
+        if (document.getElementById('tipo_usuario') && usuario.idRol) document.getElementById('tipo_usuario').value = usuario.idRol;
+        if (document.getElementById('imagen_perfil_actual') && usuario.imagenPerfil) document.getElementById('imagen_perfil_actual').src = usuario.imagenPerfil;
 
     } catch (error) {
         alert('Error: ' + error.message);
@@ -133,48 +135,28 @@ document.getElementById('formulario_perfil')?.addEventListener('submit', async f
     botonSubmit.disabled = true;
     botonSubmit.textContent = 'Guardando...';
 
-    // Captura de valores limpios de espacios en blanco
+    // Captura de datos básicos
     const nombre = document.getElementById('nombre_completo').value.trim();
     const correo = document.getElementById('correo_electronico').value.trim();
     const telefono = document.getElementById('telefono_contacto').value.trim();
-
-    const contrasenaActual = document.getElementById('contrasena_actual').value;
+    // Campos de contraseña opcionales
     const nuevaContrasena = document.getElementById('nueva_contrasena').value;
     const confirmarNuevaContrasena = document.getElementById('confirmar_nueva_contrasena').value;
 
-    // 1. Validar que los campos no estén vacíos
+    // 1. Validaciones básicas de campos obligatorios
     if (!nombre) {
         alert('El nombre completo no puede estar vacío.');
         resetBotonSubmit(botonSubmit);
         return;
     }
 
-    if (!correo) {
-        alert('El correo electrónico es obligatorio.');
+    if (!telefono || telefono.length < 7) {
+        alert('Por favor ingresa un número de teléfono válido.');
         resetBotonSubmit(botonSubmit);
         return;
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(correo)) {
-        alert('Por favor ingresa un correo electrónico válido.');
-        resetBotonSubmit(botonSubmit);
-        return;
-    }
-
-    if (!telefono) {
-        alert('El número de teléfono de contacto es obligatorio.');
-        resetBotonSubmit(botonSubmit);
-        return;
-    }
-
-    if (telefono.length < 7) {
-        alert('Ingresa un número de teléfono válido (mínimo 7 dígitos).');
-        resetBotonSubmit(botonSubmit);
-        return;
-    }
-
-    // 2. Validar actualización de contraseña si se ingresó alguna
+    // 2. Validación de cambio de contraseña sólo si se escribió algo
     if (nuevaContrasena || confirmarNuevaContrasena) {
         if (nuevaContrasena !== confirmarNuevaContrasena) {
             alert('Las nuevas contraseñas no coinciden.');
@@ -187,34 +169,27 @@ document.getElementById('formulario_perfil')?.addEventListener('submit', async f
             resetBotonSubmit(botonSubmit);
             return;
         }
-
-        if (!contrasenaActual) {
-            alert('Debes ingresar tu contraseña actual para confirmar el cambio.');
-            resetBotonSubmit(botonSubmit);
-            return;
-        }
     }
 
-    // 3. Recuperar ID del usuario
-    const idUsuario = document.getElementById('id_usuario')?.value || localStorage.getItem('idUsuario');
+    // 3. Obtener el ID del usuario directamente desde el token en memoria
+    const token = localStorage.getItem('token');
+    const idUsuario = document.getElementById('id_usuario')?.value || obtenerIdUsuarioDesdeToken(token);
 
-    if (!idUsuario || parseInt(idUsuario) <= 0) {
-        alert('Error: No se encontró el ID del usuario actual.');
+    if (!idUsuario) {
+        alert('Error al identificar al usuario. Inicia sesión nuevamente.');
         resetBotonSubmit(botonSubmit);
         return;
     }
 
-    // 4. Crear DTO para el backend
+    // 4. Estructurar DTO enviando la nueva contraseña o vacía si no se modificó
     const datos = {
         idUsuario: parseInt(idUsuario),
         nombre: nombre,
         correo: correo,
         telefono: telefono,
-        contraseña: nuevaContrasena || "",
-        idRol: parseInt(document.getElementById('tipo_usuario')?.value || localStorage.getItem('idRol') || "2")
+        contraseña: nuevaContrasena ? nuevaContrasena : "", 
+        idRol: parseInt(document.getElementById('tipo_usuario')?.value || "2")
     };
-
-    const token = localStorage.getItem('token');
 
     try {
         const response = await fetch('https://localhost:7015/api/Usuario', {
@@ -228,17 +203,10 @@ document.getElementById('formulario_perfil')?.addEventListener('submit', async f
 
         if (!response.ok) {
             const errorTexto = await response.text();
-            throw new Error(errorTexto || 'Error al actualizar la información en la base de datos.');
+            throw new Error(errorTexto || 'Error al actualizar la información.');
         }
 
-        let usuarioActualizado = {};
-        const contentType = response.headers.get("content-type");
-        if (contentType && contentType.includes("application/json")) {
-            usuarioActualizado = await response.json();
-        }
-
-        console.log('Respuesta backend:', usuarioActualizado);
-        alert('¡Perfil actualizado con éxito!');
+        alert('¡Perfil actualizado correctamente!');
         window.location.href = 'index.html';
 
     } catch (error) {
@@ -248,38 +216,62 @@ document.getElementById('formulario_perfil')?.addEventListener('submit', async f
     }
 });
 
-
 // ==========================================
 // 4. ZONA DE PELIGRO (ELIMINAR CUENTA)
 // ==========================================
 
-async function eliminar_cuenta() {
-    const confirmacion = confirm('¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer.');
-    if (!confirmacion) return;
+function eliminar_cuenta() {
+    const modal = document.getElementById('modal_confirmacion');
+    const inputConfirmacion = document.getElementById('modal_input_confirmacion');
+    const btnCancelar = document.getElementById('modal_btn_cancelar');
+    const btnConfirmar = document.getElementById('modal_btn_confirmar');
 
-    const token = localStorage.getItem('token');
-    const idUsuario = localStorage.getItem('idUsuario');
+    // Limpiar input y mostrar modal
+    inputConfirmacion.value = '';
+    modal.classList.add('activo');
 
-    try {
-        const response = await fetch(`https://localhost:7015/api/Usuario/${idUsuario}`, {
-            method: 'DELETE',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            }
-        });
+    // Ocultar al hacer clic en cancelar
+    btnCancelar.onclick = () => {
+        modal.classList.remove('activo');
+    };
 
-        if (!response.ok) {
-            const errorTexto = await response.text();
-            throw new Error(errorTexto || 'No se pudo eliminar la cuenta.');
+    // Procesar confirmación
+    btnConfirmar.onclick = async () => {
+        if (inputConfirmacion.value.trim() !== 'ELIMINAR') {
+            alertarPersonalizado('Debes escribir la palabra ELIMINAR para continuar.');
+            return;
         }
 
-        alert('Tu cuenta ha sido eliminada.');
-        localStorage.clear();
-        window.location.href = 'login.html';
+        modal.classList.remove('activo');
 
-    } catch (error) {
-        alert('Error: ' + error.message);
-        console.error('Error al eliminar la cuenta:', error);
-    }
+        const token = localStorage.getItem('token');
+        const idUsuario = document.getElementById('id_usuario')?.value || obtenerIdUsuarioDesdeToken(token);
+
+        if (!token || !idUsuario) {
+            window.location.href = 'login.html';
+            return;
+        }
+
+        try {
+            const response = await fetch(`https://localhost:7015/api/Usuario/${idUsuario}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                const errorTexto = await response.text();
+                throw new Error(errorTexto || 'No se pudo eliminar la cuenta.');
+            }
+
+            localStorage.clear();
+            window.location.href = 'login.html';
+
+        } catch (error) {
+            console.error('Error al eliminar la cuenta:', error);
+            alertarPersonalizado('Error: ' + error.message);
+        }
+    };
 }

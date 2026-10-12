@@ -52,7 +52,7 @@ namespace rever.Controllers
                 return Unauthorized("Debes confirmar tu cuenta desde el correo que te enviamos antes de iniciar sesión.");
             }
 
-            // Configurar Claims — todo lo que el frontend necesita saber va aquí
+            // Configurar Claims 
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, usuario.IdUsuario.ToString()),

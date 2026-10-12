@@ -22,17 +22,16 @@ try {
         throw new Error(mensajeError || 'Correo o contraseña incorrectos');
     }
 
-    // 1. Convertir la respuesta en JSON para sacar el token
+    // 1. Convierte la respuesta en JSON para sacar el token
     const resultado = await response.json();
 
     // 2. Guardar el token en el almacenamiento local
     localStorage.setItem('sesion_activa', 'true');
     localStorage.setItem('token', resultado.token);
 
-    // 3. Obtener los datos del usuario usando el token guardado
+    // 3. datos del usuario usando el token guardado
     const usuario = obtener_usuario_actual();
 
-    // 4. Lógica de redirección en caso de venir de una pagina de inmueble
     const params = new URLSearchParams(window.location.search);
     const volver_a = params.get('volver');
 
