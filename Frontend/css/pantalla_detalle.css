@@ -1007,3 +1007,243 @@
     --ancho_columna_contacto: 360px;
   }
 }
+
+/* ════════════════════════════════════════════════════════════
+   CALENDARIO DE VISITA
+════════════════════════════════════════════════════════════ */
+
+.seccion_calendario_visita {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: var(--color_gris_50);
+  border-radius: var(--radio_lg);
+  border: 1px solid var(--color_gris_200);
+}
+
+.titulo_calendario {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color_oscuro);
+  margin-bottom: 0.25rem;
+}
+
+.subtitulo_calendario {
+  font-size: 0.75rem;
+  color: var(--color_gris_400);
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+/* Navegación del calendario */
+.navegacion_calendario {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.boton_navegacion_calendario {
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--radio_lg);
+  background-color: var(--color_blanco);
+  border: 1px solid var(--color_gris_200);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color_gris_600);
+  transition: var(--transicion_rapida);
+}
+
+.boton_navegacion_calendario:hover {
+  border-color: var(--color_oro);
+  color: var(--color_oro);
+  background-color: var(--color_oro_claro);
+}
+
+.texto_mes_actual {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color_oscuro);
+  text-transform: capitalize;
+}
+
+/* Días de la semana */
+.dias_semana_calendario {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.dias_semana_calendario span {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  color: var(--color_gris_400);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Grid de días */
+.grid_dias_calendario {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.25rem;
+}
+
+.dia_calendario {
+  aspect-ratio: 1;
+  border-radius: var(--radio_md);
+  border: 1.5px solid var(--color_gris_200);
+  background-color: var(--color_blanco);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color_gris_600);
+  cursor: pointer;
+  transition: var(--transicion_rapida);
+}
+
+.dia_calendario:hover:not(.dia_inhabilitado):not(.dia_seleccionado) {
+  border-color: var(--color_oro);
+  color: var(--color_oro);
+  background-color: var(--color_oro_claro);
+}
+
+.dia_calendario.dia_hoy {
+  border-color: var(--color_oro);
+  color: var(--color_oro);
+  font-weight: 700;
+}
+
+.dia_calendario.dia_seleccionado {
+  background-color: var(--color_oro);
+  border-color: var(--color_oro);
+  color: var(--color_blanco);
+  font-weight: 700;
+}
+
+.dia_calendario.dia_inhabilitado {
+  background-color: var(--color_gris_100);
+  border-color: var(--color_gris_200);
+  color: var(--color_gris_300);
+  cursor: not-allowed;
+}
+
+.dia_calendario.dia_vacio {
+  background-color: transparent;
+  border: none;
+  cursor: default;
+}
+
+/* Contenedor de horas */
+.contenedor_horas {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color_gris_200);
+}
+
+.titulo_selector_horas {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--color_oscuro);
+  margin-bottom: 0.75rem;
+}
+
+.titulo_selector_horas span {
+  color: var(--color_oro);
+}
+
+.grid_horas {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+
+.hora_disponible {
+  padding: 0.5rem;
+  border-radius: var(--radio_md);
+  border: 1.5px solid var(--color_gris_200);
+  background-color: var(--color_blanco);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color_gris_600);
+  cursor: pointer;
+  transition: var(--transicion_rapida);
+  text-align: center;
+}
+
+.hora_disponible:hover {
+  border-color: var(--color_oro);
+  color: var(--color_oro);
+  background-color: var(--color_oro_claro);
+}
+
+.hora_disponible.hora_seleccionada {
+  background-color: var(--color_oro);
+  border-color: var(--color_oro);
+  color: var(--color_blanco);
+}
+
+.hora_disponible.hora_inhabilitada {
+  background-color: var(--color_gris_100);
+  border-color: var(--color_gris_200);
+  color: var(--color_gris_300);
+  cursor: not-allowed;
+}
+
+/* Resumen de selección */
+.resumen_seleccion {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background-color: var(--color_oro_claro);
+  border: 1px solid var(--color_dorado_borde);
+  border-radius: var(--radio_md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.texto_resumen {
+  font-size: 0.8125rem;
+  color: var(--color_oscuro);
+  font-weight: 500;
+  flex: 1;
+}
+
+.texto_resumen strong {
+  color: var(--color_oro);
+  font-weight: 700;
+}
+
+.boton_cambiar_seleccion {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color_oro);
+  font-family: var(--fuente_principal);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: var(--transicion_rapida);
+  white-space: nowrap;
+}
+
+.boton_cambiar_seleccion:hover {
+  text-decoration: underline;
+}
+
+/* Responsive del calendario */
+@media (max-width: 480px) {
+  .grid_horas {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .resumen_seleccion {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

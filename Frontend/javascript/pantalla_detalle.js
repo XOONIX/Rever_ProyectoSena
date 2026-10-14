@@ -14,6 +14,13 @@ const estado_detalle = {
   propiedad_actual: null,    /* Objeto propiedad cargado desde la API */
   indice_galeria:   0,       /* Foto activa en el modal */
   es_favorito:      false,
+  /* Estado del calendario de visita */
+  calendario: {
+    fecha_actual: new Date(),
+    mes_actual: new Date(),
+    dia_seleccionado: null,
+    hora_seleccionada: null,
+  },
 };
 
 
@@ -667,6 +674,194 @@ function restablecer_formulario() {
 
 
 /* ════════════════════════════════════════════════════════════
+   CALENDARIO DE VISITA
+════════════════════════════════════════════════════════════ */
+
+/**
+ * Inicializa el calendario de visitas
+ */
+function inicializar_calendario_visita() {
+  renderizar_calendario();
+}
+
+/**
+ * Renderiza el calendario del mes actual
+ */
+function renderizar_calendario() {
+  const mes = estado_detalle.calendario.mes_actual;
+  const grid_dias = document.getElementById('grid_dias_calendario');
+  const texto_mes = document.getElementById('texto_mes_actual');
+
+  if (!grid_dias || !texto_mes) return;
+
+  // Nombre del mes y año
+  const nombres_meses = [
+    'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+    'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+  ];
+  texto_mes.textContent = `${nombres_meses[mes.getMonth()]} ${mes.getFullYear()}`;
+
+  // Primer día del mes y total de días
+  const primer_dia = new Date(mes.getFullYear(), mes.getMonth(), 1);
+  const ultimo_dia = new Date(mes.getFullYear(), mes.getMonth() + 1, 0);
+  const total_dias = ultimo_dia.getDate();
+  const dia_semana_inicio = primer_dia.getDay();
+
+  // Fecha actual para comparación
+  const hoy = new Date();
+  hoy.setHours(0, 0, 0, 0);
+
+  let html = '';
+
+  // Días vacíos antes del primer día del mes
+  for (let i = 0; i < dia_semana_inicio; i++) {
+    html += '<div class="dia_calendario dia_vacio"></div>';
+  }
+
+  // Días del mes
+  for (let dia = 1; dia <= total_dias; dia++) {
+    const fecha = new Date(mes.getFullYear(), mes.getMonth(), dia);
+    fecha.setHours(0, 0, 0, 0);
+
+    const es_hoy = fecha.getTime() === hoy.getTime();
+    const es_pasado = fecha < hoy;
+    const es_seleccionado = estado_detalle.calendario.dia_seleccionado &&
+                           fecha.getTime() === estado_detalle.calendario.dia_seleccionado.getTime();
+
+    let clases = 'dia_calendario';
+    if (es_hoy) clases += ' dia_hoy';
+    if (es_pasado) clases += ' dia_inhabilitado';
+    if (es_seleccionado) clases += ' dia_seleccionado';
+
+    html += `<div class="${clases}" ${!es_pasado ? `onclick="seleccionar_dia_calendario(${dia})"` : ''}>${dia}</div>`;
+  }
+
+  grid_dias.innerHTML = html;
+}
+
+/**
+ * Navega al mes anterior o siguiente
+ * @param {number} direccion - -1 para anterior, 1 para siguiente
+ */
+function navegar_mes_calendario(direccion) {
+  const nuevo_mes = new Date(estado_detalle.calendario.mes_actual);
+  nuevo_mes.setMonth(nuevo_mes.getMonth() + direccion);
+
+  // No permitir navegar a meses pasados
+  const hoy = new Date();
+  hoy.setHours(0, 0, 0, 0);
+  const inicio_nuevo_mes = new Date(nuevo_mes.getFullYear(), nuevo_mes.getMonth(), 1);
+  inicio_nuevo_mes.setHours(0, 0, 0, 0);
+
+  if (inicio_nuevo_mes < hoy) return;
+
+  estado_detalle.calendario.mes_actual = nuevo_mes;
+  renderizar_calendario();
+}
+
+/**
+ * Selecciona un día del calendario
+ * @param {number} dia
+ */
+function seleccionar_dia_calendario(dia) {
+  const fecha = new Date(
+    estado_detalle.calendario.mes_actual.getFullYear(),
+    estado_detalle.calendario.mes_actual.getMonth(),
+    dia
+  );
+  fecha.setHours(0, 0, 0, 0);
+
+  estado_detalle.calendario.dia_seleccionado = fecha;
+  estado_detalle.calendario.hora_seleccionada = null;
+
+  renderizar_calendario();
+  renderizar_horas_disponibles(fecha);
+}
+
+/**
+ * Renderiza las horas disponibles para una fecha
+ * @param {Date} fecha
+ */
+function renderizar_horas_disponibles(fecha) {
+  const contenedor_horas = document.getElementById('contenedor_horas');
+  const grid_horas = document.getElementById('grid_horas');
+  const fecha_texto = document.getElementById('fecha_seleccionada_texto');
+  const resumen = document.getElementById('resumen_seleccion');
+
+  if (!contenedor_horas || !grid_horas) return;
+
+  // Formatear fecha
+  const opciones = { weekday: 'long', day: 'numeric', month: 'long' };
+  const fecha_formateada = fecha.toLocaleDateString('es-ES', opciones);
+  fecha_texto.textContent = fecha_formateada.charAt(0).toUpperCase() + fecha_formateada.slice(1);
+
+  // Horas disponibles (9:00 - 18:00)
+  const horas = [
+    '9:00', '10:00', '11:00', '12:00',
+    '14:00', '15:00', '16:00', '17:00', '18:00'
+  ];
+
+  // Simular algunas horas ocupadas aleatoriamente
+  const hoy = new Date();
+  hoy.setHours(0, 0, 0, 0);
+  const es_hoy = fecha.getTime() === hoy.getTime();
+  const hora_actual = hoy.getHours();
+
+  grid_horas.innerHTML = horas.map(hora => {
+    const hora_num = parseInt(hora.split(':')[0], 10);
+    const es_hora_pasada = es_hoy && hora_num <= hora_actual;
+    const es_ocupada = Math.random() < 0.3; // 30% de probabilidad de estar ocupada
+
+    let clases = 'hora_disponible';
+    if (es_hora_pasada || es_ocupada) clases += ' hora_inhabilitada';
+
+    return `<div class="${clases}" ${!es_hora_pasada && !es_ocupada ? `onclick="seleccionar_hora('${hora}')"` : ''}>${hora}</div>`;
+  }).join('');
+
+  contenedor_horas.classList.remove('oculto');
+  resumen.classList.add('oculto');
+}
+
+/**
+ * Selecciona una hora
+ * @param {string} hora
+ */
+function seleccionar_hora(hora) {
+  estado_detalle.calendario.hora_seleccionada = hora;
+
+  // Actualizar UI
+  document.querySelectorAll('.hora_disponible').forEach(el => {
+    el.classList.remove('hora_seleccionada');
+    if (el.textContent === hora) {
+      el.classList.add('hora_seleccionada');
+    }
+  });
+
+  // Mostrar resumen
+  const fecha = estado_detalle.calendario.dia_seleccionado;
+  const opciones = { weekday: 'long', day: 'numeric', month: 'long' };
+  const fecha_formateada = fecha.toLocaleDateString('es-ES', opciones);
+  const fecha_hora = `${fecha_formateada.charAt(0).toUpperCase() + fecha_formateada.slice(1)} a las ${hora}`;
+
+  document.getElementById('fecha_hora_resumen').textContent = fecha_hora;
+  document.getElementById('contenedor_horas').classList.add('oculto');
+  document.getElementById('resumen_seleccion').classList.remove('oculto');
+}
+
+/**
+ * Reinicia la selección del calendario
+ */
+function reiniciar_seleccion_calendario() {
+  estado_detalle.calendario.dia_seleccionado = null;
+  estado_detalle.calendario.hora_seleccionada = null;
+
+  document.getElementById('contenedor_horas').classList.add('oculto');
+  document.getElementById('resumen_seleccion').classList.add('oculto');
+  renderizar_calendario();
+}
+
+
+/* ════════════════════════════════════════════════════════════
    INICIALIZACIÓN & EVENT LISTENERS
 ════════════════════════════════════════════════════════════ */
 
@@ -676,6 +871,9 @@ function restablecer_formulario() {
 function inicializar_detalle() {
   /* Cargar datos desde la API */
   cargar_detalle_inmueble();
+
+  /* Inicializar calendario de visitas */
+  inicializar_calendario_visita();
 
   /* ── Event Listeners globales ── */
 

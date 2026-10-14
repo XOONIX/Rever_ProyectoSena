@@ -57,13 +57,13 @@
           <span>Vendedor/Arrendatario</span>
         </button>
 
-        <div class="barra_lateral__separador">
+        <!-- <div class="barra_lateral__separador">
           <span class="barra_lateral__separador_texto">Sistema</span>
         </div>
         <button class="barra_lateral__item barra_lateral__item--inactivo" onclick="mostrar_configuracion()">
           <img src="../assets/iconos/configuracion.svg" alt="" class="barra_lateral__item_icono" aria-hidden="true" />
           <span>Configuración</span>
-        </button>
+        </button> -->
       </nav>
 
       <div class="barra_lateral__pie">
@@ -73,16 +73,15 @@
             onclick="alternar_menu_usuario_admin()"
             aria-label="Menú de usuario"
             aria-expanded="false"
-          >
-            AD
+          ><img src="../assets/iconos/salir.svg" alt="Icono de salir" class="icono_opcion_admin" />
           </button>
 
           <!-- Menú desplegable -->
           <div id="menu_usuario_admin" class="menu_usuario_admin menu_usuario_admin--oculto" role="menu">
-            <button class="opcion_menu_admin" onclick="ir_a_perfil_admin()">
+            <!-- <button class="opcion_menu_admin" onclick="ir_a_perfil_admin()">
               <img src="../assets/iconos/usuario.svg" alt="" class="icono_opcion_admin" />
               <span>Mi Perfil</span>
-            </button>
+            </button> -->
             <div class="separador_menu_admin"></div>
             <button class="opcion_menu_admin opcion_menu_admin--cerrar_sesion" onclick="cerrar_sesion_admin()">
               <img src="../assets/iconos/salir.svg" alt="" class="icono_opcion_admin" />

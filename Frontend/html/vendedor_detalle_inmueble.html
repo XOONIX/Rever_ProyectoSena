@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rever Vendedor</title>
+    <link rel="stylesheet" href="../css/vendedor_detalle_inmueble.css">
+</head>
+<body>
+    <div class="container">
+    <h1>Editar mi Inmueble</h1>
+    <p class="subtitle">Modifica los datos, gestiona la disponibilidad y define tus horarios de visita desde este panel.</p>
+
+    <form id="editPropertyForm">
+        <!-- 1. ESTADO DEL INMUEBLE -->
+        <div class="section">
+            <div class="section-title">📍 Estado Actual de la Publicación</div>
+            <div class="status-selector">
+                <div class="status-option active" data-status="disponible" onclick="setStatus('disponible')">Disponible</div>
+                <div class="status-option" data-status="vendido" onclick="setStatus('vendido')">Vendido</div>
+                <div class="status-option" data-status="arrendado" onclick="setStatus('arrendado')">Arrendado</div>
+            </div>
+            <input type="hidden" id="propertyStatus" name="status" value="disponible">
+        </div>
+
+        <!-- 2. CARACTERÍSTICAS BÁSICAS -->
+        <div class="section">
+            <div class="section-title">🏢 Características del Inmueble</div>
+            <div class="form-group">
+                <label for="title">Título del Anuncio</label>
+                <input type="text" id="title" name="title" value="Hermoso Apartamento con Vista Exterior en Chapinero">
+            </div>
+            
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="price">Precio ($)</label>
+                    <input type="number" id="price" name="price" value="2500000">
+                </div>
+                <div class="form-group">
+                    <label for="area">Área Privada (m²)</label>
+                    <input type="number" id="area" name="area" value="75">
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="rooms">Habitaciones</label>
+                    <input type="number" id="rooms" name="rooms" value="3">
+                </div>
+                <div class="form-group">
+                    <label for="bathrooms">Baños</label>
+                    <input type="number" id="bathrooms" name="bathrooms" value="2">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Descripción Detallada</label>
+                <textarea id="description" name="description" rows="4">Apartamento iluminado de 3 habitaciones, habitación principal con baño privado, cocina integral tipo americano, zona de lavandería independiente y parqueadero cubierto.</textarea>
+            </div>
+        </div>
+
+        <!-- 3. AMENIDADES -->
+        <div class="section">
+            <div class="section-title">✨ Características Adicionales</div>
+            <div class="checkbox-grid">
+                <label class="checkbox-label"><input type="checkbox" name="features" value="parqueadero" checked> Parqueadero</label>
+                <label class="checkbox-label"><input type="checkbox" name="features" value="deposito" checked> Depósito</label>
+                <label class="checkbox-label"><input type="checkbox" name="features" value="ascensor" checked> Ascensor</label>
+                <label class="checkbox-label"><input type="checkbox" name="features" value="vigilancia" checked> Vigilancia 24/7</label>
+                <label class="checkbox-label"><input type="checkbox" name="features" value="balcon"> Balcón</label>
+                <label class="checkbox-label"><input type="checkbox" name="features" value="gimnasio"> Gimnasio</label>
+            </div>
+        </div>
+
+        <!-- 4. HORARIOS DE VISITA -->
+        <div class="section">
+            <div class="section-title">📅 Disponibilidad para Visitas</div>
+            <p style="font-size: 13px; color: #64748b; margin-top: -10px; margin-bottom: 16px;">Define los días y rangos de horas en los que estás dispuesto a recibir citas.</p>
+            
+            <div class="schedule-container">
+                <!-- Lunes a Viernes -->
+                <div class="schedule-row">
+                    <label class="checkbox-label" style="min-width: 120px;">
+                        <input type="checkbox" name="days" value="lunes_viernes" checked> Lun a Vie
+                    </label>
+                    <label style="margin: 0 4px 0 0; font-size: 13px;">Desde:</label>
+                    <input type="time" name="lv_start" value="09:00">
+                    <label style="margin: 0 4px 0 12px; font-size: 13px;">Hasta:</label>
+                    <input type="time" name="lv_end" value="17:00">
+                </div>
+
+                <!-- Sábados -->
+                <div class="schedule-row">
+                    <label class="checkbox-label" style="min-width: 120px;">
+                        <input type="checkbox" name="days" value="sabado" checked> Sábados
+                    </label>
+                    <label style="margin: 0 4px 0 0; font-size: 13px;">Desde:</label>
+                    <input type="time" name="sab_start" value="09:00">
+                    <label style="margin: 0 4px 0 12px; font-size: 13px;">Hasta:</label>
+                    <input type="time" name="sab_end" value="13:00">
+                </div>
+
+                <!-- Domingos -->
+                <div class="schedule-row">
+                    <label class="checkbox-label" style="min-width: 120px;">
+                        <input type="checkbox" name="days" value="domingo"> Domingos
+                    </label>
+                    <label style="margin: 0 4px 0 0; font-size: 13px;">Desde:</label>
+                    <input type="time" name="dom_start" value="10:00" disabled>
+                    <label style="margin: 0 4px 0 12px; font-size: 13px;">Hasta:</label>
+                    <input type="time" name="dom_end" value="14:00" disabled>
+                </div>
+            </div>
+        </div>
+
+        <!-- ACCIONES -->
+        <div class="btn-container">
+            <button type="button" class="btn btn-secondary">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        </div>
+    </form>
+    </div>
+    <script src="../javascript/vendedor_detalle_inmueble.js"></script>
+</body>
+</html>

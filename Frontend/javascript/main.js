@@ -360,6 +360,12 @@ function alternar_menu_usuario() {
   
   if (menu) {
     menu.classList.toggle('menu_usuario--oculto', !estado.menu_usuario_abierto);
+    // Forzar display inline-flex cuando está abierto
+    if (estado.menu_usuario_abierto) {
+      menu.style.display = 'block';
+    } else {
+      menu.style.display = '';
+    }
   }
   
   if (boton) {
@@ -415,7 +421,15 @@ function mostrar_opciones_no_autenticado() {
 
 function ir_a_perfil() {
   cerrar_menu_usuario();
-  window.location.href = 'perfil.html';
+  
+  const usuario = obtener_usuario_actual();
+  if (usuario && usuario.idRol === 2) {
+    // Vendedor: redirigir a mis inmuebles
+    window.location.href = 'mis_inmuebles.html';
+  } else {
+    // Comprador u otro: redirigir a perfil normal
+    window.location.href = 'perfil.html';
+  }
 }
 
 function ir_a_favoritos() {
@@ -424,9 +438,36 @@ function ir_a_favoritos() {
 }
 
 function ir_a_publicaciones() {
-  cerrar_menu_usuario();
-  mostrar_notificacion('Sección de publicaciones (función en construcción)', 'info');
+    const usuario = obtener_usuario_actual();
+    
+    // Bloqueo de seguridad por si intentan forzar la función desde la consola
+    if (!usuario || usuario.idRol !== 2) {
+        return; 
+    }
+
+    cerrar_menu_usuario();
+    window.location.href = 'mis_inmuebles.html';
 }
+
+function verificar_permisos_menu() {
+    const usuario = obtener_usuario_actual();
+    const btnMisInmuebles = document.getElementById('btn_mis_inmuebles');
+
+    // Si el botón no existe en el HTML actual, evitamos errores
+    if (!btnMisInmuebles) return;
+
+    if (usuario && usuario.idRol === 2) {
+        // Si es rol 2, nos aseguramos de que sea visible
+        btnMisInmuebles.style.display = 'flex'; // Usamos flex para mantener el diseño de tus botones
+    } else {
+        // Si es cualquier otro rol (o no está logueado), se destruye visualmente del menú
+        btnMisInmuebles.style.display = 'none';
+    }
+}
+
+// Ejecutar automáticamente cuando cargue el script/página
+document.addEventListener('DOMContentLoaded', verificar_permisos_menu);
+
 
 function ir_a_login() {
   cerrar_menu_usuario();
@@ -849,10 +890,15 @@ function inicializar_app() {
   cargar_caracteristicas_filtro();
   verificar_autenticacion();
 
+  // Cerrar menú de usuario al hacer clic fuera
   document.addEventListener('click', function(evento) {
     const contenedorMenu = document.querySelector('.contenedor_menu_usuario');
-    if (contenedorMenu && !contenedorMenu.contains(evento.target)) {
-      cerrar_menu_usuario();
+    const menu = document.getElementById('menu_usuario');
+    
+    if (contenedorMenu && menu && !menu.classList.contains('menu_usuario--oculto')) {
+      if (!contenedorMenu.contains(evento.target)) {
+        cerrar_menu_usuario();
+      }
     }
   });
 }
