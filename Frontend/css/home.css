@@ -81,7 +81,7 @@ fieldset {
 .panel_principal {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 7vh;
   overflow: hidden;
 }
 
@@ -280,6 +280,7 @@ fieldset {
 /* Contenedor del menú de usuario */
 .contenedor_menu_usuario {
   position: relative;
+  z-index: 10000;
 }
 
 .boton_avatar_usuario {
@@ -302,15 +303,15 @@ fieldset {
 
 /* Menú desplegable de usuario */
 .menu_usuario {
-  position: absolute;
-  top: calc(100% + 0.5rem);
-  right: 0;
+  position: fixed;
+  top: calc(var(--alto_nav) + 0.5rem);
+  right: 1.5rem;
   min-width: 200px;
   background-color: var(--color_blanco);
   border-radius: var(--radio_lg);
   box-shadow: var(--sombra_grande);
   border: 1px solid var(--color_gris_200);
-  z-index: 1000;
+  z-index: 99999;
   overflow: hidden;
 }
 
@@ -440,7 +441,7 @@ fieldset {
 /* ── Botón toggle filtros en encabezado ── */
 .boton_toggle_filtros_encabezado {
   position: absolute;
-  top: 1.5rem;
+  top: 0.8rem;
   left: 1.5rem;
   display: flex;
   align-items: center;
@@ -456,6 +457,7 @@ fieldset {
   cursor: pointer;
   padding: 0.5rem 0;
   z-index: 50;
+  margin-bottom: 1rem;
 }
 
 .boton_toggle_filtros_encabezado:hover {
@@ -867,7 +869,7 @@ fieldset {
   overflow-y: auto;
   background-color: var(--color_fondo_centro);
   padding: 2rem;
-  padding-bottom: 6rem;
+  padding-bottom: 2rem;
 }
 
 /* Encabezado propiedades */
@@ -875,7 +877,7 @@ fieldset {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 .fila_titulo_propiedades {
@@ -1183,6 +1185,7 @@ fieldset {
 .capa_marcadores {
   position: absolute;
   inset: 0;
+  z-index: -1;
 }
 
 .marcador_mapa {

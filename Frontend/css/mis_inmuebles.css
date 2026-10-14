@@ -1,0 +1,482 @@
+/* ═══════════════════════════════════════════════════════
+   REVER INMOBILIARIA — Pantalla Mis Inmuebles (Vendedor)
+   Nomenclatura: snake_case
+   Autor: Rever Inmobiliaria © 2026
+════════════════════════════════════════════════════════ */
+
+body {
+  font-family: var(--fuente_principal);
+  background-color: var(--color_gris_50);
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Pantalla principal ── */
+.pantalla_mis_inmuebles {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Encabezado ── */
+.encabezado_mis_inmuebles {
+  background-color: var(--color_blanco);
+  border-bottom: 1px solid var(--color_borde);
+  padding: 1.25rem 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.contenedor_encabezado {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.boton_volver {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1rem;
+  border-radius: var(--radio_lg);
+  background-color: var(--color_gris_100);
+  border: 1px solid var(--color_gris_200);
+  color: var(--color_gris_600);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transicion_rapida);
+}
+
+.boton_volver:hover {
+  background-color: var(--color_gris_200);
+  border-color: var(--color_gris_300);
+}
+
+.titulo_encabezado {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--color_oscuro);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.subtitulo_encabezado {
+  font-size: 0.8125rem;
+  color: var(--color_gris_400);
+  font-weight: 500;
+  margin: 0.25rem 0 0 0;
+}
+
+.boton_publicar {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border-radius: var(--radio_lg);
+  background-color: var(--color_oro);
+  border: none;
+  color: var(--color_blanco);
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transicion_rapida);
+  box-shadow: 0 2px 8px rgba(197, 163, 101, 0.3);
+}
+
+.boton_publicar:hover {
+  background-color: var(--color_oro_oscuro);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(197, 163, 101, 0.4);
+}
+
+/* ── Contenido principal ── */
+.contenido_mis_inmuebles {
+  flex: 1;
+  padding: 2rem 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ── Sección filtros y estadísticas ── */
+.seccion_filtros_estadisticas {
+  margin-bottom: 2rem;
+}
+
+.estadisticas_rapidas {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.tarjeta_estadistica_small {
+  background-color: var(--color_blanco);
+  border: 1px solid var(--color_borde);
+  border-radius: var(--radio_lg);
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  box-shadow: var(--sombra_tarjeta);
+}
+
+.icono_estadistica {
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.valor_estadistica {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--color_oscuro);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.etiqueta_estadistica {
+  font-size: 0.6875rem;
+  color: var(--color_gris_400);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+/* Barra de filtros */
+.barra_filtros {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background-color: var(--color_blanco);
+  border: 1px solid var(--color_borde);
+  border-radius: var(--radio_lg);
+  box-shadow: var(--sombra_tarjeta);
+}
+
+.filtro {
+  padding: 0.5rem 1rem;
+  border-radius: var(--radio_md);
+  border: none;
+  background: none;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color_gris_600);
+  cursor: pointer;
+  transition: var(--transicion_rapida);
+}
+
+.filtro:hover {
+  color: var(--color_oscuro);
+  background-color: var(--color_gris_100);
+}
+
+.filtro_activo {
+  background-color: var(--color_oro);
+  color: var(--color_blanco);
+}
+
+.filtro_activo:hover {
+  background-color: var(--color_oro_oscuro);
+}
+
+/* ── Grid de inmuebles ── */
+.seccion_inmuebles {
+  min-height: 400px;
+}
+
+.grid_inmuebles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.tarjeta_inmueble {
+  background-color: var(--color_blanco);
+  border: 1px solid var(--color_borde);
+  border-radius: var(--radio_xl);
+  overflow: hidden;
+  box-shadow: var(--sombra_tarjeta);
+  transition: var(--transicion_normal);
+  cursor: pointer;
+  position: relative;
+}
+
+.tarjeta_inmueble:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sombra_elevada);
+}
+
+.tarjeta_inmueble__imagen {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.tarjeta_inmueble__imagen img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.tarjeta_inmueble:hover .tarjeta_inmueble__imagen img {
+  transform: scale(1.05);
+}
+
+.tarjeta_inmueble__badge {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: var(--radio_completo);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.tarjeta_inmueble__badge--activo {
+  background-color: var(--color_verde);
+  color: var(--color_blanco);
+}
+
+.tarjeta_inmueble__badge--pendiente {
+  background-color: var(--color_dorado);
+  color: var(--color_blanco);
+}
+
+.tarjeta_inmueble__badge--inactivo {
+  background-color: var(--color_gris_400);
+  color: var(--color_blanco);
+}
+
+.tarjeta_inmueble__acciones {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.tarjeta_inmueble__accion {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color_blanco);
+  border: none;
+  cursor: pointer;
+  transition: var(--transicion_rapida);
+}
+
+.tarjeta_inmueble__accion:hover {
+  background-color: var(--color_oro);
+}
+
+.tarjeta_inmueble__cuerpo {
+  padding: 1rem;
+}
+
+.tarjeta_inmueble__titulo {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color_oscuro);
+  margin: 0 0 0.5rem 0;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.tarjeta_inmueble__ubicacion {
+  font-size: 0.8125rem;
+  color: var(--color_gris_400);
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.tarjeta_inmueble__precio {
+  font-size: 1.125rem;
+  font-weight: 800;
+  color: var(--color_oro);
+  margin-bottom: 0.75rem;
+}
+
+.tarjeta_inmueble__info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.8125rem;
+  color: var(--color_gris_600);
+  font-weight: 600;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--color_borde_suave);
+}
+
+.tarjeta_inmueble__info_item {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* ── Estado vacío ── */
+.estado_vacio {
+  text-align: center;
+  padding: 4rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.icono_vacio {
+  color: var(--color_gris_300);
+  margin-bottom: 1.5rem;
+}
+
+.titulo_vacio {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color_oscuro);
+  margin: 0 0 0.5rem 0;
+}
+
+.descripcion_vacio {
+  font-size: 0.9375rem;
+  color: var(--color_gris_400);
+  margin: 0 0 1.5rem 0;
+  max-width: 400px;
+}
+
+.boton_publicar_vacio {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.5rem;
+  border-radius: var(--radio_lg);
+  background-color: var(--color_oro);
+  border: none;
+  color: var(--color_blanco);
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transicion_rapida);
+  box-shadow: 0 2px 8px rgba(197, 163, 101, 0.3);
+}
+
+.boton_publicar_vacio:hover {
+  background-color: var(--color_oro_oscuro);
+  transform: translateY(-1px);
+}
+
+/* ── Estado de carga ── */
+.estado_carga {
+  text-align: center;
+  padding: 4rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.circulo_carga {
+  width: 3rem;
+  height: 3rem;
+  border: 3px solid var(--color_gris_200);
+  border-top-color: var(--color_oro);
+  border-radius: 50%;
+  animation: girar_carga 0.8s linear infinite;
+}
+
+@keyframes girar_carga {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.estado_carga p {
+  font-size: 0.9375rem;
+  color: var(--color_gris_400);
+  font-weight: 500;
+  margin: 0;
+}
+
+/* ── Utilidad oculto ── */
+.oculto {
+  display: none !important;
+}
+
+/* ── Animaciones notificaciones ── */
+@keyframes aparecer_notif {
+  from { opacity: 0; transform: translateY(0.5rem) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes desaparecer_notif {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to   { opacity: 0; transform: translateY(0.5rem) scale(0.95); }
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .contenedor_encabezado {
+    flex-wrap: wrap;
+  }
+
+  .titulo_encabezado {
+    font-size: 1.25rem;
+  }
+
+  .estadisticas_rapidas {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .grid_inmuebles {
+    grid-template-columns: 1fr;
+  }
+
+  .barra_filtros {
+    overflow-x: auto;
+    padding-bottom: 0.75rem;
+  }
+
+  .filtro {
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .encabezado_mis_inmuebles {
+    padding: 1rem;
+  }
+
+  .contenido_mis_inmuebles {
+    padding: 1rem;
+  }
+
+  .estadisticas_rapidas {
+    grid-template-columns: 1fr;
+  }
+
+  .boton_publicar {
+    padding: 0.625rem 1rem;
+    font-size: 0.8125rem;
+  }
+}
