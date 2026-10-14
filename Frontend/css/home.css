@@ -1169,6 +1169,7 @@ fieldset {
   position: absolute;
   inset: 0;
   filter: grayscale(80%) contrast(1.25) brightness(1.1);
+
 }
 
 .imagen_mapa {
