@@ -1,270 +1,303 @@
-﻿using Extensions;
+﻿using System.Security.Claims;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Moq;
 using rever.Controllers;
 using rever.Models;
 using rever.Repositories.Interfaces;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
 using Xunit;
 
 namespace rever.Tests.Controllers
 {
-    public class AuthControllerTest
+    public class CaracteristicaControllerTest
     {
-        private readonly Mock<IConfiguration> _configurationMock;
-        private readonly Mock<IUsuarioRepository> _usuarioRepositoryMock;
-        private readonly Mock<IEmailService> _emailServiceMock;
-        private readonly AuthController _sut; // System Under Test
+        private readonly Mock<ICaracteristicaRepository> _repositoryMock;
+        private readonly CaracteristicaController _sut; // System Under Test
 
-        public AuthControllerTest()
+        public CaracteristicaControllerTest()
         {
-            _configurationMock = new Mock<IConfiguration>();
-            _usuarioRepositoryMock = new Mock<IUsuarioRepository>();
-            _emailServiceMock = new Mock<IEmailService>();
+            // 1. Crear el Mock de la dependencia
+            _repositoryMock = new Mock<ICaracteristicaRepository>();
 
-            // Configurar claves JWT necesarias
-            _configurationMock.Setup(c => c["Jwt:Key"]).Returns("SuperSecretKeyConMasDe32CaracteresLongitud123!");
-            _configurationMock.Setup(c => c["Jwt:Issuer"]).Returns("ReverApi");
-            _configurationMock.Setup(c => c["Jwt:Audience"]).Returns("ReverApp");
-            _configurationMock.Setup(c => c["Jwt:DurationInMinutes"]).Returns("60");
+            // 2. Instanciar el controlador con el repositorio simulado
+            _sut = new CaracteristicaController(_repositoryMock.Object);
 
-            _sut = new AuthController(
-                _configurationMock.Object,
-                _usuarioRepositoryMock.Object,
-                _emailServiceMock.Object
-            );
+            // 3. Simular un usuario autenticado por defecto para las pruebas de POST, PUT y DELETE
+            var user = new ClaimsPrincipal(new ClaimsIdentity(new[]
+            {
+                new Claim(ClaimTypes.Name, "AdminUser"),
+                new Claim(ClaimTypes.Role, "1")
+            }, "TestAuthentication"));
 
-            // Simular el contexto HTTP para Request.Scheme y Request.Host
-            var httpContext = new DefaultHttpContext();
-            httpContext.Request.Scheme = "http";
-            httpContext.Request.Host = new HostString("localhost", 5000);
             _sut.ControllerContext = new ControllerContext
             {
-                HttpContext = httpContext
+                HttpContext = new DefaultHttpContext { User = user }
             };
         }
 
-        #region Pruebas de Login
+        #region Pruebas de ListarCaracteristica (GET)
 
         [Fact]
-        public async Task Login_LoginInvalidoONulo_RetornaBadRequest()
+        public async Task ListarCaracteristica_ExistenRegistros_RetornaOkConLista()
         {
-            // Act
-            var result = await _sut.Login(null!);
-
-            // Assert
-            result.Should().BeOfType<BadRequestObjectResult>();
-        }
-
-        [Fact]
-        public async Task Login_UsuarioNoExiste_RetornaUnauthorized()
-        {
-            // Arrange
-            var loginDto = new Login { Correo = "noexiste@test.com", Contraseña = "Password123" };
-            _usuarioRepositoryMock
-                .Setup(r => r.GetByEmailWithRolAsync(loginDto.Correo))
-                .ReturnsAsync((Usuario?)null);
-
-            // Act
-            var result = await _sut.Login(loginDto);
-
-            // Assert
-            var unauthorized = result.Should().BeOfType<UnauthorizedObjectResult>().Subject;
-            unauthorized.Value.Should().Be("Credenciales inválidas");
-        }
-
-        [Fact]
-        public async Task Login_UsuarioNoConfirmado_RetornaUnauthorized()
-        {
-            // Arrange
-            var passwordEncriptada = BCrypt.Net.BCrypt.HashPassword("Password123");
-            var usuarioDb = new Usuario
+            // --- ARRANGE ---
+            var listaEsperada = new List<Caracteristica>
             {
-                IdUsuario = 1,
-                Nombre = "Usuario Test",
-                Telefono = "3001234567",
-                Correo = "test@test.com",
-                Contraseña = passwordEncriptada,
-                Confirmado = false,
-                IdRol = 2
+                new Caracteristica { IdCaracteristica = 1, Nombre = "Piscina" },
+                new Caracteristica { IdCaracteristica = 2, Nombre = "Parqueadero" }
             };
 
-            var loginDto = new Login { Correo = "test@test.com", Contraseña = "Password123" };
+            _repositoryMock
+                .Setup(r => r.GetCaracteristica())
+                .ReturnsAsync(listaEsperada);
 
-            _usuarioRepositoryMock
-                .Setup(r => r.GetByEmailWithRolAsync(loginDto.Correo))
-                .ReturnsAsync(usuarioDb);
+            // --- ACT ---
+            var result = await _sut.ListarCaracteristica();
 
-            // Act
-            var result = await _sut.Login(loginDto);
-
-            // Assert
-            var unauthorized = result.Should().BeOfType<UnauthorizedObjectResult>().Subject;
-            unauthorized.Value.Should().Be("Debes confirmar tu cuenta desde el correo que te enviamos antes de iniciar sesión.");
+            // --- ASSERT ---
+            var objectResult = result.Should().BeOfType<ObjectResult>().Subject;
+            objectResult.StatusCode.Should().Be(200);
+            objectResult.Value.Should().BeEquivalentTo(listaEsperada);
         }
 
         [Fact]
-        public async Task Login_CredencialesValidasYConfirmado_RetornaOkConToken()
+        public async Task ListarCaracteristica_ListaNula_RetornaNotFound()
         {
-            // Arrange
-            var passwordEncriptada = BCrypt.Net.BCrypt.HashPassword("Password123");
-            var usuarioDb = new Usuario
-            {
-                IdUsuario = 1,
-                Nombre = "Usuario Test",
-                Telefono = "3001234567",
-                Correo = "test@test.com",
-                Contraseña = passwordEncriptada,
-                Confirmado = true,
-                IdRol = 2,
-                Rol = new Rol { IdRol = 2, Nombre = "Comprador" }
-            };
+            // --- ARRANGE ---
+            _repositoryMock
+                .Setup(r => r.GetCaracteristica())
+                .ReturnsAsync((List<Caracteristica>?)null);
 
-            var loginDto = new Login { Correo = "test@test.com", Contraseña = "Password123" };
+            // --- ACT ---
+            var result = await _sut.ListarCaracteristica();
 
-            _usuarioRepositoryMock
-                .Setup(r => r.GetByEmailWithRolAsync(loginDto.Correo))
-                .ReturnsAsync(usuarioDb);
-
-            // Act
-            var result = await _sut.Login(loginDto);
-
-            // Assert
-            var okResult = result.Should().BeOfType<OkObjectResult>().Subject;
-            okResult.Value.Should().NotBeNull();
+            // --- ASSERT ---
+            var objectResult = result.Should().BeOfType<ObjectResult>().Subject;
+            objectResult.StatusCode.Should().Be(404);
+            objectResult.Value.Should().Be("404: No se encontraron características registradas.");
         }
 
         #endregion
 
-        #region Pruebas de Register
+        #region Pruebas de ObtenerCaracteristica (GET por ID)
 
         [Fact]
-        public async Task Register_CorreoYaExiste_RetornaBadRequest()
+        public async Task ObtenerCaracteristica_IdInvalido_RetornaBadRequest()
         {
-            // Arrange
-            var nuevoUsuario = new Usuario
-            {
-                Nombre = "Test",
-                Telefono = "3001234567",
-                Correo = "existente@test.com",
-                Contraseña = "123",
-                IdRol = 2
-            };
+            // --- ACT ---
+            var result = await _sut.ObtenerCaracteristica(0);
 
-            _usuarioRepositoryMock
-                .Setup(r => r.GetByEmailWithRolAsync(nuevoUsuario.Correo))
-                .ReturnsAsync(new Usuario
-                {
-                    IdUsuario = 1,
-                    Nombre = "Existente",
-                    Telefono = "3001234567",
-                    Correo = "existente@test.com",
-                    Contraseña = "123",
-                    IdRol = 2
-                });
-
-            // Act
-            var result = await _sut.Register(nuevoUsuario);
-
-            // Assert
-            var badRequest = result.Should().BeOfType<BadRequestObjectResult>().Subject;
-            badRequest.Value.Should().Be("El correo ya se encuentra registrado.");
+            // --- ASSERT ---
+            var objectResult = result.Should().BeOfType<ObjectResult>().Subject;
+            objectResult.StatusCode.Should().Be(400);
+            objectResult.Value.Should().Be("400: El ID proporcionado no es válido.");
         }
 
         [Fact]
-        public async Task Register_UsuarioValido_GuardaUsuarioYEnviaCorreo()
+        public async Task ObtenerCaracteristica_NoExiste_RetornaNotFound()
         {
-            // Arrange
-            var nuevoUsuario = new Usuario
+            // --- ARRANGE ---
+            int idBusqueda = 99;
+            _repositoryMock
+                .Setup(r => r.GetCaracteristicaById(idBusqueda))
+                .ReturnsAsync((Caracteristica?)null);
+
+            // --- ACT ---
+            var result = await _sut.ObtenerCaracteristica(idBusqueda);
+
+            // --- ASSERT ---
+            var objectResult = result.Should().BeOfType<ObjectResult>().Subject;
+            objectResult.StatusCode.Should().Be(404);
+            objectResult.Value.Should().Be($"404: No se encontró la característica con ID {idBusqueda}.");
+        }
+
+        [Fact]
+        public async Task ObtenerCaracteristica_Existe_RetornaOkConObjeto()
+        {
+            // --- ARRANGE ---
+            int idBusqueda = 1;
+            var caracteristicaDb = new Caracteristica { IdCaracteristica = 1, Nombre = "Gimnasio" };
+
+            _repositoryMock
+                .Setup(r => r.GetCaracteristicaById(idBusqueda))
+                .ReturnsAsync(caracteristicaDb);
+
+            // --- ACT ---
+            var result = await _sut.ObtenerCaracteristica(idBusqueda);
+
+            // --- ASSERT ---
+            var objectResult = result.Should().BeOfType<ObjectResult>().Subject;
+            objectResult.StatusCode.Should().Be(200);
+            objectResult.Value.Should().BeEquivalentTo(caracteristicaDb);
+        }
+
+        #endregion
+
+        #region Pruebas de CrearCaracteristica (POST)
+
+        [Fact]
+        public async Task CrearCaracteristica_UsuarioNoAutenticado_RetornaUnauthorized()
+        {
+            // --- ARRANGE ---
+            // Simular contexto sin usuario autenticado
+            _sut.ControllerContext = new ControllerContext
             {
-                Nombre = "Nuevo Usuario",
-                Telefono = "3001234567",
-                Correo = "nuevo@test.com",
-                Contraseña = "Password123",
-                IdRol = 2
+                HttpContext = new DefaultHttpContext()
             };
 
-            _usuarioRepositoryMock
-                .Setup(r => r.GetByEmailWithRolAsync(nuevoUsuario.Correo))
-                .ReturnsAsync((Usuario?)null);
+            var nuevaCaracteristica = new Caracteristica { Nombre = "Balcón" };
 
-            _usuarioRepositoryMock
-                .Setup(r => r.PostUsuario(It.IsAny<Usuario>()))
+            // --- ACT ---
+            var result = await _sut.CrearCaracteristica(nuevaCaracteristica);
+
+            // --- ASSERT ---
+            var objectResult = result.Should().BeOfType<ObjectResult>().Subject;
+            objectResult.StatusCode.Should().Be(401);
+            objectResult.Value.Should().Be("401: Usuario no autenticado.");
+        }
+
+        [Fact]
+        public async Task CrearCaracteristica_ObjetoNulo_RetornaBadRequest()
+        {
+            // --- ACT ---
+            var result = await _sut.CrearCaracteristica(null!);
+
+            // --- ASSERT ---
+            var objectResult = result.Should().BeOfType<ObjectResult>().Subject;
+            objectResult.StatusCode.Should().Be(400);
+            objectResult.Value.Should().Be("400: Los datos de la característica no pueden ser nulos.");
+        }
+
+        [Fact]
+        public async Task CrearCaracteristica_DatosValidos_RetornaOk()
+        {
+            // --- ARRANGE ---
+            var nuevaCaracteristica = new Caracteristica { Nombre = "Ascensor" };
+
+            _repositoryMock
+                .Setup(r => r.PostCaracteristica(nuevaCaracteristica))
+                .ReturnsAsync(true); // El repositorio retorna bool (Task<bool>)
+
+            // --- ACT ---
+            var result = await _sut.CrearCaracteristica(nuevaCaracteristica);
+
+            // --- ASSERT ---
+            var objectResult = result.Should().BeOfType<ObjectResult>().Subject;
+            objectResult.StatusCode.Should().Be(200);
+
+            // Comprobamos que el valor devuelto sea System.Boolean y sea true
+            var resultadoBooleano = objectResult.Value.Should().BeOfType<bool>().Subject;
+            resultadoBooleano.Should().BeTrue();
+        }
+
+        #endregion
+
+        #region Pruebas de ActualizarCaracteristica (PUT)
+
+        [Fact]
+        public async Task ActualizarCaracteristica_IdInvalido_RetornaBadRequest()
+        {
+            // --- ARRANGE ---
+            var caracteristicaInvalida = new Caracteristica { IdCaracteristica = 0, Nombre = "Test" };
+
+            // --- ACT ---
+            var result = await _sut.ActualizarCaracteristica(caracteristicaInvalida);
+
+            // --- ASSERT ---
+            var objectResult = result.Should().BeOfType<ObjectResult>().Subject;
+            objectResult.StatusCode.Should().Be(400);
+            objectResult.Value.Should().Be("400: Los datos para actualizar o el ID no son válidos.");
+        }
+
+        [Fact]
+        public async Task ActualizarCaracteristica_NoExiste_RetornaNotFound()
+        {
+            // --- ARRANGE ---
+            var caracteristica = new Caracteristica { IdCaracteristica = 5, Nombre = "Jacuzzi" };
+
+            _repositoryMock
+                .Setup(r => r.GetCaracteristicaById(5))
+                .ReturnsAsync((Caracteristica?)null);
+
+            // --- ACT ---
+            var result = await _sut.ActualizarCaracteristica(caracteristica);
+
+            // --- ASSERT ---
+            var objectResult = result.Should().BeOfType<ObjectResult>().Subject;
+            objectResult.StatusCode.Should().Be(404);
+            objectResult.Value.Should().Be("404: No se puede actualizar. La característica con ID 5 no existe.");
+        }
+
+        [Fact]
+        public async Task ActualizarCaracteristica_Valido_RetornaOk()
+        {
+            // --- ARRANGE ---
+            var exist = new Caracteristica { IdCaracteristica = 5, Nombre = "Nombre Antiguo" };
+            var aActualizar = new Caracteristica { IdCaracteristica = 5, Nombre = "Nombre Nuevo" };
+
+            _repositoryMock
+                .Setup(r => r.GetCaracteristicaById(5))
+                .ReturnsAsync(exist);
+
+            _repositoryMock
+                .Setup(r => r.PutCaracteristica(It.IsAny<Caracteristica>()))
                 .ReturnsAsync(true);
 
-            // Act
-            var result = await _sut.Register(nuevoUsuario);
+            // --- ACT ---
+            var result = await _sut.ActualizarCaracteristica(aActualizar);
 
-            // Assert
-            result.Should().BeOfType<OkObjectResult>();
-
-            // Verificar inserción y envío de email
-            _usuarioRepositoryMock.Verify(r => r.PostUsuario(It.Is<Usuario>(u => u.Confirmado == false && u.TokenConfirmacion != null)), Times.Once);
-            _emailServiceMock.Verify(e => e.SendEmailAsync(nuevoUsuario.Correo, "Confirma tu cuenta de Rever", It.IsAny<string>()), Times.Once);
+            // --- ASSERT ---
+            var objectResult = result.Should().BeOfType<ObjectResult>().Subject;
+            objectResult.StatusCode.Should().Be(200);
+            _repositoryMock.Verify(r => r.PutCaracteristica(It.Is<Caracteristica>(c => c.Nombre == "Nombre Nuevo")), Times.Once);
         }
 
         #endregion
 
-        #region Pruebas de ConfirmEmail
+        #region Pruebas de EliminarCaracteristica (DELETE)
 
         [Fact]
-        public async Task ConfirmEmail_TokenInvalido_RedirigeConError()
+        public async Task EliminarCaracteristica_NoExiste_RetornaNotFound()
         {
-            // Arrange
-            _usuarioRepositoryMock
-                .Setup(r => r.GetByEmailWithRolAsync("test@test.com"))
-                .ReturnsAsync(new Usuario
-                {
-                    Nombre = "Test",
-                    Telefono = "3001234567",
-                    Correo = "test@test.com",
-                    Contraseña = "123",
-                    IdRol = 2,
-                    TokenConfirmacion = "token_correcto"
-                });
+            // --- ARRANGE ---
+            int idBorrar = 88;
 
-            // Act
-            var result = await _sut.ConfirmEmail("test@test.com", "token_incorrecto");
+            _repositoryMock
+                .Setup(r => r.GetCaracteristicaById(idBorrar))
+                .ReturnsAsync((Caracteristica?)null);
 
-            // Assert
-            var redirect = result.Should().BeOfType<RedirectResult>().Subject;
-            redirect.Url.Should().Contain("error=invalid_token");
+            // --- ACT ---
+            var result = await _sut.EliminarCaracteristica(idBorrar);
+
+            // --- ASSERT ---
+            var objectResult = result.Should().BeOfType<ObjectResult>().Subject;
+            objectResult.StatusCode.Should().Be(404);
+            objectResult.Value.Should().Be($"404: No se puede eliminar. La característica con ID {idBorrar} no existe.");
         }
 
         [Fact]
-        public async Task ConfirmEmail_TokenValido_ConfirmaUsuarioYRedirigeExitoso()
+        public async Task EliminarCaracteristica_Existe_EliminaYRetornaOk()
         {
-            // Arrange
-            var usuario = new Usuario
-            {
-                Nombre = "Test",
-                Telefono = "3001234567",
-                Correo = "test@test.com",
-                Contraseña = "123",
-                IdRol = 2,
-                TokenConfirmacion = "valid_token",
-                Confirmado = false
-            };
+            // --- ARRANGE ---
+            int idBorrar = 2;
+            var caracteristicaExistente = new Caracteristica { IdCaracteristica = 2, Nombre = "Zonas Verdes" };
 
-            _usuarioRepositoryMock
-                .Setup(r => r.GetByEmailWithRolAsync("test@test.com"))
-                .ReturnsAsync(usuario);
+            _repositoryMock
+                .Setup(r => r.GetCaracteristicaById(idBorrar))
+                .ReturnsAsync(caracteristicaExistente);
 
-            // Act
-            var result = await _sut.ConfirmEmail("test@test.com", "valid_token");
+            _repositoryMock
+                .Setup(r => r.DeleteCaracteristica(caracteristicaExistente))
+                .ReturnsAsync(true);
 
-            // Assert
-            usuario.Confirmado.Should().BeTrue();
-            usuario.TokenConfirmacion.Should().BeNull();
+            // --- ACT ---
+            var result = await _sut.EliminarCaracteristica(idBorrar);
 
-            _usuarioRepositoryMock.Verify(r => r.PutUsuario(usuario), Times.Once);
-
-            var redirect = result.Should().BeOfType<RedirectResult>().Subject;
-            redirect.Url.Should().Contain("confirmed=true");
+            // --- ASSERT ---
+            var objectResult = result.Should().BeOfType<ObjectResult>().Subject;
+            objectResult.StatusCode.Should().Be(200);
+            _repositoryMock.Verify(r => r.DeleteCaracteristica(caracteristicaExistente), Times.Once);
         }
 
         #endregion
