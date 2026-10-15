@@ -11,6 +11,9 @@
     rel="stylesheet" />
   <link rel="stylesheet" href="../css/styles.css" />
   <link rel="stylesheet" href="../css/home.css" />
+  <!-- Cargar estilos y JS de Leaflet en el <head> -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 
 <body>
@@ -298,32 +301,36 @@
     <!-- /seccion_propiedades -->
 
 
-    <!-- ── Panel del Mapa (derecha) ── -->
+    <!-- Panel del Mapa (derecha) -->
     <aside class="panel_mapa" aria-label="Vista del mapa">
-      <div class="fondo_mapa" aria-hidden="true">
-        <img
-          src="https://images.unsplash.com/photo-1642019708236-942cc048bf34?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080&q=80"
-          alt="" class="imagen_mapa" loading="lazy" />
-      </div>
+      <!-- Contenedor del mapa de Leaflet -->
+      <div id="map" style="width: 100%; height: 100%; min-height: 500px;"></div>
 
-      <!-- Marcadores del mapa -->
-      <div class="capa_marcadores" aria-hidden="true">
-        <div class="marcador_mapa" style="top:35%;left:45%"></div>
-        <div class="marcador_mapa" style="top:45%;left:70%"></div>
-        <div class="marcador_mapa marcador_activo" style="top:55%;left:50%"></div>
-        <div class="marcador_mapa" style="top:65%;left:35%"></div>
-        <div class="marcador_mapa" style="top:75%;left:60%"></div>
-      </div>
-
-      <!-- Tarjeta inferior mapa -->
       <div class="tarjeta_mapa">
         <h4 class="titulo_tarjeta_mapa">Explorar Mapa</h4>
         <p id="descripcion_tarjeta_mapa" class="descripcion_tarjeta_mapa">
-          propiedades disponibles en las zonas mostradas.
+          Propiedades disponibles en las zonas mostradas.
         </p>
       </div>
+    </aside>
+    <!-- Marcadores del mapa -->
+    <div class="capa_marcadores" aria-hidden="true">
+      <div class="marcador_mapa" style="top:35%;left:45%"></div>
+      <div class="marcador_mapa" style="top:45%;left:70%"></div>
+      <div class="marcador_mapa marcador_activo" style="top:55%;left:50%"></div>
+      <div class="marcador_mapa" style="top:65%;left:35%"></div>
+      <div class="marcador_mapa" style="top:75%;left:60%"></div>
+    </div>
 
-      <button class="boton_ayuda_mapa" aria-label="Ayuda sobre el mapa">?</button>
+    <!-- Tarjeta inferior mapa -->
+    <div class="tarjeta_mapa">
+      <h4 class="titulo_tarjeta_mapa">Explorar Mapa</h4>
+      <p id="descripcion_tarjeta_mapa" class="descripcion_tarjeta_mapa">
+        propiedades disponibles en las zonas mostradas.
+      </p>
+    </div>
+
+    <button class="boton_ayuda_mapa" aria-label="Ayuda sobre el mapa">?</button>
     </aside>
     <!-- /panel_mapa -->
 

@@ -980,3 +980,25 @@ function restaurar_filtros() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializar_app);
+
+function initMap() {
+    // Coordenadas iniciales (por ejemplo, Bogotá)
+    const latitud = 4.60971;
+    const longitud = -74.08175;
+
+    // 1. Crear el mapa indicando el ID del div ('map') y la vista inicial
+    const map = L.map('map').setView([latitud, longitud], 13);
+
+    // 2. Cargar las imágenes del mapa desde OpenStreetMap (Completamente Gratis)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap'
+    }).addTo(map);
+
+    // 3. (Opcional) Agregar marcadores para tus propiedades
+    const marker = L.marker([latitud, longitud]).addTo(map);
+    marker.bindPopup("<b>Inmueble de prueba</b><br>Disponible ahora.");
+}
+
+// Ejecutar cuando se cargue la página
+document.addEventListener('DOMContentLoaded', initMap);
