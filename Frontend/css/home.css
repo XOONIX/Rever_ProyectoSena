@@ -76,6 +76,178 @@ fieldset {
 
 
 /* ═══════════════════════════════════════════════════════════════
+   REVER INMOBILIARIA — Ajustes: desplegable de características
+   y mapa fijo a la altura de la pantalla.
+   Cargar DESPUÉS de home.css.
+═══════════════════════════════════════════════════════════════ */
+
+:root {
+  --alto-header: 72px; /* main.js lo recalcula automáticamente */
+}
+
+/* ── Menú desplegable de características ── */
+.desplegable_caracteristicas .boton_desplegable {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  width: 100%;
+  padding: .6rem .75rem;
+  background: #fff;
+  border: 1px solid #d9dde3;
+  border-radius: .6rem;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  transition: border-color .2s, box-shadow .2s;
+}
+
+.desplegable_caracteristicas .boton_desplegable:hover,
+.desplegable_caracteristicas .boton_desplegable.abierto {
+  border-color: #6b7280;
+}
+
+.desplegable_caracteristicas .boton_desplegable:focus-visible {
+  outline: 2px solid #2563eb;
+  outline-offset: 2px;
+}
+
+.desplegable_caracteristicas .boton_desplegable .titulo_filtro {
+  flex: 1;
+  margin: 0;
+  padding: 0;
+}
+
+.desplegable_caracteristicas .contador_desplegable {
+  min-width: 1.4rem;
+  padding: .1rem .45rem;
+  border-radius: 999px;
+  background: #111827;
+  color: #fff;
+  font-size: .75rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.desplegable_caracteristicas .contador_desplegable[hidden],
+.desplegable_caracteristicas .panel_desplegable[hidden],
+.desplegable_caracteristicas .texto_sin_resultados[hidden] {
+  display: none;
+}
+
+.desplegable_caracteristicas .flecha_desplegable {
+  flex-shrink: 0;
+  transition: transform .2s ease;
+}
+
+.desplegable_caracteristicas .boton_desplegable.abierto .flecha_desplegable {
+  transform: rotate(180deg);
+}
+
+.desplegable_caracteristicas .panel_desplegable {
+  margin-top: .5rem;
+  padding: .6rem;
+  background: #fff;
+  border: 1px solid #d9dde3;
+  border-radius: .6rem;
+}
+
+.desplegable_caracteristicas .buscador_desplegable {
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: .5rem;
+  padding: .5rem .65rem;
+  border: 1px solid #d9dde3;
+  border-radius: .5rem;
+  font: inherit;
+  font-size: .875rem;
+}
+
+.desplegable_caracteristicas .buscador_desplegable:focus {
+  outline: 2px solid #2563eb;
+  outline-offset: 1px;
+}
+
+.desplegable_caracteristicas .lista_checkboxes--scroll {
+  max-height: 220px;
+  overflow-y: auto;
+  padding-right: .25rem;
+}
+
+.desplegable_caracteristicas .texto_sin_resultados {
+  margin: .5rem 0 0;
+  font-size: .85rem;
+  color: #6b7280;
+}
+
+/* ── Mapa: ocupa el 30% del ancho, mide lo que la pantalla y no se mueve al hacer scroll ──
+   .panel_mapa solo reserva la columna; .mapa_fijo (position: fixed) es el mapa real.
+   main.js calcula --mapa-top / --mapa-left / --mapa-ancho al hacer scroll o redimensionar. */
+.panel_mapa {
+  position: relative;
+  display: block;
+  align-self: stretch;
+  flex: 0 0 30%;
+  width: 30%;
+  max-width: 30%;
+  min-width: 260px;
+  height: auto;
+  min-height: 0;
+  overflow: visible;
+  background: transparent;
+}
+
+.mapa_fijo {
+  position: fixed;
+  top: var(--mapa-top, 0px);
+  left: var(--mapa-left, 70%);
+  width: var(--mapa-ancho, 30%);
+  height: calc(100vh - var(--mapa-top, 0px));
+  height: calc(100dvh - var(--mapa-top, 0px));
+  overflow: hidden;
+  z-index: 1;
+}
+
+.mapa_fijo #map {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+/* Tarjeta y botón de ayuda por encima del mapa (Leaflet usa z-index hasta 800) */
+.mapa_fijo .tarjeta_mapa {
+  position: absolute;
+  left: 1rem;
+  right: 1rem;
+  bottom: 1.5rem;
+  z-index: 1000;
+}
+
+.mapa_fijo .boton_ayuda_mapa {
+  position: absolute;
+  right: 1rem;
+  bottom: 1.5rem;
+  z-index: 1000;
+}
+
+/* En pantallas pequeñas el mapa vuelve al flujo normal */
+@media (max-width: 1024px) {
+  .panel_mapa {
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .mapa_fijo {
+    position: relative;
+    top: auto;
+    left: auto;
+    width: 100%;
+    height: 60vh;
+  }
+}
+/* ═══════════════════════════════════════════════════════════════
    PANEL PRINCIPAL — DASHBOARD
 ═══════════════════════════════════════════════════════════════ */
 .panel_principal {
