@@ -188,6 +188,52 @@ async function cargar_caracteristicas_filtro() {
   }
 }
 
+/* ── Menú desplegable de características ── */
+
+function alternar_desplegable_caracteristicas() {
+  const boton = obtener_elemento('boton_desplegable_caracteristicas');
+  const panel = obtener_elemento('panel_caracteristicas');
+  if (!boton || !panel) return;
+
+  const abrir = panel.hidden;
+  panel.hidden = !abrir;
+  boton.setAttribute('aria-expanded', abrir);
+  boton.classList.toggle('abierto', abrir);
+
+  if (abrir) {
+    const buscador = obtener_elemento('buscador_caracteristicas');
+    if (buscador) buscador.focus();
+  }
+}
+
+function actualizar_contador_caracteristicas() {
+  const contador = obtener_elemento('contador_caracteristicas');
+  if (!contador) return;
+
+  const total = estado.filtros.caracteristicas.size;
+  contador.textContent = total;
+  contador.hidden = total === 0;
+}
+
+function normalizar_texto(texto) {
+  return (texto || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
+}
+
+function filtrar_lista_caracteristicas(texto) {
+  const consulta = normalizar_texto(texto);
+  const etiquetas = document.querySelectorAll('#lista_checkboxes_caracteristicas .etiqueta_checkbox');
+  let visibles = 0;
+
+  etiquetas.forEach(etiqueta => {
+    const coincide = normalizar_texto(etiqueta.textContent).includes(consulta);
+    etiqueta.style.display = coincide ? '' : 'none';
+    if (coincide) visibles++;
+  });
+
+  const aviso = obtener_elemento('sin_resultados_caracteristicas');
+  if (aviso) aviso.hidden = visibles > 0 || etiquetas.length === 0;
+}
+
 function manejar_checkbox_caracteristica(checkbox, nombre) {
   if (checkbox.checked) {
     estado.filtros.caracteristicas.add(nombre);
@@ -524,6 +570,8 @@ function alternar_panel_filtros() {
 }
 
 function actualizar_estado_botones_filtros() {
+  actualizar_contador_caracteristicas();
+
   const boton_limpiar = obtener_elemento('boton_limpiar');
   if (!boton_limpiar) return;
 
@@ -980,3 +1028,75 @@ function restaurar_filtros() {
 }
 
 document.addEventListener('DOMContentLoaded', inicializar_app);
+
+let mapa_leaflet = null;
+
+/**
+ * El mapa va en position: fixed (siempre del alto de la pantalla). Esta función
+ * lo alinea con su columna (.panel_mapa) y lo pega justo debajo del header
+ * mientras éste sea visible; cuando el header sale de pantalla, el mapa sube a 0.
+ */
+function posicionar_mapa_fijo() {
+  const panel = document.querySelector('.panel_mapa');
+  const fijo = panel ? panel.querySelector('.mapa_fijo') : null;
+  if (!panel || !fijo) return;
+
+  const rect = panel.getBoundingClientRect();
+  const header = document.querySelector('.barra_navegacion');
+  const base = header ? Math.max(header.getBoundingClientRect().bottom, 0) : 0;
+
+  fijo.style.setProperty('--mapa-top', base + 'px');
+  fijo.style.setProperty('--mapa-left', rect.left + 'px');
+  fijo.style.setProperty('--mapa-ancho', rect.width + 'px');
+}
+
+let _mapa_raf = null;
+function programar_posicion_mapa() {
+  if (_mapa_raf) return;
+  _mapa_raf = requestAnimationFrame(() => {
+    _mapa_raf = null;
+    posicionar_mapa_fijo();
+  });
+}
+
+function initMap() {
+  const contenedor = document.getElementById('map');
+  if (!contenedor || typeof L === 'undefined') return;
+
+  // Coordenadas iniciales (Bogotá)
+  const latitud = 4.60971;
+  const longitud = -74.08175;
+
+  posicionar_mapa_fijo();
+  window.addEventListener('scroll', programar_posicion_mapa, { passive: true });
+  window.addEventListener('resize', programar_posicion_mapa);
+  const panel_mapa = document.querySelector('.panel_mapa');
+  if (panel_mapa && 'ResizeObserver' in window) {
+    new ResizeObserver(programar_posicion_mapa).observe(panel_mapa);
+  }
+
+  // 1. Crear el mapa
+  mapa_leaflet = L.map('map').setView([latitud, longitud], 13);
+
+  // 2. Cargar las imágenes del mapa desde OpenStreetMap
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: '© OpenStreetMap'
+  }).addTo(mapa_leaflet);
+
+  // 3. Marcador de prueba
+  const marker = L.marker([latitud, longitud]).addTo(mapa_leaflet);
+  marker.bindPopup('<b>Inmueble de prueba</b><br>Disponible ahora.');
+
+  // 4. Recalcular el tamaño cuando cambie el contenedor
+  //    (abrir/cerrar filtros, redimensionar ventana, etc.)
+  if ('ResizeObserver' in window) {
+    new ResizeObserver(() => mapa_leaflet.invalidateSize()).observe(contenedor);
+  } else {
+    window.addEventListener('resize', () => mapa_leaflet.invalidateSize());
+  }
+  setTimeout(() => mapa_leaflet.invalidateSize(), 300);
+}
+
+// Ejecutar cuando se cargue la página
+document.addEventListener('DOMContentLoaded', initMap);

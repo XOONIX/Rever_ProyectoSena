@@ -11,6 +11,10 @@
     rel="stylesheet" />
   <link rel="stylesheet" href="../css/styles.css" />
   <link rel="stylesheet" href="../css/home.css" />
+  <link rel="stylesheet" href="../css/filtros_mapa.css" />
+  <!-- Cargar estilos y JS de Leaflet en el <head> -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 
 <body>
@@ -243,13 +247,31 @@
           </div>
         </div>
 
-        <!-- CARACTERÍSTICAS -->
-        <fieldset class="seccion_filtro">
-          <legend class="titulo_filtro">Características</legend>
-          <div id="lista_checkboxes_caracteristicas" class="lista_checkboxes">
-            <!-- Se llenan dinámicamente desde la BD -->
+        <!-- CARACTERÍSTICAS (menú desplegable) -->
+        <div class="seccion_filtro desplegable_caracteristicas" id="desplegable_caracteristicas">
+          <button type="button" id="boton_desplegable_caracteristicas" class="boton_desplegable"
+            aria-expanded="false" aria-controls="panel_caracteristicas"
+            onclick="alternar_desplegable_caracteristicas()">
+            <span class="titulo_filtro">Características</span>
+            <span id="contador_caracteristicas" class="contador_desplegable" hidden>0</span>
+            <svg class="flecha_desplegable" width="12" height="8" viewBox="0 0 12 8" fill="none"
+              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="1 1.5 6 6.5 11 1.5" />
+            </svg>
+          </button>
+
+          <div id="panel_caracteristicas" class="panel_desplegable" hidden>
+            <input type="search" id="buscador_caracteristicas" class="buscador_desplegable"
+              placeholder="Buscar característica..." autocomplete="off"
+              oninput="filtrar_lista_caracteristicas(this.value)" aria-label="Buscar característica" />
+            <div id="lista_checkboxes_caracteristicas" class="lista_checkboxes lista_checkboxes--scroll">
+              <!-- Se llenan dinámicamente desde la BD -->
+            </div>
+            <p id="sin_resultados_caracteristicas" class="texto_sin_resultados" hidden>
+              No se encontraron características.
+            </p>
           </div>
-        </fieldset>
+        </div>
 
       </div>
     </aside>
@@ -298,32 +320,22 @@
     <!-- /seccion_propiedades -->
 
 
-    <!-- ── Panel del Mapa (derecha) ── -->
+    <!-- Panel del Mapa (derecha) — fijo a la altura de la pantalla -->
     <aside class="panel_mapa" aria-label="Vista del mapa">
-      <div class="fondo_mapa" aria-hidden="true">
-        <img
-          src="https://images.unsplash.com/photo-1642019708236-942cc048bf34?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=1080&q=80"
-          alt="" class="imagen_mapa" loading="lazy" />
-      </div>
+      <!-- .mapa_fijo: queda fijo en pantalla; el aside solo reserva el 30% de ancho -->
+      <div class="mapa_fijo">
+        <!-- Contenedor del mapa de Leaflet -->
+        <div id="map"></div>
 
-      <!-- Marcadores del mapa -->
-      <div class="capa_marcadores" aria-hidden="true">
-        <div class="marcador_mapa" style="top:35%;left:45%"></div>
-        <div class="marcador_mapa" style="top:45%;left:70%"></div>
-        <div class="marcador_mapa marcador_activo" style="top:55%;left:50%"></div>
-        <div class="marcador_mapa" style="top:65%;left:35%"></div>
-        <div class="marcador_mapa" style="top:75%;left:60%"></div>
-      </div>
+        <div class="tarjeta_mapa">
+          <h4 class="titulo_tarjeta_mapa">Explorar Mapa</h4>
+          <p id="descripcion_tarjeta_mapa" class="descripcion_tarjeta_mapa">
+            Propiedades disponibles en las zonas mostradas.
+          </p>
+        </div>
 
-      <!-- Tarjeta inferior mapa -->
-      <div class="tarjeta_mapa">
-        <h4 class="titulo_tarjeta_mapa">Explorar Mapa</h4>
-        <p id="descripcion_tarjeta_mapa" class="descripcion_tarjeta_mapa">
-          propiedades disponibles en las zonas mostradas.
-        </p>
+        <button class="boton_ayuda_mapa" aria-label="Ayuda sobre el mapa">?</button>
       </div>
-
-      <button class="boton_ayuda_mapa" aria-label="Ayuda sobre el mapa">?</button>
     </aside>
     <!-- /panel_mapa -->
 
