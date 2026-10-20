@@ -1,0 +1,140 @@
+{
+  "scannerProperties": [
+    {
+      "key": "sonar.scanner.app",
+      "value": "ScannerMSBuild"
+    },
+    {
+      "key": "sonar.scanner.appVersion",
+      "value": "12.0"
+    },
+    {
+      "key": "sonar.scanner.bootstrapStartTime",
+      "value": "1792530511000"
+    },
+    {
+      "key": "sonar.projectKey",
+      "value": "Rever"
+    },
+    {
+      "key": "sonar.working.directory",
+      "value": "C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\.sonarqube\\out\\.sonar"
+    },
+    {
+      "key": "sonar.projectBaseDir",
+      "value": "C:\\Users\\Kevin\\source\\repos\\Controllers\\github"
+    },
+    {
+      "key": "sonar.pullrequest.cache.basepath",
+      "value": "C:\\Users\\Kevin\\source\\repos\\Controllers\\github"
+    },
+    {
+      "key": "sonar.sources",
+      "value": "C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Frontend\\css\\home.css,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Frontend\\css\\login.css,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Frontend\\css\\mis_inmuebles.css,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Frontend\\css\\panel_administrador.css,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Frontend\\css\\pantalla_detalle.css,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Frontend\\css\\perfil.css,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Frontend\\css\\publicar_inmueble.css,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Frontend\\css\\styles.css,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Frontend\\css\\vendedor_detalle_inmueble.css,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Frontend\\html\\index.html,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Frontend\\html\\login.html,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Frontend\\html\\mis_inmuebles.html,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Frontend\\html\\panel_administrador.html,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Frontend\\html\\pantalla_detalle.html,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Frontend\\html\\perfil.html,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Frontend\\html\\publicar_inmueble.html,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Frontend\\html\\registro.html,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Frontend\\html\\vendedor_detalle_inmueble.html,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Frontend\\javascript\\login.js,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Frontend\\javascript\\main.js,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Frontend\\javascript\\mainarrendatario.js,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Frontend\\javascript\\mainpanel_administrador.js,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Frontend\\javascript\\mainpublicar_inmueble.js,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Frontend\\javascript\\mis_inmuebles.js,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Frontend\\javascript\\pantalla_detalle.js,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Frontend\\javascript\\perfil.js,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Frontend\\javascript\\registro.js,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Frontend\\javascript\\vendedor_detalle_inmueble.js,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\.vs\\rever.slnx\\config\\applicationhost.config,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\.vs\\rever.slnx\\v18\\DocumentLayout.backup.json,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\.vs\\rever.slnx\\v18\\DocumentLayout.json,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\analizar.ps1"
+    },
+    {
+      "key": "sonar.tests",
+      "value": ""
+    },
+    {
+      "key": "sonar.modules",
+      "value": "D2CB8510-9216-B4C7-6D9C-F61F02AE014E,31862EBB-7A6E-4B4B-9FA6-C27ABE15EC3D"
+    },
+    {
+      "key": "D2CB8510-9216-B4C7-6D9C-F61F02AE014E.sonar.projectKey",
+      "value": "Rever:D2CB8510-9216-B4C7-6D9C-F61F02AE014E"
+    },
+    {
+      "key": "D2CB8510-9216-B4C7-6D9C-F61F02AE014E.sonar.projectName",
+      "value": "rever"
+    },
+    {
+      "key": "D2CB8510-9216-B4C7-6D9C-F61F02AE014E.sonar.projectBaseDir",
+      "value": "C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever"
+    },
+    {
+      "key": "D2CB8510-9216-B4C7-6D9C-F61F02AE014E.sonar.working.directory",
+      "value": "C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\.sonarqube\\out\\.sonar\\mod0"
+    },
+    {
+      "key": "D2CB8510-9216-B4C7-6D9C-F61F02AE014E.sonar.sourceEncoding",
+      "value": "utf-8"
+    },
+    {
+      "key": "D2CB8510-9216-B4C7-6D9C-F61F02AE014E.sonar.tests",
+      "value": ""
+    },
+    {
+      "key": "D2CB8510-9216-B4C7-6D9C-F61F02AE014E.sonar.sources",
+      "value": "C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\AdministradoresInjectionService.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\contexto\\Databaseserver.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Controllers\\AuthController.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Controllers\\CaracteristicaController.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Controllers\\CiudadController.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Controllers\\ContactoController.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Controllers\\EstadoPublicacionController.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Controllers\\ImagenController.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Controllers\\InmuebleCaracteristica.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Controllers\\InmuebleController.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Controllers\\LocalidadController.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Controllers\\ModoTransaccionController.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Controllers\\rolController.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Controllers\\TipoInmuebleControler.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Controllers\\UsuarioController.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Dtos\\CrearInmuebleDto.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Dtos\\InmuebleDetalleDto.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Dtos\\InmuebleListadoDto.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Extensions\\ClaimsPrincipalExtensions.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Extensions\\EmailService.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Models\\Caracteristica.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Models\\Ciudad.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Models\\Contacto.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Models\\EstadoPublicacion.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Models\\Imagen.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Models\\Inmueble.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Models\\InmuebleCaracteristica.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Models\\Localidad.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Models\\Login.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Models\\ModoTransaccion.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Models\\Rol.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Models\\TipoInmueble.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Models\\Usuario.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Program.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Repositories\\CaracteristicaRepository.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Repositories\\CiudadRepository.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Repositories\\ContactoRepository.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Repositories\\EstadoPublicacionRepository.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Repositories\\ImagenRepository.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Repositories\\InmuebleCaracteristicaRepository.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Repositories\\InmuebleRepository.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Repositories\\interfaces\\ICaracteristicaRepository.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Repositories\\interfaces\\ICiudadRepository.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Repositories\\interfaces\\IContactoRepository.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Repositories\\interfaces\\IEstadoPublicacionRepository.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Repositories\\interfaces\\IImagenRepository.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Repositories\\interfaces\\IInmuebleCaracteristicaRepository.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Repositories\\interfaces\\IInmuebleRepository.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Repositories\\interfaces\\ILocalidadRepository.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Repositories\\interfaces\\IModoTransaccionRepository.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Repositories\\interfaces\\IRolRepository.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Repositories\\interfaces\\ITipoInmuebleRepository.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Repositories\\interfaces\\IUsuarioRepository.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Repositories\\LocalidadRepository.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Repositories\\ModoTransaccionRepository.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Repositories\\RolRepository.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Repositories\\TipoInmuebleRepository.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Repositories\\UsuarioRepository.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\WeatherForecast.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\obj\\Debug\\net10.0\\rever.GlobalUsings.g.cs,\"C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\obj\\Debug\\net10.0\\.NETCoreApp,Version=v10.0.AssemblyAttributes.cs\",C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\obj\\Debug\\net10.0\\rever.AssemblyInfo.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\obj\\Debug\\net10.0\\rever.MvcApplicationPartsAssemblyInfo.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\nuget.config,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\appsettings.Development.json,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\appsettings.json,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\postman\\globals\\workspace.globals.yaml,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\rever.http,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\Properties\\launchSettings.json,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\.postman\\resources.yaml,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\obj\\project.assets.json,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\obj\\rever.csproj.nuget.dgspec.json,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\bin\\Debug\\net10.0\\appsettings.Development.json,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\bin\\Debug\\net10.0\\appsettings.json,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\bin\\Debug\\net10.0\\nuget.config,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\bin\\Debug\\net10.0\\rever.deps.json,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\bin\\Debug\\net10.0\\rever.runtimeconfig.json,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\bin\\Debug\\net10.0\\rever.staticwebassets.endpoints.json,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\obj\\Debug\\net10.0\\ApiEndpoints.json,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\obj\\Debug\\net10.0\\rever.sourcelink.json,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\obj\\Debug\\net10.0\\rjsmcshtml.dswa.cache.json,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\obj\\Debug\\net10.0\\rjsmrazor.dswa.cache.json,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\obj\\Debug\\net10.0\\rpswa.dswa.cache.json,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\obj\\Debug\\net10.0\\staticwebassets.build.endpoints.json,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\obj\\Debug\\net10.0\\staticwebassets.build.json,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\obj\\Debug\\net8.0\\rpswa.dswa.cache.json,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever\\obj\\Debug\\net10.0\\EndpointInfo\\rever.json"
+    },
+    {
+      "key": "D2CB8510-9216-B4C7-6D9C-F61F02AE014E.sonar.cs.analyzer.projectOutPaths",
+      "value": "C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\.sonarqube\\out\\0"
+    },
+    {
+      "key": "D2CB8510-9216-B4C7-6D9C-F61F02AE014E.sonar.cs.roslyn.reportFilePaths",
+      "value": "C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\.sonarqube\\out\\0\\Issues.json"
+    },
+    {
+      "key": "D2CB8510-9216-B4C7-6D9C-F61F02AE014E.sonar.cs.scanner.telemetry",
+      "value": "C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\.sonarqube\\out\\0\\Telemetry.json"
+    },
+    {
+      "key": "31862EBB-7A6E-4B4B-9FA6-C27ABE15EC3D.sonar.projectKey",
+      "value": "Rever:31862EBB-7A6E-4B4B-9FA6-C27ABE15EC3D"
+    },
+    {
+      "key": "31862EBB-7A6E-4B4B-9FA6-C27ABE15EC3D.sonar.projectName",
+      "value": "rever.test"
+    },
+    {
+      "key": "31862EBB-7A6E-4B4B-9FA6-C27ABE15EC3D.sonar.projectBaseDir",
+      "value": "C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever.test"
+    },
+    {
+      "key": "31862EBB-7A6E-4B4B-9FA6-C27ABE15EC3D.sonar.working.directory",
+      "value": "C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\.sonarqube\\out\\.sonar\\mod1"
+    },
+    {
+      "key": "31862EBB-7A6E-4B4B-9FA6-C27ABE15EC3D.sonar.sourceEncoding",
+      "value": "utf-8"
+    },
+    {
+      "key": "31862EBB-7A6E-4B4B-9FA6-C27ABE15EC3D.sonar.sources",
+      "value": ""
+    },
+    {
+      "key": "31862EBB-7A6E-4B4B-9FA6-C27ABE15EC3D.sonar.tests",
+      "value": "C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever.test\\obj\\project.assets.json,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever.test\\obj\\rever.test.csproj.nuget.dgspec.json,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever.test\\bin\\Debug\\net10.0\\appsettings.Development.json,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever.test\\bin\\Debug\\net10.0\\appsettings.json,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever.test\\bin\\Debug\\net10.0\\MvcTestingAppManifest.json,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever.test\\bin\\Debug\\net10.0\\nuget.config,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever.test\\bin\\Debug\\net10.0\\rever.deps.json,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever.test\\bin\\Debug\\net10.0\\rever.runtimeconfig.json,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever.test\\bin\\Debug\\net10.0\\rever.staticwebassets.endpoints.json,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever.test\\bin\\Debug\\net10.0\\rever.test.deps.json,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever.test\\bin\\Debug\\net10.0\\rever.test.runtimeconfig.json,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever.test\\obj\\Debug\\net10.0\\MvcTestingAppManifest.json,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever.test\\obj\\Debug\\net10.0\\rever.test.sourcelink.json,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever.test\\Controllers\\AuthControllerTest.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever.test\\Controllers\\CaracteristicaControllerTest.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever.test\\Controllers\\CiudadControllerTest.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever.test\\Controllers\\ContactoControllerTest.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever.test\\Controllers\\EstadoPublicacionControllerTest.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever.test\\Controllers\\ImagenControllerTest.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever.test\\Controllers\\InmuebleCaracteristicaControllerTest.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever.test\\Controllers\\InmuebleControllerTest.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever.test\\Controllers\\LocalidadControllerTest.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever.test\\Controllers\\ModoTransaccionControllerTest.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever.test\\Controllers\\RolControllerTest.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever.test\\Controllers\\TipoInmuebleControllerTest.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever.test\\Controllers\\UsuarioControllerTest.cs,C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\Backend\\Rever\\rever.test\\Helpers\\ControllerTestHelper.cs"
+    },
+    {
+      "key": "31862EBB-7A6E-4B4B-9FA6-C27ABE15EC3D.sonar.cs.analyzer.projectOutPaths",
+      "value": "C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\.sonarqube\\out\\1"
+    },
+    {
+      "key": "31862EBB-7A6E-4B4B-9FA6-C27ABE15EC3D.sonar.cs.roslyn.reportFilePaths",
+      "value": "C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\.sonarqube\\out\\1\\Issues.json"
+    },
+    {
+      "key": "31862EBB-7A6E-4B4B-9FA6-C27ABE15EC3D.sonar.cs.scanner.telemetry",
+      "value": "C:\\Users\\Kevin\\source\\repos\\Controllers\\github\\.sonarqube\\out\\1\\Telemetry.json"
+    },
+    {
+      "key": "sonar.token",
+      "value": "***"
+    },
+    {
+      "key": "sonar.host.url",
+      "value": "http://localhost:9000"
+    },
+    {
+      "key": "sonar.cs.opencover.reportsPaths",
+      "value": "**/TestResults/**/coverage.opencover.xml"
+    },
+    {
+      "key": "sonar.exclusions",
+      "value": "**/TestResults/**/coverage.opencover.xml"
+    }
+  ]
+}

@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         return;
     }
 
-    // Función auxiliar en memoria para leer la payload del JWT
+    // Función auxiliar para leer la payload del JWT
     function obtenerIdUsuarioDesdeToken(jwtToken) {
         try {
             const base64Url = jwtToken.split('.')[1];
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         }
     }
 
-    // Extraer el ID solo en la memoria del script (nunca se guarda en localStorage)
+    // Extraer el ID solo en la memoria del script (no se guarda en localStorage xd)
     const idUsuario = obtenerIdUsuarioDesdeToken(token);
 
     if (!idUsuario) {
@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         return;
     }
 
-    // Petición a la API usando el ID extraído
+    // Petición a la API asa el ID extraído
     try {
         const response = await fetch(`https://localhost:7015/api/Usuario/${idUsuario}`, {
             method: 'GET',
