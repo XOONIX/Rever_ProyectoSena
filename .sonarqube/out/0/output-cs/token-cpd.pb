@@ -5812,7 +5812,7 @@ kC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Repositories
 ;99 
 }:: 	
 };; 
-}<< õ2
+}<< Ü6
 MC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Program.cs
 var 
 builder 
@@ -6082,117 +6082,146 @@ GetSection..( 2
 AddAuthorization@@ !
 (@@! "
 )@@" #
-;@@# $
-builderBB 
-.BB 
-ServicesBB 
-.BB 
-AddCorsBB 
-(BB 
-optionsBB  
-=>BB! #
-{CC 
-optionsDD 
-.DD 
-	AddPolicyDD 
-(DD 
-$strDD (
-,DD( )
-policyDD* 0
-=>DD1 3
-{EE 
-policyFF 
-.FF 
-AllowAnyOriginFF 
-(FF 
-)FF 
-.GG 
-AllowAnyHeaderGG 
-(GG 
-)GG 
-.HH 
-AllowAnyMethodHH 
-(HH 
-)HH 
-;HH  
-}II 
-)II 
-;II 
-}JJ 
-)JJ 
-;JJ 
-varLL 
-appLL 
-=LL 	
-builderLL
- 
-.LL 
-BuildLL 
-(LL 
-)LL 
-;LL 
-appNN 
-.NN 
-UseCorsNN 
-(NN 
-$strNN 
-)NN 
-;NN  
-ifPP 
-(PP 
-appPP 
-.PP 
-EnvironmentPP 
-.PP 
-IsDevelopmentPP !
-(PP! "
-)PP" #
-)PP# $
-{QQ 
-appRR 
-.RR 
+;@@# $
+varBB 
+allowedOriginsBB 
+=BB 
+builderBB 
+.BB 
+ConfigurationBB *
+.BB* +
 
-UseSwaggerRR 
-(RR 
-)RR 
-;RR 
-appSS 
-.SS 
-UseSwaggerUISS 
-(SS 
-)SS 
-;SS 
-}TT 
-appVV 
-.VV 
-UseHttpsRedirectionVV 
-(VV 
-)VV 
-;VV 
+GetSectionBB+ 5
+(BB5 6
+$strBB6 K
+)BBK L
+.BBL M
+GetBBM P
+<BBP Q
+stringBBQ W
+[BBW X
+]BBX Y
+>BBY Z
+(BBZ [
+)BB[ \
+??CC 
+[CC 
+$strCC 0
+,CC0 1
+$strCC2 I
+]CCI J
+;CCJ K
+builderDD 
+.DD 
+ServicesDD 
+.DD 
+AddCorsDD 
+(DD 
+optionsDD  
+=>DD! #
+{EE 
+optionsFF 
+.FF 
+	AddPolicyFF 
+(FF 
+$strFF (
+,FF( )
+policyFF* 0
+=>FF1 3
+{GG 
+policyHH 
+.HH 
+WithOriginsHH 
+(HH 
+allowedOriginsHH )
+)HH) *
+.II 
+AllowAnyHeaderII 
+(II 
+)II 
+.JJ 
+AllowAnyMethodJJ 
+(JJ 
+)JJ 
+;JJ  
+}KK 
+)KK 
+;KK 
+}LL 
+)LL 
+;LL 
+varNN 
+appNN 
+=NN 	
+builderNN
+ 
+.NN 
+BuildNN 
+(NN 
+)NN 
+;NN 
+appPP 
+.PP 
+UseCorsPP 
+(PP 
+$strPP 
+)PP 
+;PP  
+ifRR 
+(RR 
+appRR 
+.RR 
+EnvironmentRR 
+.RR 
+IsDevelopmentRR !
+(RR! "
+)RR" #
+)RR# $
+{SS 
+appTT 
+.TT 
+
+UseSwaggerTT 
+(TT 
+)TT 
+;TT 
+appUU 
+.UU 
+UseSwaggerUIUU 
+(UU 
+)UU 
+;UU 
+}VV 
 appXX 
-.XX 
-UseAuthenticationXX 
-(XX 
-)XX 
-;XX 
-appYY 
-.YY 
-UseAuthorizationYY 
-(YY 
-)YY 
-;YY 
+.XX 
+UseHttpsRedirectionXX 
+(XX 
+)XX 
+;XX 
+appZZ 
+.ZZ 
+UseAuthenticationZZ 
+(ZZ 
+)ZZ 
+;ZZ 
 app[[ 
-.[[ 
-MapControllers[[ 
-([[ 
-)[[ 
-;[[ 
+.[[ 
+UseAuthorization[[ 
+([[ 
+)[[ 
+;[[ 
 app]] 
-.]] 
-Run]] 
-(]] 
-)]] 	
-;]]	 
+.]] 
+MapControllers]] 
+(]] 
+)]] 
+;]] 
+app__ 
+.__ 
+Run__ 
+(__ 
+)__ 	
+;__	 
 Å'
 TC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Models\Usuario.cs
 	namespace 	

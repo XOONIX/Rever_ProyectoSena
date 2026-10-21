@@ -12,8 +12,8 @@ nC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever.test\Control
 mC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever.test\Controllers\InmuebleControllerTest.csutf-8„
 {C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever.test\Controllers\InmuebleCaracteristicaControllerTest.csutf-8t
 kC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever.test\Controllers\ImagenControllerTest.csutf-8
-vC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever.test\Controllers\EstadoPublicacionControllerTest.csutf-8v
-mC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever.test\Controllers\ContactoControllerTest.csutf-8t
-kC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever.test\Controllers\CiudadControllerTest.csutf-8|
+vC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever.test\Controllers\EstadoPublicacionControllerTest.csutf-8t
+kC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever.test\Controllers\CiudadControllerTest.csutf-8v
+mC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever.test\Controllers\ContactoControllerTest.csutf-8|
 sC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever.test\Controllers\CaracteristicaControllerTest.csutf-8r
 iC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever.test\Controllers\AuthControllerTest.csutf-8

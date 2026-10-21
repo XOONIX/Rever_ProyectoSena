@@ -1,6 +1,6 @@
-i
-UC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\WeatherForecast.cs 8r
-	≈
+Ω
+fC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Repositories\LocalidadRepository.cs 8r4	
+ !"#$%'()*+,-/012356789:;<xÇ"#$)*,/012789≈
 dC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Repositories\UsuarioRepository.cs 8r:	
  !"$%&'()+,-./01345679:;=>?@ABCDxÇ!&'(-.0345679:?@Aø
 iC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Repositories\TipoInmuebleRepository.cs 8r3	
@@ -8,9 +8,9 @@ iC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Repositories
 `C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Repositories\RolRepository.cs 8r3	
  !"#$&'()*+,./0123456789:xÇ!"#()+./01567π
 lC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Repositories\ModoTransaccionRepository.cs 8r.	
- !"#%&'()*,-./123456xÇ !"'()./123Ω
-fC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Repositories\LocalidadRepository.cs 8r4	
- !"#$%'()*+,-/012356789:;<xÇ"#$)*,/012789Ö
+ !"#%&'()*,-./123456xÇ !"'()./123i
+UC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\WeatherForecast.cs 8r
+	Ö
 pC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Repositories\interfaces\IUsuarioRepository.csr	
 â
 uC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Repositories\interfaces\ITipoInmuebleRepository.csr	
@@ -48,19 +48,19 @@ eC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Repositories
 cC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Repositories\CiudadRepository.cs 8r4	
  !"#$%'()*+,-/012356789:;<xÇ"#$)*,/012789¬
 kC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Repositories\CaracteristicaRepository.cs 8r4	
- !"#$%'()*+,-/012356789:;<xÇ"#$)*,/012789«
-MC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Program.cs,8j*-rJ	
- !"#$%&'(+./123456789:;<=>@BCDEFGHIJLNPQRSTVXY[]xÇ	
-!%+./124@BDFLNPRSVXY[]é
-TC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Models\Usuario.cs 8r,	
- !"#%&'(*+-.013456Ç+s
+ !"#$%'()*+,-/012356789:;<xÇ"#$)*,/012789 
+MC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Program.cs.8j*-rL	
+ !"#$%&'(+./123456789:;<=>@BCDEFGHIJKLNPRSTUVXZ[]_xÇ 	
+!%+./124@BDFHNPRTUXZ[]_i
+RC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Models\Login.cs 8r	s
 YC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Models\TipoInmueble.cs 8r	
 j
 PC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Models\Rol.cs 8r	
 t
 \C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Models\ModoTransaccion.cs 8r	
-i
-RC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Models\Login.cs 8r	u
+é
+TC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Models\Usuario.cs 8r,	
+ !"#%&'(*+-.013456Ç+u
 VC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Models\Localidad.cs 8r	
 Ä
 cC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Models\InmuebleCaracteristica.cs 8r	
@@ -76,20 +76,20 @@ r
 UC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Models\Contacto.cs 8j"#r"	
  $%'(*+,-Ç o
 SC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Models\Ciudad.cs 8r	
-u
+ö
+]C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Extensions\EmailService.cs 8r'	!"#$%&')+,-./Ç)+u
 [C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Models\Caracteristica.cs 8r	
-ö
-]C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Extensions\EmailService.cs 8r'	!"#$%&')+,-./Ç)+Æ
+Æ
 jC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Extensions\ClaimsPrincipalExtensions.cs 8jr!	 !"#$%&()*+xÇ	"#%(~
 ]C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Dtos\InmuebleListadoDto.cs 8jr	
 Ü
 ]C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Dtos\InmuebleDetalleDto.cs *8*j
 r	
-î
-[C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Dtos\CrearInmuebleDto.cs  8 j#(6r)	
- !$%&)*+-.013479:;<®
+®
 cC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Controllers\UsuarioController.csJ 8$jryÅá¶¨≤∫«·Îr∞
- !"#$%&(*+,-/012345789:;<=>?@ABDEFGIJKLNOPQSUVWXZ[\]^_`bcdefghijklmnopstuvwz|}~ÇÉÑÖàäåçéèëìîïñóòôõúùûü†°¢£§•ß®©™≠ÆØ∞≥µ∂∑∏ªºΩæ¿¡¬√≈» ÀÃÕŒœ–“”‘’÷◊ÿŸ⁄€‹›ﬁﬂ‚‰ÂÊÁÈÏÌÓÔÒÛÙıˆ¯˙˚¸˝˛ˇÄÅÇx Çm#%(*,/3ABDFIKNPSUWZ^mostvz|~ÇÑàäåéëìóß©≠Ø≥µ∑ªºΩæ¿¬≈» Œ‹ﬁ‚‰ÊÈÏÓÒÛı¯˙˛ú
+ !"#$%&(*+,-/012345789:;<=>?@ABDEFGIJKLNOPQSUVWXZ[\]^_`bcdefghijklmnopstuvwz|}~ÇÉÑÖàäåçéèëìîïñóòôõúùûü†°¢£§•ß®©™≠ÆØ∞≥µ∂∑∏ªºΩæ¿¡¬√≈» ÀÃÕŒœ–“”‘’÷◊ÿŸ⁄€‹›ﬁﬂ‚‰ÂÊÁÈÏÌÓÔÒÛÙıˆ¯˙˚¸˝˛ˇÄÅÇx Çm#%(*,/3ABDFIKNPSUWZ^mostvz|~ÇÑàäåéëìóß©≠Ø≥µ∑ªºΩæ¿¬≈» Œ‹ﬁ‚‰ÊÈÏÓÒÛı¯˙˛î
+[C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Dtos\CrearInmuebleDto.cs  8 j#(6r)	
+ !$%&)*+-.013479:;<ú
 gC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Controllers\TipoInmuebleControler.cs0 8r‡
  !"#%&'(*+,-./023456789:;<=>?@BDEFGIJKLMNOQRSTUVWXYZ[\]^`abceghijlmnopqrtuvwxyz{|}~ÄÅÉÑÖÜàâãåçéèêíîñóòôöõúùûü†°¢£§•¶ß®©™¨≠ÆØ±≤≥¥µ∑∏π∫ªºΩæø¿xÇC#%'*.=?BDFIM[]`begilp~ÄÉÖàâãçéíîñöß©¨Æ±≤¥∑∏º¢
 _C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Controllers\rolController.cs4 8rÌ	

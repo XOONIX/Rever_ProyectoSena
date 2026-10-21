@@ -17,3 +17,7 @@ C:\Users\Kevin\.nuget\packages\microsoft.testplatform.testhost\18.10.1\build\net
 C:\Users\Kevin\.nuget\packages\microsoft.testplatform.testhost\18.10.1\build\net8.0\x64\testhost.dll
 C:\Users\Kevin\.nuget\packages\xunit.runner.visualstudio\4.0.0\build\net8.0\xunit.abstractions.dll
 C:\Users\Kevin\.nuget\packages\xunit.runner.visualstudio\4.0.0\build\net8.0\xunit.runner.visualstudio.testadapter.dll
+C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever.test\TestResults\007676c0-8827-412e-9473-b3f82980d96f\coverage.opencover.xml
+C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever.test\TestResults\0a056500-25d2-4f70-9b35-f4c9c63b5223\coverage.opencover.xml
+C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever.test\TestResults\0a215303-89bf-4622-b719-096903059b87\coverage.opencover.xml
+C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever.test\TestResults\6b5ec707-7e02-41bc-8185-e9b99757886c\coverage.opencover.xml

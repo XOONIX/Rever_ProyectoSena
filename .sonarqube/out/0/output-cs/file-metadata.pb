@@ -46,9 +46,9 @@ SC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Models\Ciuda
 ]C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Extensions\EmailService.csutf-8s
 jC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Extensions\ClaimsPrincipalExtensions.csutf-8f
 ]C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Dtos\InmuebleListadoDto.csutf-8f
-]C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Dtos\InmuebleDetalleDto.csutf-8d
-[C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Dtos\CrearInmuebleDto.csutf-8l
-cC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Controllers\UsuarioController.csutf-8p
+]C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Dtos\InmuebleDetalleDto.csutf-8l
+cC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Controllers\UsuarioController.csutf-8d
+[C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Dtos\CrearInmuebleDto.csutf-8p
 gC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Controllers\TipoInmuebleControler.csutf-8h
 _C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Controllers\rolController.csutf-8t
 kC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Controllers\ModoTransaccionController.csutf-8n
