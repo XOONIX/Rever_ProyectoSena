@@ -1,14 +1,28 @@
-ù
-UC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\WeatherForecast.cs
+ö
+fC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Repositories\LocalidadRepository.cs
 
-  
+ $n
+) 1  % %"" ## ))  00 11 77 88 
+3 : "
 
- 
- 		. :
++ 7
+  
 
-		 
+% 5
+: <Z \
+  
+D EI J
 
- ¨
+    -
+  8 A"". 7
+
+''  ,(
+''7 @))P Y//  )00& /
+)) ** // 
+)): ;))? @
+
+55  /
+55: C77& /¨
 dC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Repositories\UsuarioRepository.cs
 
 
@@ -111,31 +125,17 @@ lC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Repositories
 
 ,,  +
 ,,0 2..@ B
-.. // 11, 0ö
-fC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Repositories\LocalidadRepository.cs
+.. // 11, 0ù
+UC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\WeatherForecast.cs
 
- $n
-) 1  % %"" ## ))  00 11 77 88 
-3 : "
+  
 
-+ 7
-  
+ 
+ 		. :
 
-% 5
-: <Z \
-  
-D EI J
+		 
 
-    -
-  8 A"". 7
-
-''  ,(
-''7 @))P Y//  )00& /
-)) ** // 
-)): ;))? @
-
-55  /
-55: C77& /Ç
+ Ç
 pC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Repositories\interfaces\IUsuarioRepository.cs
 
  '
@@ -751,42 +751,27 @@ kC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Repositories
 ))? @))D E
 
 55  4
-55D R77+ 9∑
-MC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Program.cs`
+55D R77+ 9◊
+MC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Program.csj
  		 
 
-  ++ ++ $.. 11 @@ BB LL
+  ++ ++ $.. 11 @@ BB DD NN
  (
  &   (
 .. //! ,:: %;; '
 // <<8 ;
 22 44 
-BB  DD 
-DD* 0FF X
-LL NN PP RR SS VV XX YY [[ ]] ⁄
-TC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Models\Usuario.cs
+BB HH )
+DD  FF 
+FF* 0HH X
+NN PP RR TT UU XX ZZ [[ ]] __ x
+RC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Models\Login.cs
 
- 
+ 
 
- 
+		 %
 
- %
-
- %
-
- )
-
-## '
-
-(( !
-
-++ %
-
-.. 
-
-11 (
-
-44 
+ )
 YC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Models\TipoInmueble.cs
 
  
@@ -809,14 +794,30 @@ PC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Models\Rol.c
 
  
 
- %x
-RC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Models\Login.cs
+ %⁄
+TC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Models\Usuario.cs
 
- 
+ 
 
-		 %
+ 
 
- )î
+ %
+
+ %
+
+ )
+
+## '
+
+(( !
+
+++ %
+
+.. 
+
+11 (
+
+44 î
 VC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Models\Localidad.cs
 
  
@@ -939,14 +940,7 @@ SC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Models\Ciuda
 
  
 
- %Å
-[C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Models\Caracteristica.cs
-
- 
-
- #
-
- %ü
+ %ü
 ]C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Extensions\EmailService.cs
  "  -
 
@@ -972,7 +966,30 @@ SC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Models\Ciuda
  ##9 C
  L T(
  !  ++  
-!! )) ++/ :ì
+!! )) ++/ :¸
+jC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Extensions\ClaimsPrincipalExtensions.cs
+
+ 1
+
+ +<
+A E		     
+  . 3
+C E 
+
+ *
+@ D 
+
+   (
+  > B""! %((< @
+  H U((+ 8
+"" ## (( !Å
+[C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Models\Caracteristica.cs
+
+ 
+
+ #
+
+ %ì
 ]C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Dtos\InmuebleListadoDto.cs
 
  #
@@ -1052,44 +1069,7 @@ SC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Models\Ciuda
 
  &
 
- $©
-[C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Dtos\CrearInmuebleDto.cs
-
- !
-
-
-
- %
-
- *
-
- 
-
- 
-
- 
-
- (
-
- 
-
-!! 
-
-&& 
-
-++ 
-
-.. "
-
-11 
-
-33 
-
-44 
-
-77 +
-
-:: (˝
+ $˝
 cC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Controllers\UsuarioController.cs
 
  "n
@@ -1172,23 +1152,44 @@ cC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Controllers\
 ¯¯G L
 
 ¯¯ 
-˙˙' /¸
-jC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Extensions\ClaimsPrincipalExtensions.cs
+˙˙' /©
+[C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Dtos\CrearInmuebleDto.cs
 
- 1
+ !
 
- +<
-A E		     
-  . 3
-C E 
+
+
+ %
 
- *
-@ D 
+ *
 
-   (
-  > B""! %((< @
-  H U((+ 8
-"" ## (( !›
+ 
+
+ 
+
+ 
+
+ (
+
+ 
+
+!! 
+
+&& 
+
+++ 
+
+.. "
+
+11 
+
+33 
+
+44 
+
+77 +
+
+:: (›
 gC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Controllers\TipoInmuebleControler.cs
 
  'b
