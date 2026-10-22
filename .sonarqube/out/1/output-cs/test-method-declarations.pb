@@ -223,21 +223,7 @@ rever.testu
 7rever.Tests.Controllers.EstadoPublicacionControllerTest4DeleteEstadoPublicacion_IdInvalido_RetornaBadRequestk
 7rever.Tests.Controllers.EstadoPublicacionControllerTest0DeleteEstadoPublicacion_NoExiste_RetornaNotFoundk
 7rever.Tests.Controllers.EstadoPublicacionControllerTest0DeleteEstadoPublicacion_Existe_EliminaYRetornaOk„
-7rever.Tests.Controllers.EstadoPublicacionControllerTestIDeleteEstadoPublicacion_RepositorioLanzaExcepcion_RetornaError500Generico¹	
-kC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever.test\Controllers\CiudadControllerTest.cs
-rever.test_
-,rever.Tests.Controllers.CiudadControllerTest/ListarCiudad_ExistenRegistros_RetornaOkConListaV
-,rever.Tests.Controllers.CiudadControllerTest&ListarCiudad_ListaNula_RetornaNotFoundZ
-,rever.Tests.Controllers.CiudadControllerTest*ObtenerCiudad_IdInvalido_RetornaBadRequestV
-,rever.Tests.Controllers.CiudadControllerTest&ObtenerCiudad_NoExiste_RetornaNotFoundW
-,rever.Tests.Controllers.CiudadControllerTest'ObtenerCiudad_Existe_RetornaOkConObjetod
-,rever.Tests.Controllers.CiudadControllerTest4CrearCiudad_UsuarioNoAutenticado_RetornaUnauthorizedX
-,rever.Tests.Controllers.CiudadControllerTest(CrearCiudad_ObjetoNulo_RetornaBadRequestR
-,rever.Tests.Controllers.CiudadControllerTest"CrearCiudad_DatosValidos_RetornaOk]
-,rever.Tests.Controllers.CiudadControllerTest-ActualizarCiudad_IdInvalido_RetornaBadRequestY
-,rever.Tests.Controllers.CiudadControllerTest)ActualizarCiudad_NoExiste_RetornaNotFoundQ
-,rever.Tests.Controllers.CiudadControllerTest!ActualizarCiudad_Valido_RetornaOkW
-,rever.Tests.Controllers.CiudadControllerTest'EliminarCiudad_NoExiste_RetornaNotFound§
+7rever.Tests.Controllers.EstadoPublicacionControllerTestIDeleteEstadoPublicacion_RepositorioLanzaExcepcion_RetornaError500Generico§
 mC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever.test\Controllers\ContactoControllerTest.cs
 rever.testi
 .rever.Tests.Controllers.ContactoControllerTest7ListarContacto_UsuarioNoAutenticado_RetornaUnauthorizedc
@@ -266,7 +252,21 @@ rever.testi
 .rever.Tests.Controllers.ContactoControllerTest+DeleteContacto_IdInvalido_RetornaBadRequestY
 .rever.Tests.Controllers.ContactoControllerTest'DeleteContacto_NoExiste_RetornaNotFoundY
 .rever.Tests.Controllers.ContactoControllerTest'DeleteContacto_Existe_EliminaYRetornaOkr
-.rever.Tests.Controllers.ContactoControllerTest@DeleteContacto_RepositorioLanzaExcepcion_RetornaError500Genericoê
+.rever.Tests.Controllers.ContactoControllerTest@DeleteContacto_RepositorioLanzaExcepcion_RetornaError500Generico¹	
+kC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever.test\Controllers\CiudadControllerTest.cs
+rever.test_
+,rever.Tests.Controllers.CiudadControllerTest/ListarCiudad_ExistenRegistros_RetornaOkConListaV
+,rever.Tests.Controllers.CiudadControllerTest&ListarCiudad_ListaNula_RetornaNotFoundZ
+,rever.Tests.Controllers.CiudadControllerTest*ObtenerCiudad_IdInvalido_RetornaBadRequestV
+,rever.Tests.Controllers.CiudadControllerTest&ObtenerCiudad_NoExiste_RetornaNotFoundW
+,rever.Tests.Controllers.CiudadControllerTest'ObtenerCiudad_Existe_RetornaOkConObjetod
+,rever.Tests.Controllers.CiudadControllerTest4CrearCiudad_UsuarioNoAutenticado_RetornaUnauthorizedX
+,rever.Tests.Controllers.CiudadControllerTest(CrearCiudad_ObjetoNulo_RetornaBadRequestR
+,rever.Tests.Controllers.CiudadControllerTest"CrearCiudad_DatosValidos_RetornaOk]
+,rever.Tests.Controllers.CiudadControllerTest-ActualizarCiudad_IdInvalido_RetornaBadRequestY
+,rever.Tests.Controllers.CiudadControllerTest)ActualizarCiudad_NoExiste_RetornaNotFoundQ
+,rever.Tests.Controllers.CiudadControllerTest!ActualizarCiudad_Valido_RetornaOkW
+,rever.Tests.Controllers.CiudadControllerTest'EliminarCiudad_NoExiste_RetornaNotFoundê
 sC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever.test\Controllers\CaracteristicaControllerTest.cs
 rever.testo
 4rever.Tests.Controllers.CaracteristicaControllerTest7ListarCaracteristica_ExistenRegistros_RetornaOkConListaf

@@ -98,6 +98,27 @@
         {
           "ruleId": "CS8620",
           "level": "warning",
+          "message": "El argumento de tipo \"ISetup<IUsuarioRepository, Task<List<Usuario>>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<IUsuarioRepository, Task<List<Usuario>?>>\" en \"IReturnsResult<IUsuarioRepository> ReturnsExtensions.ReturnsAsync<IUsuarioRepository, List<Usuario>?>(IReturns<IUsuarioRepository, Task<List<Usuario>?>> mock, List<Usuario>? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/UsuarioControllerTest.cs",
+                "region": {
+                  "startLine": 88,
+                  "startColumn": 13,
+                  "endLine": 89,
+                  "endColumn": 44
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8620",
+          "level": "warning",
           "message": "El argumento de tipo \"ISetup<IContactoRepository, Task<List<Contacto>>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<IContactoRepository, Task<List<Contacto>?>>\" en \"IReturnsResult<IContactoRepository> ReturnsExtensions.ReturnsAsync<IContactoRepository, List<Contacto>?>(IReturns<IContactoRepository, Task<List<Contacto>?>> mock, List<Contacto>? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
           "locations": [
             {
@@ -161,37 +182,16 @@
         {
           "ruleId": "CS8620",
           "level": "warning",
-          "message": "El argumento de tipo \"ISetup<IUsuarioRepository, Task<List<Usuario>>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<IUsuarioRepository, Task<List<Usuario>?>>\" en \"IReturnsResult<IUsuarioRepository> ReturnsExtensions.ReturnsAsync<IUsuarioRepository, List<Usuario>?>(IReturns<IUsuarioRepository, Task<List<Usuario>?>> mock, List<Usuario>? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
+          "message": "El argumento de tipo \"ISetup<IImagenRepository, Task<Imagen>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<IImagenRepository, Task<Imagen?>>\" en \"IReturnsResult<IImagenRepository> ReturnsExtensions.ReturnsAsync<IImagenRepository, Imagen?>(IReturns<IImagenRepository, Task<Imagen?>> mock, Imagen? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
           "locations": [
             {
               "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/UsuarioControllerTest.cs",
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/ImagenControllerTest.cs",
                 "region": {
-                  "startLine": 88,
+                  "startLine": 130,
                   "startColumn": 13,
-                  "endLine": 89,
-                  "endColumn": 44
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "CS8620",
-          "level": "warning",
-          "message": "El argumento de tipo \"ISetup<IContactoRepository, Task<Contacto>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<IContactoRepository, Task<Contacto?>>\" en \"IReturnsResult<IContactoRepository> ReturnsExtensions.ReturnsAsync<IContactoRepository, Contacto?>(IReturns<IContactoRepository, Task<Contacto?>> mock, Contacto? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/ContactoControllerTest.cs",
-                "region": {
-                  "startLine": 121,
-                  "startColumn": 13,
-                  "endLine": 122,
-                  "endColumn": 59
+                  "endLine": 131,
+                  "endColumn": 57
                 }
               }
             }
@@ -224,216 +224,6 @@
         {
           "ruleId": "CS8620",
           "level": "warning",
-          "message": "El argumento de tipo \"ISetup<IImagenRepository, Task<Imagen>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<IImagenRepository, Task<Imagen?>>\" en \"IReturnsResult<IImagenRepository> ReturnsExtensions.ReturnsAsync<IImagenRepository, Imagen?>(IReturns<IImagenRepository, Task<Imagen?>> mock, Imagen? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/ImagenControllerTest.cs",
-                "region": {
-                  "startLine": 130,
-                  "startColumn": 13,
-                  "endLine": 131,
-                  "endColumn": 57
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "CS8620",
-          "level": "warning",
-          "message": "El argumento de tipo \"ISetup<ICiudadRepository, Task<Ciudad>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<ICiudadRepository, Task<Ciudad?>>\" en \"IReturnsResult<ICiudadRepository> ReturnsExtensions.ReturnsAsync<ICiudadRepository, Ciudad?>(IReturns<ICiudadRepository, Task<Ciudad?>> mock, Ciudad? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/CiudadControllerTest.cs",
-                "region": {
-                  "startLine": 218,
-                  "startColumn": 13,
-                  "endLine": 219,
-                  "endColumn": 48
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "CS8620",
-          "level": "warning",
-          "message": "El argumento de tipo \"ISetup<ICaracteristicaRepository, Task<Caracteristica>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<ICaracteristicaRepository, Task<Caracteristica?>>\" en \"IReturnsResult<ICaracteristicaRepository> ReturnsExtensions.ReturnsAsync<ICaracteristicaRepository, Caracteristica?>(IReturns<ICaracteristicaRepository, Task<Caracteristica?>> mock, Caracteristica? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/CaracteristicaControllerTest.cs",
-                "region": {
-                  "startLine": 219,
-                  "startColumn": 13,
-                  "endLine": 220,
-                  "endColumn": 56
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "CS8620",
-          "level": "warning",
-          "message": "El argumento de tipo \"ISetup<IUsuarioRepository, Task<Usuario>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<IUsuarioRepository, Task<Usuario?>>\" en \"IReturnsResult<IUsuarioRepository> ReturnsExtensions.ReturnsAsync<IUsuarioRepository, Usuario?>(IReturns<IUsuarioRepository, Task<Usuario?>> mock, Usuario? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/UsuarioControllerTest.cs",
-                "region": {
-                  "startLine": 187,
-                  "startColumn": 13,
-                  "endLine": 188,
-                  "endColumn": 49
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "CS8620",
-          "level": "warning",
-          "message": "El argumento de tipo \"ISetup<ICiudadRepository, Task<Ciudad>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<ICiudadRepository, Task<Ciudad?>>\" en \"IReturnsResult<ICiudadRepository> ReturnsExtensions.ReturnsAsync<ICiudadRepository, Ciudad?>(IReturns<ICiudadRepository, Task<Ciudad?>> mock, Ciudad? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/CiudadControllerTest.cs",
-                "region": {
-                  "startLine": 265,
-                  "startColumn": 13,
-                  "endLine": 266,
-                  "endColumn": 55
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "CS8620",
-          "level": "warning",
-          "message": "El argumento de tipo \"ISetup<IInmuebleRepository, Task<Inmueble>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<IInmuebleRepository, Task<Inmueble?>>\" en \"IReturnsResult<IInmuebleRepository> ReturnsExtensions.ReturnsAsync<IInmuebleRepository, Inmueble?>(IReturns<IInmuebleRepository, Task<Inmueble?>> mock, Inmueble? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/ImagenControllerTest.cs",
-                "region": {
-                  "startLine": 200,
-                  "startColumn": 13,
-                  "endLine": 201,
-                  "endColumn": 50
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "CS8620",
-          "level": "warning",
-          "message": "El argumento de tipo \"ISetup<ICaracteristicaRepository, Task<Caracteristica>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<ICaracteristicaRepository, Task<Caracteristica?>>\" en \"IReturnsResult<ICaracteristicaRepository> ReturnsExtensions.ReturnsAsync<ICaracteristicaRepository, Caracteristica?>(IReturns<ICaracteristicaRepository, Task<Caracteristica?>> mock, Caracteristica? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/CaracteristicaControllerTest.cs",
-                "region": {
-                  "startLine": 266,
-                  "startColumn": 13,
-                  "endLine": 267,
-                  "endColumn": 63
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "CS8620",
-          "level": "warning",
-          "message": "El argumento de tipo \"ISetup<IInmuebleCaracteristicaRepository, Task<List<InmuebleCaracteristica>>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<IInmuebleCaracteristicaRepository, Task<List<InmuebleCaracteristica>?>>\" en \"IReturnsResult<IInmuebleCaracteristicaRepository> ReturnsExtensions.ReturnsAsync<IInmuebleCaracteristicaRepository, List<InmuebleCaracteristica>?>(IReturns<IInmuebleCaracteristicaRepository, Task<List<InmuebleCaracteristica>?>> mock, List<InmuebleCaracteristica>? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/InmuebleCaracteristicaControllerTest.cs",
-                "region": {
-                  "startLine": 58,
-                  "startColumn": 13,
-                  "endLine": 59,
-                  "endColumn": 59
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "CS8620",
-          "level": "warning",
-          "message": "El argumento de tipo \"ISetup<IInmuebleCaracteristicaRepository, Task<InmuebleCaracteristica>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<IInmuebleCaracteristicaRepository, Task<InmuebleCaracteristica?>>\" en \"IReturnsResult<IInmuebleCaracteristicaRepository> ReturnsExtensions.ReturnsAsync<IInmuebleCaracteristicaRepository, InmuebleCaracteristica?>(IReturns<IInmuebleCaracteristicaRepository, Task<InmuebleCaracteristica?>> mock, InmuebleCaracteristica? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/InmuebleCaracteristicaControllerTest.cs",
-                "region": {
-                  "startLine": 111,
-                  "startColumn": 13,
-                  "endLine": 112,
-                  "endColumn": 46
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "CS8620",
-          "level": "warning",
-          "message": "El argumento de tipo \"ISetup<IContactoRepository, Task<Contacto>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<IContactoRepository, Task<Contacto?>>\" en \"IReturnsResult<IContactoRepository> ReturnsExtensions.ReturnsAsync<IContactoRepository, Contacto?>(IReturns<IContactoRepository, Task<Contacto?>> mock, Contacto? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/ContactoControllerTest.cs",
-                "region": {
-                  "startLine": 376,
-                  "startColumn": 13,
-                  "endLine": 377,
-                  "endColumn": 50
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "CS8620",
-          "level": "warning",
           "message": "El argumento de tipo \"ISetup<IRolRepository, Task<List<Rol>>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<IRolRepository, Task<List<Rol>?>>\" en \"IReturnsResult<IRolRepository> ReturnsExtensions.ReturnsAsync<IRolRepository, List<Rol>?>(IReturns<IRolRepository, Task<List<Rol>?>> mock, List<Rol>? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
           "locations": [
             {
@@ -444,90 +234,6 @@
                   "startColumn": 13,
                   "endLine": 71,
                   "endColumn": 40
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "CS8620",
-          "level": "warning",
-          "message": "El argumento de tipo \"ISetup<ITipoInmuebleRepository, Task<List<TipoInmueble>>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<ITipoInmuebleRepository, Task<List<TipoInmueble>?>>\" en \"IReturnsResult<ITipoInmuebleRepository> ReturnsExtensions.ReturnsAsync<ITipoInmuebleRepository, List<TipoInmueble>?>(IReturns<ITipoInmuebleRepository, Task<List<TipoInmueble>?>> mock, List<TipoInmueble>? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/TipoInmuebleControllerTest.cs",
-                "region": {
-                  "startLine": 55,
-                  "startColumn": 13,
-                  "endLine": 56,
-                  "endColumn": 49
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "CS8620",
-          "level": "warning",
-          "message": "El argumento de tipo \"ISetup<IEstadoPublicacionRepository, Task<EstadoPublicacion>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<IEstadoPublicacionRepository, Task<EstadoPublicacion?>>\" en \"IReturnsResult<IEstadoPublicacionRepository> ReturnsExtensions.ReturnsAsync<IEstadoPublicacionRepository, EstadoPublicacion?>(IReturns<IEstadoPublicacionRepository, Task<EstadoPublicacion?>> mock, EstadoPublicacion? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/EstadoPublicacionControllerTest.cs",
-                "region": {
-                  "startLine": 266,
-                  "startColumn": 13,
-                  "endLine": 267,
-                  "endColumn": 59
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "CS8620",
-          "level": "warning",
-          "message": "El argumento de tipo \"ISetup<IInmuebleRepository, Task<Inmueble>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<IInmuebleRepository, Task<Inmueble?>>\" en \"IReturnsResult<IInmuebleRepository> ReturnsExtensions.ReturnsAsync<IInmuebleRepository, Inmueble?>(IReturns<IInmuebleRepository, Task<Inmueble?>> mock, Inmueble? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/InmuebleCaracteristicaControllerTest.cs",
-                "region": {
-                  "startLine": 197,
-                  "startColumn": 13,
-                  "endLine": 198,
-                  "endColumn": 50
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "CS8620",
-          "level": "warning",
-          "message": "El argumento de tipo \"ISetup<IInmuebleRepository, Task<List<Inmueble>>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<IInmuebleRepository, Task<List<Inmueble>?>>\" en \"IReturnsResult<IInmuebleRepository> ReturnsExtensions.ReturnsAsync<IInmuebleRepository, List<Inmueble>?>(IReturns<IInmuebleRepository, Task<List<Inmueble>?>> mock, List<Inmueble>? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/InmuebleControllerTest.cs",
-                "region": {
-                  "startLine": 62,
-                  "startColumn": 13,
-                  "endLine": 63,
-                  "endColumn": 45
                 }
               }
             }
@@ -566,10 +272,73 @@
               "resultFile": {
                 "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/ContactoControllerTest.cs",
                 "region": {
-                  "startLine": 467,
+                  "startLine": 121,
                   "startColumn": 13,
-                  "endLine": 468,
-                  "endColumn": 57
+                  "endLine": 122,
+                  "endColumn": 59
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8620",
+          "level": "warning",
+          "message": "El argumento de tipo \"ISetup<ITipoInmuebleRepository, Task<List<TipoInmueble>>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<ITipoInmuebleRepository, Task<List<TipoInmueble>?>>\" en \"IReturnsResult<ITipoInmuebleRepository> ReturnsExtensions.ReturnsAsync<ITipoInmuebleRepository, List<TipoInmueble>?>(IReturns<ITipoInmuebleRepository, Task<List<TipoInmueble>?>> mock, List<TipoInmueble>? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/TipoInmuebleControllerTest.cs",
+                "region": {
+                  "startLine": 55,
+                  "startColumn": 13,
+                  "endLine": 56,
+                  "endColumn": 49
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8620",
+          "level": "warning",
+          "message": "El argumento de tipo \"ISetup<IRolRepository, Task<Rol>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<IRolRepository, Task<Rol?>>\" en \"IReturnsResult<IRolRepository> ReturnsExtensions.ReturnsAsync<IRolRepository, Rol?>(IReturns<IRolRepository, Task<Rol?>> mock, Rol? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/RolControllerTest.cs",
+                "region": {
+                  "startLine": 136,
+                  "startColumn": 13,
+                  "endLine": 137,
+                  "endColumn": 54
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8620",
+          "level": "warning",
+          "message": "El argumento de tipo \"ISetup<IUsuarioRepository, Task<Usuario>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<IUsuarioRepository, Task<Usuario?>>\" en \"IReturnsResult<IUsuarioRepository> ReturnsExtensions.ReturnsAsync<IUsuarioRepository, Usuario?>(IReturns<IUsuarioRepository, Task<Usuario?>> mock, Usuario? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/UsuarioControllerTest.cs",
+                "region": {
+                  "startLine": 187,
+                  "startColumn": 13,
+                  "endLine": 188,
+                  "endColumn": 49
                 }
               }
             }
@@ -602,6 +371,174 @@
         {
           "ruleId": "CS8620",
           "level": "warning",
+          "message": "El argumento de tipo \"ISetup<IInmuebleRepository, Task<List<Inmueble>>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<IInmuebleRepository, Task<List<Inmueble>?>>\" en \"IReturnsResult<IInmuebleRepository> ReturnsExtensions.ReturnsAsync<IInmuebleRepository, List<Inmueble>?>(IReturns<IInmuebleRepository, Task<List<Inmueble>?>> mock, List<Inmueble>? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/InmuebleControllerTest.cs",
+                "region": {
+                  "startLine": 62,
+                  "startColumn": 13,
+                  "endLine": 63,
+                  "endColumn": 45
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8620",
+          "level": "warning",
+          "message": "El argumento de tipo \"ISetup<ICaracteristicaRepository, Task<Caracteristica>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<ICaracteristicaRepository, Task<Caracteristica?>>\" en \"IReturnsResult<ICaracteristicaRepository> ReturnsExtensions.ReturnsAsync<ICaracteristicaRepository, Caracteristica?>(IReturns<ICaracteristicaRepository, Task<Caracteristica?>> mock, Caracteristica? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/CaracteristicaControllerTest.cs",
+                "region": {
+                  "startLine": 219,
+                  "startColumn": 13,
+                  "endLine": 220,
+                  "endColumn": 56
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8620",
+          "level": "warning",
+          "message": "El argumento de tipo \"ISetup<IInmuebleCaracteristicaRepository, Task<List<InmuebleCaracteristica>>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<IInmuebleCaracteristicaRepository, Task<List<InmuebleCaracteristica>?>>\" en \"IReturnsResult<IInmuebleCaracteristicaRepository> ReturnsExtensions.ReturnsAsync<IInmuebleCaracteristicaRepository, List<InmuebleCaracteristica>?>(IReturns<IInmuebleCaracteristicaRepository, Task<List<InmuebleCaracteristica>?>> mock, List<InmuebleCaracteristica>? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/InmuebleCaracteristicaControllerTest.cs",
+                "region": {
+                  "startLine": 58,
+                  "startColumn": 13,
+                  "endLine": 59,
+                  "endColumn": 59
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8620",
+          "level": "warning",
+          "message": "El argumento de tipo \"ISetup<ICiudadRepository, Task<Ciudad>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<ICiudadRepository, Task<Ciudad?>>\" en \"IReturnsResult<ICiudadRepository> ReturnsExtensions.ReturnsAsync<ICiudadRepository, Ciudad?>(IReturns<ICiudadRepository, Task<Ciudad?>> mock, Ciudad? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/CiudadControllerTest.cs",
+                "region": {
+                  "startLine": 218,
+                  "startColumn": 13,
+                  "endLine": 219,
+                  "endColumn": 48
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8620",
+          "level": "warning",
+          "message": "El argumento de tipo \"ISetup<IEstadoPublicacionRepository, Task<EstadoPublicacion>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<IEstadoPublicacionRepository, Task<EstadoPublicacion?>>\" en \"IReturnsResult<IEstadoPublicacionRepository> ReturnsExtensions.ReturnsAsync<IEstadoPublicacionRepository, EstadoPublicacion?>(IReturns<IEstadoPublicacionRepository, Task<EstadoPublicacion?>> mock, EstadoPublicacion? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/EstadoPublicacionControllerTest.cs",
+                "region": {
+                  "startLine": 266,
+                  "startColumn": 13,
+                  "endLine": 267,
+                  "endColumn": 59
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8620",
+          "level": "warning",
+          "message": "El argumento de tipo \"ISetup<IInmuebleRepository, Task<Inmueble>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<IInmuebleRepository, Task<Inmueble?>>\" en \"IReturnsResult<IInmuebleRepository> ReturnsExtensions.ReturnsAsync<IInmuebleRepository, Inmueble?>(IReturns<IInmuebleRepository, Task<Inmueble?>> mock, Inmueble? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/ImagenControllerTest.cs",
+                "region": {
+                  "startLine": 200,
+                  "startColumn": 13,
+                  "endLine": 201,
+                  "endColumn": 50
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8620",
+          "level": "warning",
+          "message": "El argumento de tipo \"ISetup<ILocalidadRepository, Task<Localidad>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<ILocalidadRepository, Task<Localidad?>>\" en \"IReturnsResult<ILocalidadRepository> ReturnsExtensions.ReturnsAsync<ILocalidadRepository, Localidad?>(IReturns<ILocalidadRepository, Task<Localidad?>> mock, Localidad? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/LocalidadControllerTest.cs",
+                "region": {
+                  "startLine": 106,
+                  "startColumn": 13,
+                  "endLine": 107,
+                  "endColumn": 60
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8620",
+          "level": "warning",
+          "message": "El argumento de tipo \"ISetup<ICiudadRepository, Task<Ciudad>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<ICiudadRepository, Task<Ciudad?>>\" en \"IReturnsResult<ICiudadRepository> ReturnsExtensions.ReturnsAsync<ICiudadRepository, Ciudad?>(IReturns<ICiudadRepository, Task<Ciudad?>> mock, Ciudad? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/CiudadControllerTest.cs",
+                "region": {
+                  "startLine": 265,
+                  "startColumn": 13,
+                  "endLine": 266,
+                  "endColumn": 55
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8620",
+          "level": "warning",
           "message": "El argumento de tipo \"ISetup<ITipoInmuebleRepository, Task<TipoInmueble>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<ITipoInmuebleRepository, Task<TipoInmueble?>>\" en \"IReturnsResult<ITipoInmuebleRepository> ReturnsExtensions.ReturnsAsync<ITipoInmuebleRepository, TipoInmueble?>(IReturns<ITipoInmuebleRepository, Task<TipoInmueble?>> mock, TipoInmueble? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
           "locations": [
             {
@@ -623,16 +560,100 @@
         {
           "ruleId": "CS8620",
           "level": "warning",
+          "message": "El argumento de tipo \"ISetup<IEstadoPublicacionRepository, Task<EstadoPublicacion>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<IEstadoPublicacionRepository, Task<EstadoPublicacion?>>\" en \"IReturnsResult<IEstadoPublicacionRepository> ReturnsExtensions.ReturnsAsync<IEstadoPublicacionRepository, EstadoPublicacion?>(IReturns<IEstadoPublicacionRepository, Task<EstadoPublicacion?>> mock, EstadoPublicacion? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/EstadoPublicacionControllerTest.cs",
+                "region": {
+                  "startLine": 342,
+                  "startColumn": 13,
+                  "endLine": 343,
+                  "endColumn": 66
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8620",
+          "level": "warning",
+          "message": "El argumento de tipo \"ISetup<IInmuebleRepository, Task<Inmueble>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<IInmuebleRepository, Task<Inmueble?>>\" en \"IReturnsResult<IInmuebleRepository> ReturnsExtensions.ReturnsAsync<IInmuebleRepository, Inmueble?>(IReturns<IInmuebleRepository, Task<Inmueble?>> mock, Inmueble? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/InmuebleControllerTest.cs",
+                "region": {
+                  "startLine": 113,
+                  "startColumn": 13,
+                  "endLine": 114,
+                  "endColumn": 59
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8620",
+          "level": "warning",
+          "message": "El argumento de tipo \"ISetup<ICaracteristicaRepository, Task<Caracteristica>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<ICaracteristicaRepository, Task<Caracteristica?>>\" en \"IReturnsResult<ICaracteristicaRepository> ReturnsExtensions.ReturnsAsync<ICaracteristicaRepository, Caracteristica?>(IReturns<ICaracteristicaRepository, Task<Caracteristica?>> mock, Caracteristica? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/CaracteristicaControllerTest.cs",
+                "region": {
+                  "startLine": 266,
+                  "startColumn": 13,
+                  "endLine": 267,
+                  "endColumn": 63
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8620",
+          "level": "warning",
           "message": "El argumento de tipo \"ISetup<IRolRepository, Task<Rol>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<IRolRepository, Task<Rol?>>\" en \"IReturnsResult<IRolRepository> ReturnsExtensions.ReturnsAsync<IRolRepository, Rol?>(IReturns<IRolRepository, Task<Rol?>> mock, Rol? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
           "locations": [
             {
               "resultFile": {
                 "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/RolControllerTest.cs",
                 "region": {
-                  "startLine": 136,
+                  "startLine": 306,
                   "startColumn": 13,
-                  "endLine": 137,
-                  "endColumn": 54
+                  "endLine": 307,
+                  "endColumn": 45
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8620",
+          "level": "warning",
+          "message": "El argumento de tipo \"ISetup<IInmuebleCaracteristicaRepository, Task<InmuebleCaracteristica>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<IInmuebleCaracteristicaRepository, Task<InmuebleCaracteristica?>>\" en \"IReturnsResult<IInmuebleCaracteristicaRepository> ReturnsExtensions.ReturnsAsync<IInmuebleCaracteristicaRepository, InmuebleCaracteristica?>(IReturns<IInmuebleCaracteristicaRepository, Task<InmuebleCaracteristica?>> mock, InmuebleCaracteristica? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/InmuebleCaracteristicaControllerTest.cs",
+                "region": {
+                  "startLine": 111,
+                  "startColumn": 13,
+                  "endLine": 112,
+                  "endColumn": 46
                 }
               }
             }
@@ -669,12 +690,96 @@
           "locations": [
             {
               "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/InmuebleControllerTest.cs",
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/ImagenControllerTest.cs",
                 "region": {
-                  "startLine": 113,
+                  "startLine": 359,
                   "startColumn": 13,
-                  "endLine": 114,
-                  "endColumn": 59
+                  "endLine": 360,
+                  "endColumn": 50
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8620",
+          "level": "warning",
+          "message": "El argumento de tipo \"ISetup<IRolRepository, Task<Rol>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<IRolRepository, Task<Rol?>>\" en \"IReturnsResult<IRolRepository> ReturnsExtensions.ReturnsAsync<IRolRepository, Rol?>(IReturns<IRolRepository, Task<Rol?>> mock, Rol? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/RolControllerTest.cs",
+                "region": {
+                  "startLine": 397,
+                  "startColumn": 13,
+                  "endLine": 398,
+                  "endColumn": 52
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8620",
+          "level": "warning",
+          "message": "El argumento de tipo \"ISetup<IContactoRepository, Task<Contacto>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<IContactoRepository, Task<Contacto?>>\" en \"IReturnsResult<IContactoRepository> ReturnsExtensions.ReturnsAsync<IContactoRepository, Contacto?>(IReturns<IContactoRepository, Task<Contacto?>> mock, Contacto? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/ContactoControllerTest.cs",
+                "region": {
+                  "startLine": 376,
+                  "startColumn": 13,
+                  "endLine": 377,
+                  "endColumn": 50
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8620",
+          "level": "warning",
+          "message": "El argumento de tipo \"ISetup<IImagenRepository, Task<Imagen>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<IImagenRepository, Task<Imagen?>>\" en \"IReturnsResult<IImagenRepository> ReturnsExtensions.ReturnsAsync<IImagenRepository, Imagen?>(IReturns<IImagenRepository, Task<Imagen?>> mock, Imagen? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/ImagenControllerTest.cs",
+                "region": {
+                  "startLine": 447,
+                  "startColumn": 13,
+                  "endLine": 448,
+                  "endColumn": 55
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8620",
+          "level": "warning",
+          "message": "El argumento de tipo \"ISetup<IContactoRepository, Task<Contacto>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<IContactoRepository, Task<Contacto?>>\" en \"IReturnsResult<IContactoRepository> ReturnsExtensions.ReturnsAsync<IContactoRepository, Contacto?>(IReturns<IContactoRepository, Task<Contacto?>> mock, Contacto? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/ContactoControllerTest.cs",
+                "region": {
+                  "startLine": 467,
+                  "startColumn": 13,
+                  "endLine": 468,
+                  "endColumn": 57
                 }
               }
             }
@@ -690,11 +795,11 @@
           "locations": [
             {
               "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/ImagenControllerTest.cs",
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/InmuebleCaracteristicaControllerTest.cs",
                 "region": {
-                  "startLine": 359,
+                  "startLine": 197,
                   "startColumn": 13,
-                  "endLine": 360,
+                  "endLine": 198,
                   "endColumn": 50
                 }
               }
@@ -713,10 +818,73 @@
               "resultFile": {
                 "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/LocalidadControllerTest.cs",
                 "region": {
-                  "startLine": 106,
+                  "startLine": 278,
                   "startColumn": 13,
-                  "endLine": 107,
-                  "endColumn": 60
+                  "endLine": 279,
+                  "endColumn": 51
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8620",
+          "level": "warning",
+          "message": "El argumento de tipo \"ISetup<IInmuebleRepository, Task<Inmueble>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<IInmuebleRepository, Task<Inmueble?>>\" en \"IReturnsResult<IInmuebleRepository> ReturnsExtensions.ReturnsAsync<IInmuebleRepository, Inmueble?>(IReturns<IInmuebleRepository, Task<Inmueble?>> mock, Inmueble? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/InmuebleControllerTest.cs",
+                "region": {
+                  "startLine": 302,
+                  "startColumn": 13,
+                  "endLine": 303,
+                  "endColumn": 50
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8620",
+          "level": "warning",
+          "message": "El argumento de tipo \"ISetup<ITipoInmuebleRepository, Task<TipoInmueble>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<ITipoInmuebleRepository, Task<TipoInmueble?>>\" en \"IReturnsResult<ITipoInmuebleRepository> ReturnsExtensions.ReturnsAsync<ITipoInmuebleRepository, TipoInmueble?>(IReturns<ITipoInmuebleRepository, Task<TipoInmueble?>> mock, TipoInmueble? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/TipoInmuebleControllerTest.cs",
+                "region": {
+                  "startLine": 276,
+                  "startColumn": 13,
+                  "endLine": 277,
+                  "endColumn": 54
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8620",
+          "level": "warning",
+          "message": "El argumento de tipo \"ISetup<IUsuarioRepository, Task<Usuario>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<IUsuarioRepository, Task<Usuario?>>\" en \"IReturnsResult<IUsuarioRepository> ReturnsExtensions.ReturnsAsync<IUsuarioRepository, Usuario?>(IReturns<IUsuarioRepository, Task<Usuario?>> mock, Usuario? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/UsuarioControllerTest.cs",
+                "region": {
+                  "startLine": 505,
+                  "startColumn": 13,
+                  "endLine": 506,
+                  "endColumn": 49
                 }
               }
             }
@@ -738,27 +906,6 @@
                   "startColumn": 13,
                   "endLine": 318,
                   "endColumn": 46
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "CS8620",
-          "level": "warning",
-          "message": "El argumento de tipo \"ISetup<IEstadoPublicacionRepository, Task<EstadoPublicacion>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<IEstadoPublicacionRepository, Task<EstadoPublicacion?>>\" en \"IReturnsResult<IEstadoPublicacionRepository> ReturnsExtensions.ReturnsAsync<IEstadoPublicacionRepository, EstadoPublicacion?>(IReturns<IEstadoPublicacionRepository, Task<EstadoPublicacion?>> mock, EstadoPublicacion? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/EstadoPublicacionControllerTest.cs",
-                "region": {
-                  "startLine": 342,
-                  "startColumn": 13,
-                  "endLine": 343,
-                  "endColumn": 66
                 }
               }
             }
@@ -797,157 +944,10 @@
               "resultFile": {
                 "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/TipoInmuebleControllerTest.cs",
                 "region": {
-                  "startLine": 276,
-                  "startColumn": 13,
-                  "endLine": 277,
-                  "endColumn": 54
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "CS8620",
-          "level": "warning",
-          "message": "El argumento de tipo \"ISetup<IRolRepository, Task<Rol>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<IRolRepository, Task<Rol?>>\" en \"IReturnsResult<IRolRepository> ReturnsExtensions.ReturnsAsync<IRolRepository, Rol?>(IReturns<IRolRepository, Task<Rol?>> mock, Rol? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/RolControllerTest.cs",
-                "region": {
-                  "startLine": 306,
-                  "startColumn": 13,
-                  "endLine": 307,
-                  "endColumn": 45
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "CS8620",
-          "level": "warning",
-          "message": "El argumento de tipo \"ISetup<ITipoInmuebleRepository, Task<TipoInmueble>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<ITipoInmuebleRepository, Task<TipoInmueble?>>\" en \"IReturnsResult<ITipoInmuebleRepository> ReturnsExtensions.ReturnsAsync<ITipoInmuebleRepository, TipoInmueble?>(IReturns<ITipoInmuebleRepository, Task<TipoInmueble?>> mock, TipoInmueble? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/TipoInmuebleControllerTest.cs",
-                "region": {
                   "startLine": 367,
                   "startColumn": 13,
                   "endLine": 368,
                   "endColumn": 61
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "CS8620",
-          "level": "warning",
-          "message": "El argumento de tipo \"ISetup<IRolRepository, Task<Rol>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<IRolRepository, Task<Rol?>>\" en \"IReturnsResult<IRolRepository> ReturnsExtensions.ReturnsAsync<IRolRepository, Rol?>(IReturns<IRolRepository, Task<Rol?>> mock, Rol? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/RolControllerTest.cs",
-                "region": {
-                  "startLine": 397,
-                  "startColumn": 13,
-                  "endLine": 398,
-                  "endColumn": 52
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "CS8620",
-          "level": "warning",
-          "message": "El argumento de tipo \"ISetup<IImagenRepository, Task<Imagen>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<IImagenRepository, Task<Imagen?>>\" en \"IReturnsResult<IImagenRepository> ReturnsExtensions.ReturnsAsync<IImagenRepository, Imagen?>(IReturns<IImagenRepository, Task<Imagen?>> mock, Imagen? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/ImagenControllerTest.cs",
-                "region": {
-                  "startLine": 447,
-                  "startColumn": 13,
-                  "endLine": 448,
-                  "endColumn": 55
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "CS8620",
-          "level": "warning",
-          "message": "El argumento de tipo \"ISetup<IInmuebleRepository, Task<Inmueble>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<IInmuebleRepository, Task<Inmueble?>>\" en \"IReturnsResult<IInmuebleRepository> ReturnsExtensions.ReturnsAsync<IInmuebleRepository, Inmueble?>(IReturns<IInmuebleRepository, Task<Inmueble?>> mock, Inmueble? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/InmuebleControllerTest.cs",
-                "region": {
-                  "startLine": 302,
-                  "startColumn": 13,
-                  "endLine": 303,
-                  "endColumn": 50
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "CS8620",
-          "level": "warning",
-          "message": "El argumento de tipo \"ISetup<IUsuarioRepository, Task<Usuario>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<IUsuarioRepository, Task<Usuario?>>\" en \"IReturnsResult<IUsuarioRepository> ReturnsExtensions.ReturnsAsync<IUsuarioRepository, Usuario?>(IReturns<IUsuarioRepository, Task<Usuario?>> mock, Usuario? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/UsuarioControllerTest.cs",
-                "region": {
-                  "startLine": 505,
-                  "startColumn": 13,
-                  "endLine": 506,
-                  "endColumn": 49
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "CS8620",
-          "level": "warning",
-          "message": "El argumento de tipo \"ISetup<ILocalidadRepository, Task<Localidad>>\" no se puede usar para el parámetro \"mock\" de tipo \"IReturns<ILocalidadRepository, Task<Localidad?>>\" en \"IReturnsResult<ILocalidadRepository> ReturnsExtensions.ReturnsAsync<ILocalidadRepository, Localidad?>(IReturns<ILocalidadRepository, Task<Localidad?>> mock, Localidad? value)\" debido a las diferencias en la nulabilidad de los tipos de referencia.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever.test/Controllers/LocalidadControllerTest.cs",
-                "region": {
-                  "startLine": 278,
-                  "startColumn": 13,
-                  "endLine": 279,
-                  "endColumn": 51
                 }
               }
             }

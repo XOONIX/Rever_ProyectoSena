@@ -456,31 +456,18 @@
           }
         },
         {
-          "ruleId": "CS8618",
+          "ruleId": "CS8600",
           "level": "warning",
-          "message": "El elemento propiedad \"Mensaje\" que no acepta valores NULL debe contener un valor distinto de NULL al salir del constructor. Considere la posibilidad de agregar el modificador \"required'\"o declarar el propiedad como un valor que acepta valores NULL.",
+          "message": "Se va a convertir un literal nulo o un posible valor nulo en un tipo que no acepta valores NULL",
           "locations": [
             {
               "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Models/Contacto.cs",
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/AdministradoresInjectionService.cs",
                 "region": {
-                  "startLine": 29,
-                  "startColumn": 23,
-                  "endLine": 29,
-                  "endColumn": 30
-                }
-              }
-            }
-          ],
-          "relatedLocations": [
-            {
-              "physicalLocation": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Models/Contacto.cs",
-                "region": {
-                  "startLine": 29,
-                  "startColumn": 23,
-                  "endLine": 29,
-                  "endColumn": 30
+                  "startLine": 18,
+                  "startColumn": 32,
+                  "endLine": 18,
+                  "endColumn": 87
                 }
               }
             }
@@ -1074,96 +1061,117 @@
           "locations": [
             {
               "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Repositories/CaracteristicaRepository.cs",
-                "region": {
-                  "startLine": 29,
-                  "startColumn": 20,
-                  "endLine": 29,
-                  "endColumn": 24
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "CS8603",
-          "level": "warning",
-          "message": "Posible tipo de valor devuelto de referencia nulo.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Repositories/EstadoPublicacionRepository.cs",
-                "region": {
-                  "startLine": 28,
-                  "startColumn": 20,
-                  "endLine": 28,
-                  "endColumn": 24
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "CS8603",
-          "level": "warning",
-          "message": "Posible tipo de valor devuelto de referencia nulo.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Repositories/ContactoRepository.cs",
-                "region": {
-                  "startLine": 28,
-                  "startColumn": 20,
-                  "endLine": 28,
-                  "endColumn": 24
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "CS8603",
-          "level": "warning",
-          "message": "Posible tipo de valor devuelto de referencia nulo.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Repositories/InmuebleCaracteristicaRepository.cs",
-                "region": {
-                  "startLine": 30,
-                  "startColumn": 20,
-                  "endLine": 30,
-                  "endColumn": 24
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "CS8603",
-          "level": "warning",
-          "message": "Posible tipo de valor devuelto de referencia nulo.",
-          "locations": [
-            {
-              "resultFile": {
                 "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Repositories/UsuarioRepository.cs",
                 "region": {
                   "startLine": 28,
                   "startColumn": 20,
                   "endLine": 28,
                   "endColumn": 24
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8603",
+          "level": "warning",
+          "message": "Posible tipo de valor devuelto de referencia nulo.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Repositories/TipoInmuebleRepository.cs",
+                "region": {
+                  "startLine": 28,
+                  "startColumn": 20,
+                  "endLine": 28,
+                  "endColumn": 24
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8603",
+          "level": "warning",
+          "message": "Posible tipo de valor devuelto de referencia nulo.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Repositories/RolRepository.cs",
+                "region": {
+                  "startLine": 28,
+                  "startColumn": 20,
+                  "endLine": 28,
+                  "endColumn": 24
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS0472",
+          "level": "warning",
+          "message": "El resultado de la expresión siempre es 'false' porque un valor del tipo 'bool' nunca es igual a 'NULL' de tipo 'bool?'",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Controllers/CiudadController.cs",
+                "region": {
+                  "startLine": 97,
+                  "startColumn": 21,
+                  "endLine": 97,
+                  "endColumn": 37
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 2
+          }
+        },
+        {
+          "ruleId": "CS0472",
+          "level": "warning",
+          "message": "El resultado de la expresión siempre es 'false' porque un valor del tipo 'bool' nunca es igual a 'NULL' de tipo 'bool?'",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Controllers/ContactoController.cs",
+                "region": {
+                  "startLine": 122,
+                  "startColumn": 21,
+                  "endLine": 122,
+                  "endColumn": 37
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 2
+          }
+        },
+        {
+          "ruleId": "CS8603",
+          "level": "warning",
+          "message": "Posible tipo de valor devuelto de referencia nulo.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Repositories/ModoTransaccionRepository.cs",
+                "region": {
+                  "startLine": 27,
+                  "startColumn": 20,
+                  "endLine": 27,
+                  "endColumn": 64
                 }
               }
             }
@@ -1194,18 +1202,52 @@
           }
         },
         {
-          "ruleId": "CS8603",
+          "ruleId": "CS0472",
           "level": "warning",
-          "message": "Posible tipo de valor devuelto de referencia nulo.",
+          "message": "El resultado de la expresión siempre es 'false' porque un valor del tipo 'bool' nunca es igual a 'NULL' de tipo 'bool?'",
           "locations": [
             {
               "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Repositories/ImagenRepository.cs",
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Controllers/EstadoPublicacionController.cs",
                 "region": {
-                  "startLine": 28,
-                  "startColumn": 20,
-                  "endLine": 28,
-                  "endColumn": 24
+                  "startLine": 95,
+                  "startColumn": 21,
+                  "endLine": 95,
+                  "endColumn": 37
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 2
+          }
+        },
+        {
+          "ruleId": "CS8618",
+          "level": "warning",
+          "message": "El elemento propiedad \"Mensaje\" que no acepta valores NULL debe contener un valor distinto de NULL al salir del constructor. Considere la posibilidad de agregar el modificador \"required'\"o declarar el propiedad como un valor que acepta valores NULL.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Models/Contacto.cs",
+                "region": {
+                  "startLine": 29,
+                  "startColumn": 23,
+                  "endLine": 29,
+                  "endColumn": 30
+                }
+              }
+            }
+          ],
+          "relatedLocations": [
+            {
+              "physicalLocation": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Models/Contacto.cs",
+                "region": {
+                  "startLine": 29,
+                  "startColumn": 23,
+                  "endLine": 29,
+                  "endColumn": 30
                 }
               }
             }
@@ -1226,6 +1268,90 @@
                   "startLine": 31,
                   "startColumn": 20,
                   "endLine": 31,
+                  "endColumn": 24
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS0472",
+          "level": "warning",
+          "message": "El resultado de la expresión siempre es 'false' porque un valor del tipo 'bool' nunca es igual a 'NULL' de tipo 'bool?'",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Controllers/ImagenController.cs",
+                "region": {
+                  "startLine": 102,
+                  "startColumn": 21,
+                  "endLine": 102,
+                  "endColumn": 37
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 2
+          }
+        },
+        {
+          "ruleId": "CS0472",
+          "level": "warning",
+          "message": "El resultado de la expresión siempre es 'false' porque un valor del tipo 'bool' nunca es igual a 'NULL' de tipo 'bool?'",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Controllers/InmuebleCaracteristica.cs",
+                "region": {
+                  "startLine": 104,
+                  "startColumn": 21,
+                  "endLine": 104,
+                  "endColumn": 37
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 2
+          }
+        },
+        {
+          "ruleId": "CS0472",
+          "level": "warning",
+          "message": "El resultado de la expresión siempre es 'false' porque un valor del tipo 'bool' nunca es igual a 'NULL' de tipo 'bool?'",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Controllers/InmuebleController.cs",
+                "region": {
+                  "startLine": 123,
+                  "startColumn": 21,
+                  "endLine": 123,
+                  "endColumn": 37
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 2
+          }
+        },
+        {
+          "ruleId": "CS8603",
+          "level": "warning",
+          "message": "Posible tipo de valor devuelto de referencia nulo.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Repositories/CaracteristicaRepository.cs",
+                "region": {
+                  "startLine": 29,
+                  "startColumn": 20,
+                  "endLine": 29,
                   "endColumn": 24
                 }
               }
@@ -1257,59 +1383,17 @@
           }
         },
         {
-          "ruleId": "CS8625",
-          "level": "warning",
-          "message": "No se puede convertir un literal NULL en un tipo de referencia que no acepta valores NULL.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Controllers/UsuarioController.cs",
-                "region": {
-                  "startLine": 145,
-                  "startColumn": 38,
-                  "endLine": 145,
-                  "endColumn": 42
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
           "ruleId": "CS0472",
           "level": "warning",
           "message": "El resultado de la expresión siempre es 'false' porque un valor del tipo 'bool' nunca es igual a 'NULL' de tipo 'bool?'",
           "locations": [
             {
               "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Controllers/ContactoController.cs",
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Controllers/LocalidadController.cs",
                 "region": {
-                  "startLine": 122,
+                  "startLine": 96,
                   "startColumn": 21,
-                  "endLine": 122,
-                  "endColumn": 37
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 2
-          }
-        },
-        {
-          "ruleId": "CS0472",
-          "level": "warning",
-          "message": "El resultado de la expresión siempre es 'false' porque un valor del tipo 'bool' nunca es igual a 'NULL' de tipo 'bool?'",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Controllers/EstadoPublicacionController.cs",
-                "region": {
-                  "startLine": 95,
-                  "startColumn": 21,
-                  "endLine": 95,
+                  "endLine": 96,
                   "endColumn": 37
                 }
               }
@@ -1380,195 +1464,6 @@
           ],
           "properties": {
             "warningLevel": 2
-          }
-        },
-        {
-          "ruleId": "CS0472",
-          "level": "warning",
-          "message": "El resultado de la expresión siempre es 'false' porque un valor del tipo 'bool' nunca es igual a 'NULL' de tipo 'bool?'",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Controllers/CiudadController.cs",
-                "region": {
-                  "startLine": 97,
-                  "startColumn": 21,
-                  "endLine": 97,
-                  "endColumn": 37
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 2
-          }
-        },
-        {
-          "ruleId": "CS8603",
-          "level": "warning",
-          "message": "Posible tipo de valor devuelto de referencia nulo.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Repositories/ModoTransaccionRepository.cs",
-                "region": {
-                  "startLine": 27,
-                  "startColumn": 20,
-                  "endLine": 27,
-                  "endColumn": 64
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "CS0472",
-          "level": "warning",
-          "message": "El resultado de la expresión siempre es 'false' porque un valor del tipo 'bool' nunca es igual a 'NULL' de tipo 'bool?'",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Controllers/InmuebleController.cs",
-                "region": {
-                  "startLine": 123,
-                  "startColumn": 21,
-                  "endLine": 123,
-                  "endColumn": 37
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 2
-          }
-        },
-        {
-          "ruleId": "CS0472",
-          "level": "warning",
-          "message": "El resultado de la expresión siempre es 'false' porque un valor del tipo 'bool' nunca es igual a 'NULL' de tipo 'bool?'",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Controllers/ImagenController.cs",
-                "region": {
-                  "startLine": 102,
-                  "startColumn": 21,
-                  "endLine": 102,
-                  "endColumn": 37
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 2
-          }
-        },
-        {
-          "ruleId": "CS0472",
-          "level": "warning",
-          "message": "El resultado de la expresión siempre es 'false' porque un valor del tipo 'bool' nunca es igual a 'NULL' de tipo 'bool?'",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Controllers/InmuebleCaracteristica.cs",
-                "region": {
-                  "startLine": 104,
-                  "startColumn": 21,
-                  "endLine": 104,
-                  "endColumn": 37
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 2
-          }
-        },
-        {
-          "ruleId": "CS8600",
-          "level": "warning",
-          "message": "Se va a convertir un literal nulo o un posible valor nulo en un tipo que no acepta valores NULL",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/AdministradoresInjectionService.cs",
-                "region": {
-                  "startLine": 18,
-                  "startColumn": 32,
-                  "endLine": 18,
-                  "endColumn": 87
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "CS0472",
-          "level": "warning",
-          "message": "El resultado de la expresión siempre es 'false' porque un valor del tipo 'bool' nunca es igual a 'NULL' de tipo 'bool?'",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Controllers/LocalidadController.cs",
-                "region": {
-                  "startLine": 96,
-                  "startColumn": 21,
-                  "endLine": 96,
-                  "endColumn": 37
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 2
-          }
-        },
-        {
-          "ruleId": "CS8603",
-          "level": "warning",
-          "message": "Posible tipo de valor devuelto de referencia nulo.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Repositories/RolRepository.cs",
-                "region": {
-                  "startLine": 28,
-                  "startColumn": 20,
-                  "endLine": 28,
-                  "endColumn": 24
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "CS8603",
-          "level": "warning",
-          "message": "Posible tipo de valor devuelto de referencia nulo.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Repositories/TipoInmuebleRepository.cs",
-                "region": {
-                  "startLine": 28,
-                  "startColumn": 20,
-                  "endLine": 28,
-                  "endColumn": 24
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
           }
         },
         {
@@ -1710,6 +1605,90 @@
                   "startColumn": 78,
                   "endLine": 102,
                   "endColumn": 95
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8603",
+          "level": "warning",
+          "message": "Posible tipo de valor devuelto de referencia nulo.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Repositories/ContactoRepository.cs",
+                "region": {
+                  "startLine": 28,
+                  "startColumn": 20,
+                  "endLine": 28,
+                  "endColumn": 24
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8603",
+          "level": "warning",
+          "message": "Posible tipo de valor devuelto de referencia nulo.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Repositories/EstadoPublicacionRepository.cs",
+                "region": {
+                  "startLine": 28,
+                  "startColumn": 20,
+                  "endLine": 28,
+                  "endColumn": 24
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8603",
+          "level": "warning",
+          "message": "Posible tipo de valor devuelto de referencia nulo.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Repositories/ImagenRepository.cs",
+                "region": {
+                  "startLine": 28,
+                  "startColumn": 20,
+                  "endLine": 28,
+                  "endColumn": 24
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "CS8603",
+          "level": "warning",
+          "message": "Posible tipo de valor devuelto de referencia nulo.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Repositories/InmuebleCaracteristicaRepository.cs",
+                "region": {
+                  "startLine": 30,
+                  "startColumn": 20,
+                  "endLine": 30,
+                  "endColumn": 24
                 }
               }
             }
@@ -1866,18 +1845,18 @@
           }
         },
         {
-          "ruleId": "S6964",
+          "ruleId": "CS8625",
           "level": "warning",
-          "message": "Value type property used as input in a controller action should be nullable, required or annotated with the JsonRequiredAttribute to avoid under-posting.",
+          "message": "No se puede convertir un literal NULL en un tipo de referencia que no acepta valores NULL.",
           "locations": [
             {
               "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Models/Imagen.cs",
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Controllers/UsuarioController.cs",
                 "region": {
-                  "startLine": 12,
-                  "startColumn": 20,
-                  "endLine": 12,
-                  "endColumn": 28
+                  "startLine": 145,
+                  "startColumn": 38,
+                  "endLine": 145,
+                  "endColumn": 42
                 }
               }
             }
@@ -1914,12 +1893,12 @@
           "locations": [
             {
               "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Models/Imagen.cs",
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Models/Rol.cs",
                 "region": {
-                  "startLine": 20,
-                  "startColumn": 21,
-                  "endLine": 20,
-                  "endColumn": 28
+                  "startLine": 11,
+                  "startColumn": 20,
+                  "endLine": 11,
+                  "endColumn": 25
                 }
               }
             }
@@ -1935,12 +1914,159 @@
           "locations": [
             {
               "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Models/Rol.cs",
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Models/Ciudad.cs",
                 "region": {
-                  "startLine": 11,
+                  "startLine": 13,
                   "startColumn": 20,
-                  "endLine": 11,
-                  "endColumn": 25
+                  "endLine": 13,
+                  "endColumn": 28
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S6966",
+          "level": "warning",
+          "message": "Await FirstOrDefaultAsync instead.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Repositories/TipoInmuebleRepository.cs",
+                "region": {
+                  "startLine": 40,
+                  "startColumn": 25,
+                  "endLine": 40,
+                  "endColumn": 99
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S6966",
+          "level": "warning",
+          "message": "Await RunAsync instead.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Program.cs",
+                "region": {
+                  "startLine": 95,
+                  "startColumn": 1,
+                  "endLine": 95,
+                  "endColumn": 10
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S6966",
+          "level": "warning",
+          "message": "Await FirstOrDefaultAsync instead.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Repositories/RolRepository.cs",
+                "region": {
+                  "startLine": 40,
+                  "startColumn": 25,
+                  "endLine": 40,
+                  "endColumn": 79
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S6964",
+          "level": "warning",
+          "message": "Value type property used as input in a controller action should be nullable, required or annotated with the JsonRequiredAttribute to avoid under-posting.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Models/Contacto.cs",
+                "region": {
+                  "startLine": 12,
+                  "startColumn": 20,
+                  "endLine": 12,
+                  "endColumn": 30
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S6964",
+          "level": "warning",
+          "message": "Value type property used as input in a controller action should be nullable, required or annotated with the JsonRequiredAttribute to avoid under-posting.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Models/Contacto.cs",
+                "region": {
+                  "startLine": 16,
+                  "startColumn": 20,
+                  "endLine": 16,
+                  "endColumn": 31
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S6964",
+          "level": "warning",
+          "message": "Value type property used as input in a controller action should be nullable, required or annotated with the JsonRequiredAttribute to avoid under-posting.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Models/Contacto.cs",
+                "region": {
+                  "startLine": 20,
+                  "startColumn": 20,
+                  "endLine": 20,
+                  "endColumn": 30
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S6964",
+          "level": "warning",
+          "message": "Value type property used as input in a controller action should be nullable, required or annotated with the JsonRequiredAttribute to avoid under-posting.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Models/Contacto.cs",
+                "region": {
+                  "startLine": 24,
+                  "startColumn": 20,
+                  "endLine": 24,
+                  "endColumn": 30
                 }
               }
             }
@@ -2103,27 +2229,6 @@
           "locations": [
             {
               "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Models/Ciudad.cs",
-                "region": {
-                  "startLine": 13,
-                  "startColumn": 20,
-                  "endLine": 13,
-                  "endColumn": 28
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "S6964",
-          "level": "warning",
-          "message": "Value type property used as input in a controller action should be nullable, required or annotated with the JsonRequiredAttribute to avoid under-posting.",
-          "locations": [
-            {
-              "resultFile": {
                 "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Models/TipoInmueble.cs",
                 "region": {
                   "startLine": 11,
@@ -2181,18 +2286,18 @@
           }
         },
         {
-          "ruleId": "S6964",
+          "ruleId": "S6966",
           "level": "warning",
-          "message": "Value type property used as input in a controller action should be nullable, required or annotated with the JsonRequiredAttribute to avoid under-posting.",
+          "message": "Await FirstOrDefaultAsync instead.",
           "locations": [
             {
               "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Models/Caracteristica.cs",
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Repositories/LocalidadRepository.cs",
                 "region": {
-                  "startLine": 11,
-                  "startColumn": 20,
-                  "endLine": 11,
-                  "endColumn": 36
+                  "startLine": 41,
+                  "startColumn": 25,
+                  "endLine": 41,
+                  "endColumn": 103
                 }
               }
             }
@@ -2208,12 +2313,12 @@
           "locations": [
             {
               "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Models/Contacto.cs",
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Models/Imagen.cs",
                 "region": {
                   "startLine": 12,
                   "startColumn": 20,
                   "endLine": 12,
-                  "endColumn": 30
+                  "endColumn": 28
                 }
               }
             }
@@ -2229,54 +2334,12 @@
           "locations": [
             {
               "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Models/Contacto.cs",
-                "region": {
-                  "startLine": 16,
-                  "startColumn": 20,
-                  "endLine": 16,
-                  "endColumn": 31
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "S6964",
-          "level": "warning",
-          "message": "Value type property used as input in a controller action should be nullable, required or annotated with the JsonRequiredAttribute to avoid under-posting.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Models/Contacto.cs",
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Models/Imagen.cs",
                 "region": {
                   "startLine": 20,
-                  "startColumn": 20,
+                  "startColumn": 21,
                   "endLine": 20,
-                  "endColumn": 30
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "S6964",
-          "level": "warning",
-          "message": "Value type property used as input in a controller action should be nullable, required or annotated with the JsonRequiredAttribute to avoid under-posting.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Models/Contacto.cs",
-                "region": {
-                  "startLine": 24,
-                  "startColumn": 20,
-                  "endLine": 24,
-                  "endColumn": 30
+                  "endColumn": 28
                 }
               }
             }
@@ -2328,18 +2391,18 @@
           }
         },
         {
-          "ruleId": "S6966",
+          "ruleId": "S6964",
           "level": "warning",
-          "message": "Await RunAsync instead.",
+          "message": "Value type property used as input in a controller action should be nullable, required or annotated with the JsonRequiredAttribute to avoid under-posting.",
           "locations": [
             {
               "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Program.cs",
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Models/Caracteristica.cs",
                 "region": {
-                  "startLine": 95,
-                  "startColumn": 1,
-                  "endLine": 95,
-                  "endColumn": 10
+                  "startLine": 11,
+                  "startColumn": 20,
+                  "endLine": 11,
+                  "endColumn": 36
                 }
               }
             }
@@ -2355,33 +2418,12 @@
           "locations": [
             {
               "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Repositories/CiudadRepository.cs",
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Repositories/InmuebleRepository.cs",
                 "region": {
-                  "startLine": 41,
+                  "startLine": 43,
                   "startColumn": 25,
-                  "endLine": 41,
-                  "endColumn": 91
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "S6966",
-          "level": "warning",
-          "message": "Await FirstOrDefaultAsync instead.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Repositories/LocalidadRepository.cs",
-                "region": {
-                  "startLine": 41,
-                  "startColumn": 25,
-                  "endLine": 41,
-                  "endColumn": 103
+                  "endLine": 43,
+                  "endColumn": 99
                 }
               }
             }
@@ -2403,6 +2445,27 @@
                   "startColumn": 25,
                   "endLine": 41,
                   "endColumn": 123
+                }
+              }
+            }
+          ],
+          "properties": {
+            "warningLevel": 1
+          }
+        },
+        {
+          "ruleId": "S6966",
+          "level": "warning",
+          "message": "Await FirstOrDefaultAsync instead.",
+          "locations": [
+            {
+              "resultFile": {
+                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Repositories/CiudadRepository.cs",
+                "region": {
+                  "startLine": 41,
+                  "startColumn": 25,
+                  "endLine": 41,
+                  "endColumn": 91
                 }
               }
             }
@@ -2461,69 +2524,6 @@
             {
               "resultFile": {
                 "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Repositories/ContactoRepository.cs",
-                "region": {
-                  "startLine": 40,
-                  "startColumn": 25,
-                  "endLine": 40,
-                  "endColumn": 99
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "S6966",
-          "level": "warning",
-          "message": "Await FirstOrDefaultAsync instead.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Repositories/InmuebleRepository.cs",
-                "region": {
-                  "startLine": 43,
-                  "startColumn": 25,
-                  "endLine": 43,
-                  "endColumn": 99
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "S6966",
-          "level": "warning",
-          "message": "Await FirstOrDefaultAsync instead.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Repositories/RolRepository.cs",
-                "region": {
-                  "startLine": 40,
-                  "startColumn": 25,
-                  "endLine": 40,
-                  "endColumn": 79
-                }
-              }
-            }
-          ],
-          "properties": {
-            "warningLevel": 1
-          }
-        },
-        {
-          "ruleId": "S6966",
-          "level": "warning",
-          "message": "Await FirstOrDefaultAsync instead.",
-          "locations": [
-            {
-              "resultFile": {
-                "uri": "file:///C:/Users/Kevin/source/repos/Controllers/github/Backend/Rever/rever/Repositories/TipoInmuebleRepository.cs",
                 "region": {
                   "startLine": 40,
                   "startColumn": 25,

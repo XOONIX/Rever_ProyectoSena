@@ -53,6 +53,8 @@ namespace rever.Repositories
             exist.Contraseña = usuario.Contraseña;
             exist.Telefono = usuario.Telefono;
             exist.IdRol = usuario.IdRol;
+            exist.Confirmado = usuario.Confirmado;
+            exist.TokenConfirmacion = usuario.TokenConfirmacion;
 
             await _context.SaveChangesAsync();
             return true;
