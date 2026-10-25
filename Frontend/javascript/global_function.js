@@ -185,9 +185,12 @@ function filtrar_inmuebles() {
   });
 }
 
-function renderizar_tabla_inmuebles(lista) {
-  const tbody = document.getElementById("tbody_inmuebles");
+// Añadimos dos nuevos parámetros con valores por defecto para no romper tu código actual
+function renderizar_tabla_inmuebles(lista, id_tabla = "cuerpo_tabla_inmuebles", ruta_iconos = "../assets/iconos") {
+  // Ahora el ID es dinámico
+  const tbody = document.getElementById(id_tabla);
   if (!tbody) return;
+
   tbody.innerHTML = lista.map((i) => {
     const cfg = config_estado_inmueble[i.estado] || {};
     return `
@@ -217,14 +220,15 @@ function renderizar_tabla_inmuebles(lista) {
         <td class="celda_meta">${i.fecha}</td>
         <td>
           <div class="celda_acciones">
+            <!-- Usamos la variable ruta_iconos aquí -->
             <button class="boton_accion boton_accion--ver" onclick="ver_detalle(${i.id})" title="Ver detalle" aria-label="Ver inmueble ${i.nombre}">
-              <img src="assets/iconos/documento.svg" alt="" />
+              <img src="${ruta_iconos}/documento.svg" alt="" />
             </button>
             <button class="boton_accion boton_accion--editar" onclick="editar_inmueble(${i.id})" title="Editar" aria-label="Editar inmueble ${i.nombre}">
-              <img src="assets/iconos/regla.svg" alt="" />
+              <img src="${ruta_iconos}/regla.svg" alt="" />
             </button>
             <button class="boton_accion boton_accion--eliminar" onclick="confirmar_eliminar_inmueble(${i.id})" title="Eliminar" aria-label="Eliminar inmueble ${i.nombre}">
-              <img src="assets/iconos/cerrar.svg" alt="" />
+              <img src="${ruta_iconos}/cerrar.svg" alt="" />
             </button>
           </div>
         </td>
@@ -583,6 +587,7 @@ function cambiar_estado_reporte(reporte_id, nuevo_estado) {
   const idx = reportes.findIndex((r) => r.id === reporte_id);
   if (idx !== -1) {
     reportes[idx].estado = nuevo_estado;
+    actualizar_resumen_reportes();
     renderizar_reportes();
   }
 }
@@ -661,18 +666,49 @@ function renderizar_tabla_usuarios(lista) {
   }).join("") || `<tr><td colspan="6" style="text-align:center;padding:1.5rem;color:#9CA3AF;font-size:0.875rem;">Sin usuarios</td></tr>`;
 }
 
-function renderizar_cards_usuarios(lista) {
+function renderizar_cards_usuarios(lista, tipoVista = "requisitos") {
   const contenedor = document.getElementById("cards_usuarios_movil");
   if (!contenedor) return;
 
   contenedor.innerHTML = lista.map((u) => {
     const tipo_texto = u.tipo === "propietario" ? "Propietario" : "Comprador";
-    const req_keys = Object.keys(config_req);
-    const req_html = req_keys.map((key) => {
-      const est = u.req[key];
-      const cfg_est = config_req_estado[est] || {};
-      return `<span class="card_usuario_movil__req ${cfg_est.clase}">${cfg_est.icono || ""} ${config_req[key].etiqueta}</span>`;
-    }).join("");
+    
+    // Variables para el contenido dinámico de la tarjeta
+    let cuerpo_tarjeta_html = "";
+    let acciones_tarjeta_html = "";
+
+    if (tipoVista === "requisitos") {
+      // --- VISTA 1: Renderizado de Requisitos ---
+      const req_keys = Object.keys(config_req);
+      const req_html = req_keys.map((key) => {
+        const est = u.req ? u.req[key] : null;
+        const cfg_est = config_req_estado[est] || {};
+        return `<span class="card_usuario_movil__req ${cfg_est.clase || ''}">${cfg_est.icono || ""} ${config_req[key].etiqueta}</span>`;
+      }).join("");
+
+      cuerpo_tarjeta_html = `<div class="card_usuario_movil__requisitos">${req_html}</div>`;
+    } else {
+      // --- VISTA 2: Renderizado de Contacto y Acciones ---
+      const cedula_formato = `${u.tipo_documento || 'cc'} ${u.numero_documento || 'No registrada'}`;
+      
+      cuerpo_tarjeta_html = `
+        <div class="card_usuario_movil__requisitos">
+          <span class="card_usuario_movil__req card_usuario_movil__req--completo">Cédula: ${cedula_formato}</span>
+          <span class="card_usuario_movil__req card_usuario_movil__req--completo">Tel: ${u.telefono || '--'}</span>
+        </div>
+      `;
+
+      acciones_tarjeta_html = `
+        <div class="card_movil__acciones">
+          <button class="card_movil__boton card_movil__boton--ver" onclick="ver_usuario(${u.id})">
+            <img src="../assets/iconos/usuario.svg" alt="" /> Ver
+          </button>
+          <button class="card_movil__boton card_movil__boton--eliminar" onclick="eliminar_usuario(${u.id})">
+            <img src="../assets/iconos/cerrar.svg" alt="" /> Eliminar
+          </button>
+        </div>
+      `;
+    }
 
     return `
       <article class="card_usuario_movil">
@@ -683,13 +719,12 @@ function renderizar_cards_usuarios(lista) {
             <p class="card_usuario_movil__correo">${u.correo} · ${tipo_texto}</p>
           </div>
         </div>
-        <div class="card_usuario_movil__requisitos">${req_html}</div>
+        ${cuerpo_tarjeta_html}
+        ${acciones_tarjeta_html}
       </article>
     `;
   }).join("") || `<p style="text-align:center;padding:1.5rem;color:#9CA3AF;font-size:0.875rem;">Sin usuarios</p>`;
 }
-
-
 /* ──────────────────────────────────────────────────────
    11. FORMULARIO ARRENDATARIO
    ────────────────────────────────────────────────────── */
@@ -1011,106 +1046,7 @@ if (document.readyState === "loading") {
   inicializar();
 }
 
-/* ──────────────────────────────────────────────────────
-   6. RENDERIZAR INMUEBLES
-   ────────────────────────────────────────────────────── */
 
-function renderizar_tabla_inmuebles(lista) {
-  const tbody = document.getElementById("cuerpo_tabla_inmuebles");
-  if (!tbody) return;
-
-  tbody.innerHTML = lista.map((i) => {
-    const cfg = config_estado_inmueble[i.estado] || {};
-    return `
-      <tr>
-        <td>
-          <div class="celda_inmueble">
-            <div class="celda_inmueble__foto">
-              <img src="${i.foto}" alt="${i.nombre}" loading="lazy" />
-            </div>
-            <div>
-              <p class="celda_inmueble__nombre">${i.nombre}</p>
-              <p class="celda_inmueble__ubicacion">${i.ciudad} · ${i.tipo}</p>
-            </div>
-          </div>
-        </td>
-        <td>
-          <p>${i.propietario}</p>
-          <p class="celda_meta">${i.correo_prop}</p>
-        </td>
-        <td class="celda_precio">${i.precio}<br><span class="celda_meta">/mes</span></td>
-        <td>
-          <span class="pildora_estado ${cfg.clase}">
-            <span class="pildora_estado__punto" style="background-color:${cfg.color_punto}"></span>
-            ${cfg.texto}
-          </span>
-        </td>
-        <td class="celda_meta">${i.fecha}</td>
-        <td>
-          <div class="celda_acciones">
-            <button class="boton_accion boton_accion--ver" onclick="ver_detalle(${i.id})" title="Ver detalle" aria-label="Ver inmueble ${i.nombre}">
-              <img src="../assets/iconos/documento.svg" alt="" />
-            </button>
-            <button class="boton_accion boton_accion--editar" onclick="editar_inmueble(${i.id})" title="Editar" aria-label="Editar inmueble ${i.nombre}">
-              <img src="../assets/iconos/regla.svg" alt="" />
-            </button>
-            <button class="boton_accion boton_accion--eliminar" onclick="confirmar_eliminar_inmueble(${i.id})" title="Eliminar" aria-label="Eliminar inmueble ${i.nombre}">
-              <img src="../assets/iconos/cerrar.svg" alt="" />
-            </button>
-          </div>
-        </td>
-      </tr>
-    `;
-  }).join("") || `<tr><td colspan="6" style="text-align:center;padding:1.5rem;color:#9CA3AF;font-size:0.875rem;">Sin resultados</td></tr>`;
-}
-
-function renderizar_cards_inmuebles(lista) {
-  const contenedor = document.getElementById("cards_inmuebles_movil");
-  if (!contenedor) return;
-
-  contenedor.innerHTML = lista.map((i) => {
-    const cfg = config_estado_inmueble[i.estado] || {};
-    return `
-      <article class="card_movil">
-        <div class="card_movil__cabecera">
-          <div class="card_movil__foto">
-            <img src="${i.foto}" alt="${i.nombre}" loading="lazy" />
-          </div>
-          <div>
-            <p class="card_movil__nombre">${i.nombre}</p>
-            <p class="card_movil__sub">${i.ciudad} · ${i.tipo}</p>
-          </div>
-        </div>
-        <div class="card_movil__fila">
-          <span class="card_movil__fila_label">Estado</span>
-          <span class="pildora_estado ${cfg.clase}">
-            <span class="pildora_estado__punto" style="background-color:${cfg.color_punto}"></span>
-            ${cfg.texto}
-          </span>
-        </div>
-        <div class="card_movil__fila">
-          <span class="card_movil__fila_label">Precio</span>
-          <span class="card_movil__precio">${i.precio}/mes</span>
-        </div>
-        <div class="card_movil__fila">
-          <span class="card_movil__fila_label">Propietario</span>
-          <span>${i.propietario}</span>
-        </div>
-        <div class="card_movil__acciones">
-          <button class="card_movil__boton card_movil__boton--ver" onclick="ver_detalle(${i.id})">
-            <img src="../assets/iconos/documento.svg" alt="" /> Ver
-          </button>
-          <button class="card_movil__boton card_movil__boton--editar" onclick="editar_inmueble(${i.id})">
-            <img src="../assets/iconos/regla.svg" alt="" /> Editar
-          </button>
-          <button class="card_movil__boton card_movil__boton--eliminar" onclick="confirmar_eliminar_inmueble(${i.id})">
-            <img src="../assets/iconos/cerrar.svg" alt="" /> Eliminar
-          </button>
-        </div>
-      </article>
-    `;
-  }).join("") || `<p style="text-align:center;padding:1.5rem;color:#9CA3AF;font-size:0.875rem;">Sin resultados</p>`;
-}
 
 function aplicar_filtro_estado(filtro, boton) {
   estado.filtro_inmuebles = filtro;
@@ -1129,170 +1065,12 @@ function filtrar_inmuebles() {
   }
 }
 
-
-/* ──────────────────────────────────────────────────────
-   8. RENDERIZAR REPORTES
-   ────────────────────────────────────────────────────── */
-function renderizar_reportes() {
-  actualizar_resumen_reportes();
-  renderizar_lista_reportes();
-}
-
-function actualizar_resumen_reportes() {
-  const conteos = { abierto: 0, revision: 0, resuelto: 0, descartado: 0 };
-  reportes.forEach((r) => { if (conteos[r.estado] !== undefined) conteos[r.estado]++; });
-
-  const el = (id, val) => { const n = document.getElementById(id); if (n) n.textContent = val; };
-  el("cnt_abierto", conteos.abierto);
-  el("cnt_revision", conteos.revision);
-  el("cnt_resuelto", conteos.resuelto);
-  el("cnt_descartado", conteos.descartado);
-}
-
-function renderizar_lista_reportes() {
-  const contenedor = document.getElementById("lista_reportes");
-  if (!contenedor) return;
-
-  const filtrados = reportes.filter((r) => {
-    return estado.filtro_reportes === "todos" || r.estado === estado.filtro_reportes;
-  });
-
-function alternar_reporte(reporte_id) {
-  const idx = reportes.findIndex((r) => r.id === reporte_id);
-  if (idx !== -1) {
-    reportes[idx].expandido = !reportes[idx].expandido;
-    renderizar_lista_reportes();
-  }
-}
-
-function cambiar_estado_reporte(reporte_id, nuevo_estado) {
-  const idx = reportes.findIndex((r) => r.id === reporte_id);
-  if (idx !== -1) {
-    reportes[idx].estado = nuevo_estado;
-    renderizar_reportes();
-  }
-}
-
-
-/* ──────────────────────────────────────────────────────
-   9. RENDERIZAR USUARIOS
-   ────────────────────────────────────────────────────── */
-function renderizar_usuarios() {
-  const filtrados = filtrar_usuarios_lista();
-  renderizar_tabla_usuarios(filtrados);
-  renderizar_cards_usuarios(filtrados);
-}
-
-function filtrar_usuarios() {
-  return usuarios.filter((u) => {
-    const coincide_filtro = estado.filtro_usuarios === "todos" || u.tipo === estado.filtro_usuarios;
-    const termino = estado.busqueda_usuarios.toLowerCase();
-    const coincide_busqueda = !termino ||
-      u.nombre.toLowerCase().includes(termino) ||
-      u.correo.toLowerCase().includes(termino);
-    return coincide_filtro && coincide_busqueda;
-  });
-}
-
-function renderizar_tabla_usuarios(lista) {
-  const tbody = document.getElementById("cuerpo_tabla_usuarios");
-  if (!tbody) return;
-
-  const req_keys = Object.keys(config_req);
-
-  tbody.innerHTML = lista.map((u) => {
-    const tipo_cfg = u.tipo === "propietario"
-      ? { clase: "pildora_estado--propietario", texto: "Propietario" }
-      : { clase: "pildora_estado--comprador", texto: "Comprador" };
-
-    const cedula_formato = `${u.tipo_documento || 'cc'} ${u.numero_documento || 'No registrada'}`;
-
-    return `
-      <tr>
-        <td>
-          <div class="celda_usuario">
-            <div class="celda_usuario__avatar">${u.iniciales}</div>
-            <div>
-              <p class="celda_usuario__nombre">${u.nombre}</p>
-              <p class="celda_usuario__correo">${u.correo}</p>
-            </div>
-          </div>
-        </td>
-        <td>
-          <span class="pildora_estado ${tipo_cfg.clase}">
-            <span class="pildora_estado__punto" style="background-color:${u.tipo === "propietario" ? "#2C2C2C" : "#C9A84C"}"></span>
-            ${tipo_cfg.texto}
-          </span>
-        </td>
-        <td class="celda_meta">${cedula_formato}</td>
-        <td class="celda_meta">${u.correo}</td>
-        <td class="celda_meta">${u.telefono || '--'}</td>
-        <td>
-          <div class="celda_acciones">
-            <button class="boton_accion boton_accion--ver" onclick="ver_usuario(${u.id})" title="Ver usuario" aria-label="Ver usuario ${u.nombre}">
-              <img src="../assets/iconos/usuario.svg" alt="" />
-            </button>
-            <button class="boton_accion boton_accion--eliminar" onclick="eliminar_usuario(${u.id})" title="Eliminar usuario" aria-label="Eliminar usuario ${u.nombre}">
-              <img src="../assets/iconos/cerrar.svg" alt="" />
-            </button>
-          </div>
-        </td>
-      </tr>
-    `;
-  }).join("") || `<tr><td colspan="6" style="text-align:center;padding:1.5rem;color:#9CA3AF;font-size:0.875rem;">Sin usuarios</td></tr>`;
-}
-
-function renderizar_cards_usuarios(lista) {
-  const contenedor = document.getElementById("cards_usuarios_movil");
-  if (!contenedor) return;
-
-  contenedor.innerHTML = lista.map((u) => {
-    const tipo_texto = u.tipo === "propietario" ? "Propietario" : "Comprador";
-    const cedula_formato = `${u.tipo_documento || 'cc'} ${u.numero_documento || 'No registrada'}`;
-
-    return `
-      <article class="card_usuario_movil">
-        <div class="card_usuario_movil__cabecera">
-          <div class="card_usuario_movil__avatar">${u.iniciales}</div>
-          <div>
-            <p class="card_usuario_movil__nombre">${u.nombre}</p>
-            <p class="card_usuario_movil__correo">${u.correo} · ${tipo_texto}</p>
-          </div>
-        </div>
-        <div class="card_usuario_movil__requisitos">
-          <span class="card_usuario_movil__req card_usuario_movil__req--completo">Cédula: ${cedula_formato}</span>
-          <span class="card_usuario_movil__req card_usuario_movil__req--completo">Tel: ${u.telefono || '--'}</span>
-        </div>
-        <div class="card_movil__acciones">
-          <button class="card_movil__boton card_movil__boton--ver" onclick="ver_usuario(${u.id})">
-            <img src="../assets/iconos/usuario.svg" alt="" /> Ver
-          </button>
-          <button class="card_movil__boton card_movil__boton--eliminar" onclick="eliminar_usuario(${u.id})">
-            <img src="../assets/iconos/cerrar.svg" alt="" /> Eliminar
-          </button>
-        </div>
-      </article>
-    `;
-  }).join("") || `<p style="text-align:center;padding:1.5rem;color:#9CA3AF;font-size:0.875rem;">Sin usuarios</p>`;
-}
-
 function handle_filtrar_usuarios() {
   const input = document.getElementById("buscador_usuarios");
   if (input) {
     estado.busqueda_usuarios = input.value;
     renderizar_usuarios();
   }
-}
-
-function filtrar_usuarios_lista() {
-  return usuarios.filter((u) => {
-    const coincide_filtro = estado.filtro_usuarios === "todos" || u.tipo === estado.filtro_usuarios;
-    const termino = estado.busqueda_usuarios.toLowerCase();
-    const coincide_busqueda = !termino ||
-      u.nombre.toLowerCase().includes(termino) ||
-      u.correo.toLowerCase().includes(termino);
-    return coincide_filtro && coincide_busqueda;
-  });
 }
 
 // CRUD functions for Usuarios
@@ -1315,9 +1093,6 @@ function eliminar_usuario(usuario_id) {
   }
 }
 
-/* ──────────────────────────────────────────────────────
-   11. RENDERIZAR VENDEDOR/ARRENDATARIO
-   ────────────────────────────────────────────────────── */
 function renderizar_vendedor_arrendatario() {
   const filtrados = filtrar_vendedor_arrendatario_lista();
   renderizar_tabla_vendedor_arrendatario(filtrados);
@@ -1504,7 +1279,7 @@ function mostrar_configuracion() {
   alert('Herramientas de configuración (función en construcción)');
 }
 /* ──────────────────────────────────────────────────────
-   10. MENÚ DE USUARIO (CERRAR SESIÓN)
+  MENÚ DE USUARIO (CERRAR SESIÓN)
    ────────────────────────────────────────────────────── */
 function alternar_menu_usuario_admin() {
   estado.menu_usuario_admin_abierto = !estado.menu_usuario_admin_abierto;
@@ -1571,9 +1346,7 @@ document.addEventListener('click', (e) => {
 });
 
 /* ═══════════════════════════════════════════════════════
-   REVER INMOBILIARIA — Pantalla Mis Inmuebles (Vendedor)
-   Nomenclatura: Español + snake_case
-   Autor: Rever Inmobiliaria © 2026
+Pantalla Mis Inmuebles (Vendedor)
 ════════════════════════════════════════════════════════ */
 
 'use strict';
