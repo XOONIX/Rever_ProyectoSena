@@ -31,7 +31,7 @@
                         <div class="contenedor_imagen_perfil">
                             <img 
                                 id="imagen_perfil_actual" 
-                                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+                                src="../assets/iconos/usuario.svg"
                                 alt="Imagen de perfil actual"
                                 class="imagen_perfil"
                             />
@@ -73,7 +73,7 @@
                     
                     <!-- Nueva Contraseña (Opcional) -->
                     <div class="grupo_campo">
-                        <label for="nueva_contrasena" class="etiqueta_campo">Nueva Contraseña (Opcional)</label>
+                        <label for="nueva_contrasena" class="etiqueta_campo">Nueva Contraseña</label>
                         <div class="contenedor_contrasena">
                             <input type="password" id="nueva_contrasena" class="campo_entrada" placeholder="Déjala en blanco si no deseas cambiarla">
                             <button type="button" class="boton_ojo" onclick="alternar_visibilidad_contrasena('nueva_contrasena', this)">
@@ -99,12 +99,11 @@
 
                     <div class="grupo_campo">
                         <label for="tipo_usuario" class="etiqueta_campo">Tipo de Usuario</label>
-                        <select id="tipo_usuario" class="campo_entrada" disabled>
+                        <select id="tipo_usuario" class="campo_entrada">
                             <option value="1">Comprador</option>
-                            <option value="2">Vendedor</option>
-                            <option value="3">Administrador</option>
+                            <option value="2">Vendedor y Comprador</option>
                         </select>
-                        <p class="texto_ayuda">El tipo de usuario no puede ser modificado</p>
+                        <p class="texto_ayuda">El tipo de usuario define lo que gustas hacer en la plataforma</p>
                     </div>
                     
                     <div class="grupo_botones">

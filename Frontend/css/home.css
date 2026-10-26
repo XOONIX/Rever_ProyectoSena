@@ -445,7 +445,7 @@ fieldset {
   height: 2.5rem;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid var(--color_oro);
+  border: 2px solid var(--color_oscuro);
   box-shadow: 0 2px 8px rgba(197, 163, 101, 0.3);
 }
 

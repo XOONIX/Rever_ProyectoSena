@@ -626,8 +626,8 @@ function actualizar_filtro_area(valor) {
 
   const inputRango = obtener_elemento('filtro_area');
   if (inputRango) {
-    const min = parseFloat(inputRango.min) || 0;
-    const max = parseFloat(inputRango.max) || 1000;
+    const min = parseFloat(inputRango.min) || 10;
+    const max = parseFloat(inputRango.max) || 600;
     const porcentaje = ((numValor - min) / (max - min)) * 100;
     inputRango.style.setProperty('--progreso', `${porcentaje}%`);
   }
@@ -698,7 +698,7 @@ function limpiar_filtros() {
 
   const inputArea = obtener_elemento('filtro_area');
   if (inputArea) {
-    inputArea.value = inputArea.max || 1000;
+    inputArea.value = inputArea.max || 600;
     const textoArea = obtener_elemento('valor_area_texto');
     if (textoArea) textoArea.textContent = `Hasta ${Number(inputArea.value).toLocaleString('es-CO')} m²`;
     inputArea.style.setProperty('--progreso', '100%');

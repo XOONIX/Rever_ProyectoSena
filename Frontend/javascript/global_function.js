@@ -4,7 +4,7 @@
    ═══════════════════════════════════════════════════════ */
 
 /* ──────────────────────────────────────────────────────
-   3. TEXTOS / CONFIG
+    TEXTOS / CONFIG
    ────────────────────────────────────────────────────── */
 const config_estado_inmueble = {
   verificada: { texto: "Verificada", clase: "pildora_estado--verificada", color_punto: "#166534" },
@@ -40,7 +40,7 @@ const lista_amenidades = [
 
 
 /* ──────────────────────────────────────────────────────
-   4. CAMBIO DE PANTALLA
+   CAMBIO DE PANTALLA
    ────────────────────────────────────────────────────── */
 function cambiar_pantalla(nombre_pantalla) {
   estado.pantalla_actual = nombre_pantalla;
@@ -69,7 +69,7 @@ function cambiar_pantalla(nombre_pantalla) {
 
 
 /* ──────────────────────────────────────────────────────
-   5. CAMBIO DE VISTA ADMIN
+   CAMBIO DE VISTA ADMIN
    ────────────────────────────────────────────────────── */
 function cambiar_vista_admin(nombre_vista) {
   estado.vista_admin_actual = nombre_vista;
@@ -121,7 +121,7 @@ function actualizar_encabezado_admin(vista) {
 
 
 /* ──────────────────────────────────────────────────────
-   6. RENDERIZAR TABLERO
+   RENDERIZAR TABLERO
    ────────────────────────────────────────────────────── */
 function renderizar_tablero() {
   const total_verificadas = inmuebles.filter((i) => i.estado === "verificada").length;
@@ -164,7 +164,7 @@ function renderizar_tablero() {
 
 
 /* ──────────────────────────────────────────────────────
-   7. RENDERIZAR INMUEBLES
+   RENDERIZAR INMUEBLES
    ────────────────────────────────────────────────────── */
 function renderizar_inmuebles() {
   const filtrados = filtrar_inmuebles();
@@ -287,7 +287,7 @@ function renderizar_cards_inmuebles(lista) {
 
 
 /* ──────────────────────────────────────────────────────
-   8. VER DETALLE DE INMUEBLE
+   VER DETALLE DE INMUEBLE
    ────────────────────────────────────────────────────── */
 function ver_detalle(inmueble_id) {
   estado.inmueble_detalle_id = inmueble_id;
@@ -496,7 +496,7 @@ function confirmar_eliminar_inmueble(inmueble_id) {
 
 
 /* ──────────────────────────────────────────────────────
-   9. RENDERIZAR REPORTES
+   RENDERIZAR REPORTES
    ────────────────────────────────────────────────────── */
 function renderizar_reportes() {
   actualizar_resumen_reportes();
@@ -594,7 +594,7 @@ function cambiar_estado_reporte(reporte_id, nuevo_estado) {
 
 
 /* ──────────────────────────────────────────────────────
-   10. RENDERIZAR USUARIOS
+   RENDERIZAR USUARIOS
    ────────────────────────────────────────────────────── */
 function renderizar_usuarios() {
   const filtrados = filtrar_usuarios();
@@ -726,7 +726,7 @@ function renderizar_cards_usuarios(lista, tipoVista = "requisitos") {
   }).join("") || `<p style="text-align:center;padding:1.5rem;color:#9CA3AF;font-size:0.875rem;">Sin usuarios</p>`;
 }
 /* ──────────────────────────────────────────────────────
-   11. FORMULARIO ARRENDATARIO
+   FORMULARIO ARRENDATARIO
    ────────────────────────────────────────────────────── */
 function incrementar_contador(campo) {
   estado.contadores[campo]++;
@@ -888,7 +888,7 @@ function nueva_publicacion() {
 
 
 /* ──────────────────────────────────────────────────────
-   12. FILTROS Y BÚSQUEDA
+   FILTROS Y BÚSQUEDA
    ────────────────────────────────────────────────────── */
 function cambiar_filtro_inmuebles(nuevo_filtro) {
   estado.filtro_inmuebles = nuevo_filtro;
@@ -926,7 +926,7 @@ function buscar_usuarios(termino) {
 
 
 /* ──────────────────────────────────────────────────────
-   13. INICIALIZACIÓN
+   INICIALIZACIÓN
    ────────────────────────────────────────────────────── */
 function inicializar() {
   // Tabs del nav global
