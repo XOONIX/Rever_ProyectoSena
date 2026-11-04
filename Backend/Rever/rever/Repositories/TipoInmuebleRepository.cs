@@ -37,7 +37,7 @@ namespace rever.Repositories
 
         public async Task<bool> PutTipoInmueble(TipoInmueble tipoInmueble)
         {
-            var exist = _context.TipoInmueble.FirstOrDefault(x => x.IdTipo == tipoInmueble.IdTipo);
+            var exist = await _context.TipoInmueble.FirstOrDefaultAsync(x => x.IdTipo == tipoInmueble.IdTipo);
             if (exist == null)
             {
                 return false;

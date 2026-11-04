@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
+      <NoWarn>$(NoWarn);NU1903;NU1902;CS8620</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -41,3 +42,4 @@
   </ItemGroup>
 
 </Project>
+

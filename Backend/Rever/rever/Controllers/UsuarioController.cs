@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using rever.Models;
@@ -142,7 +142,7 @@ namespace rever.Controllers
                     return StatusCode(500, "500: Error interno al intentar crear el recurso.");
                 }
 
-                usuario.Contraseña = null;
+                usuario.Contraseña = null!;
 
                 return StatusCode(200, usuario);
             }

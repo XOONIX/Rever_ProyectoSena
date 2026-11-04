@@ -37,7 +37,7 @@ namespace rever.Repositories
 
         public async Task<bool> PutRol(Rol rol)
         {
-            var exist = _context.Rol.FirstOrDefault(x => x.IdRol == rol.IdRol);
+            var exist = await _context.Rol.FirstOrDefaultAsync(x => x.IdRol == rol.IdRol);
             if (exist == null)
             {
                 return false;

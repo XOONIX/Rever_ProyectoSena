@@ -37,7 +37,7 @@ namespace rever.Repositories
 
         public async Task<bool> PutContacto(Contacto contacto)
         {
-            var exist = _context.Contacto.FirstOrDefault(x => x.IdContacto == contacto.IdContacto);
+            var exist = await _context.Contacto.FirstOrDefaultAsync(x => x.IdContacto == contacto.IdContacto);
             if (exist == null)
             {
                 return false;

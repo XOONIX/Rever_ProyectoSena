@@ -26,7 +26,7 @@ namespace rever.Models
         [Required(ErrorMessage = "El mensaje es obligatorio.")]
         [MinLength(5)]
         [Column("mensaje", TypeName = "TEXT")]
-        public string Mensaje { get; set; }
+        public string Mensaje { get; set; } = string.Empty;
 
         [Column("fecha")]
         public DateTime Fecha { get; set; } = DateTime.Now;

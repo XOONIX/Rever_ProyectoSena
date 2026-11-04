@@ -37,7 +37,7 @@ namespace rever.Repositories
 
         public async Task<bool> PutEstadoPublicacion(EstadoPublicacion estadoPublicacion)
         {
-            var exist = _context.EstadoPublicacion.FirstOrDefault(x => x.IdEstado == estadoPublicacion.IdEstado);
+            var exist = await _context.EstadoPublicacion.FirstOrDefaultAsync(x => x.IdEstado == estadoPublicacion.IdEstado);
             if (exist == null)
             {
                 return false;

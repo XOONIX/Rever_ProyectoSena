@@ -38,7 +38,7 @@ namespace rever.Repositories
 
         public async Task<bool> PutCiudad(Ciudad ciudad)
         {
-            var exist = _context.Ciudad.FirstOrDefault(x => x.IdCiudad == ciudad.IdCiudad);
+            var exist = await _context.Ciudad.FirstOrDefaultAsync(x => x.IdCiudad == ciudad.IdCiudad);
             if (exist == null)
             {
                 return false;

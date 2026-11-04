@@ -38,7 +38,7 @@ namespace rever.Repositories
 
         public async Task<bool> PutCaracteristica(Caracteristica caracteristica)
         {
-            var exist = _context.Caracteristica.FirstOrDefault(x => x.IdCaracteristica == caracteristica.IdCaracteristica);
+            var exist = await _context.Caracteristica.FirstOrDefaultAsync(x => x.IdCaracteristica == caracteristica.IdCaracteristica);
             if (exist == null)
             {
                 return false;

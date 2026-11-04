@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
         <OpenApiGenerateDocuments>false</OpenApiGenerateDocuments>
@@ -8,7 +8,7 @@
         <EnableSdkContainerDebugging>True</EnableSdkContainerDebugging>
         <ContainerBaseImage>mcr.microsoft.com/dotnet/aspnet:10.0-nanoserver-ltsc2022</ContainerBaseImage>
         <UserSecretsId>f25fe734-7bda-4ce0-ae8e-5dd9535d2575</UserSecretsId>
-        <NoWarn>$(NoWarn);NU1903;NU1902</NoWarn>
+        <NoWarn>$(NoWarn);NU1903;NU1902;S6964</NoWarn>
     </PropertyGroup>
 
     <ItemGroup>

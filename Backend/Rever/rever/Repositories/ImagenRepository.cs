@@ -37,7 +37,7 @@ namespace rever.Repositories
 
         public async Task<bool> PutImagen(Imagen imagen)
         {
-            var exist = _context.Imagen.FirstOrDefault(x => x.IdImagen == imagen.IdImagen);
+            var exist = await _context.Imagen.FirstOrDefaultAsync(x => x.IdImagen == imagen.IdImagen);
             if (exist == null)
             {
                 return false;

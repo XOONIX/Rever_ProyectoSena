@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using rever.contexto;
@@ -15,7 +15,7 @@ namespace rever
         public static IServiceCollection AddExternal(this IServiceCollection services, IConfiguration configuration)
         {
             String connectionString = "";
-            connectionString = configuration["ConnectionStrings:SQLConnectionStrings"];
+            connectionString = configuration["ConnectionStrings:SQLConnectionStrings"] ?? string.Empty;
 
             services.AddDbContext<DatabaseService>(options =>
                 options.UseSqlServer(connectionString, sqlOptions =>
