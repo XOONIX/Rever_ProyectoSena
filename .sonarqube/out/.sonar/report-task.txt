@@ -2,5 +2,5 @@ projectKey=Rever
 serverUrl=http://localhost:9000
 serverVersion=26.10.0.133078
 dashboardUrl=http://localhost:9000/dashboard?id=Rever
-ceTaskId=fed27810-1b8b-4e52-aefb-51c5840a1c1e
-ceTaskUrl=http://localhost:9000/api/ce/task?id=fed27810-1b8b-4e52-aefb-51c5840a1c1e
+ceTaskId=baf95b7b-a397-4d43-8d51-e9eb88cb620d
+ceTaskUrl=http://localhost:9000/api/ce/task?id=baf95b7b-a397-4d43-8d51-e9eb88cb620d

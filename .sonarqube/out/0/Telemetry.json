@@ -5,6 +5,7 @@
 {"dotnetenterprise.s4net.build.nuget_project_style.cnt":"PackageReference"}
 {"dotnetenterprise.s4net.build.netcore_sdk_version.cnt":"10.0.401"}
 {"dotnetenterprise.s4net.build.dependencies.bcrypt_net_next.cnt":"true"}
+{"dotnetenterprise.s4net.build.dependencies.fluentassertions.cnt":"true"}
 {"dotnetenterprise.s4net.build.dependencies.microsoft_aspnetcore_authentication_jwtbearer.cnt":"true"}
 {"dotnetenterprise.s4net.build.dependencies.microsoft_entityframeworkcore.cnt":"true"}
 {"dotnetenterprise.s4net.build.dependencies.microsoft_entityframeworkcore_sqlserver.cnt":"true"}

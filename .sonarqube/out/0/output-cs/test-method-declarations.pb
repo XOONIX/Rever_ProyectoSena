@@ -1,0 +1,12 @@
+ª
+OC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\UnitTest1.csreverP
+*ReverInmobiliaria.Tests.InmuebleModelTests"Test_VerificarConfiguracionInicialÀ
+YC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\InmuebleListadoTest.csreveri
+/ReverInmobiliaria.Tests.InmuebleListadoDtoTests6InmuebleListadoDto_DebeAsignarPropiedadesCorrectamenteq
+/ReverInmobiliaria.Tests.InmuebleListadoDtoTests>InmuebleListadoDto_CaracteristicasPuedeSerNuloSiNoSeInicializa¿
+YC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\InmuebleDetalleTest.csrever{
+/ReverInmobiliaria.Tests.InmuebleDetalleDtoTestsHInmuebleDetalleDto_DebeInicializarListasYAsignarPropiedadesCorrectamente^
+/ReverInmobiliaria.Tests.InmuebleDetalleDtoTests+InmuebleDetalleDto_ListasDebenIniciarVacias¨
+WC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\CrearInmuebleTest.csrever]
+-ReverInmobiliaria.Tests.CrearInmuebleDtoTests,Dto_DebeSerInvalido_CuandoElPrecioEsNegativog
+-ReverInmobiliaria.Tests.CrearInmuebleDtoTests6Dto_DebeSerValido_CuandoTodosLosCamposCumplenLasReglas
