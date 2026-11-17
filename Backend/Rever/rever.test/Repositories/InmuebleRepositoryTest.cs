@@ -47,7 +47,7 @@ namespace rever.Tests.Repositories
                 CrearInmueble(1),
                 CrearInmueble(2)
             );
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new InmuebleRepository(context);
 
@@ -65,7 +65,7 @@ namespace rever.Tests.Repositories
             // ARRANGE
             using var context = RepositoryTestHelper.CreateInMemoryContext();
             context.Inmueble.Add(CrearInmueble(10));
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new InmuebleRepository(context);
 
@@ -104,7 +104,7 @@ namespace rever.Tests.Repositories
 
             // ASSERT
             resultado.Should().BeTrue();
-            var enBd = await context.Inmueble.FirstOrDefaultAsync(i => i.IdInmueble == 5);
+            var enBd = await context.Inmueble.FirstOrDefaultAsync(i => i.IdInmueble == 5, cancellationToken: TestContext.Current.CancellationToken);
             enBd.Should().NotBeNull();
             enBd!.Titulo.Should().Be("Inmueble 5");
         }
@@ -116,7 +116,7 @@ namespace rever.Tests.Repositories
             using var context = RepositoryTestHelper.CreateInMemoryContext();
             var item = CrearInmueble(1);
             context.Inmueble.Add(item);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new InmuebleRepository(context);
             item.Titulo = "Título Editado";
@@ -127,7 +127,7 @@ namespace rever.Tests.Repositories
 
             // ASSERT
             resultado.Should().BeTrue();
-            var enBd = await context.Inmueble.FirstOrDefaultAsync(i => i.IdInmueble == 1);
+            var enBd = await context.Inmueble.FirstOrDefaultAsync(i => i.IdInmueble == 1, cancellationToken: TestContext.Current.CancellationToken);
             enBd!.Titulo.Should().Be("Título Editado");
             enBd.Precio.Should().Be(300000000m);
         }
@@ -154,7 +154,7 @@ namespace rever.Tests.Repositories
             using var context = RepositoryTestHelper.CreateInMemoryContext();
             var item = CrearInmueble(1);
             context.Inmueble.Add(item);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new InmuebleRepository(context);
 
@@ -163,7 +163,7 @@ namespace rever.Tests.Repositories
 
             // ASSERT
             resultado.Should().BeTrue();
-            var enBd = await context.Inmueble.FirstOrDefaultAsync(i => i.IdInmueble == 1);
+            var enBd = await context.Inmueble.FirstOrDefaultAsync(i => i.IdInmueble == 1, cancellationToken: TestContext.Current.CancellationToken);
             enBd.Should().BeNull();
         }
 
@@ -192,7 +192,7 @@ namespace rever.Tests.Repositories
             inmueble.InmuebleCaracteristicas.Add(new InmuebleCaracteristica { IdInmueble = 1, IdCaracteristica = 1, Caracteristica = caracteristica });
 
             context.Inmueble.Add(inmueble);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new InmuebleRepository(context);
 
@@ -243,7 +243,7 @@ namespace rever.Tests.Repositories
             inmueble.Usuario = vendedor;
 
             context.Inmueble.Add(inmueble);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new InmuebleRepository(context);
 
@@ -286,7 +286,7 @@ namespace rever.Tests.Repositories
             // ARRANGE
             using var context = RepositoryTestHelper.CreateInMemoryContext();
             context.Localidad.Add(new Localidad { IdLocalidad = 1, Nombre = "Centro", IdCiudad = 1 });
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new InmuebleRepository(context);
             var dto = new CrearInmuebleDto
@@ -314,7 +314,7 @@ namespace rever.Tests.Repositories
             context.Localidad.Add(new Localidad { IdLocalidad = 1, Nombre = "Centro", IdCiudad = 1 });
             context.Caracteristica.Add(new Caracteristica { IdCaracteristica = 1, Nombre = "Garaje" });
             context.Caracteristica.Add(new Caracteristica { IdCaracteristica = 2, Nombre = "Vigilancia" });
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new InmuebleRepository(context);
             var dto = new CrearInmuebleDto
@@ -345,7 +345,7 @@ namespace rever.Tests.Repositories
             var inmuebleEnBd = await context.Inmueble
                 .Include(i => i.Imagenes)
                 .Include(i => i.InmuebleCaracteristicas)
-                .FirstOrDefaultAsync(i => i.IdInmueble == inmuebleCreado.IdInmueble);
+                .FirstOrDefaultAsync(i => i.IdInmueble == inmuebleCreado.IdInmueble, cancellationToken: TestContext.Current.CancellationToken);
 
             inmuebleEnBd.Should().NotBeNull();
             inmuebleEnBd!.Imagenes.Should().HaveCount(2);

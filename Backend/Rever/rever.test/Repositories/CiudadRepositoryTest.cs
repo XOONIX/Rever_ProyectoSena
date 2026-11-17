@@ -19,7 +19,7 @@ namespace rever.Tests.Repositories
                 new Ciudad { IdCiudad = 1, Nombre = "Bogotá" },
                 new Ciudad { IdCiudad = 2, Nombre = "Medellín" }
             );
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new CiudadRepository(context);
 
@@ -53,7 +53,7 @@ namespace rever.Tests.Repositories
             // ARRANGE
             using var context = RepositoryTestHelper.CreateInMemoryContext();
             context.Ciudad.Add(new Ciudad { IdCiudad = 5, Nombre = "Cali" });
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new CiudadRepository(context);
 
@@ -92,7 +92,7 @@ namespace rever.Tests.Repositories
 
             // ASSERT
             resultado.Should().BeTrue();
-            var ciudadEnBd = await context.Ciudad.FirstOrDefaultAsync(c => c.IdCiudad == 10);
+            var ciudadEnBd = await context.Ciudad.FirstOrDefaultAsync(c => c.IdCiudad == 10, cancellationToken: TestContext.Current.CancellationToken);
             ciudadEnBd.Should().NotBeNull();
             ciudadEnBd!.Nombre.Should().Be("Barranquilla");
         }
@@ -104,7 +104,7 @@ namespace rever.Tests.Repositories
             using var context = RepositoryTestHelper.CreateInMemoryContext();
             var ciudadOriginal = new Ciudad { IdCiudad = 20, Nombre = "Cartagena Antigua" };
             context.Ciudad.Add(ciudadOriginal);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new CiudadRepository(context);
             ciudadOriginal.Nombre = "Cartagena Actualizada";
@@ -114,7 +114,7 @@ namespace rever.Tests.Repositories
 
             // ASSERT
             resultado.Should().BeTrue();
-            var ciudadActualizada = await context.Ciudad.FirstOrDefaultAsync(c => c.IdCiudad == 20);
+            var ciudadActualizada = await context.Ciudad.FirstOrDefaultAsync(c => c.IdCiudad == 20, cancellationToken: TestContext.Current.CancellationToken);
             ciudadActualizada.Should().NotBeNull();
             ciudadActualizada!.Nombre.Should().Be("Cartagena Actualizada");
         }
@@ -141,7 +141,7 @@ namespace rever.Tests.Repositories
             using var context = RepositoryTestHelper.CreateInMemoryContext();
             var ciudad = new Ciudad { IdCiudad = 30, Nombre = "Bucaramanga" };
             context.Ciudad.Add(ciudad);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new CiudadRepository(context);
 
@@ -150,7 +150,7 @@ namespace rever.Tests.Repositories
 
             // ASSERT
             resultado.Should().BeTrue();
-            var ciudadEnBd = await context.Ciudad.FirstOrDefaultAsync(c => c.IdCiudad == 30);
+            var ciudadEnBd = await context.Ciudad.FirstOrDefaultAsync(c => c.IdCiudad == 30, cancellationToken: TestContext.Current.CancellationToken);
             ciudadEnBd.Should().BeNull();
         }
     }

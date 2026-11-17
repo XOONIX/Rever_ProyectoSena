@@ -19,7 +19,7 @@ namespace rever.Tests.Repositories
                 new Imagen { IdImagen = 1, Url = "http://img1.jpg", IdInmueble = 1, Portada = true },
                 new Imagen { IdImagen = 2, Url = "http://img2.jpg", IdInmueble = 1, Portada = false }
             );
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new ImagenRepository(context);
 
@@ -37,7 +37,7 @@ namespace rever.Tests.Repositories
             // ARRANGE
             using var context = RepositoryTestHelper.CreateInMemoryContext();
             context.Imagen.Add(new Imagen { IdImagen = 10, Url = "http://foto.jpg", IdInmueble = 2 });
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new ImagenRepository(context);
 
@@ -76,7 +76,7 @@ namespace rever.Tests.Repositories
 
             // ASSERT
             resultado.Should().BeTrue();
-            var enBd = await context.Imagen.FirstOrDefaultAsync(i => i.IdImagen == 3);
+            var enBd = await context.Imagen.FirstOrDefaultAsync(i => i.IdImagen == 3, cancellationToken: TestContext.Current.CancellationToken);
             enBd.Should().NotBeNull();
             enBd!.Url.Should().Be("http://nueva.png");
         }
@@ -88,7 +88,7 @@ namespace rever.Tests.Repositories
             using var context = RepositoryTestHelper.CreateInMemoryContext();
             var img = new Imagen { IdImagen = 1, Url = "http://antigua.jpg", IdInmueble = 1 };
             context.Imagen.Add(img);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new ImagenRepository(context);
             img.Url = "http://actualizada.jpg";
@@ -98,7 +98,7 @@ namespace rever.Tests.Repositories
 
             // ASSERT
             resultado.Should().BeTrue();
-            var enBd = await context.Imagen.FirstOrDefaultAsync(i => i.IdImagen == 1);
+            var enBd = await context.Imagen.FirstOrDefaultAsync(i => i.IdImagen == 1, cancellationToken: TestContext.Current.CancellationToken);
             enBd!.Url.Should().Be("http://actualizada.jpg");
         }
 
@@ -124,7 +124,7 @@ namespace rever.Tests.Repositories
             using var context = RepositoryTestHelper.CreateInMemoryContext();
             var img = new Imagen { IdImagen = 1, Url = "http://borrar.jpg", IdInmueble = 1 };
             context.Imagen.Add(img);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new ImagenRepository(context);
 
@@ -133,7 +133,7 @@ namespace rever.Tests.Repositories
 
             // ASSERT
             resultado.Should().BeTrue();
-            var enBd = await context.Imagen.FirstOrDefaultAsync(i => i.IdImagen == 1);
+            var enBd = await context.Imagen.FirstOrDefaultAsync(i => i.IdImagen == 1, cancellationToken: TestContext.Current.CancellationToken);
             enBd.Should().BeNull();
         }
     }

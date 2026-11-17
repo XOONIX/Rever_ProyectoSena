@@ -19,7 +19,7 @@ namespace rever.Tests.Repositories
                 new Caracteristica { IdCaracteristica = 1, Nombre = "Piscina" },
                 new Caracteristica { IdCaracteristica = 2, Nombre = "Ascensor" }
             );
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new CaracteristicaRepository(context);
 
@@ -37,7 +37,7 @@ namespace rever.Tests.Repositories
             // ARRANGE
             using var context = RepositoryTestHelper.CreateInMemoryContext();
             context.Caracteristica.Add(new Caracteristica { IdCaracteristica = 1, Nombre = "Gimnasio" });
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new CaracteristicaRepository(context);
 
@@ -76,7 +76,7 @@ namespace rever.Tests.Repositories
 
             // ASSERT
             resultado.Should().BeTrue();
-            var enBd = await context.Caracteristica.FirstOrDefaultAsync(c => c.IdCaracteristica == 5);
+            var enBd = await context.Caracteristica.FirstOrDefaultAsync(c => c.IdCaracteristica == 5, cancellationToken: TestContext.Current.CancellationToken);
             enBd.Should().NotBeNull();
             enBd!.Nombre.Should().Be("Parqueadero");
         }
@@ -88,7 +88,7 @@ namespace rever.Tests.Repositories
             using var context = RepositoryTestHelper.CreateInMemoryContext();
             var item = new Caracteristica { IdCaracteristica = 1, Nombre = "Balcón" };
             context.Caracteristica.Add(item);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new CaracteristicaRepository(context);
             item.Nombre = "Balcón Grande";
@@ -98,7 +98,7 @@ namespace rever.Tests.Repositories
 
             // ASSERT
             resultado.Should().BeTrue();
-            var enBd = await context.Caracteristica.FirstOrDefaultAsync(c => c.IdCaracteristica == 1);
+            var enBd = await context.Caracteristica.FirstOrDefaultAsync(c => c.IdCaracteristica == 1, cancellationToken: TestContext.Current.CancellationToken);
             enBd!.Nombre.Should().Be("Balcón Grande");
         }
 
@@ -124,7 +124,7 @@ namespace rever.Tests.Repositories
             using var context = RepositoryTestHelper.CreateInMemoryContext();
             var item = new Caracteristica { IdCaracteristica = 1, Nombre = "Terraza" };
             context.Caracteristica.Add(item);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new CaracteristicaRepository(context);
 
@@ -133,7 +133,7 @@ namespace rever.Tests.Repositories
 
             // ASSERT
             resultado.Should().BeTrue();
-            var enBd = await context.Caracteristica.FirstOrDefaultAsync(c => c.IdCaracteristica == 1);
+            var enBd = await context.Caracteristica.FirstOrDefaultAsync(c => c.IdCaracteristica == 1, cancellationToken: TestContext.Current.CancellationToken);
             enBd.Should().BeNull();
         }
     }

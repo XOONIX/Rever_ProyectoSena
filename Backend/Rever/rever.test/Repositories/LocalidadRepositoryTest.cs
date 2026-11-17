@@ -19,7 +19,7 @@ namespace rever.Tests.Repositories
                 new Localidad { IdLocalidad = 1, Nombre = "Chapinero", IdCiudad = 1 },
                 new Localidad { IdLocalidad = 2, Nombre = "Usaquén", IdCiudad = 1 }
             );
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new LocalidadRepository(context);
 
@@ -37,7 +37,7 @@ namespace rever.Tests.Repositories
             // ARRANGE
             using var context = RepositoryTestHelper.CreateInMemoryContext();
             context.Localidad.Add(new Localidad { IdLocalidad = 1, Nombre = "Suba", IdCiudad = 1 });
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new LocalidadRepository(context);
 
@@ -76,7 +76,7 @@ namespace rever.Tests.Repositories
 
             // ASSERT
             resultado.Should().BeTrue();
-            var enBd = await context.Localidad.FirstOrDefaultAsync(l => l.IdLocalidad == 3);
+            var enBd = await context.Localidad.FirstOrDefaultAsync(l => l.IdLocalidad == 3, cancellationToken: TestContext.Current.CancellationToken);
             enBd.Should().NotBeNull();
             enBd!.Nombre.Should().Be("Engativá");
         }
@@ -88,7 +88,7 @@ namespace rever.Tests.Repositories
             using var context = RepositoryTestHelper.CreateInMemoryContext();
             var loc = new Localidad { IdLocalidad = 1, Nombre = "Fontibón", IdCiudad = 1 };
             context.Localidad.Add(loc);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new LocalidadRepository(context);
             loc.Nombre = "Fontibón Centro";
@@ -98,7 +98,7 @@ namespace rever.Tests.Repositories
 
             // ASSERT
             resultado.Should().BeTrue();
-            var enBd = await context.Localidad.FirstOrDefaultAsync(l => l.IdLocalidad == 1);
+            var enBd = await context.Localidad.FirstOrDefaultAsync(l => l.IdLocalidad == 1, cancellationToken: TestContext.Current.CancellationToken);
             enBd!.Nombre.Should().Be("Fontibón Centro");
         }
 
@@ -124,7 +124,7 @@ namespace rever.Tests.Repositories
             using var context = RepositoryTestHelper.CreateInMemoryContext();
             var loc = new Localidad { IdLocalidad = 1, Nombre = "Teusaquillo", IdCiudad = 1 };
             context.Localidad.Add(loc);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new LocalidadRepository(context);
 
@@ -133,7 +133,7 @@ namespace rever.Tests.Repositories
 
             // ASSERT
             resultado.Should().BeTrue();
-            var enBd = await context.Localidad.FirstOrDefaultAsync(l => l.IdLocalidad == 1);
+            var enBd = await context.Localidad.FirstOrDefaultAsync(l => l.IdLocalidad == 1, cancellationToken: TestContext.Current.CancellationToken);
             enBd.Should().BeNull();
         }
     }

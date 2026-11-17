@@ -29,8 +29,8 @@ C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever.test\Reposito
 C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever.test\Repositories\RolRepositoryTest.cs
 C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever.test\Repositories\TipoInmuebleRepositoryTest.cs
 C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever.test\Repositories\UsuarioRepositoryTest.cs
-C:\Users\Kevin\.nuget\packages\xunit.v3.core.mtp-v2\4.0.2\_content\DefaultRunnerReporters.cs
-C:\Users\Kevin\.nuget\packages\xunit.v3.core.mtp-v2\4.0.2\_content\DefaultResultWriters.cs
+C:\Users\Kevin\.nuget\packages\xunit.v3.core.mtp-v2\4.0.3\_content\DefaultRunnerReporters.cs
+C:\Users\Kevin\.nuget\packages\xunit.v3.core.mtp-v2\4.0.3\_content\DefaultResultWriters.cs
 C:\Users\Kevin\.nuget\packages\microsoft.testplatform.testhost\18.10.1\build\net8.0\x64\testhost.exe
 C:\Users\Kevin\.nuget\packages\microsoft.testplatform.testhost\18.10.1\build\net8.0\x64\testhost.dll
 C:\Users\Kevin\.nuget\packages\xunit.runner.visualstudio\4.0.1\build\net8.0\xunit.abstractions.dll

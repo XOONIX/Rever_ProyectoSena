@@ -19,7 +19,7 @@ namespace rever.Tests.Repositories
                 new TipoInmueble { IdTipo = 1, Nombre = "Apartamento" },
                 new TipoInmueble { IdTipo = 2, Nombre = "Casa" }
             );
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new TipoInmuebleRepository(context);
 
@@ -37,7 +37,7 @@ namespace rever.Tests.Repositories
             // ARRANGE
             using var context = RepositoryTestHelper.CreateInMemoryContext();
             context.TipoInmueble.Add(new TipoInmueble { IdTipo = 1, Nombre = "Oficina" });
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new TipoInmuebleRepository(context);
 
@@ -76,7 +76,7 @@ namespace rever.Tests.Repositories
 
             // ASSERT
             resultado.Should().BeTrue();
-            var enBd = await context.TipoInmueble.FirstOrDefaultAsync(t => t.IdTipo == 3);
+            var enBd = await context.TipoInmueble.FirstOrDefaultAsync(t => t.IdTipo == 3, cancellationToken: TestContext.Current.CancellationToken);
             enBd.Should().NotBeNull();
             enBd!.Nombre.Should().Be("Bodega");
         }
@@ -88,7 +88,7 @@ namespace rever.Tests.Repositories
             using var context = RepositoryTestHelper.CreateInMemoryContext();
             var tipo = new TipoInmueble { IdTipo = 1, Nombre = "Local" };
             context.TipoInmueble.Add(tipo);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new TipoInmuebleRepository(context);
             tipo.Nombre = "Local Comercial";
@@ -98,7 +98,7 @@ namespace rever.Tests.Repositories
 
             // ASSERT
             resultado.Should().BeTrue();
-            var enBd = await context.TipoInmueble.FirstOrDefaultAsync(t => t.IdTipo == 1);
+            var enBd = await context.TipoInmueble.FirstOrDefaultAsync(t => t.IdTipo == 1, cancellationToken: TestContext.Current.CancellationToken);
             enBd!.Nombre.Should().Be("Local Comercial");
         }
 
@@ -124,7 +124,7 @@ namespace rever.Tests.Repositories
             using var context = RepositoryTestHelper.CreateInMemoryContext();
             var tipo = new TipoInmueble { IdTipo = 1, Nombre = "Finca" };
             context.TipoInmueble.Add(tipo);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new TipoInmuebleRepository(context);
 
@@ -133,7 +133,7 @@ namespace rever.Tests.Repositories
 
             // ASSERT
             resultado.Should().BeTrue();
-            var enBd = await context.TipoInmueble.FirstOrDefaultAsync(t => t.IdTipo == 1);
+            var enBd = await context.TipoInmueble.FirstOrDefaultAsync(t => t.IdTipo == 1, cancellationToken: TestContext.Current.CancellationToken);
             enBd.Should().BeNull();
         }
     }

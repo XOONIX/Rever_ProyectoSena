@@ -32,7 +32,7 @@ namespace rever.Tests.Repositories
                 CrearUsuarioPrueba(1, "user1@rever.com"),
                 CrearUsuarioPrueba(2, "user2@rever.com")
             );
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new UsuarioRepository(context);
 
@@ -50,7 +50,7 @@ namespace rever.Tests.Repositories
             // ARRANGE
             using var context = RepositoryTestHelper.CreateInMemoryContext();
             context.Usuario.Add(CrearUsuarioPrueba(10, "juan@rever.com"));
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new UsuarioRepository(context);
 
@@ -87,7 +87,7 @@ namespace rever.Tests.Repositories
             var usuario = CrearUsuarioPrueba(1, "admin@rever.com");
             usuario.IdRol = 1;
             context.Usuario.Add(usuario);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new UsuarioRepository(context);
 
@@ -128,7 +128,7 @@ namespace rever.Tests.Repositories
 
             // ASSERT
             resultado.Should().BeTrue();
-            var enBd = await context.Usuario.FirstOrDefaultAsync(u => u.IdUsuario == 5);
+            var enBd = await context.Usuario.FirstOrDefaultAsync(u => u.IdUsuario == 5, cancellationToken: TestContext.Current.CancellationToken);
             enBd.Should().NotBeNull();
             enBd!.Correo.Should().Be("nuevo@rever.com");
         }
@@ -140,7 +140,7 @@ namespace rever.Tests.Repositories
             using var context = RepositoryTestHelper.CreateInMemoryContext();
             var usuario = CrearUsuarioPrueba(1, "antes@rever.com");
             context.Usuario.Add(usuario);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new UsuarioRepository(context);
             var modificado = CrearUsuarioPrueba(1, "despues@rever.com");
@@ -151,7 +151,7 @@ namespace rever.Tests.Repositories
 
             // ASSERT
             resultado.Should().BeTrue();
-            var enBd = await context.Usuario.FirstOrDefaultAsync(u => u.IdUsuario == 1);
+            var enBd = await context.Usuario.FirstOrDefaultAsync(u => u.IdUsuario == 1, cancellationToken: TestContext.Current.CancellationToken);
             enBd!.Correo.Should().Be("despues@rever.com");
             enBd.Nombre.Should().Be("Nombre Actualizado");
         }
@@ -178,7 +178,7 @@ namespace rever.Tests.Repositories
             using var context = RepositoryTestHelper.CreateInMemoryContext();
             var usuario = CrearUsuarioPrueba(1, "borrar@rever.com");
             context.Usuario.Add(usuario);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new UsuarioRepository(context);
 
@@ -187,7 +187,7 @@ namespace rever.Tests.Repositories
 
             // ASSERT
             resultado.Should().BeTrue();
-            var enBd = await context.Usuario.FirstOrDefaultAsync(u => u.IdUsuario == 1);
+            var enBd = await context.Usuario.FirstOrDefaultAsync(u => u.IdUsuario == 1, cancellationToken: TestContext.Current.CancellationToken);
             enBd.Should().BeNull();
         }
     }

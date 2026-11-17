@@ -19,7 +19,7 @@ namespace rever.Tests.Repositories
                 new ModoTransaccion { IdModo = 1, Nombre = "Venta" },
                 new ModoTransaccion { IdModo = 2, Nombre = "Arriendo" }
             );
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new ModoTransaccionRepository(context);
 
@@ -37,7 +37,7 @@ namespace rever.Tests.Repositories
             // ARRANGE
             using var context = RepositoryTestHelper.CreateInMemoryContext();
             context.ModoTransaccion.Add(new ModoTransaccion { IdModo = 1, Nombre = "Venta" });
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new ModoTransaccionRepository(context);
 
@@ -77,7 +77,7 @@ namespace rever.Tests.Repositories
             // ASSERT
             resultado.Should().NotBeNull();
             resultado.IdModo.Should().Be(3);
-            var enBd = await context.ModoTransaccion.FirstOrDefaultAsync(m => m.IdModo == 3);
+            var enBd = await context.ModoTransaccion.FirstOrDefaultAsync(m => m.IdModo == 3, cancellationToken: TestContext.Current.CancellationToken);
             enBd.Should().NotBeNull();
             enBd!.Nombre.Should().Be("Permuta");
         }
@@ -89,7 +89,7 @@ namespace rever.Tests.Repositories
             using var context = RepositoryTestHelper.CreateInMemoryContext();
             var modo = new ModoTransaccion { IdModo = 1, Nombre = "Venta" };
             context.ModoTransaccion.Add(modo);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new ModoTransaccionRepository(context);
             modo.Nombre = "Venta Directa";
@@ -99,7 +99,7 @@ namespace rever.Tests.Repositories
 
             // ASSERT
             resultado.Nombre.Should().Be("Venta Directa");
-            var enBd = await context.ModoTransaccion.FirstOrDefaultAsync(m => m.IdModo == 1);
+            var enBd = await context.ModoTransaccion.FirstOrDefaultAsync(m => m.IdModo == 1, cancellationToken: TestContext.Current.CancellationToken);
             enBd!.Nombre.Should().Be("Venta Directa");
         }
 
@@ -109,7 +109,7 @@ namespace rever.Tests.Repositories
             // ARRANGE
             using var context = RepositoryTestHelper.CreateInMemoryContext();
             context.ModoTransaccion.Add(new ModoTransaccion { IdModo = 1, Nombre = "Temporal" });
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new ModoTransaccionRepository(context);
 
@@ -118,7 +118,7 @@ namespace rever.Tests.Repositories
 
             // ASSERT
             resultado.Should().BeTrue();
-            var enBd = await context.ModoTransaccion.FirstOrDefaultAsync(m => m.IdModo == 1);
+            var enBd = await context.ModoTransaccion.FirstOrDefaultAsync(m => m.IdModo == 1, cancellationToken: TestContext.Current.CancellationToken);
             enBd.Should().BeNull();
         }
 

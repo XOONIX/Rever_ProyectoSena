@@ -19,7 +19,7 @@ namespace rever.Tests.Repositories
                 new InmuebleCaracteristica { IdInmueble = 1, IdCaracteristica = 10 },
                 new InmuebleCaracteristica { IdInmueble = 1, IdCaracteristica = 20 }
             );
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new InmuebleCaracteristicaRepository(context);
 
@@ -37,7 +37,7 @@ namespace rever.Tests.Repositories
             // ARRANGE
             using var context = RepositoryTestHelper.CreateInMemoryContext();
             context.InmuebleCaracteristica.Add(new InmuebleCaracteristica { IdInmueble = 5, IdCaracteristica = 15 });
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new InmuebleCaracteristicaRepository(context);
 
@@ -77,7 +77,7 @@ namespace rever.Tests.Repositories
 
             // ASSERT
             resultado.Should().BeTrue();
-            var enBd = await context.InmuebleCaracteristica.FirstOrDefaultAsync(ic => ic.IdInmueble == 2 && ic.IdCaracteristica == 7);
+            var enBd = await context.InmuebleCaracteristica.FirstOrDefaultAsync(ic => ic.IdInmueble == 2 && ic.IdCaracteristica == 7, cancellationToken: TestContext.Current.CancellationToken);
             enBd.Should().NotBeNull();
         }
 
@@ -87,7 +87,7 @@ namespace rever.Tests.Repositories
             // ARRANGE
             using var context = RepositoryTestHelper.CreateInMemoryContext();
             context.InmuebleCaracteristica.Add(new InmuebleCaracteristica { IdInmueble = 3, IdCaracteristica = 8 });
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new InmuebleCaracteristicaRepository(context);
             var repetido = new InmuebleCaracteristica { IdInmueble = 3, IdCaracteristica = 8 };
@@ -106,7 +106,7 @@ namespace rever.Tests.Repositories
             using var context = RepositoryTestHelper.CreateInMemoryContext();
             var item = new InmuebleCaracteristica { IdInmueble = 4, IdCaracteristica = 9 };
             context.InmuebleCaracteristica.Add(item);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new InmuebleCaracteristicaRepository(context);
 
@@ -115,7 +115,7 @@ namespace rever.Tests.Repositories
 
             // ASSERT
             resultado.Should().BeTrue();
-            var enBd = await context.InmuebleCaracteristica.FirstOrDefaultAsync(ic => ic.IdInmueble == 4 && ic.IdCaracteristica == 9);
+            var enBd = await context.InmuebleCaracteristica.FirstOrDefaultAsync(ic => ic.IdInmueble == 4 && ic.IdCaracteristica == 9, cancellationToken: TestContext.Current.CancellationToken);
             enBd.Should().BeNull();
         }
     }

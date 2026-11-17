@@ -19,7 +19,7 @@ namespace rever.Tests.Repositories
                 new EstadoPublicacion { IdEstado = 1, Nombre = "Disponible" },
                 new EstadoPublicacion { IdEstado = 2, Nombre = "Vendido" }
             );
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new EstadoPublicacionRepository(context);
 
@@ -37,7 +37,7 @@ namespace rever.Tests.Repositories
             // ARRANGE
             using var context = RepositoryTestHelper.CreateInMemoryContext();
             context.EstadoPublicacion.Add(new EstadoPublicacion { IdEstado = 1, Nombre = "Disponible" });
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new EstadoPublicacionRepository(context);
 
@@ -76,7 +76,7 @@ namespace rever.Tests.Repositories
 
             // ASSERT
             resultado.Should().BeTrue();
-            var enBd = await context.EstadoPublicacion.FirstOrDefaultAsync(e => e.IdEstado == 3);
+            var enBd = await context.EstadoPublicacion.FirstOrDefaultAsync(e => e.IdEstado == 3, cancellationToken: TestContext.Current.CancellationToken);
             enBd.Should().NotBeNull();
             enBd!.Nombre.Should().Be("Pausado");
         }
@@ -88,7 +88,7 @@ namespace rever.Tests.Repositories
             using var context = RepositoryTestHelper.CreateInMemoryContext();
             var estado = new EstadoPublicacion { IdEstado = 1, Nombre = "Activo" };
             context.EstadoPublicacion.Add(estado);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new EstadoPublicacionRepository(context);
             estado.Nombre = "Inactivo";
@@ -98,7 +98,7 @@ namespace rever.Tests.Repositories
 
             // ASSERT
             resultado.Should().BeTrue();
-            var enBd = await context.EstadoPublicacion.FirstOrDefaultAsync(e => e.IdEstado == 1);
+            var enBd = await context.EstadoPublicacion.FirstOrDefaultAsync(e => e.IdEstado == 1, cancellationToken: TestContext.Current.CancellationToken);
             enBd!.Nombre.Should().Be("Inactivo");
         }
 
@@ -124,7 +124,7 @@ namespace rever.Tests.Repositories
             using var context = RepositoryTestHelper.CreateInMemoryContext();
             var estado = new EstadoPublicacion { IdEstado = 1, Nombre = "EliminarMe" };
             context.EstadoPublicacion.Add(estado);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new EstadoPublicacionRepository(context);
 
@@ -133,7 +133,7 @@ namespace rever.Tests.Repositories
 
             // ASSERT
             resultado.Should().BeTrue();
-            var enBd = await context.EstadoPublicacion.FirstOrDefaultAsync(e => e.IdEstado == 1);
+            var enBd = await context.EstadoPublicacion.FirstOrDefaultAsync(e => e.IdEstado == 1, cancellationToken: TestContext.Current.CancellationToken);
             enBd.Should().BeNull();
         }
     }

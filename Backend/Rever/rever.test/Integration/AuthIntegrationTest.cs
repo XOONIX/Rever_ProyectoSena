@@ -26,7 +26,7 @@ namespace rever.Tests.Integration
             var loginInvalido = new Login { Correo = "", Contraseña = "" };
 
             // ACT
-            var response = await client.PostAsJsonAsync("/api/Auth/Login", loginInvalido);
+            var response = await client.PostAsJsonAsync("/api/Auth/Login", loginInvalido, cancellationToken: TestContext.Current.CancellationToken);
 
             // ASSERT
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
@@ -40,7 +40,7 @@ namespace rever.Tests.Integration
             var login = new Login { Correo = "noexiste@rever.com", Contraseña = "Password123*" };
 
             // ACT
-            var response = await client.PostAsJsonAsync("/api/Auth/Login", login);
+            var response = await client.PostAsJsonAsync("/api/Auth/Login", login, cancellationToken: TestContext.Current.CancellationToken);
 
             // ASSERT
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -71,7 +71,7 @@ namespace rever.Tests.Integration
             });
 
             // 1. POST /api/Auth/Register
-            var registerResponse = await client.PostAsJsonAsync("/api/Auth/Register", nuevoUsuario);
+            var registerResponse = await client.PostAsJsonAsync("/api/Auth/Register", nuevoUsuario, cancellationToken: TestContext.Current.CancellationToken);
             registerResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
             // 2. Obtener el token de confirmación generado en BD
@@ -93,7 +93,7 @@ namespace rever.Tests.Integration
 
             var emailEscaped = Uri.EscapeDataString(nuevoUsuario.Correo);
             var tokenEscaped = Uri.EscapeDataString(tokenConfirmacion!);
-            var confirmResponse = await clientSinRedirect.GetAsync($"/api/Auth/ConfirmEmail?email={emailEscaped}&token={tokenEscaped}");
+            var confirmResponse = await clientSinRedirect.GetAsync($"/api/Auth/ConfirmEmail?email={emailEscaped}&token={tokenEscaped}", TestContext.Current.CancellationToken);
             confirmResponse.StatusCode.Should().Be(HttpStatusCode.Redirect);
             confirmResponse.Headers.Location!.ToString().Should().Contain("confirmed=true");
 
@@ -104,10 +104,10 @@ namespace rever.Tests.Integration
                 Contraseña = "MiPasswordSeguro123!"
             };
 
-            var loginResponse = await client.PostAsJsonAsync("/api/Auth/Login", loginRequest);
+            var loginResponse = await client.PostAsJsonAsync("/api/Auth/Login", loginRequest, cancellationToken: TestContext.Current.CancellationToken);
             loginResponse.StatusCode.Should().Be(HttpStatusCode.OK);
 
-            var jsonBody = await loginResponse.Content.ReadFromJsonAsync<JsonElement>();
+            var jsonBody = await loginResponse.Content.ReadFromJsonAsync<JsonElement>(cancellationToken: TestContext.Current.CancellationToken);
             jsonBody.TryGetProperty("token", out var tokenProp).Should().BeTrue();
             tokenProp.GetString().Should().NotBeNullOrWhiteSpace();
         }

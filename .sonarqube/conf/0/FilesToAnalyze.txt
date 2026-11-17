@@ -1,4 +1,7 @@
 ﻿C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\AdministradoresInjectionService.cs
+C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\CaracteristicaRepositoryTest.cs
+C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\CiudadRepositoryTest.cs
+C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\ContactoRepositoryTest.cs
 C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\contexto\Databaseserver.cs
 C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Controllers\AuthController.cs
 C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Controllers\CaracteristicaController.cs

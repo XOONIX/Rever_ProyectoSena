@@ -19,7 +19,7 @@ namespace rever.Tests.Repositories
                 new Rol { IdRol = 1, Nombre = "Administrador" },
                 new Rol { IdRol = 2, Nombre = "Cliente" }
             );
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new RolRepository(context);
 
@@ -53,7 +53,7 @@ namespace rever.Tests.Repositories
             // ARRANGE
             using var context = RepositoryTestHelper.CreateInMemoryContext();
             context.Rol.Add(new Rol { IdRol = 1, Nombre = "Administrador" });
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new RolRepository(context);
 
@@ -92,7 +92,7 @@ namespace rever.Tests.Repositories
 
             // ASSERT
             resultado.Should().BeTrue();
-            var rolEnBd = await context.Rol.FirstOrDefaultAsync(r => r.IdRol == 3);
+            var rolEnBd = await context.Rol.FirstOrDefaultAsync(r => r.IdRol == 3, cancellationToken: TestContext.Current.CancellationToken);
             rolEnBd.Should().NotBeNull();
             rolEnBd!.Nombre.Should().Be("Agente");
         }
@@ -104,7 +104,7 @@ namespace rever.Tests.Repositories
             using var context = RepositoryTestHelper.CreateInMemoryContext();
             var rol = new Rol { IdRol = 1, Nombre = "Admin" };
             context.Rol.Add(rol);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new RolRepository(context);
             rol.Nombre = "SuperAdmin";
@@ -114,7 +114,7 @@ namespace rever.Tests.Repositories
 
             // ASSERT
             resultado.Should().BeTrue();
-            var rolActualizado = await context.Rol.FirstOrDefaultAsync(r => r.IdRol == 1);
+            var rolActualizado = await context.Rol.FirstOrDefaultAsync(r => r.IdRol == 1, cancellationToken: TestContext.Current.CancellationToken);
             rolActualizado.Should().NotBeNull();
             rolActualizado!.Nombre.Should().Be("SuperAdmin");
         }
@@ -141,7 +141,7 @@ namespace rever.Tests.Repositories
             using var context = RepositoryTestHelper.CreateInMemoryContext();
             var rol = new Rol { IdRol = 2, Nombre = "Invitado" };
             context.Rol.Add(rol);
-            await context.SaveChangesAsync();
+            await context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
             var repository = new RolRepository(context);
 
@@ -150,7 +150,7 @@ namespace rever.Tests.Repositories
 
             // ASSERT
             resultado.Should().BeTrue();
-            var rolEnBd = await context.Rol.FirstOrDefaultAsync(r => r.IdRol == 2);
+            var rolEnBd = await context.Rol.FirstOrDefaultAsync(r => r.IdRol == 2, cancellationToken: TestContext.Current.CancellationToken);
             rolEnBd.Should().BeNull();
         }
     }

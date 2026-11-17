@@ -28,7 +28,7 @@ namespace ReverInmobiliaria.Tests
             {
                 context.Ciudad.Add(new Ciudad { IdCiudad = 1, Nombre = "Bogotá" });
                 context.Ciudad.Add(new Ciudad { IdCiudad = 2, Nombre = "Medellín" });
-                await context.SaveChangesAsync();
+                await context.SaveChangesAsync(TestContext.Current.CancellationToken);
             }
 
             using var contextRepo = GetInMemoryDbContext(dbName);
@@ -47,7 +47,7 @@ namespace ReverInmobiliaria.Tests
             using (var context = GetInMemoryDbContext(dbName))
             {
                 context.Ciudad.Add(new Ciudad { IdCiudad = 1, Nombre = "Cali" });
-                await context.SaveChangesAsync();
+                await context.SaveChangesAsync(TestContext.Current.CancellationToken);
             }
 
             using var contextRepo = GetInMemoryDbContext(dbName);
@@ -84,7 +84,7 @@ namespace ReverInmobiliaria.Tests
             using (var context = GetInMemoryDbContext(dbName))
             {
                 context.Ciudad.Add(new Ciudad { IdCiudad = 1, Nombre = "Cartagena" });
-                await context.SaveChangesAsync();
+                await context.SaveChangesAsync(TestContext.Current.CancellationToken);
             }
 
             using var contextRepo = GetInMemoryDbContext(dbName);
@@ -97,7 +97,7 @@ namespace ReverInmobiliaria.Tests
             resultado.Should().BeTrue();
 
             using var contextVerify = GetInMemoryDbContext(dbName);
-            var item = await contextVerify.Ciudad.FindAsync(1);
+            var item = await contextVerify.Ciudad.FindAsync(new object?[] { 1 }, TestContext.Current.CancellationToken);
             item.Nombre.Should().Be("Cartagena de Indias");
         }
 
@@ -124,7 +124,7 @@ namespace ReverInmobiliaria.Tests
             using (var context = GetInMemoryDbContext(dbName))
             {
                 context.Ciudad.Add(item);
-                await context.SaveChangesAsync();
+                await context.SaveChangesAsync(TestContext.Current.CancellationToken);
             }
 
             using var contextRepo = GetInMemoryDbContext(dbName);

@@ -28,7 +28,7 @@ namespace ReverInmobiliaria.Tests
             {
                 context.Contacto.Add(new Contacto { IdContacto = 1, Mensaje = "Hola, me interesa la propiedad" });
                 context.Contacto.Add(new Contacto { IdContacto = 2, Mensaje = "Quiero agendar una cita" });
-                await context.SaveChangesAsync();
+                await context.SaveChangesAsync(TestContext.Current.CancellationToken);
             }
 
             using var contextRepo = GetInMemoryDbContext(dbName);
@@ -47,7 +47,7 @@ namespace ReverInmobiliaria.Tests
             using (var context = GetInMemoryDbContext(dbName))
             {
                 context.Contacto.Add(new Contacto { IdContacto = 1, Mensaje = "Información sobre el precio" });
-                await context.SaveChangesAsync();
+                await context.SaveChangesAsync(TestContext.Current.CancellationToken);
             }
 
             using var contextRepo = GetInMemoryDbContext(dbName);
@@ -84,7 +84,7 @@ namespace ReverInmobiliaria.Tests
             using (var context = GetInMemoryDbContext(dbName))
             {
                 context.Contacto.Add(new Contacto { IdContacto = 1, Mensaje = "Mensaje original" });
-                await context.SaveChangesAsync();
+                await context.SaveChangesAsync(TestContext.Current.CancellationToken);
             }
 
             using var contextRepo = GetInMemoryDbContext(dbName);
@@ -97,7 +97,7 @@ namespace ReverInmobiliaria.Tests
             resultado.Should().BeTrue();
 
             using var contextVerify = GetInMemoryDbContext(dbName);
-            var item = await contextVerify.Contacto.FindAsync(1);
+            var item = await contextVerify.Contacto.FindAsync(new object?[] { 1 }, TestContext.Current.CancellationToken);
             item.Mensaje.Should().Be("Mensaje actualizado");
         }
 
@@ -124,7 +124,7 @@ namespace ReverInmobiliaria.Tests
             using (var context = GetInMemoryDbContext(dbName))
             {
                 context.Contacto.Add(item);
-                await context.SaveChangesAsync();
+                await context.SaveChangesAsync(TestContext.Current.CancellationToken);
             }
 
             using var contextRepo = GetInMemoryDbContext(dbName);

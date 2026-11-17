@@ -28,7 +28,7 @@ namespace ReverInmobiliaria.Tests
             {
                 context.Caracteristica.Add(new Caracteristica { IdCaracteristica = 1, Nombre = "Piscina" });
                 context.Caracteristica.Add(new Caracteristica { IdCaracteristica = 2, Nombre = "Ascensor" });
-                await context.SaveChangesAsync();
+                await context.SaveChangesAsync(TestContext.Current.CancellationToken);
             }
 
             using var contextRepo = GetInMemoryDbContext(dbName);
@@ -47,7 +47,7 @@ namespace ReverInmobiliaria.Tests
             using (var context = GetInMemoryDbContext(dbName))
             {
                 context.Caracteristica.Add(new Caracteristica { IdCaracteristica = 1, Nombre = "Gimnasio" });
-                await context.SaveChangesAsync();
+                await context.SaveChangesAsync(TestContext.Current.CancellationToken);
             }
 
             using var contextRepo = GetInMemoryDbContext(dbName);
@@ -86,7 +86,7 @@ namespace ReverInmobiliaria.Tests
             using (var context = GetInMemoryDbContext(dbName))
             {
                 context.Caracteristica.Add(new Caracteristica { IdCaracteristica = 1, Nombre = "Parqueadero" });
-                await context.SaveChangesAsync();
+                await context.SaveChangesAsync(TestContext.Current.CancellationToken);
             }
 
             // 2. Abrimos un nuevo contexto para la ejecución del repositorio
@@ -102,7 +102,7 @@ namespace ReverInmobiliaria.Tests
             resultado.Should().BeTrue();
 
             using var contextVerify = GetInMemoryDbContext(dbName);
-            var item = await contextVerify.Caracteristica.FindAsync(1);
+            var item = await contextVerify.Caracteristica.FindAsync(new object?[] { 1 }, TestContext.Current.CancellationToken);
             item.Nombre.Should().Be("Parqueadero Cubierto");
         }
 
@@ -129,7 +129,7 @@ namespace ReverInmobiliaria.Tests
             using (var context = GetInMemoryDbContext(dbName))
             {
                 context.Caracteristica.Add(item);
-                await context.SaveChangesAsync();
+                await context.SaveChangesAsync(TestContext.Current.CancellationToken);
             }
 
             using var contextRepo = GetInMemoryDbContext(dbName);

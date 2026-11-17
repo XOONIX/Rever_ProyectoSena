@@ -27,7 +27,7 @@ namespace rever.Tests.Integration
             var client = _factory.CreateClient();
 
             // ACT
-            var response = await client.GetAsync("/api/Inmueble/listar");
+            var response = await client.GetAsync("/api/Inmueble/listar", TestContext.Current.CancellationToken);
 
             // ASSERT: La ruta permite acceso anónimo
             response.StatusCode.Should().BeOneOf(HttpStatusCode.OK, HttpStatusCode.NotFound);
@@ -50,7 +50,7 @@ namespace rever.Tests.Integration
             };
 
             // ACT
-            var response = await client.PostAsJsonAsync("/api/Inmueble/completo", dto);
+            var response = await client.PostAsJsonAsync("/api/Inmueble/completo", dto, cancellationToken: TestContext.Current.CancellationToken);
 
             // ASSERT
             response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
@@ -102,18 +102,18 @@ namespace rever.Tests.Integration
             };
 
             // 3. POST /api/Inmueble/completo
-            var postResponse = await client.PostAsJsonAsync("/api/Inmueble/completo", dto);
+            var postResponse = await client.PostAsJsonAsync("/api/Inmueble/completo", dto, cancellationToken: TestContext.Current.CancellationToken);
             postResponse.StatusCode.Should().Be(HttpStatusCode.Created);
 
-            var postJson = await postResponse.Content.ReadFromJsonAsync<JsonElement>();
+            var postJson = await postResponse.Content.ReadFromJsonAsync<JsonElement>(cancellationToken: TestContext.Current.CancellationToken);
             postJson.TryGetProperty("idInmueble", out var idProp).Should().BeTrue();
             int idInmuebleGenerado = idProp.GetInt32();
             idInmuebleGenerado.Should().BeGreaterThan(0);
 
             // 4. GET /api/Inmueble/{id}
-            var getResponse = await client.GetAsync($"/api/Inmueble/{idInmuebleGenerado}");
+            var getResponse = await client.GetAsync($"/api/Inmueble/{idInmuebleGenerado}", TestContext.Current.CancellationToken);
             getResponse.StatusCode.Should().Be(HttpStatusCode.OK);
-            var inmuebleConsultado = await getResponse.Content.ReadFromJsonAsync<Inmueble>();
+            var inmuebleConsultado = await getResponse.Content.ReadFromJsonAsync<Inmueble>(cancellationToken: TestContext.Current.CancellationToken);
             inmuebleConsultado.Should().NotBeNull();
             inmuebleConsultado!.Titulo.Should().Be("Penthouse Quindío");
         }

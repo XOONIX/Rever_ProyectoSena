@@ -27,7 +27,7 @@ namespace rever.contexto
             EntityConfiguration(modelBuilder);
         }
 
-        private void EntityConfiguration(ModelBuilder modelBuilder)
+        private static void EntityConfiguration(ModelBuilder modelBuilder)
         {
             // ROLES
             modelBuilder.Entity<Rol>(entity =>
