@@ -170,7 +170,32 @@ pC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Repositories
 
   
 
-) 0Ô
+) 0Ú
+xC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Repositories\interfaces\IModoTransaccionRepository.cs
+
+ /
+
+		+ 6
+
+
+
+ *
+
+
+
+/ 1
+
+ )
+
+: >
+
+ )
+
+: >
+
+ 
+
+# %Ô
 uC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Repositories\interfaces\ITipoInmuebleRepository.cs
 
  ,
@@ -220,32 +245,7 @@ lC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Repositories
 
  
 
-! $Ú
-xC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Repositories\interfaces\IModoTransaccionRepository.cs
-
- /
-
-		+ 6
-
-
-
- *
-
-
-
-/ 1
-
- )
-
-: >
-
- )
-
-: >
-
- 
-
-# %Ï
+! $Ï
 rC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Repositories\interfaces\ILocalidadRepository.cs
 
  )
@@ -757,7 +757,7 @@ kC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Repositories
 ))J K))O P
 
 55  4
-55D R77+ 9Â
+55D R77+ 9Ÿ
 MC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Program.csj
  		 
 
@@ -770,9 +770,7 @@ MC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Program.csj
 BB HH )
 DD  FF 
 FF* 0HH Z
-NN PP RR TT UU XX ZZ [[ ]] __ 	
-
-`` ⁄
+NN PP RR TT UU XX ZZ [[ ]] __ 	⁄
 TC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Models\Usuario.cs
 
  
@@ -795,7 +793,14 @@ TC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Models\Usuar
 
 11 (
 
-44 v
+44 
+YC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Models\TipoInmueble.cs
+
+ 
+
+ 
+
+ %v
 PC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Models\Rol.cs
 
  
@@ -811,25 +816,21 @@ PC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Models\Rol.c
 
  
 
- %x
+ %Ñ
+^C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Models\EstadoPublicacion.cs
+
+ "
+
+ 
+
+ %x
 RC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Models\Login.cs
 
  
 
 		 %
 
- )î
-VC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Models\Localidad.cs
-
- 
-
- 
-
- %
-
- 
-
- °
+ )°
 cC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Models\InmuebleCaracteristica.cs
 
  '
@@ -840,14 +841,7 @@ cC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Models\Inmue
 
  !
 
- -
-YC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Models\TipoInmueble.cs
-
- 
-
- 
-
- %è
+ -è
 UC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Models\Inmueble.cs
 
  
@@ -913,14 +907,18 @@ SC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Models\Image
 
  &
 
- !Ñ
-^C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Models\EstadoPublicacion.cs
+ !î
+VC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Models\Localidad.cs
 
- "
+ 
 
- 
+ 
 
- %œ
+ %
+
+ 
+
+ œ
 UC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Models\Contacto.cs
 
  
@@ -1405,7 +1403,186 @@ eC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Controllers\
 ´´J O
 
 ´´ 
-¨¨' /≈
+¨¨' /Ÿ
+mC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Controllers\EstadoPublicacionController.cs
+
+ ,`
+6 R (  % A==% A^^% A" >
+ÜÜ% A
+££" >
+≠≠% A
+H R+ 5
+
+) @
+   !! %%' /
+
+44) A(
+44F H88 ==[ ]@@b d
+== >> BB' /
+
+PP) ?
+PP] nYY %^^X i
+^^ __ cc' /
+
+qq) D@
+qqb szz %zz1 BX i
+ÇÇk |
+ÖÖ 0.
+ 
+ÄÄ 
+ÖÖ 
+ÜÜW \
+
+ÜÜ 
+áá' /
+
+ïï) @0
+
+ïïE G
+ûû 
+££X Z
+©©V X$
+
+££ 
+•• 
+≠≠Z _
+
+≠≠ 
+ØØ' /‹
+dC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Controllers\ContactoController.cs
+
+ #b
+- @ ((% 8DD% 8yy% 8
+õõ" 5
+¶¶% 8
+√√" 5
+ÕÕ% 8
+6 @" ,
+
+) 7
+(( )) --' /
+
+;;) 8(
+;;= ??? DDI KGGU W2
+DD EE TT( 0TTX `[[' /(
+KK "MM #TT@ NTTo }
+SS VV+ 2
+TT %VV &
+
+dd) 62
+ddK Shh vv ww yyF N
+nn "pp #vv' 5
+yy zz ' /
+
+çç) ;x
+
+ççP X
+ññ 
+ññ( 0
+õõF N
+ûû^ f
+°°$ ,
+¢¢# +
+££# +
+§§  (
+•• &`
+
+õõ 
+úú 
+°° 
+¢¢ 
+££ 
+§§ 
+•• 
+¶¶E J
+
+¶¶ 
+ßß' /
+
+µµ) 70
+
+µµ< >
+ææ 
+√√F H
+……I K$
+
+√√ 
+≈≈ 
+ÕÕH M
+
+ÕÕ 
+œœ' /ê
+bC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Controllers\ImagenController.cs
+
+ !b
++ < ""% 6>>% 6ee% 6
+ÅÅ" 3
+èè% 6
+ßß" 3
+≥≥% 6 
+- @ 
+ææ ,
+2 <  *
+R d" 4
+
+) 5
+"" ## ''' /
+
+55) 6(
+55; =99 >>E GAAS U
+>> ?? CC' /
+
+QQ) 4<
+QQG MUU UU& ,ZZI O]]F LeeB H
+ZZ [[ ``( 0
+ee ff jj' /
+
+xx) 9N
+xxL R|| ||& ,
+ÅÅB H
+ÑÑ\ b
+çç "
+éé# )H
+
+ÅÅ 
+ÇÇ 
+ááI N
+çç 
+éé 
+èèA F$
+
+áá 
+àà 
+àà< D
+
+èè 
+êê' /
+
+ûû) 50
+
+ûû: <
+¢¢ 
+ßßB D
+™™Z \0
+
+ßß 
+®® 
+≠≠I N
+≥≥D I$
+
+≠≠ 
+ÆÆ 
+ÆÆ< D
+
+≥≥ 
+¥¥' /.
+
+ºº& IZZ% H
+áá% H
+≠≠% H
+
+ººN X
+ææ= G≈
 dC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Controllers\InmuebleController.cs
 
  #Ñ
@@ -1572,186 +1749,7 @@ hC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Controllers\
 ää< D
 
 èè 
-êê' /ê
-bC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Controllers\ImagenController.cs
-
- !b
-+ < ""% 6>>% 6ee% 6
-ÅÅ" 3
-èè% 6
-ßß" 3
-≥≥% 6 
-- @ 
-ææ ,
-2 <  *
-R d" 4
-
-) 5
-"" ## ''' /
-
-55) 6(
-55; =99 >>E GAAS U
->> ?? CC' /
-
-QQ) 4<
-QQG MUU UU& ,ZZI O]]F LeeB H
-ZZ [[ ``( 0
-ee ff jj' /
-
-xx) 9N
-xxL R|| ||& ,
-ÅÅB H
-ÑÑ\ b
-çç "
-éé# )H
-
-ÅÅ 
-ÇÇ 
-ááI N
-çç 
-éé 
-èèA F$
-
-áá 
-àà 
-àà< D
-
-èè 
-êê' /
-
-ûû) 50
-
-ûû: <
-¢¢ 
-ßßB D
-™™Z \0
-
-ßß 
-®® 
-≠≠I N
-≥≥D I$
-
-≠≠ 
-ÆÆ 
-ÆÆ< D
-
-≥≥ 
-¥¥' /.
-
-ºº& IZZ% H
-áá% H
-≠≠% H
-
-ººN X
-ææ= GŸ
-mC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Controllers\EstadoPublicacionController.cs
-
- ,`
-6 R (  % A==% A^^% A" >
-ÜÜ% A
-££" >
-≠≠% A
-H R+ 5
-
-) @
-   !! %%' /
-
-44) A(
-44F H88 ==[ ]@@b d
-== >> BB' /
-
-PP) ?
-PP] nYY %^^X i
-^^ __ cc' /
-
-qq) D@
-qqb szz %zz1 BX i
-ÇÇk |
-ÖÖ 0.
- 
-ÄÄ 
-ÖÖ 
-ÜÜW \
-
-ÜÜ 
-áá' /
-
-ïï) @0
-
-ïïE G
-ûû 
-££X Z
-©©V X$
-
-££ 
-•• 
-≠≠Z _
-
-≠≠ 
-ØØ' /‹
-dC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Controllers\ContactoController.cs
-
- #b
-- @ ((% 8DD% 8yy% 8
-õõ" 5
-¶¶% 8
-√√" 5
-ÕÕ% 8
-6 @" ,
-
-) 7
-(( )) --' /
-
-;;) 8(
-;;= ??? DDI KGGU W2
-DD EE TT( 0TTX `[[' /(
-KK "MM #TT@ NTTo }
-SS VV+ 2
-TT %VV &
-
-dd) 62
-ddK Shh vv ww yyF N
-nn "pp #vv' 5
-yy zz ' /
-
-çç) ;x
-
-ççP X
-ññ 
-ññ( 0
-õõF N
-ûû^ f
-°°$ ,
-¢¢# +
-££# +
-§§  (
-•• &`
-
-õõ 
-úú 
-°° 
-¢¢ 
-££ 
-§§ 
-•• 
-¶¶E J
-
-¶¶ 
-ßß' /
-
-µµ) 70
-
-µµ< >
-ææ 
-√√F H
-……I K$
-
-√√ 
-≈≈ 
-ÕÕH M
-
-ÕÕ 
-œœ' /‘
+êê' /‘
 bC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Controllers\CiudadController.cs
 
  !b
@@ -1847,76 +1845,7 @@ jC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Controllers\
 ™™T Y
 
 ™™ 
-´´' /À
-
-\C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\ContactoRepositoryTest.cs
-
- (ê
-  4! 5""$ 8//! 555$ 8BB$ 8KK& :TT! 5ZZ$ 8cc& :ll$ 8||! 5
-ÇÇ$ 8
-ââ& :
-< B3 9
- ' .
-
- B
- 6 <""9 ?(
-    
-"" !##4 ?
-## %%" ,
-%% '' (( 
-
-,, K
-.. //6 <559 ?
-// 11 22 
-55 !664 ?
-66 88" ,
-88 :: ;; 
-
-?? ?
-AA BB9 ?KK; A
-BB !CC4 ?
-CC GG" ,
-EE GG: G
-GG II 
-KK #LL 
-LL: ;LL? @
-
-PP N(
-RR TT6 <ZZ9 ?cc; A
-TT VV WW 
-ZZ ![[4 ?
-[[ __" ,
-]] "__9 K
-__ aa 
-cc #dd *
-dd ee 
-
-ii F
-kk ll9 ?
-ll !mm4 ?
-mm qq" ,
-oo #qq9 L
-qq ss 
-
-ww B,
-yy ||6 <
-ÇÇ9 ?
-ââ; A 
-zz ~~% )
-ÖÖ< @
-|| ~~  
-
-ÇÇ !
-ÉÉ4 ?
-
-ÉÉ 
-ÖÖ" ,
-
-ÖÖ 
-áá 
-
-ââ #
-ää à	
+´´' /à	
 `C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Controllers\AuthController.cs
 
  <
@@ -2247,7 +2176,76 @@ jC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\Controllers\
 √√# $
 
 √√H I
-√√M N…
+√√M NÀ
+
+\C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\ContactoRepositoryTest.cs
+
+ (ê
+  4! 5""$ 8//! 555$ 8BB$ 8KK& :TT! 5ZZ$ 8cc& :ll$ 8||! 5
+ÇÇ$ 8
+ââ& :
+< B3 9
+ ' .
+
+ B
+ 6 <""9 ?(
+    
+"" !##4 ?
+## %%" ,
+%% '' (( 
+
+,, K
+.. //6 <559 ?
+// 11 22 
+55 !664 ?
+66 88" ,
+88 :: ;; 
+
+?? ?
+AA BB9 ?KK; A
+BB !CC4 ?
+CC GG" ,
+EE GG: G
+GG II 
+KK #LL 
+LL: ;LL? @
+
+PP N(
+RR TT6 <ZZ9 ?cc; A
+TT VV WW 
+ZZ ![[4 ?
+[[ __" ,
+]] "__9 K
+__ aa 
+cc #dd *
+dd ee 
+
+ii F
+kk ll9 ?
+ll !mm4 ?
+mm qq" ,
+oo #qq9 L
+qq ss 
+
+ww B,
+yy ||6 <
+ÇÇ9 ?
+ââ; A 
+zz ~~% )
+ÖÖ< @
+|| ~~  
+
+ÇÇ !
+ÉÉ4 ?
+
+ÉÉ 
+ÖÖ" ,
+
+ÖÖ 
+áá 
+
+ââ #
+ää …
 
 ZC:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\CiudadRepositoryTest.cs
 
