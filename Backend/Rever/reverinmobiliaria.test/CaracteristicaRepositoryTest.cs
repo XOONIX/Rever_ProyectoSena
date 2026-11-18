@@ -11,7 +11,7 @@ namespace ReverInmobiliaria.Tests
 {
     public class CaracteristicaRepositoryTests
     {
-        private DatabaseService GetInMemoryDbContext(string dbName)
+        private static DatabaseService GetInMemoryDbContext(string dbName)
         {
             var options = new DbContextOptionsBuilder<DatabaseService>()
                 .UseInMemoryDatabase(databaseName: dbName)
@@ -103,6 +103,7 @@ namespace ReverInmobiliaria.Tests
 
             using var contextVerify = GetInMemoryDbContext(dbName);
             var item = await contextVerify.Caracteristica.FindAsync(new object?[] { 1 }, TestContext.Current.CancellationToken);
+            item.Should().NotBeNull();
             item.Nombre.Should().Be("Parqueadero Cubierto");
         }
 

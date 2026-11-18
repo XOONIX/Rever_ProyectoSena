@@ -22,7 +22,7 @@ namespace rever.Repositories
             return data;
         }
 
-        public async Task<Rol> GetRolById(int id)
+        public async Task<Rol?> GetRolById(int id)
         {
             var data = await _context.Rol.FirstOrDefaultAsync(x => x.IdRol == id);
             return data;

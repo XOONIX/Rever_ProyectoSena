@@ -23,7 +23,7 @@ namespace rever.Repositories
             return data;
         }
 
-        public async Task<Caracteristica> GetCaracteristicaById(int id)
+        public async Task<Caracteristica?> GetCaracteristicaById(int id)
         {
             var data = await _context.Caracteristica.FirstOrDefaultAsync(x => x.IdCaracteristica == id);
             return data;

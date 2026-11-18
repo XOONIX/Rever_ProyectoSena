@@ -22,7 +22,7 @@ namespace rever.Repositories
             return await _context.ModoTransaccion.ToListAsync();
         }
 
-        public async Task<ModoTransaccion> GetByIdAsync(int id)
+        public async Task<ModoTransaccion?> GetByIdAsync(int id)
         {
             return await _context.ModoTransaccion.FindAsync(id);
         }

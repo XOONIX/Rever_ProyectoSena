@@ -1027,7 +1027,6 @@ table {
 
 .marcador_mapa {
   position: absolute;
-  transform: translate(-50%, -100%);
   cursor: pointer;
   width: 1.75rem;
   height: 1.75rem;

@@ -119,7 +119,7 @@ namespace rever.Controllers
                 contacto.Fecha = DateTime.UtcNow;
 
                 var response = await _contactorepository.PostContacto(contacto);
-                if (response == null)
+                if (!response)
                 {
                     return StatusCode(500, "500: Error interno al intentar crear el recurso.");
                 }

@@ -4,8 +4,5 @@
 {"dotnetenterprise.s4net.build.deterministic.cnt":"true"}
 {"dotnetenterprise.s4net.build.nuget_project_style.cnt":"PackageReference"}
 {"dotnetenterprise.s4net.build.netcore_sdk_version.cnt":"10.0.401"}
-{"dotnetenterprise.s4net.build.dependencies.coverlet_collector.cnt":"true"}
-{"dotnetenterprise.s4net.build.dependencies.fluentassertions.cnt":"true"}
-{"dotnetenterprise.s4net.build.dependencies.messagepack.cnt":"true"}
 {"dotnetenterprise.s4net.build.dependencies.microsoft_net_test_sdk.cnt":"true"}
-{"dotnetenterprise.s4net.build.dependencies.moq.cnt":"true"}
+{"dotnetenterprise.s4net.build.dependencies.coverlet_collector.cnt":"true"}

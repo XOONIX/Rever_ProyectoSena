@@ -22,7 +22,7 @@ namespace rever.Repositories
             return data;
         }
 
-        public async Task<TipoInmueble> GetTipoInmuebleById(int id)
+        public async Task<TipoInmueble?> GetTipoInmuebleById(int id)
         {
             var data = await _context.TipoInmueble.FirstOrDefaultAsync(x => x.IdTipo == id);
             return data;

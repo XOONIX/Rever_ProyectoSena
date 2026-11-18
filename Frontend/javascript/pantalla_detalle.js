@@ -808,9 +808,10 @@ function renderizar_horas_disponibles(fecha) {
   const hora_actual = hoy.getHours();
 
   grid_horas.innerHTML = horas.map(hora => {
-    const hora_num = parseInt(hora.split(':')[0], 10);
-    const es_hora_pasada = es_hoy && hora_num <= hora_actual;
-    const es_ocupada = Math.random() < 0.3; // 30% de probabilidad de estar ocupada
+  const array = new Uint32Array(1);
+  window.crypto.getRandomValues(array);
+  const randomVal = array[0] / (0xFFFFFFFF + 1);
+  const es_ocupada = randomVal < 0.3; // 30% de probabilidad de estar ocupada
 
     let clases = 'hora_disponible';
     if (es_hora_pasada || es_ocupada) clases += ' hora_inhabilitada';

@@ -67,7 +67,7 @@ namespace rever.Tests.Integration
             });
         }
 
-        public string GenerarTokenJwt(int idUsuario = 1, string rol = "1", string correo = "test@rever.com")
+        public static string GenerarTokenJwt(int idUsuario = 1, string rol = "1", string correo = "test@rever.com")
         {
             var keyBytes = Encoding.UTF8.GetBytes(TestJwtKey);
             var secretKey = new SymmetricSecurityKey(keyBytes);

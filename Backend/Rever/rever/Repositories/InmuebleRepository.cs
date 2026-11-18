@@ -25,7 +25,7 @@ namespace rever.Repositories
             return data;
         }
 
-        public async Task<Inmueble> GetInmuebleById(int id)
+        public async Task<Inmueble?> GetInmuebleById(int id)
         {
             var data = await _context.Inmueble.FirstOrDefaultAsync(x => x.IdInmueble == id);
             return data;
@@ -79,7 +79,7 @@ namespace rever.Repositories
         public async Task<IEnumerable<InmuebleListadoDto>> GetListadoAsync()
         {
             return await _context.Inmueble
-                .Include(i => i.Localidad).ThenInclude(l => l.Ciudad)
+                .Include(i => i.Localidad).ThenInclude(l => l!.Ciudad)
                 .Include(i => i.TipoInmueble)
                 .Include(i => i.ModoTransaccion)
                 .Include(i => i.Imagenes)
@@ -89,17 +89,17 @@ namespace rever.Repositories
                     IdInmueble = i.IdInmueble,
                     Titulo = i.Titulo,
                     Precio = i.Precio,
-                    Ubicacion = i.Localidad.Nombre + ", " + i.Localidad.Ciudad.Nombre,
+                    Ubicacion = i.Localidad!.Nombre + ", " + i.Localidad.Ciudad!.Nombre,
                     Habitaciones = i.Habitaciones,
                     Banos = i.Baños,
                     MetrosCuadrados = i.MetrosCuadrados,
                     Pisos = i.Pisos,
-                    Tipo = i.TipoInmueble.Nombre,
-                    Modo = i.ModoTransaccion.Nombre.ToLower(),
-                    Ciudad = i.Localidad.Ciudad.Nombre,
-                    Localidad = i.Localidad.Nombre,
+                    Tipo = i.TipoInmueble!.Nombre,
+                    Modo = i.ModoTransaccion!.Nombre.ToLower(),
+                    Ciudad = i.Localidad!.Ciudad!.Nombre,
+                    Localidad = i.Localidad!.Nombre,
                     ImagenUrl = i.Imagenes.Where(img => img.Portada).Select(img => img.Url).FirstOrDefault() ?? i.Imagenes.Select(img => img.Url).FirstOrDefault(),
-                    Caracteristicas = i.InmuebleCaracteristicas.Select(ic => ic.Caracteristica.Nombre).ToList(),
+                    Caracteristicas = i.InmuebleCaracteristicas.Select(ic => ic.Caracteristica!.Nombre).ToList(),
                 })
                 .ToListAsync();
         }
@@ -107,7 +107,7 @@ namespace rever.Repositories
         public async Task<InmuebleDetalleDto?> GetDetalleAsync(int id)
         {
             return await _context.Inmueble
-                .Include(i => i.Localidad).ThenInclude(l => l.Ciudad)
+                .Include(i => i.Localidad).ThenInclude(l => l!.Ciudad)
                 .Include(i => i.TipoInmueble)
                 .Include(i => i.ModoTransaccion)
                 .Include(i => i.Imagenes)
@@ -121,7 +121,7 @@ namespace rever.Repositories
                     Descripcion = i.Descripcion,
                     Precio = i.Precio,
                     Direccion = i.Direccion,
-                    Ubicacion = i.Localidad.Nombre + ", " + i.Localidad.Ciudad.Nombre,
+                    Ubicacion = i.Localidad!.Nombre + ", " + i.Localidad.Ciudad!.Nombre,
                     Habitaciones = i.Habitaciones,
                     Banos = i.Baños,
                     MetrosCuadrados = i.MetrosCuadrados,
@@ -129,14 +129,14 @@ namespace rever.Repositories
                     Estrato = i.Estrato,
                     Latitud = i.Latitud,
                     Longitud = i.Longitud,
-                    Tipo = i.TipoInmueble.Nombre,
-                    Modo = i.ModoTransaccion.Nombre.ToLower(),
+                    Tipo = i.TipoInmueble!.Nombre,
+                    Modo = i.ModoTransaccion!.Nombre.ToLower(),
                     Imagenes = i.Imagenes.Select(img => img.Url).ToList(),
-                    Caracteristicas = i.InmuebleCaracteristicas.Select(ic => ic.Caracteristica.Nombre).ToList(),
+                    Caracteristicas = i.InmuebleCaracteristicas.Select(ic => ic.Caracteristica!.Nombre).ToList(),
                     IdVendedor = i.IdUsuario,
-                    NombreVendedor = i.Usuario.Nombre,
-                    TelefonoVendedor = i.Usuario.Telefono,
-                    CorreoVendedor = i.Usuario.Correo,
+                    NombreVendedor = i.Usuario!.Nombre,
+                    TelefonoVendedor = i.Usuario!.Telefono,
+                    CorreoVendedor = i.Usuario!.Correo,
                 })
                 .FirstOrDefaultAsync();
         }

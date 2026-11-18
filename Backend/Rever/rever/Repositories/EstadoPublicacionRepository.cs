@@ -22,7 +22,7 @@ namespace rever.Repositories
             return data;
         }
 
-        public async Task<EstadoPublicacion> GetEstadoPublicacionById(int id)
+        public async Task<EstadoPublicacion?> GetEstadoPublicacionById(int id)
         {
             var data = await _context.EstadoPublicacion.FirstOrDefaultAsync(x => x.IdEstado == id);
             return data;

@@ -23,7 +23,7 @@ namespace rever.Repositories
             return data;
         }
 
-        public async Task<Localidad> GetLocalidadById(int id)
+        public async Task<Localidad?> GetLocalidadById(int id)
         {
             var data = await _context.Localidad.FirstOrDefaultAsync(x => x.IdLocalidad == id);
             return data;

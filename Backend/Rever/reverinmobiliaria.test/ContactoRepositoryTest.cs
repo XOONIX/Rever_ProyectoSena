@@ -11,7 +11,7 @@ namespace ReverInmobiliaria.Tests
 {
     public class ContactoRepositoryTests
     {
-        private DatabaseService GetInMemoryDbContext(string dbName)
+        private static DatabaseService GetInMemoryDbContext(string dbName)
         {
             var options = new DbContextOptionsBuilder<DatabaseService>()
                 .UseInMemoryDatabase(databaseName: dbName)
@@ -98,6 +98,7 @@ namespace ReverInmobiliaria.Tests
 
             using var contextVerify = GetInMemoryDbContext(dbName);
             var item = await contextVerify.Contacto.FindAsync(new object?[] { 1 }, TestContext.Current.CancellationToken);
+            item.Should().NotBeNull();
             item.Mensaje.Should().Be("Mensaje actualizado");
         }
 

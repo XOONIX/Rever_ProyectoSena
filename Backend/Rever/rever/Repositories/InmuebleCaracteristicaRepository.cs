@@ -23,7 +23,7 @@ namespace rever.Repositories
             return data;
         }
 
-        public async Task<InmuebleCaracteristica> GetByIds(int idInmueble, int idCaracteristica)
+        public async Task<InmuebleCaracteristica?> GetByIds(int idInmueble, int idCaracteristica)
         {
             var data = await _context.InmuebleCaracteristica
                 .FirstOrDefaultAsync(x => x.IdInmueble == idInmueble && x.IdCaracteristica == idCaracteristica);

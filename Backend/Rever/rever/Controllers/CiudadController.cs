@@ -94,7 +94,7 @@ namespace rever.Controllers
                 }
 
                 var response = await _ciudadrepository.PostCiudad(ciudad);
-                if (response == null)
+                if (!response)
                 {
                     return StatusCode(500, "500: Error interno al intentar crear el recurso.");
                 }

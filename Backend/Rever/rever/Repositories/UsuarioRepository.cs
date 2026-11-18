@@ -22,7 +22,7 @@ namespace rever.Repositories
             return data;
         }
 
-        public async Task<Usuario> GetUsuarioById(int id)
+        public async Task<Usuario?> GetUsuarioById(int id)
         {
             var data = await _context.Usuario.FirstOrDefaultAsync(x => x.IdUsuario == id);
             return data;

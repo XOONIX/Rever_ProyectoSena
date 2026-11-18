@@ -22,7 +22,7 @@ namespace rever.Repositories
             return data;
         }
 
-        public async Task<Imagen> GetImagenById(int id)
+        public async Task<Imagen?> GetImagenById(int id)
         {
             var data = await _context.Imagen.FirstOrDefaultAsync(x => x.IdImagen == id);
             return data;

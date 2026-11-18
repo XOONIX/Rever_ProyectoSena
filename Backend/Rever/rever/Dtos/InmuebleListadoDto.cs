@@ -3,18 +3,18 @@
     public class InmuebleListadoDto
     {
         public int IdInmueble { get; set; }
-        public string Titulo { get; set; }
+        public string? Titulo { get; set; }
         public decimal Precio { get; set; }
-        public string Ubicacion { get; set; }       // localidad + ciudad
+        public string? Ubicacion { get; set; }       // localidad + ciudad
         public int Habitaciones { get; set; }
         public int Banos { get; set; }
         public double MetrosCuadrados { get; set; }
         public int Pisos { get; set; }
-        public string Tipo { get; set; }
-        public string Modo { get; set; }
-        public string Ciudad { get; set; }
-        public string Localidad { get; set; }
-        public string ImagenUrl { get; set; }
-        public List<string> Caracteristicas { get; set; }
+        public string? Tipo { get; set; }
+        public string? Modo { get; set; }
+        public string? Ciudad { get; set; }
+        public string? Localidad { get; set; }
+        public string? ImagenUrl { get; set; }
+        public List<string>? Caracteristicas { get; set; }
     }
 }
