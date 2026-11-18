@@ -28,7 +28,7 @@ jobs:
         run: dotnet build Backend/Rever/rever.test/rever.test.csproj --no-restore -c Release
 
       - name: Ejecutar pruebas y calcular cobertura de código
-        run: dotnet test --project Backend/Rever/rever.test/rever.test.csproj --no-build -c Release --coverage
+        run: dotnet run --project Backend/Rever/rever.test/rever.test.csproj --no-build -c Release -- --coverage
 
       - name: Subir reporte de cobertura como artefacto
         uses: actions/upload-artifact@v4
