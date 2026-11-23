@@ -91,8 +91,8 @@ function mostrar_notificacion_detalle(mensaje, tipo) {
  */
 function obtener_id_desde_url() {
   const params = new URLSearchParams(window.location.search);
-  const id = parseInt(params.get('id'), 10);
-  return isNaN(id) ? null : id;
+  const id = Number.parseInt(params.get('id'), 10);
+  return Number.isNaN(id) ? null : id;
 }
 
 
@@ -625,8 +625,8 @@ async function manejar_envio_contacto(evento) {
   error_mensaje.classList.add('oculto');
 
   const formulario = document.getElementById('formulario_contacto');
-  const idVendedor = parseInt(formulario.dataset.idVendedor, 10);
-  const idInmueble = parseInt(formulario.dataset.idInmueble, 10);
+  const idVendedor = Number.parseInt(formulario.dataset.idVendedor, 10);
+  const idInmueble = Number.parseInt(formulario.dataset.idInmueble, 10);
 
   const boton = document.getElementById('boton_enviar_contacto');
   boton.disabled = true;
@@ -871,7 +871,7 @@ function reiniciar_seleccion_calendario() {
  */
 function inicializar_detalle() {
   /* Cargar datos desde la API */
-  cargar_detalle_inmueble();
+  void cargar_detalle_inmueble();
 
   /* Inicializar calendario de visitas */
   inicializar_calendario_visita();

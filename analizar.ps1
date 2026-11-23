@@ -1,4 +1,4 @@
-# Script de análisis local con SonarQube para Rever
+﻿# Script de análisis local con SonarQube para Rever
 param (
     [string]$Token = $env:SONAR_TOKEN
 )
@@ -31,6 +31,7 @@ dotnet sonarscanner begin `
     /k:$projectKey `
     /d:sonar.host.url=$serverUrl `
     /d:sonar.token=$Token `
+    /d:sonar.exclusions="coverage/**,**/coverage/**,**/bin/**,**/obj/**" `
     /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml"
 
 if ($LASTEXITCODE -ne 0) {

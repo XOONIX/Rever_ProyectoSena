@@ -41,7 +41,7 @@ document.getElementById('formulario_registro').addEventListener('submit', async 
         correo: document.getElementById('correo_electronico').value,
         telefono: document.getElementById('telefono_contacto').value,
         contraseña: contrasena,
-        idRol: parseInt(document.getElementById('tipo_usuario').value)
+        idRol: Number.parseInt(document.getElementById('tipo_usuario').value, 10)
     };
 
     try {

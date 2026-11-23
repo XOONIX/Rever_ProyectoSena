@@ -4,3 +4,11 @@
 
 **/bin/
 **/obj/
+
+# Reportes y artefactos de pruebas
+coverage/
+**/coverage/
+TestResults/
+**/TestResults/
+.sonarqube/
+

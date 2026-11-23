@@ -183,12 +183,12 @@ document.getElementById('formulario_perfil')?.addEventListener('submit', async f
 
     // 4. Estructurar DTO enviando la nueva contraseña o vacía si no se modificó
     const datos = {
-        idUsuario: parseInt(idUsuario),
+        idUsuario: Number.parseInt(idUsuario, 10),
         nombre: nombre,
         correo: correo,
         telefono: telefono,
         contraseña: nuevaContrasena ? nuevaContrasena : "", 
-        idRol: parseInt(document.getElementById('tipo_usuario')?.value || "2")
+        idRol: Number.parseInt(document.getElementById('tipo_usuario')?.value || "2", 10)
     };
 
     try {

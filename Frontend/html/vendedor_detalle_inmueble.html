@@ -15,10 +15,10 @@
         <!-- 1. ESTADO DEL INMUEBLE -->
         <div class="section">
             <div class="section-title">📍 Estado Actual de la Publicación</div>
-            <div class="status-selector">
-                <div class="status-option active" data-status="disponible" onclick="setStatus('disponible')">Disponible</div>
-                <div class="status-option" data-status="vendido" onclick="setStatus('vendido')">Vendido</div>
-                <div class="status-option" data-status="arrendado" onclick="setStatus('arrendado')">Arrendado</div>
+            <div class="status-selector" role="radiogroup" aria-label="Estado actual de la publicación">
+                <button type="button" class="status-option active" data-status="disponible" onclick="setStatus('disponible')">Disponible</button>
+                <button type="button" class="status-option" data-status="vendido" onclick="setStatus('vendido')">Vendido</button>
+                <button type="button" class="status-option" data-status="arrendado" onclick="setStatus('arrendado')">Arrendado</button>
             </div>
             <input type="hidden" id="propertyStatus" name="status" value="disponible">
         </div>
@@ -83,10 +83,10 @@
                     <label class="checkbox-label" style="min-width: 120px;">
                         <input type="checkbox" name="days" value="lunes_viernes" checked> Lun a Vie
                     </label>
-                    <label style="margin: 0 4px 0 0; font-size: 13px;">Desde:</label>
-                    <input type="time" name="lv_start" value="09:00">
-                    <label style="margin: 0 4px 0 12px; font-size: 13px;">Hasta:</label>
-                    <input type="time" name="lv_end" value="17:00">
+                    <label for="lv_start" style="margin: 0 4px 0 0; font-size: 13px;">Desde:</label>
+                    <input type="time" id="lv_start" name="lv_start" value="09:00">
+                    <label for="lv_end" style="margin: 0 4px 0 12px; font-size: 13px;">Hasta:</label>
+                    <input type="time" id="lv_end" name="lv_end" value="17:00">
                 </div>
 
                 <!-- Sábados -->
@@ -94,10 +94,10 @@
                     <label class="checkbox-label" style="min-width: 120px;">
                         <input type="checkbox" name="days" value="sabado" checked> Sábados
                     </label>
-                    <label style="margin: 0 4px 0 0; font-size: 13px;">Desde:</label>
-                    <input type="time" name="sab_start" value="09:00">
-                    <label style="margin: 0 4px 0 12px; font-size: 13px;">Hasta:</label>
-                    <input type="time" name="sab_end" value="13:00">
+                    <label for="sab_start" style="margin: 0 4px 0 0; font-size: 13px;">Desde:</label>
+                    <input type="time" id="sab_start" name="sab_start" value="09:00">
+                    <label for="sab_end" style="margin: 0 4px 0 12px; font-size: 13px;">Hasta:</label>
+                    <input type="time" id="sab_end" name="sab_end" value="13:00">
                 </div>
 
                 <!-- Domingos -->
@@ -105,10 +105,10 @@
                     <label class="checkbox-label" style="min-width: 120px;">
                         <input type="checkbox" name="days" value="domingo"> Domingos
                     </label>
-                    <label style="margin: 0 4px 0 0; font-size: 13px;">Desde:</label>
-                    <input type="time" name="dom_start" value="10:00" disabled>
-                    <label style="margin: 0 4px 0 12px; font-size: 13px;">Hasta:</label>
-                    <input type="time" name="dom_end" value="14:00" disabled>
+                    <label for="dom_start" style="margin: 0 4px 0 0; font-size: 13px;">Desde:</label>
+                    <input type="time" id="dom_start" name="dom_start" value="10:00" disabled>
+                    <label for="dom_end" style="margin: 0 4px 0 12px; font-size: 13px;">Hasta:</label>
+                    <input type="time" id="dom_end" name="dom_end" value="14:00" disabled>
                 </div>
             </div>
         </div>

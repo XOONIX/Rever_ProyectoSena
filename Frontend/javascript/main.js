@@ -129,7 +129,7 @@ function manejar_cambio_filtro_ciudad() {
   
   if (!select_ciudad) return;
 
-  const idCiudad = parseInt(select_ciudad.value, 10);
+  const idCiudad = Number.parseInt(select_ciudad.value, 10);
   const nombre_ciudad = select_ciudad.value ? select_ciudad.options[select_ciudad.selectedIndex].text : null;
 
   estado.filtros.ciudad = nombre_ciudad;
@@ -268,9 +268,9 @@ function obtener_usuario_actual() {
   if (!payload) return null;
 
   return {
-    idUsuario: parseInt(payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'], 10),
+    idUsuario: Number.parseInt(payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'], 10),
     correo: payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'],
-    idRol: parseInt(payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'], 10),
+    idRol: Number.parseInt(payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'], 10),
     nombre: payload['nombre'],
   };
 }
@@ -602,7 +602,7 @@ function manejar_checkbox_tipo(checkbox, tipo) {
 }
 
 function actualizar_precio(deslizador) {
-  const valor = parseInt(deslizador.value, 10);
+  const valor = Number.parseInt(deslizador.value, 10);
   estado.filtros.precio_max = valor;
 
   const etiqueta = obtener_elemento('valor_precio_actual');
@@ -616,8 +616,8 @@ function actualizar_precio(deslizador) {
 }
 
 function actualizar_filtro_area(valor) {
-  const numValor = parseFloat(valor);
-  estado.filtros.area_max = isNaN(numValor) ? null : numValor;
+  const numValor = Number.parseFloat(valor);
+  estado.filtros.area_max = Number.isNaN(numValor) ? null : numValor;
 
   const textoArea = obtener_elemento('valor_area_texto');
   if (textoArea) {
@@ -626,8 +626,8 @@ function actualizar_filtro_area(valor) {
 
   const inputRango = obtener_elemento('filtro_area');
   if (inputRango) {
-    const min = parseFloat(inputRango.min) || 10;
-    const max = parseFloat(inputRango.max) || 600;
+    const min = Number.parseFloat(inputRango.min) || 10;
+    const max = Number.parseFloat(inputRango.max) || 600;
     const porcentaje = ((numValor - min) / (max - min)) * 100;
     inputRango.style.setProperty('--progreso', `${porcentaje}%`);
   }
@@ -652,7 +652,7 @@ function seleccionar_pastilla(pastilla_elemento) {
   } else {
     pastilla_elemento.classList.add('activa');
     const es_minimo = valor.includes('+');
-    estado.filtros[grupo] = parseInt(valor.replace('+', ''), 10);
+    estado.filtros[grupo] = Number.parseInt(valor.replace('+', ''), 10);
     estado.filtros[`${grupo}_es_minimo`] = es_minimo;
   }
 
@@ -926,16 +926,16 @@ function inicializar_app() {
       if (onclickValue) {
         const match = onclickValue.match(/navegar_a_detalle\((\d+)\)/);
         if (match) {
-          navegar_a_detalle(parseInt(match[1], 10));
+          navegar_a_detalle(Number.parseInt(match[1], 10));
         }
       }
     }
   });
 
-  cargar_propiedades();
-  cargar_filtro_tipo_inmueble();
-  cargar_filtro_ubicacion();
-  cargar_caracteristicas_filtro();
+  void cargar_propiedades();
+  void cargar_filtro_tipo_inmueble();
+  void cargar_filtro_ubicacion();
+  void cargar_caracteristicas_filtro();
   verificar_autenticacion();
 
   // Cerrar menú de usuario al hacer clic fuera

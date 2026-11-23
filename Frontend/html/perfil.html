@@ -45,11 +45,13 @@
                                 </button>
                             </div>
                         </div>
+                        <label for="input_imagen_perfil" class="etiqueta_campo" style="display:none;">Foto de perfil</label>
                         <input 
                             type="file" 
                             id="input_imagen_perfil" 
                             class="input_oculto" 
                             accept="image/*"
+                            aria-label="Foto de perfil"
                             onchange="manejar_cambio_imagen(event)"
                         />
                         <p class="ayuda_imagen">Clic en la imagen para cambiar tu foto de perfil</p>
@@ -136,7 +138,8 @@
             Esta acción es permanente. Para confirmar, escribe <strong style="color: #e53e3e;">ELIMINAR</strong> a continuación:
         </p>
         
-        <input type="text" id="modal_input_confirmacion" class="campo_entrada" placeholder="Escribe ELIMINAR" style="margin-bottom: 1rem;">
+        <label for="modal_input_confirmacion" class="etiqueta_campo" style="display:none;">Confirmación de eliminación</label>
+        <input type="text" id="modal_input_confirmacion" class="campo_entrada" placeholder="Escribe ELIMINAR" aria-label="Confirmación de eliminación" style="margin-bottom: 1rem;">
         
         <div class="modal_acciones">
             <button id="modal_btn_cancelar" class="boton_secundario" type="button">Cancelar</button>

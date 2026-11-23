@@ -114,7 +114,7 @@ function manejar_cambio_ciudad() {
   const contenedor_localidad = document.getElementById('contenedor_localidad');
   const select_localidad = document.getElementById('localidad');
 
-  const idCiudad = parseInt(select_ciudad.value, 10);
+  const idCiudad = Number.parseInt(select_ciudad.value, 10);
 
   select_localidad.innerHTML = '<option value="" disabled selected>Selecciona localidad</option>';
 
@@ -265,13 +265,13 @@ async function manejar_envio_formulario(evento) {
   const obtener_numero = (id) => {
     const el = document.getElementById(id);
     if (!el || !el.value) return 0;
-    const num = parseInt(el.value.replace(/\D/g, ''), 10);
-    return isNaN(num) ? 0 : num;
+    const num = Number.parseInt(el.value.replace(/\D/g, ''), 10);
+    return Number.isNaN(num) ? 0 : num;
   };
 
   const obtener_entero_select = (id) => {
-    const num = parseInt(document.getElementById(id)?.value || '0', 10);
-    return isNaN(num) ? 0 : num;
+    const num = Number.parseInt(document.getElementById(id)?.value || '0', 10);
+    return Number.isNaN(num) ? 0 : num;
   };
 
   // Procesamiento de amenidades / características
@@ -365,7 +365,7 @@ function inicializar() {
     textarea_desc.addEventListener('input', actualizar_contador_descripcion);
   }
 
-  cargar_catalogos();
+  void cargar_catalogos();
   renderizar_galeria_fotos();
   ['habitaciones', 'banios', 'parqueaderos', 'piso'].forEach(actualizar_visualizacion_contador);
 }
