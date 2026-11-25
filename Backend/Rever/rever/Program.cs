@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using rever;
@@ -85,7 +86,26 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+if (Environment.GetEnvironmentVariable("CODESPACES") != "true")
+{
+    app.UseHttpsRedirection();
+}
+
+var frontendPath = new[]
+{
+    Path.GetFullPath(Path.Combine(app.Environment.ContentRootPath, "..", "..", "..", "Frontend")),
+    Path.GetFullPath(Path.Combine(app.Environment.ContentRootPath, "Frontend"))
+}.FirstOrDefault(Directory.Exists);
+
+if (frontendPath is not null)
+{
+    app.UseStaticFiles(new StaticFileOptions
+    {
+        FileProvider = new PhysicalFileProvider(frontendPath)
+    });
+
+    app.MapGet("/", () => Results.Redirect("/html/index.html"));
+}
 
 app.UseAuthentication();
 app.UseAuthorization();

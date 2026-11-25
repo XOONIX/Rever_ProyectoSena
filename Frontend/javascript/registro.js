@@ -1,3 +1,5 @@
+const API_BASE = window.location.port === '5500' ? 'https://localhost:7015/api' : '/api';
+
 function alternar_visibilidad_contrasena(id_campo, boton) {
     var campo = document.getElementById(id_campo);
     var icono = boton.querySelector('.icono_ojo');
@@ -45,7 +47,7 @@ document.getElementById('formulario_registro').addEventListener('submit', async 
     };
 
     try {
-        const respuesta = await fetch('https://localhost:7015/api/Auth/Register', {
+        const respuesta = await fetch(`${API_BASE}/Auth/Register`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(datosRegistro)

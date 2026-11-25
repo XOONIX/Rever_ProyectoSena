@@ -32,6 +32,8 @@ dotnet sonarscanner begin `
     /d:sonar.host.url=$serverUrl `
     /d:sonar.token=$Token `
     /d:sonar.exclusions="coverage/**,**/coverage/**,**/bin/**,**/obj/**" `
+    /d:sonar.coverage.exclusions="Frontend/**,**/*.html,**/*.js,coverage/**,**/coverage/**,**/test/**,**/*.test.cs,**/*.Tests.cs" `
+    /d:sonar.cs.cobertura.reportsPaths="**/TestResults/**/coverage.cobertura.xml" `
     /d:sonar.cs.opencover.reportsPaths="**/TestResults/**/coverage.opencover.xml"
 
 if ($LASTEXITCODE -ne 0) {
@@ -48,7 +50,7 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 Write-Host "`n>>> [3/4] Ejecutando pruebas y calculando cobertura..." -ForegroundColor Cyan
-dotnet test $solutionPath --no-build --collect:"XPlat Code Coverage;Format=opencover"
+dotnet run --project Backend/Rever/rever.test/rever.test.csproj --no-build -c Debug -- --coverage --coverage-output-format cobertura --coverage-output TestResults/coverage.cobertura.xml
 
 Write-Host "`n>>> [4/4] Finalizando analisis y subiendo resultados a SonarQube..." -ForegroundColor Cyan
 dotnet sonarscanner end /d:sonar.token=$Token

@@ -1,0 +1,12 @@
+{
+  "name": "Rever Inmobiliaria (.NET 10)",
+  "image": "mcr.microsoft.com/devcontainers/dotnet:10.0",
+  "forwardPorts": [7015],
+  "portsAttributes": {
+    "7015": {
+      "label": "Rever App (Frontend + API)",
+      "onAutoForward": "openBrowser"
+    }
+  },
+  "postCreateCommand": "dotnet restore Backend/Rever/rever/rever.csproj"
+}

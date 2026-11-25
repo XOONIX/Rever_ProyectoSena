@@ -1,3 +1,5 @@
+const API_BASE = window.location.port === '5500' ? 'https://localhost:7015/api' : '/api';
+
 document.querySelector('.formulario_login').addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -11,7 +13,7 @@ const datos = {
 };
 
 try {
-    const response = await fetch('https://localhost:7015/api/Auth/Login', {
+    const response = await fetch(`${API_BASE}/Auth/Login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(datos)

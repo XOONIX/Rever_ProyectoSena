@@ -1,3 +1,5 @@
+const API_BASE = window.location.port === '5500' ? 'https://localhost:7015/api' : '/api';
+
 // ==========================================
 // 1. FUNCIONES AUXILIARES DE LA INTERFAZ
 // ==========================================
@@ -95,7 +97,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     // Petición a la API asa el ID extraído
     try {
-        const response = await fetch(`https://localhost:7015/api/Usuario/${idUsuario}`, {
+        const response = await fetch(`${API_BASE}/Usuario/${idUsuario}`, {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -192,7 +194,7 @@ document.getElementById('formulario_perfil')?.addEventListener('submit', async f
     };
 
     try {
-        const response = await fetch('https://localhost:7015/api/Usuario', {
+        const response = await fetch(`${API_BASE}/Usuario`, {
             method: 'PUT',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -253,7 +255,7 @@ function eliminar_cuenta() {
         }
 
         try {
-            const response = await fetch(`https://localhost:7015/api/Usuario/${idUsuario}`, {
+            const response = await fetch(`${API_BASE}/Usuario/${idUsuario}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${token}`,

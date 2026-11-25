@@ -39,7 +39,7 @@ const estado = {
 };
 
 /* ── Base de datos de propiedades ── */
-const API_URL = 'https://localhost:7015/api'; // Ajusta al puerto de tu Web API
+const API_URL = window.location.port === '5500' ? 'https://localhost:7015/api' : '/api'; // Ajusta al puerto de tu Web API
 
 async function cargar_propiedades() {
   mostrar_esqueleto_propiedades(); 
