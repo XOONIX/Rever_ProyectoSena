@@ -4,6 +4,7 @@
 {"dotnetenterprise.s4net.build.deterministic.cnt":"true"}
 {"dotnetenterprise.s4net.build.nuget_project_style.cnt":"PackageReference"}
 {"dotnetenterprise.s4net.build.netcore_sdk_version.cnt":"10.0.401"}
+{"dotnetenterprise.s4net.build.test_project_in_proj.cnt":"false"}
 {"dotnetenterprise.s4net.build.dependencies.bcrypt_net_next.cnt":"true"}
 {"dotnetenterprise.s4net.build.dependencies.fluentassertions.cnt":"true"}
 {"dotnetenterprise.s4net.build.dependencies.microsoft_aspnetcore_authentication_jwtbearer.cnt":"true"}

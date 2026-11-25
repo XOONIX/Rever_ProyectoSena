@@ -4,6 +4,6 @@
   <ProjectPath>C:\Users\Kevin\source\repos\Controllers\github\Backend\Rever\rever\rever.csproj</ProjectPath>
   <FilesToAnalyzePath>C:\Users\Kevin\source\repos\Controllers\github\.sonarqube\conf\0\FilesToAnalyze.txt</FilesToAnalyzePath>
   <OutPath>C:\Users\Kevin\source\repos\Controllers\github\.sonarqube\out\0</OutPath>
-  <ProjectType>Test</ProjectType>
+  <ProjectType>Product</ProjectType>
   <TargetFramework>net10.0</TargetFramework>
 </SonarProjectConfig>
