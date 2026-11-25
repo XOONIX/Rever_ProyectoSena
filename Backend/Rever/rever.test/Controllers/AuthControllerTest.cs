@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Moq;
 using rever.Controllers;
+using rever.Dtos;
 using rever.Models;
 using rever.Repositories.Interfaces;
 using System.IdentityModel.Tokens.Jwt;
@@ -265,6 +266,202 @@ namespace rever.Tests.Controllers
 
             var redirect = result.Should().BeOfType<RedirectResult>().Subject;
             redirect.Url.Should().Contain("confirmed=true");
+        }
+
+        #endregion
+
+        #region Pruebas de ForgotPassword y ResetPassword
+
+        [Fact]
+        public async Task ForgotPassword_CorreoNoExiste_RetornaOkSinEnviarCorreo()
+        {
+            // Arrange
+            var dto = new ForgotPasswordDto { Correo = "noexiste@test.com" };
+            _usuarioRepositoryMock
+                .Setup(r => r.GetByEmailWithRolAsync(dto.Correo))
+                .ReturnsAsync((Usuario?)null);
+
+            // Act
+            var result = await _sut.ForgotPassword(dto);
+
+            // Assert
+            result.Should().BeOfType<OkObjectResult>();
+            _emailServiceMock.Verify(e => e.SendEmailAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        }
+
+        [Fact]
+        public async Task ForgotPassword_UsuarioNoConfirmado_RetornaBadRequestYNoEnviaCorreo()
+        {
+            // Arrange
+            var dto = new ForgotPasswordDto { Correo = "pendiente@test.com" };
+            var usuario = new Usuario
+            {
+                IdUsuario = 1,
+                Nombre = "Pendiente",
+                Telefono = "3001234567",
+                Correo = dto.Correo,
+                Contraseña = "hash",
+                IdRol = 2,
+                Confirmado = false,
+                TokenConfirmacion = "token_original"
+            };
+
+            _usuarioRepositoryMock
+                .Setup(r => r.GetByEmailWithRolAsync(dto.Correo))
+                .ReturnsAsync(usuario);
+
+            // Act
+            var result = await _sut.ForgotPassword(dto);
+
+            // Assert
+            var badRequest = result.Should().BeOfType<BadRequestObjectResult>().Subject;
+            badRequest.Value.Should().Be("Tu cuenta aún no ha sido activada. Por favor, revisa tu correo y confirma tu cuenta antes de solicitar un cambio de contraseña.");
+            usuario.TokenConfirmacion.Should().Be("token_original");
+            _emailServiceMock.Verify(e => e.SendEmailAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never);
+        }
+
+        [Fact]
+        public async Task ForgotPassword_UsuarioConfirmado_GeneraTokenYEnviaCorreo()
+        {
+            // Arrange
+            var dto = new ForgotPasswordDto { Correo = "activo@test.com" };
+            var usuario = new Usuario
+            {
+                IdUsuario = 1,
+                Nombre = "Activo",
+                Telefono = "3001234567",
+                Correo = dto.Correo,
+                Contraseña = "hash",
+                IdRol = 2,
+                Confirmado = true,
+                TokenConfirmacion = null
+            };
+
+            _usuarioRepositoryMock
+                .Setup(r => r.GetByEmailWithRolAsync(dto.Correo))
+                .ReturnsAsync(usuario);
+            _usuarioRepositoryMock
+                .Setup(r => r.PutUsuario(usuario))
+                .ReturnsAsync(true);
+
+            // Act
+            var result = await _sut.ForgotPassword(dto);
+
+            // Assert
+            result.Should().BeOfType<OkObjectResult>();
+            usuario.TokenConfirmacion.Should().NotBeNullOrEmpty();
+            _usuarioRepositoryMock.Verify(r => r.PutUsuario(usuario), Times.Once);
+            _emailServiceMock.Verify(e => e.SendEmailAsync(dto.Correo, "Recuperación de contraseña - Rever", It.IsAny<string>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task ResetPassword_UsuarioNoConfirmado_RetornaBadRequest()
+        {
+            // Arrange
+            var dto = new ResetPasswordDto
+            {
+                Correo = "pendiente@test.com",
+                Token = "token_123",
+                NuevaContraseña = "NuevaPassword123"
+            };
+
+            var usuario = new Usuario
+            {
+                IdUsuario = 1,
+                Nombre = "Pendiente",
+                Telefono = "3001234567",
+                Correo = dto.Correo,
+                Contraseña = "hash",
+                IdRol = 2,
+                Confirmado = false,
+                TokenConfirmacion = "token_123"
+            };
+
+            _usuarioRepositoryMock
+                .Setup(r => r.GetByEmailWithRolAsync(dto.Correo))
+                .ReturnsAsync(usuario);
+
+            // Act
+            var result = await _sut.ResetPassword(dto);
+
+            // Assert
+            var badRequest = result.Should().BeOfType<BadRequestObjectResult>().Subject;
+            badRequest.Value.Should().Be("Tu cuenta aún no ha sido activada. Por favor, confirma tu correo antes de cambiar la contraseña.");
+        }
+
+        [Fact]
+        public async Task ResetPassword_TokenInvalido_RetornaBadRequest()
+        {
+            // Arrange
+            var dto = new ResetPasswordDto
+            {
+                Correo = "activo@test.com",
+                Token = "token_incorrecto",
+                NuevaContraseña = "NuevaPassword123"
+            };
+
+            var usuario = new Usuario
+            {
+                IdUsuario = 1,
+                Nombre = "Activo",
+                Telefono = "3001234567",
+                Correo = dto.Correo,
+                Contraseña = "hash",
+                IdRol = 2,
+                Confirmado = true,
+                TokenConfirmacion = "token_valido"
+            };
+
+            _usuarioRepositoryMock
+                .Setup(r => r.GetByEmailWithRolAsync(dto.Correo))
+                .ReturnsAsync(usuario);
+
+            // Act
+            var result = await _sut.ResetPassword(dto);
+
+            // Assert
+            result.Should().BeOfType<BadRequestObjectResult>();
+            _usuarioRepositoryMock.Verify(r => r.PutUsuario(It.IsAny<Usuario>()), Times.Never);
+        }
+
+        [Fact]
+        public async Task ResetPassword_DatosValidos_ActualizaContrasenaYLimpiaToken()
+        {
+            // Arrange
+            var dto = new ResetPasswordDto
+            {
+                Correo = "activo@test.com",
+                Token = "token_valido",
+                NuevaContraseña = "NuevaPassword123"
+            };
+
+            var usuario = new Usuario
+            {
+                IdUsuario = 1,
+                Nombre = "Activo",
+                Telefono = "3001234567",
+                Correo = dto.Correo,
+                Contraseña = BCrypt.Net.BCrypt.HashPassword("ViejaPassword123"),
+                IdRol = 2,
+                Confirmado = true,
+                TokenConfirmacion = "token_valido"
+            };
+
+            _usuarioRepositoryMock
+                .Setup(r => r.GetByEmailWithRolAsync(dto.Correo))
+                .ReturnsAsync(usuario);
+            _usuarioRepositoryMock
+                .Setup(r => r.PutUsuario(usuario))
+                .ReturnsAsync(true);
+
+            // Act
+            var result = await _sut.ResetPassword(dto);
+
+            // Assert
+            result.Should().BeOfType<OkObjectResult>();
+            usuario.TokenConfirmacion.Should().BeNull();
+            BCrypt.Net.BCrypt.Verify("NuevaPassword123", usuario.Contraseña).Should().BeTrue();
+            _usuarioRepositoryMock.Verify(r => r.PutUsuario(usuario), Times.Once);
         }
 
         #endregion

@@ -3,6 +3,7 @@ using Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using rever.Dtos;
 using rever.Models;
 using rever.Repositories.Interfaces;
 using System.IdentityModel.Tokens.Jwt;
@@ -16,6 +17,7 @@ namespace rever.Controllers
     [AllowAnonymous]
     public class AuthController : ControllerBase
     {
+        private const string UrlBaseFrontend = "http://127.0.0.1:5500/Frontend/html";
         private readonly IConfiguration _configuration;
         private readonly IUsuarioRepository _usuarioRepository;
         private readonly IEmailService _emailService;
@@ -138,19 +140,98 @@ namespace rever.Controllers
         {
             var usuario = await _usuarioRepository.GetByEmailWithRolAsync(email);
 
-            // Ajusta esta URL base a donde realmente sirvas tu frontend (Live Server, etc.)
-            const string urlBaseFrontend = "http://127.0.0.1:5500/Frontend/html";
-
             if (usuario == null || usuario.TokenConfirmacion != token)
             {
-                return Redirect($"{urlBaseFrontend}/login.html?error=invalid_token");
+                return Redirect($"{UrlBaseFrontend}/login.html?error=invalid_token");
             }
 
             usuario.Confirmado = true;
             usuario.TokenConfirmacion = null;
             await _usuarioRepository.PutUsuario(usuario);
 
-            return Redirect($"{urlBaseFrontend}/login.html?confirmed=true");
+            return Redirect($"{UrlBaseFrontend}/login.html?confirmed=true");
+        }
+
+        [HttpPost("ForgotPassword")]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto dto)
+        {
+            if (dto == null || string.IsNullOrWhiteSpace(dto.Correo))
+            {
+                return BadRequest("El correo es obligatorio.");
+            }
+
+            var usuario = await _usuarioRepository.GetByEmailWithRolAsync(dto.Correo);
+            if (usuario == null)
+            {
+                return Ok(new { message = "Si el correo está registrado, recibirás un enlace de recuperación." });
+            }
+
+            if (!usuario.Confirmado)
+            {
+                return BadRequest("Tu cuenta aún no ha sido activada. Por favor, revisa tu correo y confirma tu cuenta antes de solicitar un cambio de contraseña.");
+            }
+
+            string resetToken = Guid.NewGuid().ToString();
+            usuario.TokenConfirmacion = resetToken;
+
+            var actualizado = await _usuarioRepository.PutUsuario(usuario);
+            if (!actualizado)
+            {
+                return StatusCode(500, "Error interno al procesar la solicitud.");
+            }
+
+            string resetLink = $"{UrlBaseFrontend}/recuperar_contrasena.html?email={Uri.EscapeDataString(usuario.Correo)}&token={Uri.EscapeDataString(resetToken)}";
+
+            string emailBody = $@"
+                <div style='font-family: Arial, sans-serif; padding: 20px;'>
+                    <h2>Recuperación de Contraseña - Rever</h2>
+                    <p>Hola <b>{usuario.Nombre}</b>, recibimos una solicitud para restablecer tu contraseña.</p>
+                    <p>Haz clic en el siguiente botón para crear una nueva contraseña:</p>
+                    <a href='{resetLink}' style='display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;'>Restablecer mi Contraseña</a>
+                    <br/><br/>
+                    <p><small>Si no solicitaste este cambio, puedes ignorar este mensaje.</small></p>
+                </div>
+            ";
+
+            await _emailService.SendEmailAsync(usuario.Correo, "Recuperación de contraseña - Rever", emailBody);
+
+            return Ok(new { message = "Si el correo está registrado, recibirás un enlace de recuperación." });
+        }
+
+        [HttpPost("ResetPassword")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto dto)
+        {
+            if (dto == null || string.IsNullOrWhiteSpace(dto.Correo) || string.IsNullOrWhiteSpace(dto.Token) || string.IsNullOrWhiteSpace(dto.NuevaContraseña))
+            {
+                return BadRequest("Datos de recuperación inválidos.");
+            }
+
+            var usuario = await _usuarioRepository.GetByEmailWithRolAsync(dto.Correo);
+            if (usuario == null)
+            {
+                return BadRequest("Solicitud de recuperación inválida.");
+            }
+
+            if (!usuario.Confirmado)
+            {
+                return BadRequest("Tu cuenta aún no ha sido activada. Por favor, confirma tu correo antes de cambiar la contraseña.");
+            }
+
+            if (string.IsNullOrEmpty(usuario.TokenConfirmacion) || usuario.TokenConfirmacion != dto.Token)
+            {
+                return BadRequest("El enlace de recuperación no es válido o ya fue utilizado.");
+            }
+
+            usuario.Contraseña = BCrypt.Net.BCrypt.HashPassword(dto.NuevaContraseña);
+            usuario.TokenConfirmacion = null;
+
+            var actualizado = await _usuarioRepository.PutUsuario(usuario);
+            if (!actualizado)
+            {
+                return StatusCode(500, "Error interno al actualizar la contraseña.");
+            }
+
+            return Ok(new { message = "Contraseña restablecida con éxito. Ya puedes iniciar sesión." });
         }
     }
 }

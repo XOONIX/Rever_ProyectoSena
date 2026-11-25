@@ -8,6 +8,7 @@
         <EnableSdkContainerDebugging>True</EnableSdkContainerDebugging>
         <ContainerBaseImage>mcr.microsoft.com/dotnet/aspnet:10.0-nanoserver-ltsc2022</ContainerBaseImage>
         <UserSecretsId>f25fe734-7bda-4ce0-ae8e-5dd9535d2575</UserSecretsId>
+        <SonarQubeTestProject>false</SonarQubeTestProject>
         <NoWarn>$(NoWarn);NU1903;NU1902;S6964</NoWarn>
     </PropertyGroup>
 
