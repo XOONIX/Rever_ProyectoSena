@@ -17,7 +17,6 @@ namespace rever.Controllers
     [AllowAnonymous]
     public class AuthController : ControllerBase
     {
-        private const string UrlBaseFrontend = "http://127.0.0.1:5500/Frontend/html";
         private readonly IConfiguration _configuration;
         private readonly IUsuarioRepository _usuarioRepository;
         private readonly IEmailService _emailService;
@@ -27,6 +26,36 @@ namespace rever.Controllers
             _configuration = configuration;
             _usuarioRepository = usuarioRepository;
             _emailService = emailService;
+        }
+
+        private string ObtenerBaseUrlBackend()
+        {
+            var codespaceName = Environment.GetEnvironmentVariable("CODESPACE_NAME");
+            if (!string.IsNullOrWhiteSpace(codespaceName))
+            {
+                var domain = Environment.GetEnvironmentVariable("GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN") ?? "app.github.dev";
+                return $"https://{codespaceName}-7015.{domain}";
+            }
+
+            var forwardedHost = Request.Headers["X-Forwarded-Host"].FirstOrDefault();
+            if (!string.IsNullOrWhiteSpace(forwardedHost))
+            {
+                var forwardedProto = Request.Headers["X-Forwarded-Proto"].FirstOrDefault() ?? "https";
+                return $"{forwardedProto}://{forwardedHost}";
+            }
+
+            return $"{Request.Scheme}://{Request.Host}";
+        }
+
+        private string ObtenerBaseUrlFrontend()
+        {
+            var origin = Request.Headers.Origin.FirstOrDefault();
+            if (!string.IsNullOrWhiteSpace(origin) && origin.Contains(":5500"))
+            {
+                return $"{origin.TrimEnd('/')}/Frontend/html";
+            }
+
+            return $"{ObtenerBaseUrlBackend()}/html";
         }
 
         [HttpPost("Login")]
@@ -117,7 +146,7 @@ namespace rever.Controllers
                 return StatusCode(500, "Error interno al crear el usuario.");
             }
 
-            string confirmationLink = $"{Request.Scheme}://{Request.Host}/api/Auth/ConfirmEmail?email={nuevoUsuario.Correo}&token={confirmationToken}";
+            string confirmationLink = $"{ObtenerBaseUrlBackend()}/api/Auth/ConfirmEmail?email={Uri.EscapeDataString(nuevoUsuario.Correo)}&token={Uri.EscapeDataString(confirmationToken)}";
 
             string emailBody = $@"
                 <div style='font-family: Arial, sans-serif; padding: 20px;'>
@@ -142,14 +171,14 @@ namespace rever.Controllers
 
             if (usuario == null || usuario.TokenConfirmacion != token)
             {
-                return Redirect($"{UrlBaseFrontend}/login.html?error=invalid_token");
+                return Redirect("/html/login.html?error=invalid_token");
             }
 
             usuario.Confirmado = true;
             usuario.TokenConfirmacion = null;
             await _usuarioRepository.PutUsuario(usuario);
 
-            return Redirect($"{UrlBaseFrontend}/login.html?confirmed=true");
+            return Redirect("/html/login.html?confirmed=true");
         }
 
         [HttpPost("ForgotPassword")]
@@ -180,7 +209,7 @@ namespace rever.Controllers
                 return StatusCode(500, "Error interno al procesar la solicitud.");
             }
 
-            string resetLink = $"{UrlBaseFrontend}/recuperar_contrasena.html?email={Uri.EscapeDataString(usuario.Correo)}&token={Uri.EscapeDataString(resetToken)}";
+            string resetLink = $"{ObtenerBaseUrlFrontend()}/recuperar_contrasena.html?email={Uri.EscapeDataString(usuario.Correo)}&token={Uri.EscapeDataString(resetToken)}";
 
             string emailBody = $@"
                 <div style='font-family: Arial, sans-serif; padding: 20px;'>
