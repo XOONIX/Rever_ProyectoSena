@@ -30,6 +30,12 @@ namespace rever.Controllers
 
         private string ObtenerBaseUrlBackend()
         {
+            var origin = Request.Headers.Origin.FirstOrDefault();
+            if (!string.IsNullOrWhiteSpace(origin) && !origin.Contains(":5500"))
+            {
+                return origin.TrimEnd('/');
+            }
+
             var codespaceName = Environment.GetEnvironmentVariable("CODESPACE_NAME");
             if (!string.IsNullOrWhiteSpace(codespaceName))
             {
