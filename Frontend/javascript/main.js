@@ -1078,10 +1078,10 @@ function initMap() {
   // 1. Crear el mapa
   mapa_leaflet = L.map('map').setView([latitud, longitud], 13);
 
-  // 2. Cargar las imágenes del mapa desde OpenStreetMap
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  // 2. Cargar las imágenes del mapa desde CartoDB (basado en OpenStreetMap, sin bloqueo 403)
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
     maxZoom: 19,
-    attribution: '© OpenStreetMap'
+    attribution: '© OpenStreetMap contributors © CARTO'
   }).addTo(mapa_leaflet);
 
   // 3. Marcador de prueba
