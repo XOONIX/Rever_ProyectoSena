@@ -1078,10 +1078,10 @@ function initMap() {
   // 1. Crear el mapa
   mapa_leaflet = L.map('map').setView([latitud, longitud], 13);
 
-  // 2. Cargar las imágenes del mapa desde CartoDB (basado en OpenStreetMap, sin bloqueo 403)
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+  // 2. Cargar las imágenes del mapa desde Esri World Street Map (sin API key ni bloqueo)
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
     maxZoom: 19,
-    attribution: '© OpenStreetMap contributors © CARTO'
+    attribution: 'Tiles © Esri'
   }).addTo(mapa_leaflet);
 
   // 3. Marcador de prueba
